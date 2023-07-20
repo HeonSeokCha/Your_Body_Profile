@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.ui.theme
+package com.chs.your_body_profile.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
