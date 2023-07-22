@@ -78,6 +78,8 @@ dependencies {
 
     implementation(libs.androidX.room.ktx)
     ksp(libs.androidX.room.compiler)
+
+    implementation(libs.androidX.paging.compose)
 }
 
 kapt {
