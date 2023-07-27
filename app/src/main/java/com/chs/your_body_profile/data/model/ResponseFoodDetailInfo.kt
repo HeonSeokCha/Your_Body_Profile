@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FoodInfoBody(
+data class ResponseFoodDetailInfo(
     @SerialName("DESC_KOR")
     val name: String,
     @SerialName("SERVING_WT")

@@ -2,6 +2,7 @@ package com.chs.your_body_profile.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.chs.your_body_profile.data.mapper.toFoodInfo
 import com.chs.your_body_profile.data.source.api.BodyProfileService
 import com.chs.your_body_profile.domain.model.FoodInfo
 
@@ -20,13 +21,21 @@ class SearchFoodPaging(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FoodInfo> {
         return try {
             val page: Int = params.key ?: 1
-            val response = service.getFoodInfo(query)
+            val response = service.getFoodInfo(query).body
 
             LoadResult.Page(
-                data = response,
+                data = response.items.map {
+                    it.toFoodInfo()
+                },
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (response.)
-                )
+                nextKey = if ((response.pageNo * response.numOfRows) > response.totalCount) {
+                    page + 1
+                } else {
+                    null
+                }
+            )
+        } catch (e: Exception) {
+            LoadResult.Error(e)
         }
     }
 }

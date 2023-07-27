@@ -5,6 +5,7 @@ import com.chs.your_body_profile.data.model.ResponseFoodInfo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,9 +13,8 @@ import javax.inject.Singleton
 class BodyProfileService @Inject constructor(
     private val client: HttpClient
 ) {
-
     suspend fun getFoodInfo(query: String): ResponseFoodInfo {
-        return client.get(Constants.FOOD_BASE_URL).body()
+        return client.get(Constants.FOOD_BASE_URL) {
+        }.body()
     }
-
 }

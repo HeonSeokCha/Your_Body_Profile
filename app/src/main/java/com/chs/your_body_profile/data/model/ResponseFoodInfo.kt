@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseFoodInfo(
     @SerialName("header")
-    val header: FoodInfoHeader,
+    val header: ResponseFoodInfoHeader,
     @SerialName("body")
-    val body
+    val body: ResponseFoodInfoBody
 )
