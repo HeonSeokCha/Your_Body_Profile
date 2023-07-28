@@ -10,6 +10,6 @@ class GetSearchResultFoodInfoUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
     suspend operator fun invoke(query: String): Flow<Resource<List<FoodInfo>>> {
-
+        return repository.getSearchResultFoodInfo(query)
     }
 }

@@ -3,11 +3,11 @@ package com.chs.your_body_profile.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.data.mapper.toFoodInfo
-import com.chs.your_body_profile.data.source.api.BodyProfileService
+import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.domain.model.FoodInfo
 
 class SearchFoodPaging(
-    private val service: BodyProfileService,
+    private val service: FoodService,
     private val query: String
 ) : PagingSource<Int, FoodInfo>() {
 

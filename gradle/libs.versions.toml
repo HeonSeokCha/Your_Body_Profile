@@ -2,6 +2,7 @@
 androidStudioGradlePlugin = "8.1.0"
 
 compileSdkVersion = "34"
+kotlinGradlePlugin = "1.8.22"
 minSdkVersion = "29"
 targetSdkVersion = "33"
 versionCode = "1"
@@ -48,6 +49,7 @@ hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
 kotlin-coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
 kotlin-coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutine" }
 kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutine" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 
 ## Ktor
