@@ -21,7 +21,10 @@ class SearchFoodPaging(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FoodInfo> {
         return try {
             val page: Int = params.key ?: 1
-            val response = service.getFoodInfo(query).body
+            val response = service.getSearchResultFoodInfo(
+                page = page,
+                query = query
+            ).body
 
             LoadResult.Page(
                 data = response.items.map {
