@@ -52,6 +52,7 @@ fun HomeBaseInfoCard(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -68,7 +69,6 @@ fun HomeBaseInfoCard(
                         fontSize = 16.sp
                     )
                 }
-
             }
 
             subComposable()
