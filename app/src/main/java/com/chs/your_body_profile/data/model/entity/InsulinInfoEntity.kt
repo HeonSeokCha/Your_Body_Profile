@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.data.source.db.entity
+package com.chs.your_body_profile.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 data class InsulinInfoEntity(
     @PrimaryKey
     val insertTime: Long = System.currentTimeMillis(),
-    val injectTime: Long,
     val level: Int,
     val memo: String,
     val lastModifyTime: Long

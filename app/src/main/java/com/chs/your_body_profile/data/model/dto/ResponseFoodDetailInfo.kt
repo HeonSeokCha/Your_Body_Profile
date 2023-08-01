@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.data.model
+package com.chs.your_body_profile.data.model.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

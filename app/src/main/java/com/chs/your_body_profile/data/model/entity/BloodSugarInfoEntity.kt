@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.data.source.db.entity
+package com.chs.your_body_profile.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,8 +8,8 @@ data class BloodSugarInfoEntity(
     @PrimaryKey
     val insertTime: Long = System.currentTimeMillis(),
     val measureType: String,
-    val level: Int,
-    val hbA1c: Float,
+    val measureTime: Long,
+    val number: Int,
     val memo: String,
     val lastModifyTime: Long
 )

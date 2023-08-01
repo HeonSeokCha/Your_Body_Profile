@@ -1,7 +1,7 @@
 package com.chs.your_body_profile.data.source.api
 
 import com.chs.your_body_profile.common.Constants
-import com.chs.your_body_profile.data.model.ResponseFoodInfo
+import com.chs.your_body_profile.data.model.dto.ResponseFoodInfo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

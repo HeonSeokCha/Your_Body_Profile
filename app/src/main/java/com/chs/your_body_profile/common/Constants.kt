@@ -1,5 +1,7 @@
 package com.chs.your_body_profile.common
 
+import com.chs.your_body_profile.R
+
 object Constants {
     const val FOOD_BASE_URL: String = "http://apis.data.go.kr/1470000/FoodNtrIrdntInfoService/getFoodNtrItdntList"
     const val FOOD_PARAMETER_SERVICE_KEY: String = "ServiceKey"

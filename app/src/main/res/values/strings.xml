@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Your_Body_Profile</string>
+    <string name="text_water">물</string>
+    <string name="text_coffee">커피</string>
+    <string name="text_drink_unit">잔</string>
+    <string name="text_food">음식</string>
+    <string name="text_food_unit">kcal</string>
+    <string name="text_blood_sugar">혈당</string>
+    <string name="text_blood_sugar_unit">mg/dL</string>
+    <string name="text_hemoglobin_A1c">당화혈색소</string>
+    <string name="text_hemoglobin_A1c_unit">%</string>
+    <string name="text_blood_pressure">혈압</string>
+    <string name="text_blood_pressure_unit">mmHg</string>
+    <string name="text_insulin">인슐린</string>
+    <string name="text_insulin_unit">단위</string>
+    <string name="text_take_medicine">약 복용</string>
+    <string name="text_take_medicine_unit">마지막 복용 시간</string>
+
 </resources>
