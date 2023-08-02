@@ -6,39 +6,27 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.chs.your_body_profile.R
-import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
-import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
-import com.chs.your_body_profile.data.source.db.dao.BodyProfileListDao
-import com.chs.your_body_profile.data.source.db.dao.DrinkDao
-import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
-import com.chs.your_body_profile.data.source.db.dao.InsulinDao
-import com.chs.your_body_profile.data.source.db.dao.MedicineDao
-import com.chs.your_body_profile.data.model.entity.BloodPressureInfoEntity
-import com.chs.your_body_profile.data.model.entity.BloodSugarInfoEntity
-import com.chs.your_body_profile.data.model.entity.BodyProfileListEntity
-import com.chs.your_body_profile.data.model.entity.DrinkInfoEntity
-import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
-import com.chs.your_body_profile.data.model.entity.InsulinInfoEntity
-import com.chs.your_body_profile.data.model.entity.MedicineInfoEntity
+import com.chs.your_body_profile.data.source.db.dao.*
+import com.chs.your_body_profile.data.model.entity.*
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 
 @Database(
     entities = [
-        BodyProfileListDao::class,
+        BodyMeasureInfoEntity::class,
         BloodPressureInfoEntity::class,
         BloodSugarInfoEntity::class,
         DrinkInfoEntity::class,
         FoodInfoEntity::class,
         InsulinInfoEntity::class,
-        HemoglobinA1cDao::class,
+        HemoglobinA1cInfoEntity::class,
         MedicineInfoEntity::class
     ],
     version = 1,
     exportSchema = false
 )
 abstract class BodyProfileDataBase : RoomDatabase() {
-    abstract val bodyProfileListDao: BodyProfileListDao
+    abstract val bodyMeasureInfoDao: BodyMeasureInfoDao
     abstract val bloodPressureDao: BloodPressureDao
     abstract val bloodSugarDao: BloodSugarDao
     abstract val drinkDao: DrinkDao
@@ -59,9 +47,9 @@ abstract class BodyProfileDataBase : RoomDatabase() {
                         super.onCreate(db)
                         Executors.newSingleThreadExecutor().execute {
                             runBlocking {
-                                getInstance(context).bodyProfileListDao.insert(
+                                getInstance(context).bodyMeasureInfoDao.insert(
                                     *defaultBodyProfileList(context).mapIndexed { index, pair ->
-                                        BodyProfileListEntity(
+                                        BodyMeasureInfoEntity(
                                             title = pair.first,
                                             unit = pair.second,
                                             lastModifyTme = index.toLong()
