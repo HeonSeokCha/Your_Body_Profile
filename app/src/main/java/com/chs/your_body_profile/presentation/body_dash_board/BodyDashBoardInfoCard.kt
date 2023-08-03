@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.home
+package com.chs.your_body_profile.presentation.body_dash_board
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeBaseInfoCard(
+fun BodyDashBoardInfoCard(
     title: String,
     infoValue: String,
     infoUnit: String,
@@ -81,7 +81,7 @@ fun HomeBaseInfoCard(
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeBasicInfoCard() {
-    HomeBaseInfoCard(
+    BodyDashBoardInfoCard(
         title = "혈당",
         infoValue = "--",
         infoUnit = "mg/dL",

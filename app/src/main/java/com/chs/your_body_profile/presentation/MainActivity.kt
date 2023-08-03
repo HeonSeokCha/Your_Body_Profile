@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.chs.your_body_profile.presentation.home.HomeScreen
+import com.chs.your_body_profile.presentation.body_dash_board.HomeScreen
 import com.chs.your_body_profile.presentation.ui.theme.Your_Body_ProfileTheme
 import dagger.hilt.android.AndroidEntryPoint
 
