@@ -1,13 +1,18 @@
 package com.chs.your_body_profile.data.mapper
 
+import com.chs.your_body_profile.common.toLocalDate
+import com.chs.your_body_profile.common.toLocalDateTime
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.model.entity.BloodPressureInfoEntity
 import com.chs.your_body_profile.data.model.entity.BloodSugarInfoEntity
+import com.chs.your_body_profile.data.model.entity.BodySummaryInfoEntity
 import com.chs.your_body_profile.data.model.entity.DrinkInfoEntity
 import com.chs.your_body_profile.data.model.entity.HemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.model.entity.InsulinInfoEntity
 import com.chs.your_body_profile.data.model.entity.MedicineInfoEntity
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
+import com.chs.your_body_profile.domain.model.BodySummaryInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
@@ -121,6 +126,27 @@ fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
         medicineType = this.medicineType.time.first,
         title = this.title,
         memo = this.memo,
+        lastModifyTime = System.currentTimeMillis()
+    )
+}
+
+fun BodySummaryInfoEntity.toBodySummaryInfo(): BodySummaryInfo {
+    return BodySummaryInfo(
+        insertDate = this.insertDate.toLocalDate(),
+        type = this.type,
+        todayLastInfo = this.todayLastInfo,
+        yesterdayLastInfo = this.yesterdayLastInfo,
+        measureUnit = this.measureUnit
+    )
+}
+
+fun BodySummaryInfo.toBodySummaryInfoEntity(): BodySummaryInfoEntity {
+    return BodySummaryInfoEntity(
+        insertDate = this.insertDate.toMillis(),
+        type = this.type,
+        todayLastInfo = this.todayLastInfo,
+        yesterdayLastInfo = this.yesterdayLastInfo,
+        measureUnit = this.measureUnit,
         lastModifyTime = System.currentTimeMillis()
     )
 }

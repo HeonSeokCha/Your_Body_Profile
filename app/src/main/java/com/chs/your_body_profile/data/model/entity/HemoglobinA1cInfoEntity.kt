@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "hemoglobin_a1c_info")
 data class HemoglobinA1cInfoEntity(
     @PrimaryKey
-    val insertTime: Long = System.currentTimeMillis(),
+    val insertDate: Long = 0L,
     val number: Float,
     val measureHospital: String,
     val memo: String,

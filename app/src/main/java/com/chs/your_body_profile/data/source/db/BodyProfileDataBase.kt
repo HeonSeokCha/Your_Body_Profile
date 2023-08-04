@@ -17,6 +17,7 @@ import java.util.concurrent.Executors
 
 @Database(
     entities = [
+        BodySummaryInfoEntity::class,
         BloodPressureInfoEntity::class,
         BloodSugarInfoEntity::class,
         DrinkInfoEntity::class,
@@ -30,6 +31,7 @@ import java.util.concurrent.Executors
     exportSchema = false
 )
 abstract class BodyProfileDataBase : RoomDatabase() {
+    abstract val bodySummaryDao: BodySummaryDao
     abstract val bloodPressureDao: BloodPressureDao
     abstract val bloodSugarDao: BloodSugarDao
     abstract val drinkDao: DrinkDao

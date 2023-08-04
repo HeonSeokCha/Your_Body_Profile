@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "blood_sugar_info")
 data class BloodSugarInfoEntity(
     @PrimaryKey
-    val insertTime: Long = System.currentTimeMillis(),
+    val insertDate: Long = 0L,
     val measureType: String,
     val measureTime: Long,
     val number: Int,

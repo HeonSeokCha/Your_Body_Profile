@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "blood_pressure_info")
 data class BloodPressureInfoEntity(
     @PrimaryKey
-    val insertTime: Long = System.currentTimeMillis(),
+    val insertDate: Long = 0L,
     val measureTime: Long,
     val systolic: Int,
     val diastolic: Int,

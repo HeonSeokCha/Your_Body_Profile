@@ -4,14 +4,13 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 
 interface BaseDao<T> {
-    @Insert
-    suspend fun insert(vararg entity: T)
+    @Upsert
+    suspend fun upsert(vararg entity: T)
 
     @Delete
     suspend fun delete(entity: T)
 
-    @Update
-    suspend fun update(entity: T)
 }

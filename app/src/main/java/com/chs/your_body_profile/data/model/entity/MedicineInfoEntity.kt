@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "medicine_info")
 data class MedicineInfoEntity(
     @PrimaryKey
-    val insertTime: Long = System.currentTimeMillis(),
-    val medicineType: String,
+    val insertDate: Long = 0L,
     val title: String,
+    val takeMedicineType: String,
     val memo: String,
     val lastModifyTime: Long
 )
