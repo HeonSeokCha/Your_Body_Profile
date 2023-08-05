@@ -5,12 +5,16 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 
 interface BaseDao<T> {
     @Upsert
-    suspend fun upsert(vararg entity: T)
+    suspend fun upsert(entity: T)
 
     @Delete
     suspend fun delete(entity: T)
 
+    fun getDayLastInfo(time: Long): Flow<T?>
+
+    fun getDayInfoList(time: Long): Flow<List<T>>
 }

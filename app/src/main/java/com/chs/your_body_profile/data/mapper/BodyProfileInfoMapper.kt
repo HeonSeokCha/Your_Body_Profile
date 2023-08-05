@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.mapper
 
+import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toMillis
@@ -10,6 +11,7 @@ import com.chs.your_body_profile.data.model.entity.DrinkInfoEntity
 import com.chs.your_body_profile.data.model.entity.HemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.model.entity.InsulinInfoEntity
 import com.chs.your_body_profile.data.model.entity.MedicineInfoEntity
+import com.chs.your_body_profile.data.model.entity.WeightInfoEntity
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.BodySummaryInfo
@@ -21,10 +23,11 @@ import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
+import com.chs.your_body_profile.domain.model.WeightInfo
 
 fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
     return BloodPressureInfo(
-        measureTime = this.measureTime,
+        measureTime = this.measureTime.toLocalDateTime(),
         systolic = this.systolic,
         diastolic = this.diastolic,
         useMedication = this.useMedication,
@@ -34,7 +37,7 @@ fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
 
 fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
     return BloodPressureInfoEntity(
-        measureTime = this.measureTime,
+        measureTime = this.measureTime.toMillis(),
         systolic = this.systolic,
         diastolic = this.diastolic,
         useMedication = this.useMedication,
@@ -45,7 +48,7 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
 
 fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
     return BloodSugarInfo(
-        measureTime = this.measureTime,
+        measureTime = this.measureTime.toLocalDateTime(),
         measureType = MeasureType.valueOf(this.measureType),
         number = this.number,
         memo = this.memo
@@ -54,7 +57,7 @@ fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
 
 fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
     return BloodSugarInfoEntity(
-        measureTime = this.measureTime,
+        measureTime = this.measureTime.toMillis(),
         measureType = this.measureType.mean.first,
         number = this.number,
         memo = this.memo,
@@ -73,8 +76,8 @@ fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkCoffeeInfo {
 fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
     return DrinkInfoEntity(
         drinkType = when (drinkType) {
-            is DrinkWaterInfo -> "water"
-            is DrinkCoffeeInfo -> "coffee"
+            is DrinkWaterInfo -> Constants.DRINK_TYPE_WATER
+            is DrinkCoffeeInfo -> Constants.DRINK_TYPE_COFFEE
         },
         totalCups = drinkType.totalCups(),
         lastModified = System.currentTimeMillis()
@@ -115,7 +118,7 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
 
 fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
     return MedicineInfo(
-        medicineType = MedicineType.valueOf(this.medicineType),
+        medicineType = MedicineType.valueOf(this.takeMedicineType),
         title = this.title,
         memo = this.memo
     )
@@ -123,7 +126,7 @@ fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
 
 fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
     return MedicineInfoEntity(
-        medicineType = this.medicineType.time.first,
+        takeMedicineType = this.medicineType.time.first,
         title = this.title,
         memo = this.memo,
         lastModifyTime = System.currentTimeMillis()
@@ -147,6 +150,23 @@ fun BodySummaryInfo.toBodySummaryInfoEntity(): BodySummaryInfoEntity {
         todayLastInfo = this.todayLastInfo,
         yesterdayLastInfo = this.yesterdayLastInfo,
         measureUnit = this.measureUnit,
+        lastModifyTime = System.currentTimeMillis()
+    )
+}
+
+fun WeightInfoEntity.toWeightInfo(): WeightInfo {
+    return WeightInfo(
+        weight = this.weight,
+        measureTime = this.measureTime.toLocalDateTime(),
+        memo = this.memo
+    )
+}
+
+fun WeightInfo.toWeightInfoEntity(): WeightInfoEntity {
+    return WeightInfoEntity(
+        weight = this.weight,
+        measureTime = this.measureTime.toMillis(),
+        memo = this.memo,
         lastModifyTime = System.currentTimeMillis()
     )
 }

@@ -10,4 +10,7 @@ object Constants {
     const val FOOD_PARAMETER_RESULT_NO: String = "numOfRows"
     const val FOOD_PARAMETER_type: String = "type"
     const val TYPE_JSON: String = "json"
+
+    const val DRINK_TYPE_COFFEE: String = "coffee"
+    const val DRINK_TYPE_WATER: String = "water"
 }
