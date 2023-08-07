@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.data.repository
 
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfo
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfoEntity
@@ -11,6 +12,7 @@ import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.mapper.toInsulinInfoEntity
 import com.chs.your_body_profile.data.mapper.toMedicineInfoEntity
 import com.chs.your_body_profile.data.mapper.toWeightInfoEntity
+import com.chs.your_body_profile.data.model.entity.BodySummaryInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
 import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
 import com.chs.your_body_profile.data.source.db.dao.BodySummaryDao
@@ -31,10 +33,12 @@ import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.repository.BodyRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 class BodyRepositoryImpl @Inject constructor(
     private val bodySummaryDao: BodySummaryDao,
@@ -120,7 +124,11 @@ class BodyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertInitToDayBodySummaryInfo() {
-        TODO("Not yet implemented")
+        val today: LocalDate = System.currentTimeMillis().toLocalDate()
+        bodySummaryDao.insertInitToDayBodySummaryInfo(
+            *arrayOf(
+            )
+        )
     }
 
     private fun getLastDayBloodPressureInfo(localDate: LocalDate): Flow<BloodPressureInfo?> {

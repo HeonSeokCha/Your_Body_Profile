@@ -13,12 +13,12 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
                WHERE insertDate = :time
                ORDER BY measureTime DESC LIMIT 1
     """)
-    abstract override fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
+    abstract fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
 
     @Query("""SELECT * 
                 FROM blood_pressure_info
                WHERE insertDate = :time
                ORDER BY measureTime DESC
     """)
-    abstract override fun getDayInfoList(time: Long): Flow<List<BloodPressureInfoEntity>>
+    abstract fun getDayInfoList(time: Long): Flow<List<BloodPressureInfoEntity>>
 }

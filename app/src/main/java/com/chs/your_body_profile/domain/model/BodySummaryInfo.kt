@@ -6,6 +6,5 @@ data class BodySummaryInfo(
     val insertDate: LocalDate,
     val type: String,
     val todayLastInfo: String,
-    val yesterdayLastInfo: String,
     val measureUnit: String
 )

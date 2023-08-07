@@ -13,8 +13,4 @@ interface BaseDao<T> {
 
     @Delete
     suspend fun delete(entity: T)
-
-    fun getDayLastInfo(time: Long): Flow<T?>
-
-    fun getDayInfoList(time: Long): Flow<List<T>>
 }

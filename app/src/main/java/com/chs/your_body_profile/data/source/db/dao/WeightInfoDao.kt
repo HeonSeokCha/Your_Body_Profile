@@ -14,7 +14,7 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
          WHERE insertDate = :time
          ORDER BY lastModifyTime DESC LIMIT 1
     """)
-    abstract override fun getDayLastInfo(time: Long): Flow<WeightInfoEntity?>
+    abstract fun getDayLastInfo(time: Long): Flow<WeightInfoEntity?>
 
     @Query("""
         SELECT * 
@@ -22,5 +22,5 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
          WHERE insertDate = :time
          ORDER BY lastModifyTime DESC
     """)
-    abstract override fun getDayInfoList(time: Long): Flow<List<WeightInfoEntity>>
+    abstract fun getDayInfoList(time: Long): Flow<List<WeightInfoEntity>>
 }

@@ -13,5 +13,5 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
          WHERE insertDate = :time
          LIMIT 1
     """)
-    abstract override fun getDayLastInfo(time: Long): Flow<HemoglobinA1cInfoEntity?>
+    abstract fun getDayLastInfo(time: Long): Flow<HemoglobinA1cInfoEntity?>
 }

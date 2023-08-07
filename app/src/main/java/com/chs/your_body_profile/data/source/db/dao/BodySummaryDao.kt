@@ -4,14 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.chs.your_body_profile.data.model.entity.BodySummaryInfoEntity
-import com.chs.your_body_profile.domain.model.BodySummaryInfo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class BodySummaryDao : BaseDao<BodySummaryInfoEntity> {
 
     @Insert
-    abstract suspend fun insertInitToDayBodySummaryInfo(vararg bodySummaryInfo: BodySummaryInfo)
+    abstract suspend fun insertInitToDayBodySummaryInfo(vararg bodySummaryInfo: BodySummaryInfoEntity)
 
     @Query("""
         SELECT * 

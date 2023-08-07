@@ -20,3 +20,7 @@ fun Long.toLocalDateTime(): LocalDateTime {
 fun Long.toLocalDate(): LocalDate {
     return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
 }
+
+fun Long.toLocalDateToMillis(): Long {
+    return this.toLocalDate().toMillis()
+}

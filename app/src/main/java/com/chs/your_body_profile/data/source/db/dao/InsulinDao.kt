@@ -10,9 +10,9 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
 
     @Query("""
         SELECT * 
-          FROM blood_pressure_info
+          FROM insulin_info 
          WHERE insertDate = :time
          LIMIT 1
     """)
-    abstract override fun getDayLastInfo(time: Long): Flow<InsulinInfoEntity?>
+    abstract fun getDayLastInfo(time: Long): Flow<InsulinInfoEntity?>
 }
