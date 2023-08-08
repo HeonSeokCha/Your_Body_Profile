@@ -5,12 +5,20 @@ import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfo
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfoEntity
+import com.chs.your_body_profile.data.mapper.toBloodSugarInfo
 import com.chs.your_body_profile.data.mapper.toBloodSugarInfoEntity
+import com.chs.your_body_profile.data.mapper.toBodySummaryInfo
 import com.chs.your_body_profile.data.mapper.toBodySummaryInfoEntity
+import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
+import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
+import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfo
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfoEntity
+import com.chs.your_body_profile.data.mapper.toInsulinInfo
 import com.chs.your_body_profile.data.mapper.toInsulinInfoEntity
+import com.chs.your_body_profile.data.mapper.toMedicineInfo
 import com.chs.your_body_profile.data.mapper.toMedicineInfoEntity
+import com.chs.your_body_profile.data.mapper.toWeightInfo
 import com.chs.your_body_profile.data.mapper.toWeightInfoEntity
 import com.chs.your_body_profile.data.model.entity.BodySummaryInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
@@ -129,6 +137,68 @@ class BodyRepositoryImpl @Inject constructor(
             *arrayOf(
             )
         )
+    }
+
+    override fun getDayBodySummaryInfoList(localDate: LocalDate): Flow<List<BodySummaryInfo>> {
+        return bodySummaryDao.getTodayBodySummaryInfo(localDate.toMillis()).map {
+            it.map { bodySummaryInfoEntity ->
+                bodySummaryInfoEntity.toBodySummaryInfo()
+            }
+        }
+    }
+
+    override fun getDayLastBloodPressureInfo(localDate: LocalDate): Flow<BloodPressureInfo?> {
+        return bloodPressureDao.getDayLastInfo(localDate.toMillis()).map {
+            it?.toBloodPressureInfo()
+        }
+    }
+
+    override fun getDayLastBloodSugarInfo(localDate: LocalDate): Flow<BloodSugarInfo?> {
+        return bloodSugarDao.getDayLastInfo(localDate.toMillis()).map {
+            it?.toBloodSugarInfo()
+        }
+    }
+
+    override fun getDayLastDrinkWaterInfo(localDate: LocalDate): Flow<DrinkWaterInfo?> {
+        return drinkDao.getDayLastDrinkInfo(
+            Constants.DRINK_TYPE_WATER,
+            localDate.toMillis()
+        ).map {
+            it?.toDrinkWaterInfo()
+        }
+    }
+
+    override fun getDayLastDrinkCoffeeInfo(localDate: LocalDate): Flow<DrinkCoffeeInfo?> {
+        return drinkDao.getDayLastDrinkInfo(
+            Constants.DRINK_TYPE_COFFEE,
+            localDate.toMillis()
+        ).map {
+            it?.toDrinkCoffeeInfo()
+        }
+    }
+
+    override fun getDayLastHemoglobinA1cInfo(localDate: LocalDate): Flow<HemoglobinA1cInfo?> {
+        return hemoglobinA1cDao.getDayLastInfo(localDate.toMillis()).map {
+            it?.toHemoglobinA1cInfo()
+        }
+    }
+
+    override fun getDayLastInsulinInfo(localDate: LocalDate): Flow<InsulinInfo?> {
+        return insulinDao.getDayLastInfo(localDate.toMillis()).map {
+            it?.toInsulinInfo()
+        }
+    }
+
+    override fun getDayLastMedicineInfo(localDate: LocalDate): Flow<MedicineInfo?> {
+        return medicineDao.getDayLastInfo(localDate.toMillis()).map {
+            it?.toMedicineInfo()
+        }
+    }
+
+    override fun getDayLastWeightInfo(localDate: LocalDate): Flow<WeightInfo?> {
+        return weightInfoDao.getDayLastInfo(localDate.toMillis()).map {
+            it?.toWeightInfo()
+        }
     }
 
     private fun getLastDayBloodPressureInfo(localDate: LocalDate): Flow<BloodPressureInfo?> {

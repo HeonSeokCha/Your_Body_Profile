@@ -21,7 +21,7 @@ interface BodyRepository {
 
     suspend fun insertInitToDayBodySummaryInfo()
 
-    fun getDayLastBodySummaryInfoList(localDate: LocalDate): Flow<List<BodySummaryInfo>>
+    fun getDayBodySummaryInfoList(localDate: LocalDate): Flow<List<BodySummaryInfo>>
 
     fun getDayLastBloodPressureInfo(localDate: LocalDate): Flow<BloodPressureInfo?>
 
