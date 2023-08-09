@@ -1,14 +1,11 @@
 package com.chs.your_body_profile.data.repository
 
 import com.chs.your_body_profile.common.Constants
-import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfo
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfoEntity
 import com.chs.your_body_profile.data.mapper.toBloodSugarInfo
 import com.chs.your_body_profile.data.mapper.toBloodSugarInfoEntity
-import com.chs.your_body_profile.data.mapper.toBodySummaryInfo
-import com.chs.your_body_profile.data.mapper.toBodySummaryInfoEntity
 import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
 import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
@@ -20,10 +17,8 @@ import com.chs.your_body_profile.data.mapper.toMedicineInfo
 import com.chs.your_body_profile.data.mapper.toMedicineInfoEntity
 import com.chs.your_body_profile.data.mapper.toWeightInfo
 import com.chs.your_body_profile.data.mapper.toWeightInfoEntity
-import com.chs.your_body_profile.data.model.entity.BodySummaryInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
 import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
-import com.chs.your_body_profile.data.source.db.dao.BodySummaryDao
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
@@ -41,15 +36,11 @@ import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.repository.BodyRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.reflect.KClass
 
 class BodyRepositoryImpl @Inject constructor(
-    private val bodySummaryDao: BodySummaryDao,
     private val bloodPressureDao: BloodPressureDao,
     private val bloodSugarDao: BloodSugarDao,
     private val drinkDao: DrinkDao,
@@ -67,10 +58,6 @@ class BodyRepositoryImpl @Inject constructor(
 
             is BloodSugarInfo -> {
                 bloodSugarDao.upsert(info.toBloodSugarInfoEntity())
-            }
-
-            is BodySummaryInfo -> {
-                bodySummaryDao.upsert(info.toBodySummaryInfoEntity())
             }
 
             is DrinkType -> {
@@ -105,10 +92,6 @@ class BodyRepositoryImpl @Inject constructor(
                 bloodSugarDao.delete(info.toBloodSugarInfoEntity())
             }
 
-            is BodySummaryInfo -> {
-                bodySummaryDao.delete(info.toBodySummaryInfoEntity())
-            }
-
             is DrinkType -> {
                 drinkDao.delete(info.toDrinkInfoEntity(info))
             }
@@ -127,22 +110,6 @@ class BodyRepositoryImpl @Inject constructor(
 
             is WeightInfo -> {
                 weightInfoDao.delete(info.toWeightInfoEntity())
-            }
-        }
-    }
-
-    override suspend fun insertInitToDayBodySummaryInfo() {
-        val today: LocalDate = System.currentTimeMillis().toLocalDate()
-        bodySummaryDao.insertInitToDayBodySummaryInfo(
-            *arrayOf(
-            )
-        )
-    }
-
-    override fun getDayBodySummaryInfoList(localDate: LocalDate): Flow<List<BodySummaryInfo>> {
-        return bodySummaryDao.getTodayBodySummaryInfo(localDate.toMillis()).map {
-            it.map { bodySummaryInfoEntity ->
-                bodySummaryInfoEntity.toBodySummaryInfo()
             }
         }
     }
