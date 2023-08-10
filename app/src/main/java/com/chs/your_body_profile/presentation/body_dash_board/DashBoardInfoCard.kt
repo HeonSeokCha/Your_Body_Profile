@@ -40,10 +40,10 @@ fun DashBoardSmallCard(
     onClick: () -> Unit,
     subComposable: @Composable () -> Unit
 ) {
-        Card( onClick = onClick,
-        ) {
+    Card(onClick = onClick,
+    ) {
 
-        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
