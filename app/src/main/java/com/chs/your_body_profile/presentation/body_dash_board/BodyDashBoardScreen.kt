@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,8 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun BodyDashBoardScreen(
     viewModel: BodyDashBoardViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
+    val state by viewModel.state.collectAsStateWithLifecycle(initialValue = BodyDashBoardState())
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -25,17 +25,18 @@ fun BodyDashBoardScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-        }
-        item {
 
         }
         item {
 
         }
-        item {
-
-        }
-
+//        item {
+//
+//        }
+//        item {
+//
+//        }
+//
 
 
         item(span = StaggeredGridItemSpan.FullLine) {

@@ -76,10 +76,6 @@ class BodyDashBoardViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(BodyDashBoardState())
 
-    val a = combine(_state, _bloodPressureInfo) { b, c->
-        b
-
-    }
     val state: Flow<BodyDashBoardState> = combine(
         _state,
         _bloodPressureInfo,
@@ -91,16 +87,17 @@ class BodyDashBoardViewModel @Inject constructor(
         _medicineInfo,
         _weightInfo
     ) { list ->
-        val sate: BodyDashBoardState = (list[0] as BodyDashBoardState)
-            sate.copy(
-                bloodPressureInfo = (list[0] as BloodPressureInfo?),
-                bloodSugarInfo = (list[1] as BloodSugarInfo?),
-                insulinInfo = (list[2] as InsulinInfo?),
-                drinkCoffeeInfo = (list[3] as DrinkCoffeeInfo?),
-                drinkWaterInfo = (list[4] as DrinkWaterInfo?),
-                hemoglobinA1cInfo = (list[5] as HemoglobinA1cInfo?),
-                medicineInfo = (list[6] as MedicineInfo?),
-                weightInfo = (list[7] as WeightInfo?)
+        (list[0] as BodyDashBoardState).run {
+            this.copy(
+                bloodPressureInfo = (list[1] as BloodPressureInfo?),
+                bloodSugarInfo = (list[2] as BloodSugarInfo?),
+                insulinInfo = (list[3] as InsulinInfo?),
+                drinkCoffeeInfo = (list[4] as DrinkCoffeeInfo?),
+                drinkWaterInfo = (list[5] as DrinkWaterInfo?),
+                hemoglobinA1cInfo = (list[6] as HemoglobinA1cInfo?),
+                medicineInfo = (list[7] as MedicineInfo?),
+                weightInfo = (list[8] as WeightInfo?)
             )
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BodyDashBoardState())
 }

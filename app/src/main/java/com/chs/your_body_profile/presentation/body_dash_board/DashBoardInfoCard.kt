@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.presentation.body_dash_board
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,13 +11,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,13 +44,77 @@ import com.chs.your_body_profile.presentation.ui.theme.Your_Body_ProfileTheme
 fun DashBoardSmallCard(
     title: String,
     value: String,
-    subValue: String,
+    subValue: String? = null,
     onClick: () -> Unit,
     subComposable: @Composable () -> Unit
 ) {
-    Card(onClick = onClick,
+    Card(
+        modifier = Modifier
+            .height(dimensionResource(id = R.dimen.size_dash_board_height)),
+        onClick = onClick,
     ) {
+        Column {
 
+            Text(text = title)
+
+            Text(text = value)
+
+            if (subValue != null) {
+                Text(text = subValue)
+            }
+
+            subComposable()
+        }
+    }
+}
+
+interface DrinkEvent {
+    fun moreDrink(cup: String)
+    fun lessDrink(cup: String)
+}
+
+@Composable
+fun DrinkInfoDashBoard(
+    title: String,
+    value: String,
+    drinkEventClick: DrinkEvent,
+    cardClick: () -> Unit,
+) {
+    DashBoardSmallCard(
+        title = title,
+        value = value,
+        onClick = cardClick
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(
+                onClick = { drinkEventClick.moreDrink(value) },
+                modifier = Modifier
+                    .size(32.dp)
+                    .border(1.dp, Color.Black, shape = CircleShape)
+            ) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = null,
+                    tint = Color.Black
+                )
+            }
+
+            IconButton(
+                onClick = { drinkEventClick.moreDrink(value) },
+                modifier = Modifier
+                    .size(32.dp)
+                    .border(1.dp, Color.Black, shape = CircleShape)
+            ) {
+                Icon(
+                    Icons.Default.Remove,
+                    contentDescription = null,
+                    tint = Color.Black
+                )
+            }
+        }
     }
 }
 
@@ -134,13 +206,16 @@ fun PreviewHomeBasicInfoCard() {
             modifier = Modifier.fillMaxSize()
         ) {
             item {
-                DashBoardInputCard(
-                    title = "혈당",
-                    infoValue = "--",
-                    infoUnit = "mg/dL",
-                    onClick = {},
-                    btnClick = {}
-                )
+                DrinkInfoDashBoard(title = "Water", value = "0", drinkEventClick = object : DrinkEvent {
+                    override fun moreDrink(cup: String) {
+
+                    }
+
+                    override fun lessDrink(cup: String) {
+                    }
+                }) {
+                    
+                }
             }
             item {
                 DashBoardInputCard(
@@ -152,15 +227,15 @@ fun PreviewHomeBasicInfoCard() {
                 )
             }
 
-           item(span = StaggeredGridItemSpan.FullLine) {
-               DashBoardInputCard(
-                   title = "혈당",
-                   infoValue = "--",
-                   infoUnit = "mg/dL",
-                   onClick = {},
-                   btnClick = {}
-               )
-           }
+            item(span = StaggeredGridItemSpan.FullLine) {
+                DashBoardInputCard(
+                    title = "혈당",
+                    infoValue = "--",
+                    infoUnit = "mg/dL",
+                    onClick = {},
+                    btnClick = {}
+                )
+            }
             item(span = StaggeredGridItemSpan.FullLine) {
                 DashBoardInputCard(
                     title = "혈당",
