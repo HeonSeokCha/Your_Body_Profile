@@ -20,4 +20,10 @@
     <string name="text_take_medicine_unit">마지막 복용 시간</string>
     <string name="text_weight">몸무게</string>
     <string name="text_weight_unit">Kg</string>
+
+    <string name="text_title_drink_water">오늘의 물 섭취량</string>
+    <string name="text_title_drink_coffee">오늘의 커피 섭취량</string>
+    <string name="text_title_take_medicine">마지막으로 복용한 약</string>
+    <string name="text_title_food">오늘 섭취한 칼로리</string>
+    
 </resources>

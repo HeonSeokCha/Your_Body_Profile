@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.presentation.body_dash_board
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -31,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,20 +43,44 @@ import com.chs.your_body_profile.presentation.ui.theme.Your_Body_ProfileTheme
 fun DashBoardSmallCard(
     title: String,
     value: String,
+    measureType: String? = null,
     subValue: String? = null,
     onClick: () -> Unit,
     subComposable: @Composable () -> Unit
 ) {
     Card(
         modifier = Modifier
+            .fillMaxWidth()
             .height(dimensionResource(id = R.dimen.size_dash_board_height)),
         onClick = onClick,
     ) {
-        Column {
-
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
             Text(text = title)
 
-            Text(text = value)
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = value,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                if (measureType != null) {
+                    Text(text = measureType)
+                }
+            }
 
             if (subValue != null) {
                 Text(text = subValue)
@@ -83,37 +106,94 @@ fun DrinkInfoDashBoard(
     DashBoardSmallCard(
         title = title,
         value = value,
+        measureType = stringResource(id = R.string.text_drink_unit),
         onClick = cardClick
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
-                onClick = { drinkEventClick.moreDrink(value) },
                 modifier = Modifier
-                    .size(32.dp)
-                    .border(1.dp, Color.Black, shape = CircleShape)
-            ) {
-                Icon(
-                    Icons.Default.Add,
-                    contentDescription = null,
-                    tint = Color.Black
-                )
-            }
-
-            IconButton(
-                onClick = { drinkEventClick.moreDrink(value) },
-                modifier = Modifier
-                    .size(32.dp)
-                    .border(1.dp, Color.Black, shape = CircleShape)
+                    .border(
+                        width = 1.dp,
+                        color = if (value == "0") Color.Gray else Color.Black,
+                        shape = CircleShape
+                    ),
+                enabled = value != "0",
+                onClick = { drinkEventClick.lessDrink(value) }
             ) {
                 Icon(
                     Icons.Default.Remove,
                     contentDescription = null,
-                    tint = Color.Black
                 )
             }
+
+            IconButton(
+                modifier = Modifier
+                    .border(
+                        width = 1.dp,
+                        color = Color.Black,
+                        shape = CircleShape
+                    ),
+                onClick = { drinkEventClick.moreDrink(value) }
+            ) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = null,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MedicineInfoDashBoard(
+    title: String,
+    measureType: String,
+    value: String,
+    subValue: String,
+    subValue2: String,
+    onClick: () -> Unit
+) {
+    DashBoardSmallCard(
+        title = title,
+        value = value,
+        measureType = measureType,
+        subValue = subValue,
+        onClick = { onClick() }
+    ) {
+        Text(text = subValue2)
+    }
+}
+
+@Composable
+fun FoodInfoDashBoard(
+    title: String,
+    value: String,
+    subValue: String,
+    subValue2: String,
+    onClick: () -> Unit
+) {
+    DashBoardSmallCard(
+        title = title,
+        value = value,
+        subValue = subValue,
+        onClick = { onClick() }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = subValue2,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.width(4.dp))
+
+            Text(text = stringResource(id = R.string.text_food_unit))
         }
     }
 }
@@ -135,14 +215,15 @@ fun DashBoardSingleLineCard(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-            ) {
+            Column {
                 Text(
                     text = title,
                     fontWeight = FontWeight.Bold,
@@ -203,30 +284,67 @@ fun PreviewHomeBasicInfoCard() {
                 end = 8.dp,
                 bottom = 100.dp
             ),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            verticalItemSpacing = 4.dp,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             item {
-                DrinkInfoDashBoard(title = "Water", value = "0", drinkEventClick = object : DrinkEvent {
-                    override fun moreDrink(cup: String) {
+                MedicineInfoDashBoard(
+                    title = stringResource(id = R.string.text_title_take_medicine),
+                    value = "아침",
+                    measureType = "약",
+                    subValue = "당뇨약",
+                    subValue2 = "오전 07시 41분"
+                ) {
 
-                    }
-
-                    override fun lessDrink(cup: String) {
-                    }
-                }) {
-                    
                 }
             }
             item {
-                DashBoardInputCard(
-                    title = "혈당",
-                    infoValue = "--",
-                    infoUnit = "mg/dL",
-                    onClick = {},
-                    btnClick = {}
+                DrinkInfoDashBoard(
+                    title = stringResource(id = R.string.text_title_drink_water),
+                    value = "1",
+                    drinkEventClick = object : DrinkEvent {
+                        override fun moreDrink(cup: String) {
+
+                        }
+
+                        override fun lessDrink(cup: String) {
+
+                        }
+                    }, cardClick = {
+
+                    }
                 )
             }
 
+            item {
+                FoodInfoDashBoard(
+                    title = stringResource(id = R.string.text_title_food),
+                    value = "아침",
+                    subValue = "삶은 계란",
+                    subValue2 = "400"
+                ) {
+
+                }
+            }
+
+            item {
+                DrinkInfoDashBoard(
+                    title = stringResource(id = R.string.text_title_drink_coffee),
+                    value = "0",
+                    drinkEventClick = object : DrinkEvent {
+                        override fun moreDrink(cup: String) {
+
+                        }
+
+                        override fun lessDrink(cup: String) {
+
+                        }
+                    }, cardClick = {
+
+                    }
+                )
+            }
             item(span = StaggeredGridItemSpan.FullLine) {
                 DashBoardInputCard(
                     title = "혈당",
