@@ -2,6 +2,7 @@ package com.chs.your_body_profile.presentation.body_dash_board
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
@@ -18,6 +19,8 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCa
 import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
+import com.chs.your_body_profile.domain.usecase.UpsertDrinkCoffeeInfoUseCase
+import com.chs.your_body_profile.domain.usecase.UpsertDrinkWaterInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,20 +33,23 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class BodyDashBoardViewModel @Inject constructor(
-    private val getDayLastBloodPressureInfoUseCase: GetDayLastBloodPressureInfoUseCase,
-    private val getDayLastBloodSugarInfoUseCase: GetDayLastBloodSugarInfoUseCase,
-    private val getDayLastDrinkCoffeeInfoUseCase: GetDayLastDrinkCoffeeInfoUseCase,
-    private val getDayLastDrinkWaterInfoUseCase: GetDayLastDrinkWaterInfoUseCase,
-    private val getDayLastMedicineInfoUseCase: GetDayLastMedicineInfoUseCase,
-    private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
-    private val getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
-    private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase
+    getDayLastBloodPressureInfoUseCase: GetDayLastBloodPressureInfoUseCase,
+    getDayLastBloodSugarInfoUseCase: GetDayLastBloodSugarInfoUseCase,
+    getDayLastDrinkCoffeeInfoUseCase: GetDayLastDrinkCoffeeInfoUseCase,
+    getDayLastDrinkWaterInfoUseCase: GetDayLastDrinkWaterInfoUseCase,
+    getDayLastMedicineInfoUseCase: GetDayLastMedicineInfoUseCase,
+    getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
+    getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
+    getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
+    private val upsertDrinkWaterInfoUseCase: UpsertDrinkWaterInfoUseCase,
+    private val upsertDrinkCoffeeInfoUseCase: UpsertDrinkCoffeeInfoUseCase
 ) : ViewModel() {
 
     companion object {
@@ -100,4 +106,24 @@ class BodyDashBoardViewModel @Inject constructor(
             )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BodyDashBoardState())
+
+    fun updateDrinkCoffeeInfo(totalCups: Int) {
+        viewModelScope.launch {
+            upsertDrinkCoffeeInfoUseCase(
+                _state.value.drinkCoffeeInfo?.copy(
+                    totalCups = totalCups
+                ) ?: DrinkCoffeeInfo(totalCups = totalCups)
+            )
+        }
+    }
+
+    fun updateDrinkWaterInfo(totalCups: Int) {
+        viewModelScope.launch {
+            upsertDrinkWaterInfoUseCase(
+                _state.value.drinkWaterInfo?.copy(
+                    totalCups = totalCups
+                ) ?: DrinkWaterInfo(totalCups = totalCups)
+            )
+        }
+    }
 }

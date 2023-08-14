@@ -29,15 +29,9 @@ fun BodyDashBoardScreen(
         item {
             DrinkInfoDashBoard(
                 title = stringResource(id = R.string.text_title_drink_water),
-                value = "${state.drinkWaterInfo?.totalCups ?: 0}",
-                drinkEventClick = object : DrinkEvent {
-                    override fun moreDrink(cup: String) {
-
-                    }
-
-                    override fun lessDrink(cup: String) {
-
-                    }
+                value = state.drinkWaterInfo?.totalCups ?: 0,
+                drinkEventClick = { totalCups ->
+                    viewModel.updateDrinkWaterInfo(totalCups)
                 }, cardClick = {
 
                 }
@@ -47,16 +41,11 @@ fun BodyDashBoardScreen(
         item {
             DrinkInfoDashBoard(
                 title = stringResource(id = R.string.text_title_drink_coffee),
-                value = "${state.drinkCoffeeInfo?.totalCups ?: 0}",
-                drinkEventClick = object : DrinkEvent {
-                    override fun moreDrink(cup: String) {
-
-                    }
-
-                    override fun lessDrink(cup: String) {
-
-                    }
-                }, cardClick = {
+                value = state.drinkCoffeeInfo?.totalCups ?: 0,
+                drinkEventClick = { totalCups ->
+                    viewModel.updateDrinkCoffeeInfo(totalCups)
+                },
+                cardClick = {
 
                 }
             )

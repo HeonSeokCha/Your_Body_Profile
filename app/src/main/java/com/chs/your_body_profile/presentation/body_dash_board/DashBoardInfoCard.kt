@@ -92,20 +92,20 @@ fun DashBoardSmallCard(
 }
 
 interface DrinkEvent {
-    fun moreDrink(cup: String)
-    fun lessDrink(cup: String)
+    fun moreDrink(totalCup: Int)
+    fun lessDrink(totalCup: Int)
 }
 
 @Composable
 fun DrinkInfoDashBoard(
     title: String,
-    value: String,
-    drinkEventClick: DrinkEvent,
+    value: Int,
+    drinkEventClick: (Int) -> Unit,
     cardClick: () -> Unit,
 ) {
     DashBoardSmallCard(
         title = title,
-        value = value,
+        value = value.toString(),
         measureType = stringResource(id = R.string.text_drink_unit),
         onClick = cardClick
     ) {
@@ -118,11 +118,11 @@ fun DrinkInfoDashBoard(
                 modifier = Modifier
                     .border(
                         width = 1.dp,
-                        color = if (value == "0") Color.Gray else Color.Black,
+                        color = if (value == 0) Color.Gray else Color.Black,
                         shape = CircleShape
                     ),
-                enabled = value != "0",
-                onClick = { drinkEventClick.lessDrink(value) }
+                enabled = value != 0,
+                onClick = { drinkEventClick(value) }
             ) {
                 Icon(
                     Icons.Default.Remove,
@@ -137,7 +137,7 @@ fun DrinkInfoDashBoard(
                         color = Color.Black,
                         shape = CircleShape
                     ),
-                onClick = { drinkEventClick.moreDrink(value) }
+                onClick = { drinkEventClick(value) }
             ) {
                 Icon(
                     Icons.Default.Add,
@@ -302,16 +302,9 @@ fun PreviewHomeBasicInfoCard() {
             item {
                 DrinkInfoDashBoard(
                     title = stringResource(id = R.string.text_title_drink_water),
-                    value = "1",
-                    drinkEventClick = object : DrinkEvent {
-                        override fun moreDrink(cup: String) {
-
-                        }
-
-                        override fun lessDrink(cup: String) {
-
-                        }
-                    }, cardClick = {
+                    value = 1,
+                    drinkEventClick = {},
+                    cardClick = {
 
                     }
                 )
@@ -331,16 +324,9 @@ fun PreviewHomeBasicInfoCard() {
             item {
                 DrinkInfoDashBoard(
                     title = stringResource(id = R.string.text_title_drink_coffee),
-                    value = "0",
-                    drinkEventClick = object : DrinkEvent {
-                        override fun moreDrink(cup: String) {
-
-                        }
-
-                        override fun lessDrink(cup: String) {
-
-                        }
-                    }, cardClick = {
+                    value = 0,
+                    drinkEventClick = { }
+                    , cardClick = {
 
                     }
                 )
