@@ -26,7 +26,6 @@ import com.chs.your_body_profile.data.source.db.dao.MedicineDao
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.BodySummaryInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo

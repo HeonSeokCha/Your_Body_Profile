@@ -2,7 +2,6 @@ package com.chs.your_body_profile.domain.repository
 
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.BodySummaryInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
@@ -11,7 +10,6 @@ import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
-import kotlin.reflect.KClass
 
 interface BodyRepository {
 

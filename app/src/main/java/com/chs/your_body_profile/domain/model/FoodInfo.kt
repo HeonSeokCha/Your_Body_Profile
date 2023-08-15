@@ -1,15 +1,10 @@
 package com.chs.your_body_profile.domain.model
 
+import java.time.LocalDate
+
 data class FoodInfo(
+    val measureTime: LocalDate,
     val name: String,
-    val servingWeight: Float,
+    val type: Food
     val calorie: Int,
-    val carbohydrate: Float,
-    val fat: Float,
-    val protein: Float,
-    val sodium: Float,
-    val sugar: Float,
-    val cholesterol: Float,
-    val saturatedFat: Float,
-    val transFat: Float
 )

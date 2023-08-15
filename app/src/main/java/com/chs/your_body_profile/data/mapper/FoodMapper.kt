@@ -1,10 +1,11 @@
 package com.chs.your_body_profile.data.mapper
 
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
 
-fun ResponseFoodDetailInfo.toFoodInfo(): FoodInfo {
-    return FoodInfo(
+fun ResponseFoodDetailInfo.toFoodDetailInfo(): FoodDetailInfo {
+    return FoodDetailInfo(
         name = this.name,
         servingWeight = this.servingWeight,
         calorie = this.calorie,

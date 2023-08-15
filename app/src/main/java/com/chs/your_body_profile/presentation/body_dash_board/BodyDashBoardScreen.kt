@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.body_dash_board
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -23,7 +24,9 @@ fun BodyDashBoardScreen(
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
 
         item {

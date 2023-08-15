@@ -91,11 +91,6 @@ fun DashBoardSmallCard(
     }
 }
 
-interface DrinkEvent {
-    fun moreDrink(totalCup: Int)
-    fun lessDrink(totalCup: Int)
-}
-
 @Composable
 fun DrinkInfoDashBoard(
     title: String,
@@ -122,7 +117,7 @@ fun DrinkInfoDashBoard(
                         shape = CircleShape
                     ),
                 enabled = value != 0,
-                onClick = { drinkEventClick(value) }
+                onClick = { drinkEventClick(value.minus(1)) }
             ) {
                 Icon(
                     Icons.Default.Remove,
@@ -137,7 +132,7 @@ fun DrinkInfoDashBoard(
                         color = Color.Black,
                         shape = CircleShape
                     ),
-                onClick = { drinkEventClick(value) }
+                onClick = { drinkEventClick(value.plus(1)) }
             ) {
                 Icon(
                     Icons.Default.Add,

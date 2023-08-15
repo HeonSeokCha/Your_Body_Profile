@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.data.mapper
 
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toLocalDateToMillis
 import com.chs.your_body_profile.common.toMillis
@@ -25,7 +26,7 @@ import com.chs.your_body_profile.domain.model.WeightInfo
 
 fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
     return BloodPressureInfo(
-        measureTime = this.measureTime.toLocalDateTime(),
+        measureTime = this.measureTime.toLocalDate(),
         systolic = this.systolic,
         diastolic = this.diastolic,
         useMedication = this.useMedication,
@@ -46,7 +47,7 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
 
 fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
     return BloodSugarInfo(
-        measureTime = this.measureTime.toLocalDateTime(),
+        measureTime = this.measureTime.toLocalDate(),
         measureType = MeasureType.valueOf(this.measureType),
         number = this.number,
         memo = this.memo
@@ -64,15 +65,22 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
 }
 
 fun DrinkInfoEntity.toDrinkWaterInfo(): DrinkWaterInfo {
-    return DrinkWaterInfo(totalCups = this.totalCups)
+    return DrinkWaterInfo(
+        measureTime = this.insertDate.toLocalDate(),
+        totalCups = this.totalCups
+    )
 }
 
 fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkCoffeeInfo {
-    return DrinkCoffeeInfo(totalCups = this.totalCups)
+    return DrinkCoffeeInfo(
+        measureTime = this.insertDate.toLocalDate(),
+        totalCups = this.totalCups
+    )
 }
 
 fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
     return DrinkInfoEntity(
+        insertDate = this.measureTime().toMillis(),
         drinkType = when (drinkType) {
             is DrinkWaterInfo -> Constants.DRINK_TYPE_WATER
             is DrinkCoffeeInfo -> Constants.DRINK_TYPE_COFFEE
@@ -84,6 +92,7 @@ fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
 
 fun HemoglobinA1cInfoEntity.toHemoglobinA1cInfo(): HemoglobinA1cInfo {
     return HemoglobinA1cInfo(
+        measureTime = this.insertDate.toLocalDate(),
         number = this.number,
         measureHospital = this.measureHospital,
         memo = this.memo
@@ -102,6 +111,7 @@ fun HemoglobinA1cInfo.toHemoglobinA1cInfoEntity(): HemoglobinA1cInfoEntity {
 
 fun InsulinInfoEntity.toInsulinInfo(): InsulinInfo {
     return InsulinInfo(
+        measureTime = this.insertDate.toLocalDate(),
         level = this.level,
         memo = this.memo
     )
@@ -117,6 +127,7 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
 
 fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
     return MedicineInfo(
+        measureTime = this.insertDate.toLocalDate(),
         medicineType = MedicineType.valueOf(this.takeMedicineType),
         title = this.title,
         memo = this.memo
@@ -134,8 +145,8 @@ fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
 
 fun WeightInfoEntity.toWeightInfo(): WeightInfo {
     return WeightInfo(
+        measureTime = this.insertDate.toLocalDate(),
         weight = this.weight,
-        measureTime = this.measureTime.toLocalDateTime(),
         memo = this.memo
     )
 }
