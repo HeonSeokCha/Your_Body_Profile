@@ -9,6 +9,8 @@ import com.chs.your_body_profile.data.mapper.toBloodSugarInfoEntity
 import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
 import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
+import com.chs.your_body_profile.data.mapper.toFoodInfo
+import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfo
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.mapper.toInsulinInfo
@@ -20,6 +22,7 @@ import com.chs.your_body_profile.data.mapper.toWeightInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
 import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
+import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
 import com.chs.your_body_profile.data.source.db.dao.MedicineDao
@@ -29,6 +32,7 @@ import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
@@ -46,6 +50,7 @@ class BodyRepositoryImpl @Inject constructor(
     private val insulinDao: InsulinDao,
     private val hemoglobinA1cDao: HemoglobinA1cDao,
     private val medicineDao: MedicineDao,
+    private val foodDao: FoodDao,
     private val weightInfoDao: WeightInfoDao
 ) : BodyRepository {
 
@@ -159,6 +164,16 @@ class BodyRepositoryImpl @Inject constructor(
         return medicineDao.getDayLastInfo(localDate.toMillis()).map {
             it?.toMedicineInfo()
         }
+    }
+
+    override fun getDayLastFoodInfo(localDate: LocalDate): Flow<FoodInfo?> {
+        return foodDao.getDayLastFoodInfo(localDate.toMillis()).map {
+            it?.toFoodInfo()
+        }
+    }
+
+    override fun getDayTotalCalorie(localDate: LocalDate): Flow<Int> {
+        return foodDao.getDayTotalCalorie(localDate.toMillis())
     }
 
     override fun getDayLastWeightInfo(localDate: LocalDate): Flow<WeightInfo?> {

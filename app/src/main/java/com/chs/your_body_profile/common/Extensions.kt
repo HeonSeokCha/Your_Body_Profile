@@ -10,7 +10,7 @@ fun LocalDateTime.toMillis(): Long {
 }
 
 fun LocalDate.toMillis(): Long {
-    return this.toEpochDay()
+    return this.atStartOfDay().toMillis()
 }
 
 fun Long.toLocalDateTime(): LocalDateTime {

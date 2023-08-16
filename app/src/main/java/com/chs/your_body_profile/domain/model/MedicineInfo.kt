@@ -6,5 +6,5 @@ data class MedicineInfo(
     val measureTime: LocalDate,
     val medicineType: MedicineType,
     val title: String,
-    val memo: String
+    val memo: String? = null
 )

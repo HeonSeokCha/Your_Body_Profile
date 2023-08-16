@@ -12,6 +12,7 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
         SELECT * 
           FROM insulin_info 
          WHERE insertDate = :time
+         ORDER BY lastModifyTime DESC
          LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<InsulinInfoEntity?>

@@ -11,7 +11,8 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
         SELECT * 
           FROM blood_sugar_info
          WHERE insertDate = :time
-         ORDER BY measureTime DESC LIMIT 1
+         ORDER BY measureTime DESC 
+         LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<BloodSugarInfoEntity?>
 

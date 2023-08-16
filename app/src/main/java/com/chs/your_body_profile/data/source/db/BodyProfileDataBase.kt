@@ -37,6 +37,7 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val hemoglobinA1cDao: HemoglobinA1cDao
     abstract val medicineDao: MedicineDao
     abstract val weightInfoDao: WeightInfoDao
+    abstract val foodDao: FoodDao
 
     companion object {
         fun getInstance(context: Context): BodyProfileDataBase {

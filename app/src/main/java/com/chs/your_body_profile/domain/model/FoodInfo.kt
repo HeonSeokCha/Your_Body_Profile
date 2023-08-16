@@ -5,6 +5,6 @@ import java.time.LocalDate
 data class FoodInfo(
     val measureTime: LocalDate,
     val name: String,
-    val type: Food
+    val type: MealType,
     val calorie: Int,
 )

@@ -2,13 +2,16 @@ package com.chs.your_body_profile.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.chs.your_body_profile.common.toLocalDateToMillis
 
-@Entity(tableName = "food_info")
+@Entity(
+    tableName = "food_info",
+    primaryKeys = ["insertTime", "name"]
+)
 data class FoodInfoEntity(
-    @PrimaryKey(autoGenerate = true)
-    val idx: Int = 0,
-    val insertTime: Long = System.currentTimeMillis(),
+    val insertTime: Long = System.currentTimeMillis().toLocalDateToMillis(),
+    val name: String,
+    val calorie: Int,
     val type: String,
-    val foodId: Int,
     val lastModified: Long
 )

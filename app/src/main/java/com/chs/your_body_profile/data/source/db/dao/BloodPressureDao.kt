@@ -11,7 +11,8 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     @Query("""SELECT * 
                 FROM blood_pressure_info
                WHERE insertDate = :time
-               ORDER BY measureTime DESC LIMIT 1
+               ORDER BY measureTime DESC
+               LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
 

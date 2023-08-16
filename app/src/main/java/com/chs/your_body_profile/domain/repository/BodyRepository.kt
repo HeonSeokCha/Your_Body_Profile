@@ -4,6 +4,7 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
@@ -30,6 +31,10 @@ interface BodyRepository {
     fun getDayLastInsulinInfo(localDate: LocalDate): Flow<InsulinInfo?>
 
     fun getDayLastMedicineInfo(localDate: LocalDate): Flow<MedicineInfo?>
+
+    fun getDayLastFoodInfo(localDate: LocalDate): Flow<FoodInfo?>
+
+    fun getDayTotalCalorie(localDate: LocalDate): Flow<Int>
 
     fun getDayLastWeightInfo(localDate: LocalDate): Flow<WeightInfo?>
 

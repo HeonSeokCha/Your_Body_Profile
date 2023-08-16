@@ -14,6 +14,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.R
+import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.domain.model.BloodPressureInfo
+import com.chs.your_body_profile.domain.model.FoodInfo
+import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.MedicineInfo
+import com.chs.your_body_profile.domain.model.MedicineType
 
 @Composable
 fun BodyDashBoardScreen(
@@ -23,11 +29,25 @@ fun BodyDashBoardScreen(
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
-        contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
+        contentPadding = PaddingValues(8.dp),
         modifier = Modifier.fillMaxSize(),
         verticalItemSpacing = 4.dp,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        
+        item {
+            val todayMedicineInfo: MedicineInfo? = state.medicineInfo
+            MedicineInfoDashBoard(
+                title = stringResource(id = R.string.text_title_take_medicine),
+                value = todayMedicineInfo?.medicineType?.time?.second
+                    ?: MedicineType.UNKNOWN.time.second,
+                subValue = todayMedicineInfo?.title
+                    ?: stringResource(id = R.string.text_take_medicine_default),
+                subValue2 = todayMedicineInfo?.measureTime?.format(Constants.DATE_TIME_FORMATTER)
+            ) {
+
+            }
+        }
 
         item {
             DrinkInfoDashBoard(
@@ -39,6 +59,20 @@ fun BodyDashBoardScreen(
 
                 }
             )
+        }
+        
+        item {
+            val todayLastFoodInfo: FoodInfo? = state.foodInfo
+            val todayTotalCalorie: Int = state.totalCalorie
+            FoodInfoDashBoard(
+                title = stringResource(id = R.string.text_title_food),
+                value = todayLastFoodInfo?.type?.mean?.second
+                    ?: MealType.UNKNOWN.mean.second,
+                subValue = todayLastFoodInfo?.name ?: "",
+                subValue2 = todayTotalCalorie.toString()
+            ) {
+
+            }
         }
 
         item {
@@ -81,10 +115,35 @@ fun BodyDashBoardScreen(
             )
         }
         item(span = StaggeredGridItemSpan.FullLine) {
+            val todayBloodPressureInfo: BloodPressureInfo? = state.bloodPressureInfo
+            DashBoardInputCard(
+                title = stringResource(id = R.string.text_blood_pressure),
+                infoValue = if (todayBloodPressureInfo != null) {
+                    "${todayBloodPressureInfo.systolic}/${todayBloodPressureInfo.diastolic}"
+                } else {
+                    stringResource(id = R.string.text_default_measure_unknown)
+                },
+                infoUnit = stringResource(id = R.string.text_blood_pressure_unit),
+                onClick = {
 
+                },
+                btnClick = {
+
+                }
+            )
         }
         item(span = StaggeredGridItemSpan.FullLine) {
+            DashBoardInputCard(
+                title = stringResource(id = R.string.text_blood_sugar),
+                infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
+                infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
+                onClick = {
 
+                },
+                btnClick = {
+
+                }
+            )
         }
 
     }

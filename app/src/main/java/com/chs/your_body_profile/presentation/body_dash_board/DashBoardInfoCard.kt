@@ -146,20 +146,20 @@ fun DrinkInfoDashBoard(
 @Composable
 fun MedicineInfoDashBoard(
     title: String,
-    measureType: String,
     value: String,
     subValue: String,
-    subValue2: String,
+    subValue2: String? = null,
     onClick: () -> Unit
 ) {
     DashBoardSmallCard(
         title = title,
         value = value,
-        measureType = measureType,
         subValue = subValue,
         onClick = { onClick() }
     ) {
-        Text(text = subValue2)
+        if (subValue2 != null) {
+            Text(text = subValue2)
+        }
     }
 }
 
@@ -222,8 +222,10 @@ fun DashBoardSingleLineCard(
                 Text(
                     text = title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 18.sp
                 )
+
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -287,7 +289,6 @@ fun PreviewHomeBasicInfoCard() {
                 MedicineInfoDashBoard(
                     title = stringResource(id = R.string.text_title_take_medicine),
                     value = "아침",
-                    measureType = "약",
                     subValue = "당뇨약",
                     subValue2 = "오전 07시 41분"
                 ) {

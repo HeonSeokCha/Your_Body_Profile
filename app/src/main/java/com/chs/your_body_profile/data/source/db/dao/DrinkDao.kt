@@ -13,6 +13,7 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
           FROM drink_info
          WHERE insertDate = :time
            AND drinkType = :drinkType
+         ORDER BY lastModifyTime DESC
          LIMIT 1
     """)
     abstract fun getDayLastDrinkInfo(drinkType: String, time: Long): Flow<DrinkInfoEntity?>

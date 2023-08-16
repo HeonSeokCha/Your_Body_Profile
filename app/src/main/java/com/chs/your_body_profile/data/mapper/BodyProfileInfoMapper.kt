@@ -8,6 +8,7 @@ import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.model.entity.BloodPressureInfoEntity
 import com.chs.your_body_profile.data.model.entity.BloodSugarInfoEntity
 import com.chs.your_body_profile.data.model.entity.DrinkInfoEntity
+import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
 import com.chs.your_body_profile.data.model.entity.HemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.model.entity.InsulinInfoEntity
 import com.chs.your_body_profile.data.model.entity.MedicineInfoEntity
@@ -17,8 +18,10 @@ import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
@@ -29,7 +32,6 @@ fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
         measureTime = this.measureTime.toLocalDate(),
         systolic = this.systolic,
         diastolic = this.diastolic,
-        useMedication = this.useMedication,
         memo = this.memo,
     )
 }
@@ -39,7 +41,6 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
         measureTime = this.measureTime.toMillis(),
         systolic = this.systolic,
         diastolic = this.diastolic,
-        useMedication = this.useMedication,
         memo = this.memo,
         lastModifyTime = System.currentTimeMillis()
     )
@@ -86,7 +87,7 @@ fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
             is DrinkCoffeeInfo -> Constants.DRINK_TYPE_COFFEE
         },
         totalCups = drinkType.totalCups(),
-        lastModified = System.currentTimeMillis()
+        lastModifyTime = System.currentTimeMillis()
     )
 }
 
@@ -127,8 +128,8 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
 
 fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
     return MedicineInfo(
-        measureTime = this.insertDate.toLocalDate(),
-        medicineType = MedicineType.valueOf(this.takeMedicineType),
+        measureTime = this.insertTime.toLocalDate(),
+        medicineType = MedicineType.values().find { it.time.first == this.takeMedicineType } ?: MedicineType.UNKNOWN,
         title = this.title,
         memo = this.memo
     )
@@ -136,6 +137,7 @@ fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
 
 fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
     return MedicineInfoEntity(
+        insertTime = this.measureTime.toMillis(),
         takeMedicineType = this.medicineType.time.first,
         title = this.title,
         memo = this.memo,
@@ -157,5 +159,24 @@ fun WeightInfo.toWeightInfoEntity(): WeightInfoEntity {
         measureTime = this.measureTime.toMillis(),
         memo = this.memo,
         lastModifyTime = System.currentTimeMillis()
+    )
+}
+
+fun FoodInfoEntity.toFoodInfo(): FoodInfo {
+    return FoodInfo(
+        measureTime = this.insertTime.toLocalDate(),
+        name = this.name,
+        type = MealType.values().find { it.mean.first == this.type } ?: MealType.UNKNOWN,
+        calorie = this.calorie
+    )
+}
+
+fun FoodInfo.toFoodInfoEntity(): FoodInfoEntity {
+    return FoodInfoEntity(
+        insertTime = this.measureTime.toMillis(),
+        name = this.name,
+        type = this.type.mean.first,
+        calorie = this.calorie,
+        lastModified = System.currentTimeMillis()
     )
 }
