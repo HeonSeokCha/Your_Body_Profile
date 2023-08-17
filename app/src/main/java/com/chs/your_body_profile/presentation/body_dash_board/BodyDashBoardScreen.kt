@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.body_dash_board
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
+import java.util.Locale
 
 @Composable
 fun BodyDashBoardScreen(
@@ -91,7 +93,7 @@ fun BodyDashBoardScreen(
         item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_blood_sugar),
-                infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_unknown)}",
+                infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
                 onClick = {
                           
@@ -101,6 +103,7 @@ fun BodyDashBoardScreen(
                 }
             )
         }
+
         item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_insulin),
@@ -114,6 +117,7 @@ fun BodyDashBoardScreen(
                 }
             )
         }
+
         item(span = StaggeredGridItemSpan.FullLine) {
             val todayBloodPressureInfo: BloodPressureInfo? = state.bloodPressureInfo
             DashBoardInputCard(
@@ -134,9 +138,9 @@ fun BodyDashBoardScreen(
         }
         item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
-                title = stringResource(id = R.string.text_blood_sugar),
-                infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
-                infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
+                title = stringResource(id = R.string.text_hemoglobin_A1c),
+                infoValue = "${state.hemoglobinA1cInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
+                infoUnit = stringResource(id = R.string.text_hemoglobin_A1c_unit),
                 onClick = {
 
                 },
@@ -145,6 +149,5 @@ fun BodyDashBoardScreen(
                 }
             )
         }
-
     }
 }

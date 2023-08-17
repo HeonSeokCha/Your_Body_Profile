@@ -2,9 +2,6 @@ package com.chs.your_body_profile.presentation.body_dash_board
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.chs.your_body_profile.common.toLocalDate
-import com.chs.your_body_profile.common.toLocalDateToMillis
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
@@ -12,7 +9,9 @@ import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
+import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.model.MedicineInfo
+import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodPressureInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodSugarInfoUseCase
@@ -30,14 +29,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -129,10 +122,7 @@ class BodyDashBoardViewModel @Inject constructor(
             upsertDrinkCoffeeInfoUseCase(
                 _state.value.drinkCoffeeInfo?.copy(
                     totalCups = totalCups
-                ) ?: DrinkCoffeeInfo(
-                    measureTime = System.currentTimeMillis().toLocalDate(),
-                    totalCups = totalCups
-                )
+                ) ?: DrinkCoffeeInfo(totalCups = totalCups)
             )
         }
     }
@@ -142,10 +132,7 @@ class BodyDashBoardViewModel @Inject constructor(
             upsertDrinkWaterInfoUseCase(
                 _state.value.drinkWaterInfo?.copy(
                     totalCups = totalCups
-                ) ?: DrinkWaterInfo(
-                    measureTime = System.currentTimeMillis().toLocalDate(),
-                    totalCups = totalCups
-                )
+                ) ?: DrinkWaterInfo(totalCups = totalCups)
             )
         }
     }

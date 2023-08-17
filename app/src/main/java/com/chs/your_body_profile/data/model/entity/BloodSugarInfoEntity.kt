@@ -8,8 +8,8 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 data class BloodSugarInfoEntity(
     @PrimaryKey
     val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
-    val measureType: String,
     val measureTime: Long,
+    val measureType: String,
     val number: Int,
     val memo: String,
     val lastModifyTime: Long

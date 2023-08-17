@@ -2,6 +2,7 @@ package com.chs.your_body_profile.common
 
 import com.chs.your_body_profile.R
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 object Constants {
     const val FOOD_BASE_URL: String = "http://apis.data.go.kr/1470000/FoodNtrIrdntInfoService/getFoodNtrItdntList"
@@ -26,6 +27,7 @@ object Constants {
     const val BODY_SUMMARY_TYPE_WEIGHT: String = "weight"
 
     val DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("a HH:mm:ss")
+        .withLocale(Locale.forLanguageTag("ko"))
 
 
 }

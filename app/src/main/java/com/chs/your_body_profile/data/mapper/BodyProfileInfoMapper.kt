@@ -29,7 +29,7 @@ import com.chs.your_body_profile.domain.model.WeightInfo
 
 fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
     return BloodPressureInfo(
-        measureTime = this.measureTime.toLocalDate(),
+        measureTime = this.measureTime.toLocalDateTime(),
         systolic = this.systolic,
         diastolic = this.diastolic,
         memo = this.memo,
@@ -48,8 +48,8 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
 
 fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
     return BloodSugarInfo(
-        measureTime = this.measureTime.toLocalDate(),
-        measureType = MeasureType.valueOf(this.measureType),
+        measureTime = this.measureTime.toLocalDateTime(),
+        measureType = MeasureType.values().find { it.mean.first == this.measureType } ?: MeasureType.EMPTY,
         number = this.number,
         memo = this.memo
     )
@@ -67,21 +67,19 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
 
 fun DrinkInfoEntity.toDrinkWaterInfo(): DrinkWaterInfo {
     return DrinkWaterInfo(
-        measureTime = this.insertDate.toLocalDate(),
         totalCups = this.totalCups
     )
 }
 
 fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkCoffeeInfo {
     return DrinkCoffeeInfo(
-        measureTime = this.insertDate.toLocalDate(),
         totalCups = this.totalCups
     )
 }
 
 fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
     return DrinkInfoEntity(
-        insertDate = this.measureTime().toMillis(),
+        insertDate = System.currentTimeMillis().toLocalDateToMillis(),
         drinkType = when (drinkType) {
             is DrinkWaterInfo -> Constants.DRINK_TYPE_WATER
             is DrinkCoffeeInfo -> Constants.DRINK_TYPE_COFFEE
@@ -128,7 +126,7 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
 
 fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
     return MedicineInfo(
-        measureTime = this.insertTime.toLocalDate(),
+        measureTime = this.measureTime.toLocalDateTime(),
         medicineType = MedicineType.values().find { it.time.first == this.takeMedicineType } ?: MedicineType.UNKNOWN,
         title = this.title,
         memo = this.memo
@@ -137,7 +135,7 @@ fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
 
 fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
     return MedicineInfoEntity(
-        insertTime = this.measureTime.toMillis(),
+        measureTime = this.measureTime.toMillis(),
         takeMedicineType = this.medicineType.time.first,
         title = this.title,
         memo = this.memo,

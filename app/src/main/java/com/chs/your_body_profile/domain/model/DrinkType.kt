@@ -6,5 +6,4 @@ sealed interface DrinkType {
     class DrinkCoffeeInfo
     class DrinkWaterInfo
     fun totalCups(): Int
-    fun measureTime(): LocalDate
 }
