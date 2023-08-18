@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.body_dash_board
+package com.chs.your_body_profile.presentation.screen.body_dash_board
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

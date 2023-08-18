@@ -8,18 +8,20 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
-    @Query("""SELECT * 
-                FROM blood_pressure_info
-               WHERE insertDate = :time
-               ORDER BY measureTime DESC
-               LIMIT 1
+    @Query("""
+        SELECT * 
+          FROM blood_pressure_info
+         WHERE insertDate = :time
+         ORDER BY measureTime DESC
+         LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
 
-    @Query("""SELECT * 
-                FROM blood_pressure_info
-               WHERE insertDate = :time
-               ORDER BY measureTime DESC
+    @Query("""
+        SELECT * 
+          FROM blood_pressure_info
+         WHERE insertDate = :time
+         ORDER BY measureTime DESC
     """)
     abstract fun getDayInfoList(time: Long): Flow<List<BloodPressureInfoEntity>>
 }

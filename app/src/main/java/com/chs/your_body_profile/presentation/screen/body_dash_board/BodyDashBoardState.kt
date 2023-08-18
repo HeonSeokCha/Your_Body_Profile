@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.body_dash_board
+package com.chs.your_body_profile.presentation.screen.body_dash_board
 
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
