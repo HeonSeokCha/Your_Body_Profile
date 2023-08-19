@@ -1,22 +1,19 @@
 package com.chs.your_body_profile.presentation.screen.body_dash_board
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
@@ -24,9 +21,11 @@ import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
+import com.chs.your_body_profile.presentation.Screens
 
 @Composable
 fun BodyDashBoardScreen(
+    navController: NavHostController,
     viewModel: BodyDashBoardViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle(initialValue = BodyDashBoardState())
@@ -101,7 +100,7 @@ fun BodyDashBoardScreen(
                           
                 },
                 btnClick = {
-                    
+                    navController.navigate(Screens.InputBloodSugarScreen.route)
                 }
             )
         }

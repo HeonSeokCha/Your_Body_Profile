@@ -26,8 +26,12 @@ object Constants {
     const val BODY_SUMMARY_TYPE_MEDICINE: String = "medicine"
     const val BODY_SUMMARY_TYPE_WEIGHT: String = "weight"
 
-    val DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("a HH:mm:ss")
+    val DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("a hh:mm:ss")
         .withLocale(Locale.forLanguageTag("ko"))
 
+    val DATE_TIME_FORMATTER_DETAIL: DateTimeFormatter = DateTimeFormatter.ofPattern("M월 dd일 (E) a hh:mm")
+        .withLocale(Locale.forLanguageTag("ko"))
+
+    val RANGE_BLOOD_SUGAR_NUMBER = 40 .. 300
 
 }
