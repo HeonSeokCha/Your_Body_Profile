@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Your_Body_Profile</string>
+    <string name="app_name">Your Body Profile</string>
     <string name="text_default_measure_zero">0</string>
     <string name="text_default_measure_unknown">--</string>
     <string name="text_water">물</string>

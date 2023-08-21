@@ -1,14 +1,13 @@
 package com.chs.your_body_profile.presentation.common
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun NumberPicker(
@@ -17,18 +16,13 @@ fun NumberPicker(
     onSelectItemValue: (String) -> Unit
 ) {
     val state = rememberPickerState()
-    Card {
-        Text(
-            text = title,
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold
-        )
-
+    ItemTitleCard(title = title) {
         Picker(
             modifier = Modifier,
             items = items,
             state = state
         )
+        Spacer(modifier = Modifier.height(32.dp))
     }
     onSelectItemValue(state.selectedItem)
 }
@@ -39,7 +33,7 @@ fun PreviewNumberPicker() {
     Column(modifier = Modifier.fillMaxSize()) {
         NumberPicker(
             title = "혈당 (mg/dL)",
-            items = (30..300).map { it.toString() }, onSelectItemValue = {
+            items = (40..300).map { it.toString() }, onSelectItemValue = {
             })
     }
 }

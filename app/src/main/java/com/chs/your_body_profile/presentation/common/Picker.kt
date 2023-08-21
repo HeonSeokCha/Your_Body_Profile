@@ -44,16 +44,13 @@ fun Picker(
     items: List<String>,
     state: PickerState = rememberPickerState(),
     modifier: Modifier = Modifier,
-    startIndex: Int = 0,
     visibleItemsCount: Int = 3,
     textModifier: Modifier = Modifier,
 ) {
 
-    val visibleItemsMiddle = 3 / 2
-
     fun getItem(idx: Int) = items[idx % items.size]
 
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = items.size / 4)
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = 0)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeightPixels = remember { mutableIntStateOf(0) }
@@ -69,7 +66,7 @@ fun Picker(
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
-            .map { idx -> getItem(idx + visibleItemsMiddle) }
+            .map { idx -> getItem(idx) }
             .distinctUntilChanged()
             .collect { item -> state.selectedItem = item }
     }
@@ -102,8 +99,6 @@ fun Picker(
             }
         }
     }
-
-
 }
 
 

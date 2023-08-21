@@ -4,7 +4,7 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.repository.BodyRepository
 import javax.inject.Inject
 
-class InsertBloodPressureInfoUseCase @Inject constructor(
+class UpsertBloodPressureInfoUseCase @Inject constructor(
     private val repository: BodyRepository
 ) {
     suspend operator fun invoke(bloodPressureInfo: BloodPressureInfo) {
