@@ -21,7 +21,7 @@ fun MainNavHost(
         }
 
         composable(Screens.InputBloodSugarScreen.route) {
-            InputBloodSugarScreen()
+            InputBloodSugarScreen(navController)
         }
     }
 }
