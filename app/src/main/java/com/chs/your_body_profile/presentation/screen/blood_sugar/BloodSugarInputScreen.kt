@@ -12,12 +12,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemMeasureTypeList
@@ -29,6 +32,7 @@ fun InputBloodSugarScreen(
     navController: NavHostController,
     viewModel: BloodSugarInputViewModel = hiltViewModel()
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,40 +50,43 @@ fun InputBloodSugarScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             ItemCurrentDateTime {
-
+                viewModel.updateBloodSugarMeasureTime(it)
             }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             NumberPicker(
                 title = "혈당 (mg/dL)",
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it.toString() }
+                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it }
             ) { number ->
-
+                viewModel.updateBloodSugarNumber(number)
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             ItemMeasureTypeList(
                 title = "현재 상태 선택",
-                items = Constants.BLOOD_SUGAR_MEASURE_TYPE_LIST
+                items = MeasureType.values()
             ) {
-
+                viewModel.updateBloodSugarMeasureType(it)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemSmallInputText(onChangedText = { })
+            ItemSmallInputText(onChangedText = {
+                viewModel.updateBloodSugarMemo(it)
+            })
 
         }
 
         ItemBottomMenu(
             modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .align(Alignment.BottomCenter)
-            .background(MaterialTheme.colorScheme.primary),
+                .fillMaxWidth()
+                .height(56.dp)
+                .align(Alignment.BottomCenter)
+                .background(MaterialTheme.colorScheme.primary),
             onClick = {
-
+                  viewModel.insertBloodSugarInfo()
             },
             onDismiss = {
                 navController.popBackStack()

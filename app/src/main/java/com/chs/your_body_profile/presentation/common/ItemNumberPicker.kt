@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun NumberPicker(
     title: String,
-    items: List<String>,
-    onSelectItemValue: (String) -> Unit
+    items: List<Int>,
+    onSelectItemValue: (Int) -> Unit
 ) {
     val state = rememberPickerState()
     ItemTitleCard(title = title) {
@@ -27,13 +27,22 @@ fun NumberPicker(
     onSelectItemValue(state.selectedItem)
 }
 
+@Composable
+fun CollapsingNumberPicker(
+    title1: String,
+    title2: String,
+    onSelectItemValue: (Int, Int) -> Unit
+) {
+
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewNumberPicker() {
     Column(modifier = Modifier.fillMaxSize()) {
         NumberPicker(
             title = "혈당 (mg/dL)",
-            items = (40..300).map { it.toString() }, onSelectItemValue = {
+            items = (40..300).map { it }, onSelectItemValue = {
             })
     }
 }

@@ -114,7 +114,7 @@ fun BodyDashBoardScreen(
                           
                 },
                 btnClick = {
-                    
+                    navController.navigate(Screens.InputInsulinScreen.route)
                 }
             )
         }
@@ -133,7 +133,7 @@ fun BodyDashBoardScreen(
 
                 },
                 btnClick = {
-
+                    navController.navigate(Screens.InputBloodPressureScreen.route)
                 }
             )
         }
@@ -146,7 +146,7 @@ fun BodyDashBoardScreen(
 
                 },
                 btnClick = {
-
+                    navController.navigate(Screens.InputHemoglobinA1cScreen.route)
                 }
             )
         }

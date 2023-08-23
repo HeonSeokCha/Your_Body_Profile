@@ -11,6 +11,6 @@ data class BloodSugarInfoEntity(
     val measureTime: Long,
     val measureType: String,
     val number: Int,
-    val memo: String,
+    val memo: String?,
     val lastModifyTime: Long
 )

@@ -33,12 +33,4 @@ object Constants {
         .withLocale(Locale.forLanguageTag("ko"))
 
     val RANGE_BLOOD_SUGAR_NUMBER = 40 .. 300
-    val BLOOD_SUGAR_MEASURE_TYPE_LIST: List<String> = listOf(
-        "공복",
-        "식사 전",
-        "식사 후",
-        "취침 전",
-        "평상 시"
-    )
-
 }

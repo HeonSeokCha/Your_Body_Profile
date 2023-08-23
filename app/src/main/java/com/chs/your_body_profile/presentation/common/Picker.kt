@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.map
 
 @Composable
 fun Picker(
-    items: List<String>,
+    items: List<Int>,
     state: PickerState = rememberPickerState(),
     modifier: Modifier = Modifier,
     visibleItemsCount: Int = 3,
@@ -88,7 +88,7 @@ fun Picker(
         ) {
             items(items) { item ->
                 Text(
-                    text = item,
+                    text = item.toString(),
                     fontSize = 24.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -109,5 +109,5 @@ fun rememberPickerState() = remember { PickerState() }
 private fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp() }
 
 class PickerState {
-    var selectedItem by mutableStateOf("")
+    var selectedItem by mutableStateOf(0)
 }
