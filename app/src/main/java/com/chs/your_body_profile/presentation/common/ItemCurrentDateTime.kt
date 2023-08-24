@@ -3,6 +3,7 @@ package com.chs.your_body_profile.presentation.common
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import com.chs.your_body_profile.common.Constants
@@ -14,8 +15,12 @@ fun ItemCurrentDateTime(
 ) {
     val currentDateTime = remember { LocalDateTime.now() }
 
+    LaunchedEffect(Unit) {
+        onClick(currentDateTime)
+    }
+
     Button(
-        onClick = { onClick(currentDateTime) }
+        onClick = { }
     ) {
         Text(
             text = currentDateTime.format(Constants.DATE_TIME_FORMATTER_DETAIL)

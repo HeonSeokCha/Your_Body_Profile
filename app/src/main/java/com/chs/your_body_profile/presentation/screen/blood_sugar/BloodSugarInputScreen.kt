@@ -21,18 +21,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.MeasureType
-import com.chs.your_body_profile.presentation.common.ItemBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
+import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemMeasureTypeList
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
 
 @Composable
-fun InputBloodSugarScreen(
+fun BloodSugarInputScreen(
     navController: NavHostController,
     viewModel: BloodSugarInputViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -76,17 +75,17 @@ fun InputBloodSugarScreen(
             ItemSmallInputText(onChangedText = {
                 viewModel.updateBloodSugarMemo(it)
             })
-
         }
 
-        ItemBottomMenu(
+        ItemInputBottomMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-                  viewModel.insertBloodSugarInfo()
+                viewModel.insertBloodSugarInfo()
+                navController.popBackStack()
             },
             onDismiss = {
                 navController.popBackStack()

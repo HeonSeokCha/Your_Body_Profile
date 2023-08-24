@@ -9,6 +9,6 @@ data class InsulinInfoEntity(
     @PrimaryKey
     val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
     val level: Int,
-    val memo: String,
+    val memo: String?,
     val lastModifyTime: Long
 )

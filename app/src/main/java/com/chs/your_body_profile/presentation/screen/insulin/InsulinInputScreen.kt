@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.screen.blood_pressure
+package com.chs.your_body_profile.presentation.screen.insulin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,25 +14,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
-import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
 
 @Composable
-fun BloodPressureInputScreen(
+fun InsulinInputScreen(
     navController: NavHostController,
-    viewModel: BloodPressureInputViewModel = hiltViewModel()
+    viewModel: InsulinInputViewModel = hiltViewModel()
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -43,29 +38,24 @@ fun BloodPressureInputScreen(
                     top = 16.dp,
                     bottom = 68.dp
                 ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ItemCurrentDateTime {
-
-            }
-            Spacer(modifier = Modifier.height(16.dp))
 
             NumberPicker(
-                title = stringResource(id = R.string.text_input_blood_pressure_systolic),
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it }
+                title = "인슐린 주입 수치",
+                items = Constants.RANGE_INSULIN_NUMBER.map { it }
             ) { number ->
-
-            }
-            
-            NumberPicker(
-                title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it }
-            ) { number ->
-
+                viewModel.updateInsulinLevel(number)
             }
 
             Spacer(modifier = Modifier.height(32.dp))
+
+            ItemSmallInputText(
+                onChangedText = {
+                    viewModel.updateMemo(it)
+                })
         }
+
 
         ItemInputBottomMenu(
             modifier = Modifier
@@ -74,7 +64,8 @@ fun BloodPressureInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-
+                viewModel.insertInsulinInfo()
+                navController.popBackStack()
             },
             onDismiss = {
                 navController.popBackStack()
@@ -82,4 +73,3 @@ fun BloodPressureInputScreen(
         )
     }
 }
-

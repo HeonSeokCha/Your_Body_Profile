@@ -22,6 +22,7 @@
     <string name="text_weight_unit">Kg</string>
     <string name="text_cancel">취소</string>
     <string name="text_confirm">저장</string>
+    <string name="text_data_input">데이터 입력</string>
     <string name="text_input_blood_pressure_systolic">수축기 혈압 (mmHg)</string>
     <string name="text_input_blood_pressure_diastolic">이완기 혈압 (mmHg)</string>
 

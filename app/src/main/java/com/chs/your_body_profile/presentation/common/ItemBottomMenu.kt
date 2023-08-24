@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.chs.your_body_profile.R
 
 @Composable
-fun ItemBottomMenu(
+fun ItemInputBottomMenu(
     modifier: Modifier,
     onClick: () -> Unit,
     onDismiss: () -> Unit
@@ -26,7 +26,8 @@ fun ItemBottomMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            onClick = { onDismiss() }) {
+            onClick = { onDismiss() }
+        ) {
             Text(
                 text = stringResource(id = R.string.text_cancel),
                 textAlign = TextAlign.Center,
@@ -38,9 +39,31 @@ fun ItemBottomMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            onClick = { onClick() }) {
+            onClick = { onClick() }
+        ) {
             Text(
                 text = stringResource(id = R.string.text_confirm),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+fun ItemInputButton(
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            onClick = { onClick() }
+        ) {
+            Text(
+                text = stringResource(id = R.string.text_data_input),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )

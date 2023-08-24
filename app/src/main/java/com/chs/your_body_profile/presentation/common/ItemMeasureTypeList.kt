@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,11 @@ fun ItemMeasureTypeList(
     onClick: (MeasureType) -> Unit
 ) {
     var selectIdx by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        onClick(items[selectIdx])
+    }
+
     ItemTitleCard(title = title) {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),

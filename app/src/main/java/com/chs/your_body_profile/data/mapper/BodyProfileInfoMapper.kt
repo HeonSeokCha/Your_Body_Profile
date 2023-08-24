@@ -110,7 +110,6 @@ fun HemoglobinA1cInfo.toHemoglobinA1cInfoEntity(): HemoglobinA1cInfoEntity {
 
 fun InsulinInfoEntity.toInsulinInfo(): InsulinInfo {
     return InsulinInfo(
-        measureTime = this.insertDate.toLocalDate(),
         level = this.level,
         memo = this.memo
     )

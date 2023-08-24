@@ -4,9 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.chs.your_body_profile.presentation.screen.blood_pressure.InputBloodPressureScreen
-import com.chs.your_body_profile.presentation.screen.blood_sugar.InputBloodSugarScreen
+import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
+import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
 import com.chs.your_body_profile.presentation.screen.body_dash_board.BodyDashBoardScreen
+import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
 
 @Composable
 fun MainNavHost(
@@ -22,15 +23,15 @@ fun MainNavHost(
         }
 
         composable(Screens.InputBloodSugarScreen.route) {
-            InputBloodSugarScreen(navController)
+            BloodSugarInputScreen(navController)
         }
 
         composable(Screens.InputBloodPressureScreen.route) {
-            InputBloodPressureScreen(navController)
+            BloodPressureInputScreen(navController)
         }
 
         composable(Screens.InputInsulinScreen.route) {
-
+            InsulinInputScreen(navController)
         }
 
         composable(Screens.InputHemoglobinA1cScreen.route) {
