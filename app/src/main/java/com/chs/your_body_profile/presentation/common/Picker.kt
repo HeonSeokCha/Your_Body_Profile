@@ -2,6 +2,7 @@
 
 package com.chs.your_body_profile.presentation.common
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -41,12 +42,16 @@ fun Picker(
     state: PickerState = rememberPickerState(),
     modifier: Modifier = Modifier,
     visibleItemsCount: Int = 3,
+    startIndex: Int = 0,
     textModifier: Modifier = Modifier,
 ) {
-
+    val visibleItemsMiddle = visibleItemsCount / 2
+    val listScrollCount = Integer.MAX_VALUE
+    val listScrollMiddle = listScrollCount / 2
+    val listStartIndex = listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle + items.size / 4
     fun getItem(idx: Int) = items[idx % items.size]
 
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = 0)
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeightPixels = remember { mutableIntStateOf(0) }
@@ -61,10 +66,13 @@ fun Picker(
     }
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .map { idx -> getItem(idx) }
+        snapshotFlow { listState.firstVisibleItemIndex + visibleItemsMiddle }
+            .map { idx -> getItem(idx + 1) }
             .distinctUntilChanged()
-            .collect { item -> state.selectedItem = item }
+            .collect { item ->
+                Log.e("LISTSTATE", listState.firstVisibleItemIndex.toString())
+                state.selectedItem = item
+            }
     }
 
     Box(modifier = modifier) {
@@ -82,9 +90,9 @@ fun Picker(
                 },
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(items) { item ->
+            items(listScrollCount) { idx ->
                 Text(
-                    text = item.toString(),
+                    text = getItem(idx).toString(),
                     fontSize = 24.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
