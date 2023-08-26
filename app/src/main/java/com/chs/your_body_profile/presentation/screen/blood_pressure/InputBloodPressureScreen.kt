@@ -52,14 +52,14 @@ fun BloodPressureInputScreen(
 
             NumberPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_systolic),
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it }
+                items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it }
             ) { number ->
 
             }
             
             NumberPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it }
+                items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it }
             ) { number ->
 
             }

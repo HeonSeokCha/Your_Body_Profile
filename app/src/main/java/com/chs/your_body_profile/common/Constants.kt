@@ -32,7 +32,8 @@ object Constants {
     val DATE_TIME_FORMATTER_DETAIL: DateTimeFormatter = DateTimeFormatter.ofPattern("M월 dd일 (E) a hh:mm")
         .withLocale(Locale.forLanguageTag("ko"))
 
-    val RANGE_BLOOD_SUGAR_NUMBER = 0 .. 300
-    val RANGE_BLOOD_PRESSURE_NUMBER = 60 .. 250
+    val RANGE_BLOOD_SUGAR_NUMBER = 18 .. 400
+    val RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER = 81 .. 300
+    val RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER = 0 .. 250
     val RANGE_INSULIN_NUMBER = 0 .. 100
 }

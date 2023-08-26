@@ -72,7 +72,10 @@ fun ItemSmallInputText(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
-            onValueChange = { textState = it }
+            onValueChange = {
+                textState = it
+                onChangedText(it)
+            }
         )
     }
 }
