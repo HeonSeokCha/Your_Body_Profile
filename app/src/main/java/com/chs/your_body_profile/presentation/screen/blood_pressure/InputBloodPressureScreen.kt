@@ -22,6 +22,7 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
 
 @Composable
@@ -46,25 +47,35 @@ fun BloodPressureInputScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             ItemCurrentDateTime {
-
+                viewModel.updateMeasureTime(it)
             }
             Spacer(modifier = Modifier.height(16.dp))
 
             NumberPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_systolic),
-                items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it }
-            ) { number ->
-
-            }
+                items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it },
+                startIdx = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.indexOf(90),
+                onBack = { navController.popBackStack() },
+                onSelectItemValue = { number ->
+                    viewModel.updateSystolicNumber(number)
+                }
+            )
             
             NumberPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
-                items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it }
-            ) { number ->
-
-            }
+                items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it },
+                startIdx = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.indexOf(120),
+                onBack = { navController.popBackStack() },
+                onSelectItemValue = { number ->
+                    viewModel.updateDiastolicNumber(number)
+                }
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
+
+            ItemSmallInputText(onChangedText = {
+                viewModel.updateMemo(it)
+            })
         }
 
         ItemInputBottomMenu(
@@ -74,7 +85,8 @@ fun BloodPressureInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-
+                viewModel.insertBloodPressureInfo()
+                navController.popBackStack()
             },
             onDismiss = {
                 navController.popBackStack()

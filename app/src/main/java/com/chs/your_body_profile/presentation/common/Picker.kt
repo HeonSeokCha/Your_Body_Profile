@@ -1,6 +1,8 @@
 package com.chs.your_body_profile.presentation.common
 
 import android.util.Log
+import android.view.KeyEvent.KEYCODE_BACK
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -39,11 +41,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.nativeKeyCode
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -63,11 +70,13 @@ fun Picker(
     visibleItemsCount: Int = 3,
     startIdx: Int = 0,
     textModifier: Modifier = Modifier,
+    onBack: () -> Unit
 ) {
     val visibleItemsMiddle = visibleItemsCount / 2
     val listScrollCount = Integer.MAX_VALUE
     val listScrollMiddle = listScrollCount / 2
-    val listStartIndex = listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle
+    val listStartIndex = listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle + startIdx
+
     fun getItem(idx: Int) = items[idx % items.size]
 
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
@@ -94,7 +103,6 @@ fun Picker(
             .map { idx -> getItem(idx) }
             .distinctUntilChanged()
             .collect { item ->
-                Log.e("LISTSTATE", listState.firstVisibleItemIndex.toString())
                 state.selectedItem = item
             }
     }
@@ -105,9 +113,22 @@ fun Picker(
         }
     }
 
+    BackHandler(onBack = {
+        if (editEnabled) {
+            editEnabled = false
+        } else { onBack() }
+    })
+
     Box(modifier = modifier) {
         if (editEnabled) {
-            var textState by remember { mutableStateOf(state.selectedItem.toString()) }
+            var textState by remember {
+                mutableStateOf(
+                    TextFieldValue(
+                        text = state.selectedItem.toString(),
+                        selection = TextRange(0, state.selectedItem.toString().length)
+                    )
+                )
+            }
             Column (
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -133,9 +154,11 @@ fun Picker(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             keyBoardController?.hide()
-                            if (items.contains(textState.toInt())) {
+                            if (items.contains(textState.text.toInt())) {
                                 coroutineScope.launch {
-                                    listState.scrollToItem(items.indexOf(textState.toInt()))
+                                    listState.scrollToItem(
+                                        listStartIndex + items.indexOf(textState.text.toInt())
+                                    )
                                 }
                             }
                             editEnabled = false

@@ -13,14 +13,18 @@ import androidx.compose.ui.unit.dp
 fun NumberPicker(
     title: String,
     items: List<Int>,
-    onSelectItemValue: (Int) -> Unit
+    startIdx: Int,
+    onSelectItemValue: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     val state = rememberPickerState()
     ItemTitleCard(title = title) {
         Picker(
             modifier = Modifier,
             items = items,
-            state = state
+            startIdx = startIdx,
+            state = state,
+            onBack = { onBack() }
         )
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -42,7 +46,10 @@ fun PreviewNumberPicker() {
     Column(modifier = Modifier.fillMaxSize()) {
         NumberPicker(
             title = "혈당 (mg/dL)",
-            items = (40..300).map { it }, onSelectItemValue = {
-            })
+            items = (40..300).map { it },
+            startIdx = 39,
+            onSelectItemValue = {},
+            onBack = {}
+        )
     }
 }

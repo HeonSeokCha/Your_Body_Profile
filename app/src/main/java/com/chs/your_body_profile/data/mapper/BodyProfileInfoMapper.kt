@@ -91,7 +91,6 @@ fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
 
 fun HemoglobinA1cInfoEntity.toHemoglobinA1cInfo(): HemoglobinA1cInfo {
     return HemoglobinA1cInfo(
-        measureTime = this.insertDate.toLocalDate(),
         number = this.number,
         measureHospital = this.measureHospital,
         memo = this.memo

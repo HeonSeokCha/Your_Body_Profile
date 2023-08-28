@@ -10,6 +10,6 @@ data class HemoglobinA1cInfoEntity(
     val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
     val number: Float,
     val measureHospital: String,
-    val memo: String,
+    val memo: String?,
     val lastModifyTime: Long
 )

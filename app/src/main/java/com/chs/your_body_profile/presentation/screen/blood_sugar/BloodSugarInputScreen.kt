@@ -56,10 +56,13 @@ fun BloodSugarInputScreen(
 
             NumberPicker(
                 title = "혈당 (mg/dL)",
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it }
-            ) { number ->
+                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it },
+                startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
+                onBack = { navController.popBackStack() },
+                onSelectItemValue = { number ->
                 viewModel.updateBloodSugarNumber(number)
-            }
+                }
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 

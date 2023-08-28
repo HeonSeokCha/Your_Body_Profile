@@ -6,5 +6,5 @@ data class BloodPressureInfo(
     val measureTime: LocalDateTime,
     val systolic: Int,
     val diastolic: Int,
-    val memo: String
+    val memo: String?
 )

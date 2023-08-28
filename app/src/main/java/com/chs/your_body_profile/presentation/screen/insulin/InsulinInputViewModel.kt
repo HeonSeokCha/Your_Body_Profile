@@ -6,7 +6,6 @@ import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.usecase.UpsertInsulinInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +16,6 @@ class InsulinInputViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InsulinInputState())
-    val state = _state.asStateFlow()
 
     fun updateInsulinLevel(level: Int) {
         _state.update {
@@ -39,8 +37,8 @@ class InsulinInputViewModel @Inject constructor(
         viewModelScope.launch {
             upsertInsulinInfoUseCase(
                 InsulinInfo(
-                    level = state.value.level,
-                    memo = state.value.memo
+                    level = _state.value.level,
+                    memo = _state.value.memo
                 )
             )
         }

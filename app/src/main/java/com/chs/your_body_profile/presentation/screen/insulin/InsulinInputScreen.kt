@@ -43,10 +43,13 @@ fun InsulinInputScreen(
 
             NumberPicker(
                 title = "인슐린 주입 수치",
-                items = Constants.RANGE_INSULIN_NUMBER.map { it }
-            ) { number ->
-                viewModel.updateInsulinLevel(number)
-            }
+                items = Constants.RANGE_INSULIN_NUMBER.map { it },
+                startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(15),
+                onBack = { navController.popBackStack() },
+                onSelectItemValue = { number ->
+                    viewModel.updateInsulinLevel(number)
+                }
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 

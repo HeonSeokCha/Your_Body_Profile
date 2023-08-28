@@ -13,6 +13,6 @@ data class BloodPressureInfoEntity(
     val measureTime: Long,
     val systolic: Int,
     val diastolic: Int,
-    val memo: String,
+    val memo: String?,
     val lastModifyTime: Long
 )
