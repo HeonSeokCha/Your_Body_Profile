@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.usecase.UpsertHemoglobinA1cInfoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class HemoglobinA1cInputViewModel @Inject constructor(
     private val upsertHemoglobinA1cInfoUseCase: UpsertHemoglobinA1cInfoUseCase
 ) : ViewModel() {
