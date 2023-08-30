@@ -1,22 +1,14 @@
 package com.chs.your_body_profile.presentation.common
 
-import android.annotation.SuppressLint
-import android.util.Log
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -128,53 +119,20 @@ fun Picker(
 
     Box {
         if (editEnabled) {
-            var textState by remember {
-                mutableStateOf(
-                    TextFieldValue(
-                        text = state.selectedItem.toString(),
-                        selection = TextRange(0, state.selectedItem.toString().length)
-                    )
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                TextField(
-                    modifier = modifier
-                        .height((itemHeightDp) * visibleItemsCount)
-                        .focusRequester(requestFocus),
-                    value = textState,
-                    colors = TextFieldDefaults.textFieldColors(
-                        cursorColor = Color.Black,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    onValueChange = {
-                        textState = it
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Done,
-                        keyboardType = KeyboardType.NumberPassword
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            keyBoardController?.hide()
-                            if (items.contains(textState.text.toInt())) {
-                                coroutineScope.launch {
-                                    listState.scrollToItem(
-                                        listStartIndex + items.indexOf(textState.text.toInt())
-                                    )
-                                }
-                            }
-                            editEnabled = false
-                        }
-                    ),
-                    textStyle = LocalTextStyle.current.copy(
-                        textAlign = TextAlign.Center,
-                        fontSize = 24.sp
-                    )
-                )
+            PickerTextField(
+                modifier = modifier
+                    .height((itemHeightDp) * visibleItemsCount)
+                    .focusRequester(requestFocus),
+                defaultValue = state.selectedItem.toString()
+            ) { value ->
+                keyBoardController?.hide()
+                if (items.contains(value)) {
+                    coroutineScope.launch {
+                        listState.scrollToItem(
+                            listStartIndex + items.indexOf(value)
+                        )
+                    }
+                }
             }
         } else {
             LazyColumn(
@@ -206,6 +164,52 @@ fun Picker(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PickerTextField(
+    modifier: Modifier,
+    defaultValue: String,
+    onDone: (Int) -> Unit
+) {
+    var textState by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = defaultValue,
+                selection = TextRange(0, defaultValue.length)
+            )
+        )
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        TextField(
+            modifier = modifier,
+            value = textState,
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = Color.Black,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            onValueChange = {
+                textState = it
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.NumberPassword
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { onDone(textState.text.toInt()) }
+            ),
+            textStyle = LocalTextStyle.current.copy(
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp
+            )
+        )
     }
 }
 

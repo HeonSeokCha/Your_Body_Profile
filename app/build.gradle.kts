@@ -1,5 +1,5 @@
 plugins {
-    kotlin("kapt")
+//    kotlin("kapt")
     kotlin("android")
     alias(libs.plugins.hilt)
     alias(libs.plugins.android.application)
@@ -73,7 +73,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidX.room.ktx)
     ksp(libs.androidX.room.compiler)
@@ -81,6 +81,6 @@ dependencies {
     implementation(libs.androidX.paging.compose)
 }
 
-kapt {
-    useBuildCache = true
-}
+//kapt {
+//    useBuildCache = true
+//}

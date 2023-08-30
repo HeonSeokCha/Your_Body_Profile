@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,19 +64,6 @@ fun ItemDualNumberPicker(
                 items = firstItems,
                 startIdx = firstStartIdx,
                 state = firstState,
-                onBack = { onBack() }
-            )
-
-            Text(
-                text = ".",
-                fontSize = 24.sp
-            )
-
-            Picker(
-                modifier = Modifier,
-                items = secondItems,
-                startIdx = secondStartIdx,
-                state = secondState,
                 onBack = { onBack() }
             )
         }
