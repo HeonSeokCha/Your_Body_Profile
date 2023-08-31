@@ -7,9 +7,13 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,20 +66,21 @@ fun Picker(
     items: List<Int>,
     state: PickerState = rememberPickerState(),
     modifier: Modifier = Modifier,
-    visibleItemsCount: Int = 3,
     startIdx: Int = 0,
     textModifier: Modifier = Modifier,
+    editEnabled: Boolean = false,
+    onChangeEdit: () -> Unit,
     onBack: () -> Unit
 ) {
-    val visibleItemsMiddle = visibleItemsCount / 2
     val listScrollCount = Integer.MAX_VALUE
     val listScrollMiddle = listScrollCount / 2
     val listStartIndex =
-        listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle
+        listScrollMiddle - listScrollMiddle % items.size - 1
 
     fun getItem(idx: Int) = items[idx % items.size]
 
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex + startIdx)
+    val listState =
+        rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex + items.indexOf(startIdx))
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeightPixels = remember { mutableIntStateOf(0) }
@@ -90,17 +95,106 @@ fun Picker(
     }
 
     val keyBoardController = LocalSoftwareKeyboardController.current
-    var editEnabled by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val requestFocus = remember { FocusRequester() }
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex + visibleItemsMiddle }
+        snapshotFlow { listState.firstVisibleItemIndex + 1 }
             .map { idx -> getItem(idx) }
             .distinctUntilChanged()
             .collect { item ->
                 state.selectedItem = item
             }
+    }
+
+    SideEffect {
+        if (editEnabled) {
+            requestFocus.requestFocus()
+        }
+    }
+
+    BackHandler(onBack = {
+        if (!editEnabled) {
+            onBack()
+        } else {
+            onChangeEdit()
+        }
+    })
+
+    Box {
+        if (editEnabled) {
+            PickerTextField(
+                modifier = modifier
+                    .height((itemHeightDp + 16.dp) * 3)
+                    .focusRequester(requestFocus),
+                defaultValue = state.selectedItem.toString()
+            ) { value ->
+                keyBoardController?.hide()
+                if (items.contains(value)) {
+                    coroutineScope.launch {
+                        listState.scrollToItem(
+                            listStartIndex + items.indexOf(value)
+                        )
+                    }
+                }
+                onChangeEdit()
+            }
+        } else {
+            LazyColumn(
+                state = listState,
+                flingBehavior = flingBehavior,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .height((itemHeightDp + 16.dp) * 3)
+                    .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                    .drawWithContent {
+                        drawContent()
+                        drawRect(brush = fadingEdgeGradient, blendMode = BlendMode.DstIn)
+                    },
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(listScrollCount) { idx ->
+                    Text(
+                        text = getItem(idx).toString(),
+                        fontSize = 24.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .onSizeChanged { size -> itemHeightPixels.intValue = size.height }
+                            .then(textModifier)
+                            .clickable {
+                                onChangeEdit()
+                            }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
+@Composable
+fun MultiplePicker(
+    items: List<List<Int>>,
+    startIdxList: List<Int>,
+    onBack: () -> Unit
+) {
+    val keyBoardController = LocalSoftwareKeyboardController.current
+    var editEnabled by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    val requestFocus = remember { FocusRequester() }
+
+
+
+    val itemHeightPixels = remember { mutableIntStateOf(0) }
+    val itemHeightDp = pixelsToDp(itemHeightPixels.intValue)
+
+    val fadingEdgeGradient = remember {
+        Brush.verticalGradient(
+            0f to Color.Transparent,
+            0.5f to Color.Black,
+            1f to Color.Transparent
+        )
     }
 
     SideEffect {
@@ -117,57 +211,12 @@ fun Picker(
         }
     })
 
-    Box {
-        if (editEnabled) {
-            PickerTextField(
-                modifier = modifier
-                    .height((itemHeightDp) * visibleItemsCount)
-                    .focusRequester(requestFocus),
-                defaultValue = state.selectedItem.toString()
-            ) { value ->
-                keyBoardController?.hide()
-                if (items.contains(value)) {
-                    coroutineScope.launch {
-                        listState.scrollToItem(
-                            listStartIndex + items.indexOf(value)
-                        )
-                    }
-                }
-            }
-        } else {
-            LazyColumn(
-                state = listState,
-                flingBehavior = flingBehavior,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .height((itemHeightDp + 16.dp) * visibleItemsCount)
-                    .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-                    .drawWithContent {
-                        drawContent()
-                        drawRect(brush = fadingEdgeGradient, blendMode = BlendMode.DstIn)
-                    },
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(listScrollCount) { idx ->
-                    Text(
-                        text = getItem(idx).toString(),
-                        fontSize = 24.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .onSizeChanged { size -> itemHeightPixels.value = size.height }
-                            .then(textModifier)
-                            .clickable {
-                                editEnabled = true
-                            }
-                    )
-                }
-            }
-        }
+    Row {
+
     }
+
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickerTextField(
     modifier: Modifier,
@@ -184,17 +233,12 @@ fun PickerTextField(
     }
 
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        TextField(
-            modifier = modifier,
+        BasicTextField(
             value = textState,
-            colors = TextFieldDefaults.textFieldColors(
-                cursorColor = Color.Black,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            ),
             onValueChange = {
                 textState = it
             },

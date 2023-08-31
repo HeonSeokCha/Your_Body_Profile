@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,10 +8,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +31,7 @@ fun NumberPicker(
     onBack: () -> Unit
 ) {
     val state = rememberPickerState()
+    var editEnabled by remember { mutableStateOf(false) }
     ItemTitleCard(title = title) {
         Picker(
             modifier = Modifier
@@ -31,7 +39,11 @@ fun NumberPicker(
             items = items,
             startIdx = startIdx,
             state = state,
-            onBack = { onBack() }
+            onBack = {
+                onBack()
+            },
+            onChangeEdit = { editEnabled = !editEnabled },
+            editEnabled = editEnabled
         )
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -48,9 +60,10 @@ fun ItemDualNumberPicker(
     onSelectItemValue: (Float) -> Unit,
     onBack: () -> Unit
 ) {
-
     val firstState = rememberPickerState()
     val secondState = rememberPickerState()
+
+    var editEnabled by remember { mutableStateOf(false) }
 
     ItemTitleCard(title = title) {
         Row (
@@ -60,11 +73,30 @@ fun ItemDualNumberPicker(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Picker(
-                modifier = Modifier,
+                modifier = Modifier
+                    .width(50.dp),
                 items = firstItems,
                 startIdx = firstStartIdx,
                 state = firstState,
-                onBack = { onBack() }
+                onBack = {
+                    onBack()
+
+                },
+                onChangeEdit = { editEnabled = !editEnabled },
+                editEnabled = editEnabled
+            )
+
+            Text(modifier = Modifier.width(8.dp), text = ".", fontSize = 24.sp)
+
+            Picker(
+                modifier = Modifier
+                    .width(50.dp),
+                items = secondItems,
+                startIdx = secondStartIdx,
+                state = secondState,
+                onBack = { onBack() },
+                onChangeEdit = { editEnabled = !editEnabled },
+                editEnabled = editEnabled
             )
         }
         Spacer(modifier = Modifier.height(32.dp))

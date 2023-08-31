@@ -9,6 +9,6 @@ class UpsertHemoglobinA1cInfoUseCase @Inject constructor(
     private val repository: BodyRepository
 ) {
     suspend operator fun invoke(hemoglobinA1cInfo: HemoglobinA1cInfo) {
-        repository.upsertInfo(hemoglobinA1cInfo.toHemoglobinA1cInfoEntity())
+        repository.upsertInfo(hemoglobinA1cInfo)
     }
 }
