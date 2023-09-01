@@ -124,9 +124,25 @@ class BodyRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getDayBloodPressureInfoList(localDate: LocalDate): Flow<List<BloodPressureInfo>> {
+        return bloodPressureDao.getDayInfoList(localDate.toMillis()).map {
+            it.map { bloodPressureInfoEntity ->
+                bloodPressureInfoEntity.toBloodPressureInfo()
+            }
+        }
+    }
+
     override fun getDayLastBloodSugarInfo(localDate: LocalDate): Flow<BloodSugarInfo?> {
         return bloodSugarDao.getDayLastInfo(localDate.toMillis()).map {
             it?.toBloodSugarInfo()
+        }
+    }
+
+    override fun getDayBloodSugarInfoList(localDate: LocalDate): Flow<List<BloodSugarInfo>> {
+        return bloodSugarDao.getDayInfoList(localDate.toMillis()).map {
+            it.map { blodSugarInfo ->
+                blodSugarInfo.toBloodSugarInfo()
+            }
         }
     }
 
@@ -154,10 +170,18 @@ class BodyRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getDayHemoglobinA1cList(localDate: LocalDate): Flow<List<HemoglobinA1cInfo>> {
+        TODO("Not yet implemented")
+    }
+
     override fun getDayLastInsulinInfo(localDate: LocalDate): Flow<InsulinInfo?> {
         return insulinDao.getDayLastInfo(localDate.toMillis()).map {
             it?.toInsulinInfo()
         }
+    }
+
+    override fun getDayInsulinList(localDate: LocalDate): Flow<List<InsulinInfo>> {
+        TODO("Not yet implemented")
     }
 
     override fun getDayLastMedicineInfo(localDate: LocalDate): Flow<MedicineInfo?> {

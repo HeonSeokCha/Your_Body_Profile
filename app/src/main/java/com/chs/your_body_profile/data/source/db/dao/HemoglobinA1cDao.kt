@@ -15,4 +15,12 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
          LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<HemoglobinA1cInfoEntity?>
+
+    @Query("""
+        SELECT * 
+          FROM hemoglobin_a1c_info 
+         WHERE insertDate = :time
+         ORDER BY lastModifyTime DESC
+    """)
+    abstract fun getDayInfoList(time: Long): Flow<List<HemoglobinA1cInfoEntity>>
 }

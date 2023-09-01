@@ -20,7 +20,11 @@ interface BodyRepository {
 
     fun getDayLastBloodPressureInfo(localDate: LocalDate): Flow<BloodPressureInfo?>
 
+    fun getDayBloodPressureInfoList(localDate: LocalDate): Flow<List<BloodPressureInfo>>
+
     fun getDayLastBloodSugarInfo(localDate: LocalDate): Flow<BloodSugarInfo?>
+
+    fun getDayBloodSugarInfoList(localDate: LocalDate): Flow<List<BloodSugarInfo>>
 
     fun getDayLastDrinkWaterInfo(localDate: LocalDate): Flow<DrinkWaterInfo?>
 
@@ -28,7 +32,11 @@ interface BodyRepository {
 
     fun getDayLastHemoglobinA1cInfo(localDate: LocalDate): Flow<HemoglobinA1cInfo?>
 
+    fun getDayHemoglobinA1cList(localDate: LocalDate): Flow<List<HemoglobinA1cInfo>>
+
     fun getDayLastInsulinInfo(localDate: LocalDate): Flow<InsulinInfo?>
+
+    fun getDayInsulinList(localDate: LocalDate): Flow<List<InsulinInfo>>
 
     fun getDayLastMedicineInfo(localDate: LocalDate): Flow<MedicineInfo?>
 
