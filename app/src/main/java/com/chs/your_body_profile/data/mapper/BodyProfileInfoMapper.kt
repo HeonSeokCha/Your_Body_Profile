@@ -91,6 +91,7 @@ fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
 
 fun HemoglobinA1cInfoEntity.toHemoglobinA1cInfo(): HemoglobinA1cInfo {
     return HemoglobinA1cInfo(
+        measureDate = this.insertDate.toLocalDate(),
         number = this.number,
         measureHospital = this.measureHospital,
         memo = this.memo
@@ -109,6 +110,7 @@ fun HemoglobinA1cInfo.toHemoglobinA1cInfoEntity(): HemoglobinA1cInfoEntity {
 
 fun InsulinInfoEntity.toInsulinInfo(): InsulinInfo {
     return InsulinInfo(
+        injectTime = this.insertDate.toLocalDate(),
         level = this.level,
         memo = this.memo
     )
@@ -124,7 +126,7 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
 
 fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
     return MedicineInfo(
-        measureTime = this.measureTime.toLocalDateTime(),
+        doseTime = this.doseTime.toLocalDateTime(),
         medicineType = MedicineType.values().find { it.time.first == this.takeMedicineType } ?: MedicineType.UNKNOWN,
         title = this.title,
         memo = this.memo
@@ -133,7 +135,7 @@ fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
 
 fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
     return MedicineInfoEntity(
-        measureTime = this.measureTime.toMillis(),
+        doseTime = this.doseTime.toMillis(),
         takeMedicineType = this.medicineType.time.first,
         title = this.title,
         memo = this.memo,

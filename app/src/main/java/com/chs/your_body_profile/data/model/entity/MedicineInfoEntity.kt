@@ -10,7 +10,7 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 )
 data class MedicineInfoEntity(
     val insertTime: Long = System.currentTimeMillis().toLocalDateToMillis(),
-    val measureTime: Long,
+    val doseTime: Long,
     val title: String,
     val takeMedicineType: String,
     val memo: String? = null,
