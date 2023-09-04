@@ -80,14 +80,15 @@ fun Picker(
     onChangeEdit: () -> Unit,
     onBack: () -> Unit
 ) {
+    val visibleItemsMiddle = 3 / 2
     val listScrollCount = Integer.MAX_VALUE
     val listScrollMiddle = listScrollCount / 2
-    val listStartIndex = listScrollMiddle - listScrollMiddle % items.size - 1
+    val listStartIndex = listScrollMiddle - listScrollMiddle % items.size - visibleItemsMiddle
 
     fun getItem(idx: Int) = items[idx % items.size]
 
     val listState =
-        rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex + items.indexOf(startIdx))
+        rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex + startIdx)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
     val itemHeightPixels = remember { mutableIntStateOf(0) }
@@ -105,8 +106,9 @@ fun Picker(
     val requestFocus = remember { FocusRequester() }
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex + 1 }
-            .map { idx -> getItem(idx) }
+        snapshotFlow {
+            listState.firstVisibleItemIndex + visibleItemsMiddle
+        }.map { idx -> getItem(idx) }
             .distinctUntilChanged()
             .collect { item ->
                 state.selectedItem = item
@@ -128,6 +130,7 @@ fun Picker(
 
     Box {
         if (editEnabled) {
+            Log.e("EDIT", state.selectedItem.toString())
             PickerTextField(
                 modifier = modifier
                     .height((itemHeightDp + 16.dp) * 3)

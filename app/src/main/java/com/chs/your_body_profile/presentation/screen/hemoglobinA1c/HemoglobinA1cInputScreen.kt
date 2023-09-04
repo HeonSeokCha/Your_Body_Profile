@@ -47,9 +47,9 @@ fun HemoglobinA1cInputScreen(
             ItemDualNumberPicker(
                 title = "당화혈색소 (%)",
                 firstItems = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.map { it },
-                firstStartIdx = 6,
+                firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(6),
                 secondItems = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.map { it },
-                secondStartIdx = 5,
+                secondStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.indexOf(5),
                 onSelectItemValue = {
                     viewModel.updateHemoglobinA1cNumber(it)
                 }, onBack = {
