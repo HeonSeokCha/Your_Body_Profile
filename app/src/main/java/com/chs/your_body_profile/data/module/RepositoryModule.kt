@@ -2,7 +2,6 @@ package com.chs.your_body_profile.data.module
 
 import com.chs.your_body_profile.data.repository.BodyRepositoryImpl
 import com.chs.your_body_profile.data.repository.FoodRepositoryImpl
-import com.chs.your_body_profile.domain.repository.BodyRepository
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import dagger.Binds
 import dagger.Module

@@ -10,7 +10,6 @@ import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
 import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfo
-import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfo
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.mapper.toInsulinInfo
@@ -37,7 +36,6 @@ import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
-import com.chs.your_body_profile.domain.repository.BodyRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate

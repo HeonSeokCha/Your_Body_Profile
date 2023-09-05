@@ -130,7 +130,6 @@ fun Picker(
 
     Box {
         if (editEnabled) {
-            Log.e("EDIT", state.selectedItem.toString())
             PickerTextField(
                 modifier = modifier
                     .height((itemHeightDp + 16.dp) * 3)

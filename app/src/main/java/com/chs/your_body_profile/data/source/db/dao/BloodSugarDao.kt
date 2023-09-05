@@ -23,4 +23,13 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
          ORDER BY measureTime DESC
     """)
     abstract fun getDayInfoList(time: Long): Flow<List<BloodSugarInfoEntity>>
+
+    @Query("SELECT IFNULL(MIN(number), 0) FROM blood_sugar_info WHERE insertDate = :time")
+    abstract fun getDayMinInfo(time: Long): Flow<Int>
+
+    @Query("SELECT IFNULL(MAX(number), 0) FROM blood_sugar_info WHERE insertDate = :time")
+    abstract fun getDayMaxInfo(time: Long): Flow<Int>
+
+    @Query("SELECT IFNULL(AVG(number), 0) FROM BLOOD_SUGAR_INFO WHERE insertDate = :time")
+    abstract fun getDayAvgInfo(time: Long): Flow<Int>
 }
