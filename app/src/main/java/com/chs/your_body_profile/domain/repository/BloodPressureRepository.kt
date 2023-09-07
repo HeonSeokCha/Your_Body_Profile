@@ -4,7 +4,7 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-interface BloodPressureRepository : BaseRepository<BloodPressureInfo> {
+interface BloodPressureRepository : BaseInfoRepository<BloodPressureInfo> {
     fun getDayMinInfo(localDate: LocalDate): Flow<Int>
 
     fun getDayMaxInfo(localDate: LocalDate): Flow<Int>

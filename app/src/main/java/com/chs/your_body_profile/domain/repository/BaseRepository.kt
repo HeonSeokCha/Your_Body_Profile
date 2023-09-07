@@ -9,8 +9,4 @@ interface BaseRepository <T> {
 
     suspend fun deleteInfo(info: T)
 
-    fun getDayLastInfo(localDate: LocalDate): Flow<T?>
-
-    fun getDayInfoList(localDate: LocalDate): Flow<List<T>>
-
 }

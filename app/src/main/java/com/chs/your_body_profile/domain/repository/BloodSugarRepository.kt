@@ -4,7 +4,7 @@ import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-interface BloodSugarRepository : BaseRepository<BloodSugarInfo> {
+interface BloodSugarRepository : BaseInfoRepository<BloodSugarInfo> {
 
     fun getDayMinInfo(localDate: LocalDate): Flow<Int>
 

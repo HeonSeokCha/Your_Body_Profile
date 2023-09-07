@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodInfo
+import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
@@ -36,20 +37,10 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override suspend fun upsertInfo(info: FoodInfo) {
-        TODO("Not yet implemented")
+        foodDao.upsert(info.toFoodInfoEntity())
     }
 
     override suspend fun deleteInfo(info: FoodInfo) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDayLastInfo(localDate: LocalDate): Flow<FoodInfo?> {
-        return foodDao.getDayLastFoodInfo(localDate.toMillis()).map {
-            it?.toFoodInfo()
-        }
-    }
-
-    override fun getDayInfoList(localDate: LocalDate): Flow<List<FoodInfo>> {
-        TODO("Not yet implemented")
+        foodDao.delete(info.toFoodInfoEntity())
     }
 }

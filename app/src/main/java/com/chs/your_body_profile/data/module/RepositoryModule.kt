@@ -1,8 +1,17 @@
 package com.chs.your_body_profile.data.module
 
-import com.chs.your_body_profile.data.repository.BodyRepositoryImpl
+import com.chs.your_body_profile.data.repository.BloodPressureRepositoryImpl
+import com.chs.your_body_profile.data.repository.BloodSugarRepositoryImpl
+import com.chs.your_body_profile.data.repository.DrinkRepositoryImpl
 import com.chs.your_body_profile.data.repository.FoodRepositoryImpl
+import com.chs.your_body_profile.data.repository.HemoglobinA1cRepositoryImpl
+import com.chs.your_body_profile.data.repository.InsulinInfoRepositoryImpl
+import com.chs.your_body_profile.domain.repository.BloodPressureRepository
+import com.chs.your_body_profile.domain.repository.BloodSugarRepository
+import com.chs.your_body_profile.domain.repository.DrinkRepository
 import com.chs.your_body_profile.domain.repository.FoodRepository
+import com.chs.your_body_profile.domain.repository.HemoglobinA1cRepository
+import com.chs.your_body_profile.domain.repository.InsulinRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,7 +22,19 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindBodyRepository(bodyRepositoryImpl: BodyRepositoryImpl): BodyRepository
+    abstract fun bindBloodPressureRepository(bloodPressureRepositoryImpl: BloodPressureRepositoryImpl): BloodPressureRepository
+
+    @Binds
+    abstract fun bindBloodSugarRepository(bloodSugarRepositoryImpl: BloodSugarRepositoryImpl): BloodSugarRepository
+
+    @Binds
+    abstract fun bindDrinkRepository(drinkRepositoryImpl: DrinkRepositoryImpl): DrinkRepository
+
+    @Binds
+    abstract fun binHemoglobinA1cRepository(hemoglobinA1cRepositoryImpl: HemoglobinA1cRepositoryImpl): HemoglobinA1cRepository
+
+    @Binds
+    abstract fun bindInsulinRepository(insulinInfoRepositoryImpl: InsulinInfoRepositoryImpl): InsulinRepository
 
     @Binds
     abstract fun bindFoodRepository(foodRepositoryImpl: FoodRepositoryImpl): FoodRepository

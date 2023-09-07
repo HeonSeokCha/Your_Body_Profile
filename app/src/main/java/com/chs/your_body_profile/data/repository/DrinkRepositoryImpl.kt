@@ -1,12 +1,17 @@
 package com.chs.your_body_profile.data.repository
 
+import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toMillis
+import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
+import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.repository.DrinkRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -21,10 +26,19 @@ class DrinkRepositoryImpl @Inject constructor(
         drinkDao.delete(info.toDrinkInfoEntity(info))
     }
 
-    override fun getDayLastInfo(localDate: LocalDate): Flow<DrinkType?> {
+    override fun getDayCoffeeInfo(localDate: LocalDate): Flow<DrinkCoffeeInfo?> {
+        return drinkDao.getDayLastDrinkInfo(
+            time = localDate.toMillis(),
+            drinkType = Constants.DRINK_TYPE_COFFEE).map {
+            it?.toDrinkCoffeeInfo()
+        }
     }
 
-    override fun getDayInfoList(localDate: LocalDate): Flow<List<DrinkType>> {
-        TODO("Not yet implemented")
+    override fun getDayWaterInfo(localDate: LocalDate): Flow<DrinkWaterInfo?> {
+        return drinkDao.getDayLastDrinkInfo(
+            time = localDate.toMillis(),
+            drinkType = Constants.DRINK_TYPE_WATER).map {
+            it?.toDrinkWaterInfo()
+        }
     }
 }
