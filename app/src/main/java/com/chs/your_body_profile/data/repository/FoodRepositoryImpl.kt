@@ -36,6 +36,20 @@ class FoodRepositoryImpl @Inject constructor(
         return foodDao.getDayTotalCalorie(localDate.toMillis())
     }
 
+    override fun getDayLastInfo(localDate: LocalDate): Flow<FoodInfo?> {
+        return foodDao.getDayLastFoodInfo(localDate.toMillis()).map {
+            it?.toFoodInfo()
+        }
+    }
+
+    override fun getDayInfoList(localDate: LocalDate): Flow<List<FoodInfo>> {
+        return foodDao.getDayLastFoodInfoList(localDate.toMillis()).map {
+            it.map { foodInfoEntity ->
+                foodInfoEntity.toFoodInfo()
+            }
+        }
+    }
+
     override suspend fun upsertInfo(info: FoodInfo) {
         foodDao.upsert(info.toFoodInfoEntity())
     }
