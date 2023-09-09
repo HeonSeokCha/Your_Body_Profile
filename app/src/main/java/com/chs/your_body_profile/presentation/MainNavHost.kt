@@ -7,6 +7,10 @@ import androidx.navigation.compose.composable
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
 import com.chs.your_body_profile.presentation.screen.body_dash_board.BodyDashBoardScreen
+import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
+import com.chs.your_body_profile.presentation.screen.food.FoodSearchScreen
+import com.chs.your_body_profile.presentation.screen.food.MealInputScreen
+import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
 import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
 
@@ -16,35 +20,47 @@ fun MainNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.BodyDashScreen.route
+        startDestination = Screens.ScreenBodyDash.route
     ) {
 
-        composable(Screens.BodyDashScreen.route) {
+        composable(Screens.ScreenBodyDash.route) {
             BodyDashBoardScreen(navController)
         }
 
-        composable(Screens.InputBloodSugarScreen.route) {
+        composable(Screens.ScreenBloodSugarInput.route) {
             BloodSugarInputScreen(navController)
         }
 
-        composable(Screens.InputBloodPressureScreen.route) {
+        composable(Screens.ScreenBloodPressureInput.route) {
             BloodPressureInputScreen(navController)
         }
 
-        composable(Screens.InputInsulinScreen.route) {
+        composable(Screens.ScreenInsulinInput.route) {
             InsulinInputScreen(navController)
         }
 
-        composable(Screens.InputHemoglobinA1cScreen.route) {
+        composable(Screens.ScreenHemoglobinA1cInput.route) {
             HemoglobinA1cInputScreen(navController)
         }
 
-        composable(Screens.InputMedicineScreen.route) {
+        composable(Screens.ScreenMedicineInput.route) {
 
         }
 
-        composable(Screens.InputFoodScreen.route) {
+        composable(Screens.ScreenMealInput.route) {
+            MealInputScreen(navController)
+        }
 
+        composable(Screens.ScreenMealList.route) {
+            MealListScreen(navController)
+        }
+
+        composable(Screens.ScreenFoodSearch.route) {
+            FoodSearchScreen(navController)
+        }
+
+        composable(Screens.ScreenFoodDetail.route) {
+            FoodDetailScreen(navController)
         }
     }
 }

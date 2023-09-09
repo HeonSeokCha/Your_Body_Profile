@@ -1,5 +1,6 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
-//    kotlin("kapt")
     kotlin("android")
     alias(libs.plugins.hilt)
     alias(libs.plugins.android.application)
@@ -18,6 +19,10 @@ kotlin {
     }
 }
 
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
+}
+
 android {
     namespace = "com.chs.your_body_profile"
     compileSdk = libs.versions.compileSdkVersion.get().toInt()
@@ -33,6 +38,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "API_ACCESS_KEY", getApiKey("FOOD_API_KEY"))
     }
 
     buildTypes {
@@ -80,7 +87,3 @@ dependencies {
 
     implementation(libs.androidX.paging.compose)
 }
-
-//kapt {
-//    useBuildCache = true
-//}

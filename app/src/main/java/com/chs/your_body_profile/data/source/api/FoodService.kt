@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.source.api
 
+import com.chs.your_body_profile.BuildConfig
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.data.model.dto.ResponseFoodInfo
 import io.ktor.client.HttpClient
@@ -18,8 +19,8 @@ class FoodService @Inject constructor(
         page: Int
     ): ResponseFoodInfo {
         return client.get(Constants.FOOD_BASE_URL) {
-            this.parameter(Constants.FOOD_PARAMETER_SERVICE_KEY, "")
-            this.parameter(Constants.FOOD_PARAMETER_RESULT_NO, "10")
+            this.parameter(Constants.FOOD_PARAMETER_SERVICE_KEY, Constants.FOOD_API_KEY)
+            this.parameter(Constants.FOOD_PARAMETER_RESULT_NO, Constants.FOOD_PARAMETER_RESULT_NO_VALUE)
             this.parameter(Constants.FOOD_PARAMETER_PAGE_NO, page)
             this.parameter(Constants.FOOD_PARAMETER_type, Constants.TYPE_JSON)
         }.body()

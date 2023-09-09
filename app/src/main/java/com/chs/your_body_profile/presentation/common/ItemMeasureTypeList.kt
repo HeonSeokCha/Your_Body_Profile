@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fastfood
@@ -27,10 +28,10 @@ import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.domain.model.MeasureType
 
 @Composable
-fun ItemMeasureTypeList(
+fun ItemMeasureTypeHorizontalList(
     title: String,
-    items: Array<MeasureType>,
-    onClick: (MeasureType) -> Unit
+    items: List<String>,
+    onClick: (String) -> Unit
 ) {
     var selectIdx by remember { mutableIntStateOf(0) }
 
@@ -61,7 +62,50 @@ fun ItemMeasureTypeList(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = items[it].mean.second,
+                        text = items[it],
+                        fontSize = 18.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ItemMeasureTypeVerticalList(
+    title: String,
+    items: List<String>,
+    onClick: (String) -> Unit
+) {
+    var selectIdx by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        onClick(items[selectIdx])
+    }
+
+    ItemTitleCard(title = title) {
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(8.dp),
+        ) {
+            items(items.size) {
+                Column (
+                    modifier = Modifier
+                        .clickable { selectIdx = it },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    IconButton(onClick = { onClick(items[it]) }) {
+                        Icon(
+                            Icons.Rounded.Fastfood,
+                            modifier = Modifier
+                                .size(48.dp),
+                            contentDescription = null
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = items[it],
                         fontSize = 18.sp
                     )
                 }

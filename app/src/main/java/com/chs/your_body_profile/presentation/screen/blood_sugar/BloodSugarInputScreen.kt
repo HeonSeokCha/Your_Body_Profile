@@ -1,34 +1,27 @@
 package com.chs.your_body_profile.presentation.screen.blood_sugar
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
-import com.chs.your_body_profile.presentation.common.ItemMeasureTypeList
+import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalList
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
 
@@ -71,11 +64,13 @@ fun BloodSugarInputScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            ItemMeasureTypeList(
+            ItemMeasureTypeHorizontalList(
                 title = "현재 상태 선택",
-                items = MeasureType.values()
-            ) {
-                viewModel.updateBloodSugarMeasureType(it)
+                items = MeasureType.values().map { it.mean.second }
+            ) { value ->
+                viewModel.updateBloodSugarMeasureType(
+                    MeasureType.values().find { it.mean.second == value } ?: MeasureType.EMPTY
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -101,5 +96,3 @@ fun BloodSugarInputScreen(
         )
     }
 }
-
-
