@@ -6,8 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,14 +27,33 @@ import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.presentation.Screens
+import com.chs.your_body_profile.presentation.screen.food.MealTypeBottomSheet
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BodyDashBoardScreen(
     navController: NavHostController,
     viewModel: BodyDashBoardViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle(initialValue = BodyDashBoardState())
+    val mealTypeSheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
 
+    if (mealTypeSheetState.isVisible) {
+        ModalBottomSheet(onDismissRequest = {
+            scope.launch {
+                mealTypeSheetState.hide()
+            }
+        }) {
+            MealTypeBottomSheet {
+                scope.launch {
+                    mealTypeSheetState.hide()
+                }
+                navController.navigate("${Screens.ScreenFoodSearch.route}/$it")
+            }
+        }
+    }
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
@@ -37,7 +61,6 @@ fun BodyDashBoardScreen(
         verticalItemSpacing = 4.dp,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        
         item {
             val todayMedicineInfo: MedicineInfo? = state.medicineInfo
             MedicineInfoDashBoard(
@@ -63,20 +86,6 @@ fun BodyDashBoardScreen(
                 }
             )
         }
-        
-        item {
-            val todayLastFoodInfo: FoodInfo? = state.foodInfo
-            val todayTotalCalorie: Int = state.totalCalorie
-            FoodInfoDashBoard(
-                title = stringResource(id = R.string.text_title_food),
-                value = todayLastFoodInfo?.type?.mean?.second
-                    ?: MealType.UNKNOWN.mean.second,
-                subValue = todayLastFoodInfo?.name ?: "",
-                subValue2 = todayTotalCalorie.toString()
-            ) {
-
-            }
-        }
 
         item {
             DrinkInfoDashBoard(
@@ -92,6 +101,23 @@ fun BodyDashBoardScreen(
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {
+            val todayTotalCalorie: Int = state.totalCalorie
+            DashBoardInputCard(
+                title = stringResource(id = R.string.text_title_food),
+                infoValue = todayTotalCalorie.toString(),
+                infoUnit = stringResource(id = R.string.text_food_unit),
+                onClick = {
+                    navController.navigate(Screens.ScreenMealList.route)
+                },
+                btnClick = {
+                    scope.launch {
+                        mealTypeSheetState.show()
+                    }
+                }
+            )
+        }
+
+        item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_blood_sugar),
                 infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
@@ -100,7 +126,7 @@ fun BodyDashBoardScreen(
                           
                 },
                 btnClick = {
-                    navController.navigate(Screens.InputBloodSugarScreen.route)
+                    navController.navigate(Screens.ScreenBloodSugarInput.route)
                 }
             )
         }
@@ -114,7 +140,7 @@ fun BodyDashBoardScreen(
                           
                 },
                 btnClick = {
-                    navController.navigate(Screens.InputInsulinScreen.route)
+                    navController.navigate(Screens.ScreenInsulinInput.route)
                 }
             )
         }
@@ -133,7 +159,7 @@ fun BodyDashBoardScreen(
 
                 },
                 btnClick = {
-                    navController.navigate(Screens.InputBloodPressureScreen.route)
+                    navController.navigate(Screens.ScreenBloodPressureInput.route)
                 }
             )
         }
@@ -146,7 +172,7 @@ fun BodyDashBoardScreen(
 
                 },
                 btnClick = {
-                    navController.navigate(Screens.InputHemoglobinA1cScreen.route)
+                    navController.navigate(Screens.ScreenHemoglobinA1cInput.route)
                 }
             )
         }

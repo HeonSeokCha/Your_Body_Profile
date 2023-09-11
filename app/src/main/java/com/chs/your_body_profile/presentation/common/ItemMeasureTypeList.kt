@@ -79,10 +79,6 @@ fun ItemMeasureTypeVerticalList(
 ) {
     var selectIdx by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(Unit) {
-        onClick(items[selectIdx])
-    }
-
     ItemTitleCard(title = title) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -91,19 +87,12 @@ fun ItemMeasureTypeVerticalList(
             items(items.size) {
                 Column (
                     modifier = Modifier
-                        .clickable { selectIdx = it },
+                        .clickable {
+                            selectIdx = it
+                            onClick(items[it])
+                       },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    IconButton(onClick = { onClick(items[it]) }) {
-                        Icon(
-                            Icons.Rounded.Fastfood,
-                            modifier = Modifier
-                                .size(48.dp),
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-
                     Text(
                         text = items[it],
                         fontSize = 18.sp

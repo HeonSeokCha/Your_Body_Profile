@@ -6,7 +6,6 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
-import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
@@ -43,7 +42,6 @@ class BodyDashBoardViewModel @Inject constructor(
     getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
     getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
     getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
-    getDayLastFoodInfoUseCase: GetDayLastFoodInfoUseCase,
     getDayTotalCalorieUseCase: GetDayTotalCalorieUseCase,
     private val upsertDrinkWaterInfoUseCase: UpsertDrinkWaterInfoUseCase,
     private val upsertDrinkCoffeeInfoUseCase: UpsertDrinkCoffeeInfoUseCase
@@ -74,9 +72,6 @@ class BodyDashBoardViewModel @Inject constructor(
     private val _medicineInfo = getDayLastMedicineInfoUseCase(todayLocalDate)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    private val _foodInfo = getDayLastFoodInfoUseCase(todayLocalDate)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
-
     private val _dayTotalCalorie = getDayTotalCalorieUseCase(todayLocalDate)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
 
@@ -94,7 +89,6 @@ class BodyDashBoardViewModel @Inject constructor(
         _drinkWaterInfo,
         _hemoglobinA1cInfo,
         _medicineInfo,
-        _foodInfo,
         _dayTotalCalorie,
         _weightInfo
     ) { list ->
@@ -107,9 +101,8 @@ class BodyDashBoardViewModel @Inject constructor(
                 drinkWaterInfo = (list[5] as DrinkWaterInfo?),
                 hemoglobinA1cInfo = (list[6] as HemoglobinA1cInfo?),
                 medicineInfo = (list[7] as MedicineInfo?),
-                foodInfo = (list[8] as FoodInfo?),
-                totalCalorie = (list[9] as Int),
-                weightInfo = (list[10] as WeightInfo?)
+                totalCalorie = (list[8] as Int),
+                weightInfo = (list[9] as WeightInfo?)
             )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), BodyDashBoardState())

@@ -7,11 +7,12 @@ import com.chs.your_body_profile.presentation.common.ItemMeasureTypeVerticalList
 
 @Composable
 fun MealTypeBottomSheet(
-    navController: NavHostController
+    onClick: (String) -> Unit
 ) {
     ItemMeasureTypeVerticalList(
         title = "식사종류",
         items = MealType.values().map { it.mean.second }
     ) {
+        onClick(it)
     }
 }

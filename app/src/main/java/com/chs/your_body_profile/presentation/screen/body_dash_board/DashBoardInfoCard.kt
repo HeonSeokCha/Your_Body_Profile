@@ -41,6 +41,7 @@ import com.chs.your_body_profile.presentation.ui.theme.Your_Body_ProfileTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashBoardSmallCard(
+    cardHeight: Int = R.dimen.size_dash_board_small_height,
     title: String,
     value: String,
     measureType: String? = null,
@@ -51,7 +52,7 @@ fun DashBoardSmallCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.size_dash_board_height)),
+            .height(dimensionResource(id = cardHeight)),
         onClick = onClick,
     ) {
         Column(
@@ -62,7 +63,7 @@ fun DashBoardSmallCard(
                     start = 16.dp,
                     end = 16.dp
                 ),
-            verticalArrangement = Arrangement.SpaceAround
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(text = title)
 
@@ -152,6 +153,7 @@ fun MedicineInfoDashBoard(
     onClick: () -> Unit
 ) {
     DashBoardSmallCard(
+        cardHeight = R.dimen.size_dash_board_large_height,
         title = title,
         value = value,
         subValue = subValue,
@@ -205,7 +207,7 @@ fun DashBoardSingleLineCard(
     Card(
         modifier = Modifier
             .fillMaxWidth(0.6f)
-            .height(dimensionResource(id = R.dimen.size_dash_board_height)),
+            .height(dimensionResource(id = R.dimen.size_dash_board_single_height)),
         onClick = onClick
     ) {
         Row(
@@ -225,7 +227,7 @@ fun DashBoardSingleLineCard(
                     fontSize = 18.sp
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -306,16 +308,6 @@ fun PreviewHomeBasicInfoCard() {
                 )
             }
 
-            item {
-                FoodInfoDashBoard(
-                    title = stringResource(id = R.string.text_title_food),
-                    value = "아침",
-                    subValue = "삶은 계란",
-                    subValue2 = "400"
-                ) {
-
-                }
-            }
 
             item {
                 DrinkInfoDashBoard(
@@ -325,6 +317,15 @@ fun PreviewHomeBasicInfoCard() {
                     , cardClick = {
 
                     }
+                )
+            }
+            item(span = StaggeredGridItemSpan.FullLine) {
+                DashBoardInputCard(
+                    title = "오늘 섭취한 칼로리",
+                    infoValue = "375",
+                    infoUnit = "kcal",
+                    onClick = {},
+                    btnClick = {}
                 )
             }
             item(span = StaggeredGridItemSpan.FullLine) {
@@ -348,4 +349,3 @@ fun PreviewHomeBasicInfoCard() {
         }
     }
 }
-

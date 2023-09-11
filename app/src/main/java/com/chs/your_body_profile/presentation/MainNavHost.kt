@@ -2,8 +2,11 @@ package com.chs.your_body_profile.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
 import com.chs.your_body_profile.presentation.screen.body_dash_board.BodyDashBoardScreen
@@ -55,8 +58,19 @@ fun MainNavHost(
             MealListScreen(navController)
         }
 
-        composable(Screens.ScreenFoodSearch.route) {
-            FoodSearchScreen(navController)
+        composable(
+            route = "${Screens.ScreenFoodSearch.route}/{mealType}",
+            arguments = listOf(
+                navArgument("mealType") {
+                    type = NavType.StringType
+                    defaultValue = MealType.UNKNOWN.mean.second
+                }
+            )
+        ) {
+            FoodSearchScreen(
+                it.arguments?.getString("mealType")!!,
+                navController
+            )
         }
 
         composable(Screens.ScreenFoodDetail.route) {

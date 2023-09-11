@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="size_dash_board_height">180dp</dimen>
+    <dimen name="size_dash_board_small_height">180dp</dimen>
+    <dimen name="size_dash_board_single_height">140dp</dimen>
+    <dimen name="size_dash_board_large_height">365dp</dimen>
 </resources>
