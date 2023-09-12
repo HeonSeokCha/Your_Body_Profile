@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.source.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
@@ -28,6 +29,8 @@ class SearchFoodPaging(
                 query = query
             ).body
 
+            Log.e("RESPONSE", response.toString())
+
             LoadResult.Page(
                 data = response.items.map {
                     it.toFoodDetailInfo()
@@ -40,6 +43,7 @@ class SearchFoodPaging(
                 }
             )
         } catch (e: Exception) {
+            Log.e("RESPONSE", e.toString())
             LoadResult.Error(e)
         }
     }

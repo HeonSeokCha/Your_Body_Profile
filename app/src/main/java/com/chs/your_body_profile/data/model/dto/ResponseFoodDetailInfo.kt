@@ -8,23 +8,23 @@ data class ResponseFoodDetailInfo(
     @SerialName("DESC_KOR")
     val name: String,
     @SerialName("SERVING_WT")
-    val servingWeight: Float,
-    @SerialName("NUTR_COUNT1")
-    val calorie: Int,
-    @SerialName("NUTR_COUNT2")
-    val carbohydrate: Float,
-    @SerialName("NUTR_COUNT3")
-    val protein: Float,
-    @SerialName("NUTR_COUNT4")
-    val fat: Float,
-    @SerialName("NUTR_COUNT5")
-    val sugar: Float,
-    @SerialName("NUTR_COUNT6")
-    val sodium: Float,
-    @SerialName("NUTR_COUNT7")
-    val cholesterol: Float,
-    @SerialName("NUTR_COUNT8")
-    val saturatedFat: Float,
-    @SerialName("NUTR_COUNT9")
-    val transFat: Float
+    val servingWeight: Double,
+    @SerialName("NUTR_CONT1")
+    val calorie: Double,
+    @SerialName("NUTR_CONT2")
+    val carbohydrate: Double,
+    @SerialName("NUTR_CONT3")
+    val protein: Double,
+    @SerialName("NUTR_CONT4")
+    val fat: Double,
+    @SerialName("NUTR_CONT5")
+    val sugar: Double,
+    @SerialName("NUTR_CONT6")
+    val sodium: Double,
+    @SerialName("NUTR_CONT7")
+    val cholesterol: Double,
+    @SerialName("NUTR_CONT8")
+    val saturatedFat: Double,
+    @SerialName("NUTR_CONT9")
+    val transFat: Double
 )

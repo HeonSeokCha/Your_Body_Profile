@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface FoodRepository : BaseInfoRepository<FoodInfo> {
+
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 
     fun getDayTotalCalories(localDate: LocalDate): Flow<Int>

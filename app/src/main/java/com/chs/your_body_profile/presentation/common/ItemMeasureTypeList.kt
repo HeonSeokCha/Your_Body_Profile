@@ -87,6 +87,7 @@ fun ItemMeasureTypeVerticalList(
             items(items.size) {
                 Column (
                     modifier = Modifier
+                        .fillMaxWidth()
                         .clickable {
                             selectIdx = it
                             onClick(items[it])
