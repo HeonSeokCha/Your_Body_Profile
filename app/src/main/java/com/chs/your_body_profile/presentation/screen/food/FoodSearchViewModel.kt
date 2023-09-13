@@ -2,6 +2,7 @@ package com.chs.your_body_profile.presentation.screen.food
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.domain.usecase.GetSearchResultFoodInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,10 +31,11 @@ class FoodSearchViewModel @Inject constructor(
 
     fun searchFood() {
         viewModelScope.launch {
-            if (!_state.value.searchQuery.isNullOrBlank()) {
+            if (_state.value.searchQuery.isNotBlank()) {
                 _state.update {
                     it.copy(
-                        searchResult = getSearchResultFoodInfoUseCase(_state.value.searchQuery!!)
+                        searchResult = getSearchResultFoodInfoUseCase(_state.value.searchQuery)
+                            .cachedIn(viewModelScope)
                     )
                 }
             }

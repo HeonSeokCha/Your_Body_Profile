@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 data class FoodSearchState(
     val searchQuery: String = "",
     val searchHistory: List<String> = emptyList(),
-    val selectItems: List<String> = emptyList(),
+    val selectItems: MutableList<String> = mutableListOf(),
     val searchResult: Flow<PagingData<FoodDetailInfo>>? = null,
     val recentFoodList: List<FoodDetailInfo> = emptyList(),
     val favoriteFoodList: List<FoodDetailInfo> = emptyList(),

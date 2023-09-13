@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object Constants {
-    const val FOOD_BASE_URL: String = "http://apis.data.go.kr/1470000/FoodNtrIrdntInfoService/getFoodNtrItdntList"
+    const val FOOD_BASE_URL: String = "http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"
     const val FOOD_API_KEY: String = BuildConfig.API_ACCESS_KEY
     const val FOOD_PARAMETER_SERVICE_KEY: String = "serviceKey"
     const val FOOD_PARAMETER_FOOD_NAME: String = "desc_kor"

@@ -7,16 +7,20 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,96 +52,124 @@ fun FoodSearchScreen(
 
     var isSearchActive by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
+    Scaffold(
+        topBar = {
+            Text(text = mealType)
+        }
     ) {
-        Text(text = mealType)
-
-        FlowRow {
-
-        }
-
-        SearchBar(
-            modifier = Modifier
-                .fillMaxWidth(),
-            query = state.searchQuery,
-            onQueryChange = {
-                viewModel.updateQuery(it)
-            },
-            onSearch = {
-                isSearchActive = false
-                viewModel.searchFood()
-            },
-            active = isSearchActive,
-            onActiveChange = { isSearchActive = it },
-            placeholder = { Text("Search here...") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            trailingIcon = {
-                IconButton(onClick = {
-                    if (state.searchQuery.isNotEmpty()) {
-                        viewModel.updateQuery("")
-                    } else {
-                        isSearchActive = false
-                    }
-                }) {
-                    Icon(
-                        Icons.Default.Close,
-                        contentDescription = null
-                    )
-                }
-            }
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(it)
         ) {
-            LazyColumn {
-                items(state.searchHistory) {
-                    ItemSearchHistory(
-                        title = "",
-                        imageVector = Icons.Default.History
-                    ) {
-                        viewModel.updateQuery(it)
-                        isSearchActive = false
+            if (state.selectItems.isNotEmpty()) {
+                FlowRow {
+
+                }
+            }
+
+            SearchBar(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                query = state.searchQuery,
+                onQueryChange = {
+                    viewModel.updateQuery(it)
+                },
+                onSearch = {
+                    isSearchActive = false
+                    viewModel.searchFood()
+                },
+                active = isSearchActive,
+                onActiveChange = { isSearchActive = it },
+                placeholder = { Text("Search here...") },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = {
+                    IconButton(onClick = {
+                        if (state.searchQuery.isNotEmpty()) {
+                            viewModel.updateQuery("")
+                        } else {
+                            isSearchActive = false
+                        }
+                    }) {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = null
+                        )
                     }
                 }
-            }
-        }
-
-        if (pagingItems != null) {
-            LazyColumn {
-                items(pagingItems.itemCount) { idx ->
-                    val item = pagingItems[idx]
-                    if (item != null) {
-                        ItemSearchFoodInfo(info = item)
-                    }
-                }
-            }
-        } else {
-            LazyColumn {
-                items(state.favoriteFoodList) {
-
-                }
-
-                items(state.recentFoodList) {
-
-                }
-            }
-        }
-    }
-    when (pagingItems?.loadState?.source?.refresh) {
-        is LoadState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
             ) {
-                CircularProgressIndicator()
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(it)
+                ) {
+                    items(state.searchHistory) {
+                        ItemSearchHistory(
+                            title = "",
+                            imageVector = Icons.Default.History
+                        ) {
+                            viewModel.updateQuery(it)
+                            isSearchActive = false
+                        }
+                    }
+                }
+            }
+
+            if (pagingItems != null) {
+                LazyColumn {
+                    items(pagingItems.itemCount) { idx ->
+                        val item = pagingItems[idx]
+                        if (item != null) {
+                            val isSelected = state.selectItems.contains(item.name)
+                            ItemSearchFoodInfo(
+                                info = item,
+                                onClick = {
+                                    if (isSelected) {
+                                        state.selectItems.remove(it.name)
+                                    } else {
+                                        state.selectItems.add(it.name)
+                                    }
+                                }, leadingContent = {
+                                    Icon(
+                                        imageVector = if (isSelected) {
+                                            Icons.Rounded.CheckCircle
+                                        } else {
+                                            Icons.Rounded.RadioButtonUnchecked
+                                        },
+                                        contentDescription = null
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            } else {
+                LazyColumn {
+                    items(state.favoriteFoodList) {
+
+                    }
+
+                    items(state.recentFoodList) {
+
+                    }
+                }
+            }
+
+            when (pagingItems?.loadState?.source?.refresh) {
+                is LoadState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                is LoadState.Error -> {
+                    Toast.makeText(context, "An error occurred while loading...", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                else -> {}
             }
         }
-
-        is LoadState.Error -> {
-            Toast.makeText(context, "An error occurred while loading...", Toast.LENGTH_SHORT)
-                .show()
         }
-        else -> {}
-    }
-
-
 }
