@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +26,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,21 +51,31 @@ fun FoodSearchScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
+    val selectedItems = remember {
+        mutableStateListOf<String>()
+    }
 
     var isSearchActive by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            Text(text = mealType)
+            FoodAppBar(
+                navController = navController,
+                mealType = mealType,
+                selectCount = selectedItems.size
+            )
         }
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
         ) {
-            if (state.selectItems.isNotEmpty()) {
+            if (selectedItems.isNotEmpty()) {
                 FlowRow {
-
+                    selectedItems.forEach {
+                        Text(text = it)
+                    }
                 }
             }
 
@@ -118,24 +130,27 @@ fun FoodSearchScreen(
                     items(pagingItems.itemCount) { idx ->
                         val item = pagingItems[idx]
                         if (item != null) {
-                            val isSelected = state.selectItems.contains(item.name)
+                            val isSelected = selectedItems.contains(item.name)
                             ItemSearchFoodInfo(
                                 info = item,
                                 onClick = {
                                     if (isSelected) {
-                                        state.selectItems.remove(it.name)
+                                        selectedItems.remove(it.name)
                                     } else {
-                                        state.selectItems.add(it.name)
+                                        selectedItems.add(it.name)
                                     }
                                 }, leadingContent = {
-                                    Icon(
-                                        imageVector = if (isSelected) {
-                                            Icons.Rounded.CheckCircle
-                                        } else {
-                                            Icons.Rounded.RadioButtonUnchecked
-                                        },
-                                        contentDescription = null
-                                    )
+                                    if (isSelected) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.CheckCircle,
+                                            contentDescription = null
+                                        )
+                                    } else {
+                                        Icon(
+                                            imageVector = Icons.Rounded.RadioButtonUnchecked,
+                                            contentDescription = null
+                                        )
+                                    }
                                 }
                             )
                         }
@@ -153,6 +168,7 @@ fun FoodSearchScreen(
                 }
             }
 
+
             when (pagingItems?.loadState?.source?.refresh) {
                 is LoadState.Loading -> {
                     Box(
@@ -164,12 +180,16 @@ fun FoodSearchScreen(
                 }
 
                 is LoadState.Error -> {
-                    Toast.makeText(context, "An error occurred while loading...", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        "An error occurred while loading...",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
 
                 else -> {}
             }
         }
-        }
+    }
 }

@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fastfood
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -88,16 +90,17 @@ fun ItemMeasureTypeVerticalList(
                 Column (
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(vertical = 4.dp)
                         .clickable {
                             selectIdx = it
                             onClick(items[it])
-                       },
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        }
                 ) {
                     Text(
                         text = items[it],
-                        fontSize = 18.sp
+                        fontSize = 24.sp
                     )
+
                 }
             }
         }

@@ -41,4 +41,18 @@ class FoodSearchViewModel @Inject constructor(
             }
         }
     }
+
+    fun addItem(name: String) {
+        _state.update {
+            it.selectItems.add(name)
+            it
+        }
+    }
+
+    fun removeItem(name: String) {
+        _state.update {
+            it.selectItems.remove(name)
+            it
+        }
+    }
 }

@@ -10,7 +10,7 @@ import androidx.navigation.NavHostController
 fun FoodAppBar(
     navController: NavHostController,
     mealType: String,
-    selectCount: Int = 0
+    selectCount: Int
 ) {
     Text(
         text = if (selectCount == 0) {
