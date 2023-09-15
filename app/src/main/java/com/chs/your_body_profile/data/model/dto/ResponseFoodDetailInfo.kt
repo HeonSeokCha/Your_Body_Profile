@@ -7,24 +7,24 @@ import kotlinx.serialization.Serializable
 data class ResponseFoodDetailInfo(
     @SerialName("DESC_KOR")
     val name: String,
-    @SerialName("SERVING_WT")
-    val servingWeight: Double,
+    @SerialName("SERVING_SIZE")
+    val servingWeight: String,
     @SerialName("NUTR_CONT1")
-    val calorie: Double,
+    val calorie: String,
     @SerialName("NUTR_CONT2")
-    val carbohydrate: Double,
+    val carbohydrate: String,
     @SerialName("NUTR_CONT3")
-    val protein: Double,
+    val protein: String,
     @SerialName("NUTR_CONT4")
-    val fat: Double,
+    val fat: String,
     @SerialName("NUTR_CONT5")
-    val sugar: Double,
+    val sugar: String,
     @SerialName("NUTR_CONT6")
-    val sodium: Double,
+    val sodium: String,
     @SerialName("NUTR_CONT7")
-    val cholesterol: Double,
+    val cholesterol: String,
     @SerialName("NUTR_CONT8")
-    val saturatedFat: Double,
+    val saturatedFat: String,
     @SerialName("NUTR_CONT9")
-    val transFat: Double
+    val transFat: String
 )

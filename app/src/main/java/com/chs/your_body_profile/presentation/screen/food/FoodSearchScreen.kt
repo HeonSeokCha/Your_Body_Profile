@@ -126,7 +126,11 @@ fun FoodSearchScreen(
             }
 
             if (pagingItems != null) {
-                LazyColumn {
+                LazyColumn (
+                    modifier = Modifier
+                        .padding(it)
+                        .fillMaxSize()
+                ) {
                     items(pagingItems.itemCount) { idx ->
                         val item = pagingItems[idx]
                         if (item != null) {
@@ -168,6 +172,27 @@ fun FoodSearchScreen(
                 }
             }
 
+            when (pagingItems?.loadState?.source?.append) {
+                is LoadState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                is LoadState.Error -> {
+                    Toast.makeText(
+                        context,
+                        "An error occurred while loading...",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+                else -> {}
+            }
 
             when (pagingItems?.loadState?.source?.refresh) {
                 is LoadState.Loading -> {

@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseFoodInfoHeader(
-    @SerialName("resultCode")
-    val resultCode: String,
-    @SerialName("resultMsg")
-    val resultMsg: String
+data class ResponseFoodResult(
+    @SerialName("CODE")
+    val code: String,
+    @SerialName("MSG")
+    val message: String
 )

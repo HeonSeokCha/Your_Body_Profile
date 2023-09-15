@@ -5,8 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseFoodInfo(
-    @SerialName("header")
-    val header: ResponseFoodInfoHeader,
-    @SerialName("body")
-    val body: ResponseFoodInfoBody
+    @SerialName("I2790")
+    val foodService: ResponseFoodService
 )

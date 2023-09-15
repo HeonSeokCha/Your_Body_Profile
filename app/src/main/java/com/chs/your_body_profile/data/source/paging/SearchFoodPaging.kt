@@ -23,21 +23,22 @@ class SearchFoodPaging(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FoodDetailInfo> {
         return try {
-            val page: Int = params.key ?: 1
+            val page: Int = params.key ?: 0
             val response = service.getSearchResultFoodInfo(
-                page = page,
+                startIdx = page.toString(),
+                endIdx = (page + 10).toString(),
                 query = query
-            ).body
+            )
 
             Log.e("RESPONSE", response.toString())
 
             LoadResult.Page(
-                data = response.items.map {
+                data = response.foodService.row.map {
                     it.toFoodDetailInfo()
                 },
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if ((response.pageNo * response.numOfRows) > response.totalCount) {
-                    page + 1
+                nextKey = if (response.foodService.totalCount == 10) {
+                    page + 10
                 } else {
                     null
                 }
