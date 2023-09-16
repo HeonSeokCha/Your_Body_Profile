@@ -10,19 +10,10 @@ object Constants {
     const val FOOD_API_KEY: String = BuildConfig.API_ACCESS_KEY
     const val FOOD_PARAMETER_FOOD_NAME: String = "DESC_KOR"
     const val TYPE_JSON: String = "json"
+    const val FOOD_SEARCH_OFFSET: Int = 30
 
     const val DRINK_TYPE_COFFEE: String = "coffee"
     const val DRINK_TYPE_WATER: String = "water"
-
-    const val BODY_SUMMARY_TYPE_BLOOD_PRESSURE: String = "blood_pressure"
-    const val BODY_SUMMARY_TYPE_BLOOD_SUGAR: String = "blood_sugar"
-    const val BODY_SUMMARY_TYPE_WATER: String = "water"
-    const val BODY_SUMMARY_TYPE_COFFEE: String = "coffee"
-    const val BODY_SUMMARY_TYPE_FOOD: String = "food"
-    const val BODY_SUMMARY_TYPE_HEMOGLOBIN_A1C: String = "hemoglobin_a1c"
-    const val BODY_SUMMARY_TYPE_INSULIN: String = "insulin"
-    const val BODY_SUMMARY_TYPE_MEDICINE: String = "medicine"
-    const val BODY_SUMMARY_TYPE_WEIGHT: String = "weight"
 
     val DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("a hh:mm:ss")
         .withLocale(Locale.forLanguageTag("ko"))
