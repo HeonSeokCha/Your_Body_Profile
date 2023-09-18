@@ -8,7 +8,7 @@ data class ResponseFoodService(
     @SerialName("total_count")
     val totalCount: Int,
     @SerialName("row")
-    val row: List<ResponseFoodDetailInfo>,
+    val row: List<ResponseFoodDetailInfo> = emptyList(),
     @SerialName("RESULT")
     val result: ResponseFoodResult
 )
