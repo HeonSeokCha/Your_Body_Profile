@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.common
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.activity.compose.BackHandler
@@ -73,6 +74,7 @@ import kotlinx.coroutines.launch
 fun Picker(
     items: List<Int>,
     state: PickerState = rememberPickerState(),
+    @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier,
     startIdx: Int = 0,
     textModifier: Modifier = Modifier,

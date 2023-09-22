@@ -11,5 +11,10 @@ interface FoodRepository : BaseInfoRepository<FoodInfo> {
 
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 
+    fun getRecentFoodSearchHistory(): Flow<List<String>>
+
+    suspend fun insertSearchHistory(query: String)
+
     fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
+
 }

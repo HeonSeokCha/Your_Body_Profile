@@ -60,7 +60,9 @@ fun BloodPressureInputScreen(
                     viewModel.updateSystolicNumber(number)
                 }
             )
-            
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             NumberPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
                 items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it },

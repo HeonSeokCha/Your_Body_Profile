@@ -24,7 +24,8 @@ import java.util.concurrent.Executors
         InsulinInfoEntity::class,
         HemoglobinA1cInfoEntity::class,
         MedicineInfoEntity::class,
-        WeightInfoEntity::class
+        WeightInfoEntity::class,
+        FoodSearchHistoryEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -38,6 +39,7 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val medicineDao: MedicineDao
     abstract val weightInfoDao: WeightInfoDao
     abstract val foodDao: FoodDao
+    abstract val foodSearchHistoryDao: FoodSearchHistoryDao
 
     companion object {
         fun getInstance(context: Context): BodyProfileDataBase {

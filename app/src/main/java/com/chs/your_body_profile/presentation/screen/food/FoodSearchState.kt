@@ -10,7 +10,6 @@ data class FoodSearchState(
     val selectItems: MutableList<String> = mutableListOf(),
     val searchResult: Flow<PagingData<FoodDetailInfo>>? = null,
     val recentFoodList: List<FoodDetailInfo> = emptyList(),
-    val favoriteFoodList: List<FoodDetailInfo> = emptyList(),
     val isError: String? = null,
     val isLoading: Boolean = false
 )

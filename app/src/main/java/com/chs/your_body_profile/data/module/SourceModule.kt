@@ -7,6 +7,7 @@ import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
 import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
+import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
 import com.chs.your_body_profile.data.source.db.dao.MedicineDao
@@ -96,5 +97,11 @@ object SourceModule {
     @Provides
     fun provideFoodDao(bodyProfileDataBase: BodyProfileDataBase): FoodDao {
         return bodyProfileDataBase.foodDao
+    }
+
+    @Singleton
+    @Provides
+    fun provideFoodSearchHistoryDao(bodyProfileDataBase: BodyProfileDataBase): FoodSearchHistoryDao {
+        return bodyProfileDataBase.foodSearchHistoryDao
     }
 }

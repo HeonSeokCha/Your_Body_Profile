@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -56,6 +57,10 @@ fun FoodSearchScreen(
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
     val selectedItems = remember {
         mutableStateListOf<String>()
+    }
+
+    LaunchedEffect(context, viewModel) {
+        viewModel.getRecentFoodSearchHistory()
     }
 
     var isSearchActive by remember { mutableStateOf(false) }
@@ -103,15 +108,16 @@ fun FoodSearchScreen(
                     modifier = Modifier
                         .fillMaxWidth(),
                     query = state.searchQuery,
-                    onQueryChange = {
-                        viewModel.updateQuery(it)
+                    onQueryChange = { query ->
+                        viewModel.updateQuery(query)
                     },
-                    onSearch = {
+                    onSearch = { query ->
                         isSearchActive = false
+                        viewModel.upsertFoodSearchHistory(query)
                         viewModel.searchFood()
                     },
                     active = isSearchActive,
-                    onActiveChange = { isSearchActive = it },
+                    onActiveChange = { query -> isSearchActive = query },
                     placeholder = { Text("Search here...") },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     trailingIcon = {
@@ -133,12 +139,14 @@ fun FoodSearchScreen(
                         modifier = Modifier
                             .padding(it)
                     ) {
-                        items(state.searchHistory) {
+                        items(state.searchHistory) {query ->
                             ItemSearchHistory(
-                                title = "",
+                                title = query,
                                 imageVector = Icons.Default.History
-                            ) {
-                                viewModel.updateQuery(it)
+                            ) { query ->
+                                viewModel.updateQuery(query)
+                                viewModel.upsertFoodSearchHistory(query)
+                                viewModel.searchFood()
                                 isSearchActive = false
                             }
                         }
@@ -182,10 +190,6 @@ fun FoodSearchScreen(
                     }
                 } else {
                     LazyColumn {
-                        items(state.favoriteFoodList) {
-
-                        }
-
                         items(state.recentFoodList) {
 
                         }

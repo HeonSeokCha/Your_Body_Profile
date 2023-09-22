@@ -66,7 +66,9 @@ fun ItemSearchFoodInfo(
             Text(
                 text = info.name,
                 fontSize = 28.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             Row {

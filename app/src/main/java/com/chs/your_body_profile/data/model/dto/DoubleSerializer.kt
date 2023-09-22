@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.data.model.dto
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive

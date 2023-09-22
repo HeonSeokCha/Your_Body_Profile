@@ -6,8 +6,10 @@ import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
+import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
+import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao,
+    private val foodSearchHistoryDao: FoodSearchHistoryDao,
     private val foodService: FoodService
 ) : FoodRepository {
     override suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>> {
@@ -56,5 +59,15 @@ class FoodRepositoryImpl @Inject constructor(
 
     override suspend fun deleteInfo(info: FoodInfo) {
         foodDao.delete(info.toFoodInfoEntity())
+    }
+
+    override fun getRecentFoodSearchHistory(): Flow<List<String>> {
+        return foodSearchHistoryDao.getRecentSearchHistory()
+    }
+
+    override suspend fun insertSearchHistory(query: String) {
+        foodSearchHistoryDao.upsert(
+            FoodSearchHistoryEntity(query = query)
+        )
     }
 }
