@@ -2,6 +2,7 @@ package com.chs.your_body_profile.presentation.screen.food
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -73,7 +74,7 @@ fun FoodSearchScreen(
                 selectCount = selectedItems.size
             )
         }
-    ) {
+    ) { it ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,9 +90,10 @@ fun FoodSearchScreen(
                             .fillMaxWidth()
                             .height(48.dp)
                             .padding(
-                                vertical = 4.dp,
+                                vertical = 8.dp,
                                 horizontal = 8.dp
                             ),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         selectedItems.forEach { foodName ->
                             ItemSelectFood(
@@ -138,6 +140,7 @@ fun FoodSearchScreen(
                     LazyColumn(
                         modifier = Modifier
                             .padding(it)
+                            .padding(bottom = 56.dp)
                     ) {
                         items(state.searchHistory) {query ->
                             ItemSearchHistory(
@@ -157,6 +160,9 @@ fun FoodSearchScreen(
                     LazyColumn(
                         modifier = Modifier
                             .padding(it)
+                            .padding(bottom = if (selectedItems.isNotEmpty()) {
+                                64.dp
+                            } else 0.dp)
                             .fillMaxSize()
                     ) {
                         items(pagingItems.itemCount) { idx ->

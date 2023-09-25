@@ -20,4 +20,5 @@ class FoodHistoryInputViewModel @Inject constructor(
 
         }
     }
+
 }

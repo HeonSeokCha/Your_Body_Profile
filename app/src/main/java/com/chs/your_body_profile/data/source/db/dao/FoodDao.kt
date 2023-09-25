@@ -32,4 +32,56 @@ abstract class FoodDao : BaseDao<FoodInfoEntity> {
          WHERE insertTime = :time
     """)
     abstract fun getDayTotalCalorie(time: Long): Flow<Int>
+
+    @Query(
+        """
+            SELECT IFNULLL(SUM(calorie), 0)
+              FROM food_info
+             WHERE insertTime = :time
+               AND type = :type
+        """
+    )
+    abstract fun getDayMealTypeTotalCalories(
+        time: Long,
+        type: String
+    ): Flow<Int>
+
+    @Query(
+        """
+            SELECT IFNULLL(SUM(carbohydrate), 0)
+              FROM food_info
+             WHERE insertTime = :time
+               AND type = :type
+        """
+    )
+    abstract fun getDayMealTypeTotalCarbohydrate(
+        time: Long,
+        type: String
+    ): Flow<Double>
+
+    @Query(
+        """
+            SELECT IFNULLL(SUM(fat), 0)
+              FROM food_info
+             WHERE insertTime = :time
+               AND type = :type
+        """
+    )
+    abstract fun getDayMealTypeTotalFat(
+        time: Long,
+        type: String
+    ): Flow<Double>
+
+    @Query(
+        """
+            SELECT IFNULLL(SUM(protein), 0)
+              FROM food_info
+             WHERE insertTime = :time
+               AND type = :type
+        """
+    )
+    abstract fun getDayMealTypeTotalProtein(
+        time: Long,
+        type: String
+    ): Flow<Double>
 }

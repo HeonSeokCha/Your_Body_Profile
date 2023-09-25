@@ -13,6 +13,7 @@ import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -68,6 +69,40 @@ class FoodRepositoryImpl @Inject constructor(
     override suspend fun insertSearchHistory(query: String) {
         foodSearchHistoryDao.upsert(
             FoodSearchHistoryEntity(query = query)
+        )
+    }
+
+    override fun getMealTypeTotalCalories(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<Int> {
+        return foodDao.getDayMealTypeTotalCalories(
+            localDate.toMillis(),
+            mealType.mean.first
+        )
+    }
+
+    override fun getMealTypeTotalCarbohydrate(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<Double> {
+        return foodDao.getDayMealTypeTotalCarbohydrate(
+            localDate.toMillis(),
+            mealType.mean.first
+        )
+    }
+
+    override fun getMealTypeTotalFat(localDate: LocalDate, mealType: MealType): Flow<Double> {
+        return foodDao.getDayMealTypeTotalFat(
+            localDate.toMillis(),
+            mealType.mean.first
+        )
+    }
+
+    override fun getMealTypeTotalProtein(localDate: LocalDate, mealType: MealType): Flow<Double> {
+        return foodDao.getDayMealTypeTotalProtein(
+            localDate.toMillis(),
+            mealType.mean.first
         )
     }
 }
