@@ -159,22 +159,3 @@ fun WeightInfo.toWeightInfoEntity(): WeightInfoEntity {
         lastModifyTime = System.currentTimeMillis()
     )
 }
-
-fun FoodInfoEntity.toFoodInfo(): FoodInfo {
-    return FoodInfo(
-        measureTime = this.insertTime.toLocalDate(),
-        name = this.name,
-        type = MealType.values().find { it.mean.first == this.type } ?: MealType.UNKNOWN,
-        calorie = this.calorie
-    )
-}
-
-fun FoodInfo.toFoodInfoEntity(): FoodInfoEntity {
-    return FoodInfoEntity(
-        insertTime = this.measureTime.toMillis(),
-        name = this.name,
-        type = this.type.mean.first,
-        calorie = this.calorie,
-        lastModified = System.currentTimeMillis()
-    )
-}

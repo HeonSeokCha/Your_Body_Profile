@@ -1,8 +1,14 @@
-package com.chs.your_body_profile.domain.model
+package com.chs.your_body_profile.data.model.entity
 
-data class FoodDetailInfo(
+import androidx.room.Entity
+
+@Entity(
+    "nutritional",
+    primaryKeys = ["name", "servingWeight"]
+)
+data class NutritionalInfoEntity(
     val name: String,
-    val servingWeight: Float = 0f,
+    val servingWeight: Int,
     val calorie: Float = 0f,
     val carbohydrate: Float = 0f,
     val fat: Float = 0f,
@@ -11,5 +17,5 @@ data class FoodDetailInfo(
     val sugar: Float = 0f,
     val cholesterol: Float = 0f,
     val saturatedFat: Float = 0f,
-    val transFat: Float = 0f
+    val transFat: Float = 0f,
 )

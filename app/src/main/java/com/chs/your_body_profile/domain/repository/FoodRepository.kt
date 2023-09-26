@@ -8,7 +8,7 @@ import com.chs.your_body_profile.domain.model.MealType
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-interface FoodRepository : BaseInfoRepository<FoodInfo> {
+interface FoodRepository : BaseRepository<FoodInfo> {
 
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 
@@ -20,6 +20,11 @@ interface FoodRepository : BaseInfoRepository<FoodInfo> {
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Int>
+
+    fun getDayMealTypeTakenList(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<List<FoodDetailInfo>>
 
     fun getMealTypeTotalCarbohydrate(
         localDate: LocalDate,

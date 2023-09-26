@@ -12,19 +12,14 @@ abstract class FoodDao : BaseDao<FoodInfoEntity> {
     @Query("""
         SELECT *
           FROM food_info
-         WHERE insertTime = :time
-         ORDER BY lastModified DESC
-         LIMIT 1
+          
+          
     """)
-    abstract fun getDayLastFoodInfo(time: Long): Flow<FoodInfoEntity?>
+    abstract fun getDayMealTypeTakenList(
+        time: Long,
+        type: String
+    ): Flow<List<FoodInfoEntity>>
 
-    @Query("""
-        SELECT *
-          FROM food_info
-         WHERE insertTime = :time
-         ORDER BY lastModified DESC
-    """)
-    abstract fun getDayLastFoodInfoList(time: Long): Flow<List<FoodInfoEntity>>
 
     @Query("""
         SELECT IFNULL(SUM(calorie), 0)

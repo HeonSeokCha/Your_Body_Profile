@@ -7,34 +7,34 @@ import kotlinx.serialization.Serializable
 data class ResponseFoodDetailInfo(
     @SerialName("DESC_KOR")
     val name: String,
-    @Serializable(with = DoubleSerializer::class)
+    @Serializable(with = FoodSerializer::class)
     @SerialName("SERVING_SIZE")
-    val servingWeight: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val servingWeight: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT1")
-    val calorie: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val calorie: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT2")
-    val carbohydrate: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val carbohydrate: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT3")
-    val protein: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val protein: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT4")
-    val fat: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val fat: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT5")
-    val sugar: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val sugar: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT6")
-    val sodium: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val sodium: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT7")
-    val cholesterol: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val cholesterol: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT8")
-    val saturatedFat: Double = 0.0,
-    @Serializable(with = DoubleSerializer::class)
+    val saturatedFat: Float = 0f,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT9")
-    val transFat: Double = 0.0
+    val transFat: Float = 0f
 )

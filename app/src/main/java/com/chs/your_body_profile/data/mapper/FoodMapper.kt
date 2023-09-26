@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.data.mapper
 
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
+import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
 

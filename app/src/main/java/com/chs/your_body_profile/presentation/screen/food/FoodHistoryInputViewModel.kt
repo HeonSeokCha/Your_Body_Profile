@@ -15,10 +15,9 @@ class FoodHistoryInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(FoodHistoryState())
     val state = _state.asStateFlow()
 
-    fun insertTakenFoodList() {
+    fun getTakeMealList() {
         viewModelScope.launch {
 
         }
     }
-
 }
