@@ -3,9 +3,9 @@ package com.chs.your_body_profile.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.mapper.toFoodInfo
-import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
+import com.chs.your_body_profile.common.getEndOfDayTimeMillis
+import com.chs.your_body_profile.common.getStartOfDayTimeMillis
+import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
@@ -37,13 +37,36 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override fun getDayTotalCalories(localDate: LocalDate): Flow<Int> {
-        return foodDao.getDayTotalCalorie(localDate.toMillis())
+        return foodDao.getDayTotalCalories(
+            startTime = localDate.getStartOfDayTimeMillis(),
+            endTime = localDate.getEndOfDayTimeMillis()
+        )
     }
 
     override fun getDayMealTypeTakenList(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<List<FoodDetailInfo>> {
+        return foodDao.getDayMealTypeFoodList(
+            startTime = localDate.getStartOfDayTimeMillis(),
+            endTime = localDate.getEndOfDayTimeMillis(),
+            mealType = mealType.mean.first
+        ).map {
+            it.map { foodInfoEntity ->
+                foodInfoEntity.toFoodDetailInfo()
+            }
+        }
+    }
+
+    override fun getDayMealTypeTotalCalories(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<Int> {
+        return foodDao.getDayMealTypeTotalCalories(
+            startTime = localDate.getStartOfDayTimeMillis(),
+            endTime = localDate.getEndOfDayTimeMillis(),
+            mealType = mealType.mean.first
+        )
     }
 
 
@@ -63,37 +86,36 @@ class FoodRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getMealTypeTotalCalories(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<Int> {
-        return foodDao.getDayMealTypeTotalCalories(
-            localDate.toMillis(),
-            mealType.mean.first
-        )
-    }
-
     override fun getMealTypeTotalCarbohydrate(
         localDate: LocalDate,
         mealType: MealType
-    ): Flow<Double> {
+    ): Flow<Float> {
         return foodDao.getDayMealTypeTotalCarbohydrate(
-            localDate.toMillis(),
-            mealType.mean.first
+            startTime = localDate.getStartOfDayTimeMillis(),
+            endTime = localDate.getEndOfDayTimeMillis(),
+            mealType = mealType.mean.first
         )
     }
 
-    override fun getMealTypeTotalFat(localDate: LocalDate, mealType: MealType): Flow<Double> {
+    override fun getMealTypeTotalFat(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<Float> {
         return foodDao.getDayMealTypeTotalFat(
-            localDate.toMillis(),
-            mealType.mean.first
+            startTime = localDate.getStartOfDayTimeMillis(),
+            endTime = localDate.getEndOfDayTimeMillis(),
+            mealType = mealType.mean.first
         )
     }
 
-    override fun getMealTypeTotalProtein(localDate: LocalDate, mealType: MealType): Flow<Double> {
+    override fun getMealTypeTotalProtein(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<Float> {
         return foodDao.getDayMealTypeTotalProtein(
-            localDate.toMillis(),
-            mealType.mean.first
+            startTime = localDate.getStartOfDayTimeMillis(),
+            endTime = localDate.getEndOfDayTimeMillis(),
+            mealType = mealType.mean.first
         )
     }
 }

@@ -20,3 +20,19 @@ fun ResponseFoodDetailInfo.toFoodDetailInfo(): FoodDetailInfo {
         transFat = this.transFat
     )
 }
+
+fun FoodInfoEntity.toFoodDetailInfo(): FoodDetailInfo {
+    return FoodDetailInfo(
+        name = this.name,
+        servingWeight = this.servingWeight,
+        calorie = this.calorie,
+        carbohydrate = this.carbohydrate,
+        protein = this.protein,
+        fat = this.fat,
+        sugar = this.sugar,
+        sodium = this.sodium,
+        cholesterol = this.cholesterol,
+        saturatedFat = this.saturatedFat,
+        transFat = this.transFat
+    )
+}

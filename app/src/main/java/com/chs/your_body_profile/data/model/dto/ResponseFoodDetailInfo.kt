@@ -7,12 +7,10 @@ import kotlinx.serialization.Serializable
 data class ResponseFoodDetailInfo(
     @SerialName("DESC_KOR")
     val name: String,
-    @Serializable(with = FoodSerializer::class)
     @SerialName("SERVING_SIZE")
-    val servingWeight: Float = 0f,
-    @Serializable(with = FoodSerializer::class)
+    val servingWeight: Int = 0,
     @SerialName("NUTR_CONT1")
-    val calorie: Float = 0f,
+    val calorie: Int = 0,
     @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT2")
     val carbohydrate: Float = 0f,

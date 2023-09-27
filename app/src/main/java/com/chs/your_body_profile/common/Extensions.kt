@@ -3,6 +3,7 @@ package com.chs.your_body_profile.common
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
 
 fun LocalDateTime.toMillis(): Long {
@@ -11,6 +12,14 @@ fun LocalDateTime.toMillis(): Long {
 
 fun LocalDate.toMillis(): Long {
     return this.atStartOfDay().toMillis()
+}
+
+fun LocalDate.getStartOfDayTimeMillis(): Long {
+    return this.atTime(LocalTime.MIN).toMillis()
+}
+
+fun LocalDate.getEndOfDayTimeMillis(): Long {
+    return this.atTime(LocalTime.MAX).toMillis()
 }
 
 fun Long.toLocalDateTime(): LocalDateTime {

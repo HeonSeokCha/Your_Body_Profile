@@ -3,80 +3,59 @@ package com.chs.your_body_profile.data.source.db.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
-import com.chs.your_body_profile.domain.model.FoodInfo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class FoodDao : BaseDao<FoodInfoEntity> {
-
-    @Query("""
-        SELECT *
-          FROM food_info
-          
-          
-    """)
-    abstract fun getDayMealTypeTakenList(
-        time: Long,
-        type: String
-    ): Flow<List<FoodInfoEntity>>
-
-
-    @Query("""
-        SELECT IFNULL(SUM(calorie), 0)
-          FROM food_info
-         WHERE insertTime = :time
-    """)
-    abstract fun getDayTotalCalorie(time: Long): Flow<Int>
-
-    @Query(
-        """
-            SELECT IFNULLL(SUM(calorie), 0)
-              FROM food_info
-             WHERE insertTime = :time
-               AND type = :type
-        """
-    )
-    abstract fun getDayMealTypeTotalCalories(
-        time: Long,
-        type: String
+    @Query("SELECT IFNULL(SUM(calorie), 0) FROM food_info WHERE takeMealTime " +
+            "BETWEEN :startTime AND :endTime")
+    abstract fun getDayTotalCalories(
+        startTime: Long,
+        endTime: Long
     ): Flow<Int>
 
-    @Query(
-        """
-            SELECT IFNULLL(SUM(carbohydrate), 0)
-              FROM food_info
-             WHERE insertTime = :time
-               AND type = :type
-        """
-    )
+    @Query("SELECT * FROM food_info WHERE (takeMealTime " +
+            "BETWEEN :startTime AND :endTime) " +
+            "AND mealType = :mealType")
+    abstract fun getDayMealTypeFoodList(
+        startTime: Long,
+        endTime: Long,
+        mealType: String
+    ): Flow<List<FoodInfoEntity>>
+
+    @Query("SELECT IFNULL(SUM(calorie), 0) FROM food_info WHERE (takeMealTime " +
+            "BETWEEN :startTime AND :endTime) " +
+            "AND mealType = :mealType")
+    abstract fun getDayMealTypeTotalCalories(
+        startTime: Long,
+        endTime: Long,
+        mealType: String
+    ): Flow<Int>
+
+    @Query("SELECT IFNULL(SUM(carbohydrate), 0) FROM food_info WHERE (takeMealTime " +
+            "BETWEEN :startTime AND :endTime) " +
+            "AND mealType = :mealType")
     abstract fun getDayMealTypeTotalCarbohydrate(
-        time: Long,
-        type: String
-    ): Flow<Double>
+        startTime: Long,
+        endTime: Long,
+        mealType: String
+    ): Flow<Float>
 
-    @Query(
-        """
-            SELECT IFNULLL(SUM(fat), 0)
-              FROM food_info
-             WHERE insertTime = :time
-               AND type = :type
-        """
-    )
+    @Query("SELECT IFNULL(SUM(fat), 0) FROM food_info WHERE (takeMealTime " +
+            "BETWEEN :startTime AND :endTime) " +
+            "AND mealType = :mealType")
     abstract fun getDayMealTypeTotalFat(
-        time: Long,
-        type: String
-    ): Flow<Double>
+        startTime: Long,
+        endTime: Long,
+        mealType: String
+    ): Flow<Float>
 
-    @Query(
-        """
-            SELECT IFNULLL(SUM(protein), 0)
-              FROM food_info
-             WHERE insertTime = :time
-               AND type = :type
-        """
-    )
+    @Query("SELECT IFNULL(SUM(protein), 0) FROM food_info WHERE (takeMealTime " +
+            "BETWEEN :startTime AND :endTime) " +
+            "AND mealType = :mealType")
     abstract fun getDayMealTypeTotalProtein(
-        time: Long,
-        type: String
-    ): Flow<Double>
+        startTime: Long,
+        endTime: Long,
+        mealType: String
+    ): Flow<Float>
 }

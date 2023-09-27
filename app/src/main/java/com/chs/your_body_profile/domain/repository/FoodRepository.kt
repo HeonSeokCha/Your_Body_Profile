@@ -16,31 +16,30 @@ interface FoodRepository : BaseRepository<FoodInfo> {
 
     suspend fun insertSearchHistory(query: String)
 
-    fun getMealTypeTotalCalories(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<Int>
+    fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
 
     fun getDayMealTypeTakenList(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<List<FoodDetailInfo>>
 
+    fun getDayMealTypeTotalCalories(
+        localDate: LocalDate,
+        mealType: MealType
+    ): Flow<Int>
+
     fun getMealTypeTotalCarbohydrate(
         localDate: LocalDate,
         mealType: MealType
-    ): Flow<Double>
+    ): Flow<Float>
 
     fun getMealTypeTotalFat(
         localDate: LocalDate,
         mealType: MealType
-    ): Flow<Double>
+    ): Flow<Float>
 
     fun getMealTypeTotalProtein(
         localDate: LocalDate,
         mealType: MealType
-    ): Flow<Double>
-
-    fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
-
+    ): Flow<Float>
 }
