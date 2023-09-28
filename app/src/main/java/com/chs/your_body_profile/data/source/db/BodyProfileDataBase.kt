@@ -4,16 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.chs.your_body_profile.R
 import com.chs.your_body_profile.data.source.db.dao.*
 import com.chs.your_body_profile.data.model.entity.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.concurrent.Executors
 
 @Database(
     entities = [
@@ -21,6 +13,7 @@ import java.util.concurrent.Executors
         BloodSugarInfoEntity::class,
         DrinkInfoEntity::class,
         FoodInfoEntity::class,
+        TakenMealHistoryEntity::class,
         InsulinInfoEntity::class,
         HemoglobinA1cInfoEntity::class,
         MedicineInfoEntity::class,
@@ -39,6 +32,7 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val medicineDao: MedicineDao
     abstract val weightInfoDao: WeightInfoDao
     abstract val foodDao: FoodDao
+    abstract val takenMealHistoryDao: TakenMealHistoryDao
     abstract val foodSearchHistoryDao: FoodSearchHistoryDao
 
     companion object {

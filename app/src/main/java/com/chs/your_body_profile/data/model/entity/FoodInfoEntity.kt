@@ -6,13 +6,14 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 
 @Entity(
     tableName = "food_info",
-    primaryKeys = ["takeMealTime", "mealType", "name", "servingWeight"]
+    primaryKeys = ["name", "servingWeight"]
 )
 data class FoodInfoEntity(
-    val takeMealTime: Long,
-    val mealType: String,
     val name: String,
     val servingWeight: Int,
+    val takenDate: Long,
+    val takenTime: Long,
+    val takenMealType: String,
     val calorie: Int,
     val carbohydrate: Float = 0f,
     val fat: Float = 0f,
