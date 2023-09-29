@@ -1,9 +1,9 @@
 package com.chs.your_body_profile.domain.repository
 
 import androidx.paging.PagingData
-import com.chs.your_body_profile.common.Resource
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -18,10 +18,7 @@ interface FoodRepository : BaseRepository<FoodInfo> {
 
     fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
 
-    fun getDayMealTypeTakenList(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<List<FoodDetailInfo>>
+    fun getDayMealTypeList(localDate: LocalDate): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>
 
     fun getDayMealTypeTotalCalories(
         localDate: LocalDate,

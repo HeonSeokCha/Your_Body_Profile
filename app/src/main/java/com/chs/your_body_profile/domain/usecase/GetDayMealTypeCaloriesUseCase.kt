@@ -13,6 +13,6 @@ class GetDayMealTypeCaloriesUseCase @Inject constructor(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Int> {
-        return repository.getMealTypeTotalCalories(localDate, mealType)
+        return repository.getDayMealTypeTotalCalories(localDate, mealType)
     }
 }

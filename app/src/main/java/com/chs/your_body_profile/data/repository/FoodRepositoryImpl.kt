@@ -3,16 +3,18 @@ package com.chs.your_body_profile.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.chs.your_body_profile.common.getEndOfDayTimeMillis
-import com.chs.your_body_profile.common.getStartOfDayTimeMillis
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
+import com.chs.your_body_profile.data.mapper.toMealHistoryInfo
 import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
+import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +24,7 @@ import javax.inject.Inject
 
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao,
+    private val takenMealHistoryDao: TakenMealHistoryDao,
     private val foodSearchHistoryDao: FoodSearchHistoryDao,
     private val foodService: FoodService
 ) : FoodRepository {
@@ -37,23 +40,15 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override fun getDayTotalCalories(localDate: LocalDate): Flow<Int> {
-        return foodDao.getDayTotalCalories(
-            startTime = localDate.getStartOfDayTimeMillis(),
-            endTime = localDate.getEndOfDayTimeMillis()
-        )
+        return foodDao.getDayTotalCalories(localDate.toMillis())
     }
 
-    override fun getDayMealTypeTakenList(
+    override fun getDayMealTypeList(
         localDate: LocalDate,
-        mealType: MealType
-    ): Flow<List<FoodDetailInfo>> {
-        return foodDao.getDayMealTypeFoodList(
-            startTime = localDate.getStartOfDayTimeMillis(),
-            endTime = localDate.getEndOfDayTimeMillis(),
-            mealType = mealType.mean.first
-        ).map {
-            it.map { foodInfoEntity ->
-                foodInfoEntity.toFoodDetailInfo()
+    ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>> {
+        return takenMealHistoryDao.getDayTakenList(localDate.toMillis()).map {
+            it.map { joinResultMap ->
+                joinResultMap.key.toMealHistoryInfo() to joinResultMap.value.map { it.toFoodDetailInfo() }
             }
         }
     }
@@ -62,9 +57,8 @@ class FoodRepositoryImpl @Inject constructor(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Int> {
-        return foodDao.getDayMealTypeTotalCalories(
-            startTime = localDate.getStartOfDayTimeMillis(),
-            endTime = localDate.getEndOfDayTimeMillis(),
+        return takenMealHistoryDao.getDayMealTypeTotalCalorie(
+            time = localDate.toMillis(),
             mealType = mealType.mean.first
         )
     }
@@ -90,9 +84,8 @@ class FoodRepositoryImpl @Inject constructor(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Float> {
-        return foodDao.getDayMealTypeTotalCarbohydrate(
-            startTime = localDate.getStartOfDayTimeMillis(),
-            endTime = localDate.getEndOfDayTimeMillis(),
+        return takenMealHistoryDao.getDayMealTypeTotalCarbohydrate(
+            time = localDate.toMillis(),
             mealType = mealType.mean.first
         )
     }
@@ -101,9 +94,8 @@ class FoodRepositoryImpl @Inject constructor(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Float> {
-        return foodDao.getDayMealTypeTotalFat(
-            startTime = localDate.getStartOfDayTimeMillis(),
-            endTime = localDate.getEndOfDayTimeMillis(),
+        return takenMealHistoryDao.getDayMealTypeTotalFat(
+            time = localDate.toMillis(),
             mealType = mealType.mean.first
         )
     }
@@ -112,9 +104,8 @@ class FoodRepositoryImpl @Inject constructor(
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Float> {
-        return foodDao.getDayMealTypeTotalProtein(
-            startTime = localDate.getStartOfDayTimeMillis(),
-            endTime = localDate.getEndOfDayTimeMillis(),
+        return takenMealHistoryDao.getDayMealTypeTotalProtein(
+            time = localDate.toMillis(),
             mealType = mealType.mean.first
         )
     }

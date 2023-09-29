@@ -12,7 +12,7 @@ class GetDayMealTypeCarbohydrateUseCase @Inject constructor(
     operator fun invoke(
         localDate: LocalDate,
         mealType: MealType
-    ): Flow<Double> {
+    ): Flow<Float> {
         return repository.getMealTypeTotalCarbohydrate(localDate, mealType)
     }
 }

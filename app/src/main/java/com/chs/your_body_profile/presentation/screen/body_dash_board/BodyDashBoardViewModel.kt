@@ -14,7 +14,6 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastBloodPressureInfoUseCa
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodSugarInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkCoffeeInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkWaterInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastFoodInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
