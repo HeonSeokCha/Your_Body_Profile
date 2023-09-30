@@ -5,7 +5,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
+import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.mapper.toMealHistoryInfo
+import com.chs.your_body_profile.data.mapper.toTakenMealHistoryEntity
 import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
@@ -28,6 +30,22 @@ class FoodRepositoryImpl @Inject constructor(
     private val foodSearchHistoryDao: FoodSearchHistoryDao,
     private val foodService: FoodService
 ) : FoodRepository {
+
+    override suspend fun upsertFoodDetailInfo(
+        foodInfo: FoodDetailInfo,
+        mealHistoryInfo: MealHistoryInfo
+    ) {
+        foodDao.upsert(foodInfo.toFoodInfoEntity(mealHistoryInfo))
+    }
+
+    override suspend fun upsertMealHistoryInfo(info: MealHistoryInfo) {
+        takenMealHistoryDao.upsert(info.toTakenMealHistoryEntity())
+    }
+
+    override suspend fun deleteMealHistoryInfo(info: MealHistoryInfo) {
+        takenMealHistoryDao.delete(info.toTakenMealHistoryEntity())
+    }
+
     override suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>> {
         return Pager(
             PagingConfig(pageSize = 10)
@@ -61,13 +79,6 @@ class FoodRepositoryImpl @Inject constructor(
             time = localDate.toMillis(),
             mealType = mealType.mean.first
         )
-    }
-
-
-    override suspend fun upsertInfo(info: FoodInfo) {
-    }
-
-    override suspend fun deleteInfo(info: FoodInfo) {
     }
 
     override fun getRecentFoodSearchHistory(): Flow<List<String>> {

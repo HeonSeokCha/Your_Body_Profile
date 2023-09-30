@@ -2,19 +2,26 @@ package com.chs.your_body_profile.domain.repository
 
 import androidx.paging.PagingData
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-interface FoodRepository : BaseRepository<FoodInfo> {
+interface FoodRepository {
+    suspend fun insertSearchHistory(query: String)
+
+    suspend fun upsertFoodDetailInfo(
+        foodInfo: FoodDetailInfo,
+        mealHistoryInfo: MealHistoryInfo
+    )
+
+    suspend fun upsertMealHistoryInfo(info: MealHistoryInfo)
+
+    suspend fun deleteMealHistoryInfo(info: MealHistoryInfo)
 
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 
     fun getRecentFoodSearchHistory(): Flow<List<String>>
-
-    suspend fun insertSearchHistory(query: String)
 
     fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
 
