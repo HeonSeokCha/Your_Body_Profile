@@ -14,7 +14,7 @@ data class FoodInfoEntity(
     val takenDate: Long,
     val takenTime: Long,
     val takenMealType: String,
-    val calorie: Int,
+    val calorie: Float,
     val carbohydrate: Float = 0f,
     val fat: Float = 0f,
     val protein: Float = 0f,

@@ -23,6 +23,8 @@ interface FoodRepository {
 
     fun getRecentFoodSearchHistory(): Flow<List<String>>
 
+    suspend fun getRecentTakenFoods(): List<FoodDetailInfo>
+
     fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
 
     fun getDayMealTypeList(localDate: LocalDate): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>

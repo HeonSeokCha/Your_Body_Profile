@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.source.api
 
+import android.util.Log
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.data.model.dto.ResponseFoodInfo
 import io.ktor.client.HttpClient
@@ -18,7 +19,7 @@ class FoodService @Inject constructor(
         startIdx: String,
         endIdx: String,
     ): ResponseFoodInfo {
-        return client.get(Constants.FOOD_BASE_URL) {
+       val a = client.get(Constants.FOOD_BASE_URL) {
             url {
                 this.appendEncodedPathSegments(
                     Constants.FOOD_API_KEY,
@@ -29,6 +30,10 @@ class FoodService @Inject constructor(
                     "${Constants.FOOD_PARAMETER_FOOD_NAME}=$query"
                 )
             }
-        }.body()
+        }
+
+        Log.e("RESPONSE", a.toString())
+
+        return a.body()
     }
 }

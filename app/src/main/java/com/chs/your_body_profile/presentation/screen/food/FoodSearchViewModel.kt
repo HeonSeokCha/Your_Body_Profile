@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.chs.your_body_profile.domain.usecase.GetRecentFoodSearchHistoryUseCase
+import com.chs.your_body_profile.domain.usecase.GetRecentTakenFoodsUseCase
 import com.chs.your_body_profile.domain.usecase.GetSearchResultFoodInfoUseCase
+import com.chs.your_body_profile.domain.usecase.UpsertFoodDetailInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertFoodSearchHistoryUseCase
+import com.chs.your_body_profile.domain.usecase.UpsertMealHistoryInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +21,10 @@ import javax.inject.Inject
 class FoodSearchViewModel @Inject constructor(
     private val getSearchResultFoodInfoUseCase: GetSearchResultFoodInfoUseCase,
     private val getRecentFoodSearchHistoryUseCase: GetRecentFoodSearchHistoryUseCase,
-    private val upsertFoodSearchHistoryUseCase: UpsertFoodSearchHistoryUseCase
+    private val getRecentTakenFoodsUseCase: GetRecentTakenFoodsUseCase,
+    private val upsertFoodSearchHistoryUseCase: UpsertFoodSearchHistoryUseCase,
+    private val upsertMealHistoryInfoUseCase: UpsertMealHistoryInfoUseCase,
+    private val upsertFoodDetailInfoUseCase: UpsertFoodDetailInfoUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FoodSearchState())
@@ -55,6 +61,24 @@ class FoodSearchViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun getRecentTakenFoods() {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    recentFoodList = getRecentTakenFoodsUseCase()
+                )
+            }
+        }
+    }
+
+    fun insertMealHistoryInfo() {
+
+    }
+
+    fun insertFoodDetailInfo() {
+
     }
 
     fun upsertFoodSearchHistory(query: String) {

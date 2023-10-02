@@ -9,8 +9,9 @@ data class ResponseFoodDetailInfo(
     val name: String,
     @SerialName("SERVING_SIZE")
     val servingWeight: Int = 0,
+    @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT1")
-    val calorie: Int = 0,
+    val calorie: Float = 0f,
     @Serializable(with = FoodSerializer::class)
     @SerialName("NUTR_CONT2")
     val carbohydrate: Float = 0f,

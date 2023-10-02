@@ -85,6 +85,12 @@ class FoodRepositoryImpl @Inject constructor(
         return foodSearchHistoryDao.getRecentSearchHistory()
     }
 
+    override suspend fun getRecentTakenFoods(): List<FoodDetailInfo> {
+        return foodDao.getRecentTakenFood().map {
+            it.toFoodDetailInfo()
+        }
+    }
+
     override suspend fun insertSearchHistory(query: String) {
         foodSearchHistoryDao.upsert(
             FoodSearchHistoryEntity(query = query)

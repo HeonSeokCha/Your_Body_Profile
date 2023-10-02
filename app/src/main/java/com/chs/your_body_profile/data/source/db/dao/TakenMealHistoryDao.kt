@@ -26,7 +26,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
            "AND food.takenTime = mealHistory.takenTime " +
            "AND food.takenMealType = mealHistory.takenMealType " +
          "WHERE mealHistory.takenDate = :time " +
-           "AND takenMealType = :mealTYpe"
+           "AND mealHistory.takenMealType = :mealTYpe"
     )
     abstract fun getDayMealTypeTakenList(
         time: Long,
@@ -59,12 +59,12 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
 
     @Query(
         "SELECT IFNULL(SUM(food.carbohydrate), 0) " +
-                "FROM taken_meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-                "AND food.takenTime = mealHistory.takenTime " +
-                "AND food.takenMealType = mealHistory.takenMealType " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+          "FROM taken_meal_history AS mealHistory " +
+         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
+           "AND food.takenTime = mealHistory.takenTime " +
+           "AND food.takenMealType = mealHistory.takenMealType " +
+         "WHERE mealHistory.takenDate = :time " +
+           "AND mealHistory.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalCarbohydrate(
         time: Long,
@@ -73,12 +73,12 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
 
     @Query(
         "SELECT IFNULL(SUM(food.protein), 0) " +
-                "FROM taken_meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-                "AND food.takenTime = mealHistory.takenTime " +
-                "AND food.takenMealType = mealHistory.takenMealType " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+          "FROM taken_meal_history AS mealHistory " +
+         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
+           "AND food.takenTime = mealHistory.takenTime " +
+           "AND food.takenMealType = mealHistory.takenMealType " +
+         "WHERE mealHistory.takenDate = :time " +
+           "AND mealHistory.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalProtein(
         time: Long,
@@ -87,12 +87,12 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
 
     @Query(
         "SELECT IFNULL(SUM(food.fat), 0) " +
-                "FROM taken_meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-                "AND food.takenTime = mealHistory.takenTime " +
-                "AND food.takenMealType = mealHistory.takenMealType " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+          "FROM taken_meal_history AS mealHistory " +
+         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
+           "AND food.takenTime = mealHistory.takenTime " +
+           "AND food.takenMealType = mealHistory.takenMealType " +
+         "WHERE mealHistory.takenDate = :time " +
+           "AND mealHistory.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalFat(
         time: Long,

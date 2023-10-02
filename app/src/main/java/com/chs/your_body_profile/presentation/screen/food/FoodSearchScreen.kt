@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 
@@ -56,12 +58,14 @@ fun FoodSearchScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
+    var placeItemShow by remember { mutableStateOf(false) }
     val selectedItems = remember {
         mutableStateListOf<String>()
     }
 
     LaunchedEffect(context, viewModel) {
         viewModel.getRecentFoodSearchHistory()
+        viewModel.getRecentTakenFoods()
     }
 
     var isSearchActive by remember { mutableStateOf(false) }
@@ -88,7 +92,6 @@ fun FoodSearchScreen(
                     FlowRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(48.dp)
                             .padding(
                                 vertical = 8.dp,
                                 horizontal = 8.dp
@@ -99,7 +102,7 @@ fun FoodSearchScreen(
                             ItemSelectFood(
                                 name = foodName,
                                 onClick = { selectedFoodName ->
-                                    viewModel.removeItem(selectedFoodName)
+                                    selectedItems.remove(selectedFoodName)
                                 }
                             )
                         }
@@ -160,10 +163,14 @@ fun FoodSearchScreen(
                     LazyColumn(
                         modifier = Modifier
                             .padding(it)
-                            .padding(bottom = if (selectedItems.isNotEmpty()) {
-                                64.dp
-                            } else 0.dp)
-                            .fillMaxSize()
+                            .padding(
+                                bottom = if (selectedItems.isNotEmpty()) {
+                                    64.dp
+                                } else 0.dp
+                            )
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
                         items(pagingItems.itemCount) { idx ->
                             val item = pagingItems[idx]
@@ -196,69 +203,59 @@ fun FoodSearchScreen(
                     }
                 } else {
                     LazyColumn {
-                        items(state.recentFoodList) {
+                        items(state.recentFoodList) { item ->
+                            val isSelected = selectedItems.contains(item.name)
+                            ItemSearchFoodInfo(
+                                info = item,
+                                onClick = {
+                                    if (isSelected) {
+                                        selectedItems.remove(it.name)
+                                    } else {
+                                        selectedItems.add(it.name)
+                                    }
+                                }, leadingContent = {
+                                    if (isSelected) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.CheckCircle,
+                                            contentDescription = null
+                                        )
+                                    } else {
+                                        Icon(
+                                            imageVector = Icons.Rounded.RadioButtonUnchecked,
+                                            contentDescription = null
+                                        )
+                                    }
+                                }
+                            )
+                        }
 
+                        if (placeItemShow) {
+                            items(Constants.ITEM_SHIMMER_SHOW_COUNT) {
+                                ItemSearchFoodInfo(info = null, onClick = { }) { }
+                            }
                         }
                     }
                 }
 
-                when (pagingItems?.loadState?.source?.append) {
-                    is LoadState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            CircularProgressIndicator()
+                if (pagingItems != null) {
+                    placeItemShow = when (pagingItems.loadState.source.refresh) {
+                        is LoadState.Loading -> {
+                            true
+                        }
+                        is LoadState.Error -> {
+                            Toast.makeText(
+                                context,
+                                "An error occurred while loading...",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            false
+                        }
+                        else -> {
+                            pagingItems.itemCount < 0
+                            true
                         }
                     }
-
-                    is LoadState.Error -> {
-                        Toast.makeText(
-                            context,
-                            "An error occurred while loading...",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-
-                    else -> {}
                 }
-
-                when (pagingItems?.loadState?.source?.refresh) {
-                    is LoadState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-
-                    is LoadState.Error -> {
-                        Toast.makeText(
-                            context,
-                            "An error occurred while loading...",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-
-                    else -> {}
-                }
-            }
-            if (selectedItems.isNotEmpty()) {
-                ItemInputBottomMenu(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(MaterialTheme.colorScheme.primary),
-                    onClick = {
-                    },
-                    onDismiss = {
-                        navController.popBackStack()
-                    }
-                )
             }
         }
     }

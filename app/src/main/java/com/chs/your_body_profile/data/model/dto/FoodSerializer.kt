@@ -10,7 +10,7 @@ object FoodSerializer : JsonTransformingSerializer<Float>(Float.serializer()) {
         return if (element is JsonPrimitive) {
             if (element.content.isNotEmpty()) {
                 element
-            } else JsonPrimitive(0.0f)
-        } else JsonPrimitive(0.0f)
+            } else JsonPrimitive(0f)
+        } else JsonPrimitive(0f)
     }
 }

@@ -10,7 +10,15 @@ abstract class FoodDao : BaseDao<FoodInfoEntity> {
     @Query(
         "SELECT IFNULL(SUM(calorie), 0) " +
           "FROM food_info " +
-        " WHERE takenTime = :time"
+         "WHERE takenTime = :time"
     )
     abstract fun getDayTotalCalories(time: Long): Flow<Int>
+
+    @Query(
+        "SELECT * " +
+          "FROM food_info " +
+         "ORDER BY takenTime DESC " +
+         "LIMIT 10"
+    )
+    abstract suspend fun getRecentTakenFood(): List<FoodInfoEntity>
 }
