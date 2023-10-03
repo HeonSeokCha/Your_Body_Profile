@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BaseDao<T> {
     @Upsert
-    suspend fun upsert(entity: T)
+    suspend fun upsert(vararg entity: T)
 
     @Delete
     suspend fun delete(entity: T)

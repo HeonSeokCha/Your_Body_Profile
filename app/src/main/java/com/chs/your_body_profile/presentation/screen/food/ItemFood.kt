@@ -33,16 +33,16 @@ import com.chs.your_body_profile.presentation.common.shimmerEffect
 
 @Composable
 fun ItemSelectFood(
-    name: String,
-    onClick: (String) -> Unit
+    info: FoodDetailInfo,
+    onClick: (FoodDetailInfo) -> Unit
 ) {
     SuggestionChip(
         modifier = Modifier
             .padding(horizontal = 2.dp),
-        onClick = { onClick(name) },
+        onClick = { onClick(info) },
         label = {
             Text(
-                text = name,
+                text = info.name,
                 fontSize = 22.sp,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -88,15 +88,15 @@ fun ItemSearchFoodInfo(
                 ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(20.dp)
+                            .fillMaxWidth(0.9f)
+                            .height(32.dp)
                             .shimmerEffect()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .height(20.dp)
+                            .fillMaxWidth(0.5f)
+                            .height(16.dp)
                             .shimmerEffect()
                     )
                 }

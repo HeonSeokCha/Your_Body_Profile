@@ -10,7 +10,7 @@ abstract class FoodDao : BaseDao<FoodInfoEntity> {
     @Query(
         "SELECT IFNULL(SUM(calorie), 0) " +
           "FROM food_info " +
-         "WHERE takenTime = :time"
+         "WHERE takenDate = :time"
     )
     abstract fun getDayTotalCalories(time: Long): Flow<Int>
 

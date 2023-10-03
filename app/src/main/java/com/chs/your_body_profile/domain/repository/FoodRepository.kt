@@ -11,7 +11,7 @@ interface FoodRepository {
     suspend fun insertSearchHistory(query: String)
 
     suspend fun upsertFoodDetailInfo(
-        foodInfo: FoodDetailInfo,
+        foodInfoList: List<FoodDetailInfo>,
         mealHistoryInfo: MealHistoryInfo
     )
 

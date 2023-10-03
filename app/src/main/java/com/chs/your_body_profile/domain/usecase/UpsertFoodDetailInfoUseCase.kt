@@ -9,11 +9,11 @@ class UpsertFoodDetailInfoUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
     suspend operator fun invoke(
-        foodDetailInfo: FoodDetailInfo,
+        foodInfoList: List<FoodDetailInfo>,
         mealHistoryInfo: MealHistoryInfo
     ) {
         repository.upsertFoodDetailInfo(
-            foodInfo = foodDetailInfo,
+            foodInfoList = foodInfoList,
             mealHistoryInfo = mealHistoryInfo
         )
     }

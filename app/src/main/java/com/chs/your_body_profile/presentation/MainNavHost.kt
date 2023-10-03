@@ -63,7 +63,7 @@ fun MainNavHost(
             arguments = listOf(
                 navArgument("mealType") {
                     type = NavType.StringType
-                    defaultValue = MealType.UNKNOWN.mean.second
+                    defaultValue = MealType.MORNING.mean.second
                 }
             )
         ) {

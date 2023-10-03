@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 
@@ -59,36 +62,24 @@ fun FoodSearchScreen(
     val context = LocalContext.current
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
     var placeItemShow by remember { mutableStateOf(false) }
-    val selectedItems = remember {
-        mutableStateListOf<String>()
-    }
+    var isSearchActive by remember { mutableStateOf(false) }
 
     LaunchedEffect(context, viewModel) {
+        viewModel.initMealType(mealType)
         viewModel.getRecentFoodSearchHistory()
         viewModel.getRecentTakenFoods()
     }
 
-    var isSearchActive by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
-            FoodAppBar(
-                navController = navController,
-                mealType = mealType,
-                selectCount = selectedItems.size
-            )
-        }
-    ) { it ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                if (selectedItems.isNotEmpty()) {
+            Column {
+                FoodAppBar(
+                    navController = navController,
+                    mealType = mealType,
+                    selectCount = state.selectFoodList.size
+                )
+
+                if (state.selectFoodList.isNotEmpty()) {
                     FlowRow(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -98,11 +89,11 @@ fun FoodSearchScreen(
                             ),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        selectedItems.forEach { foodName ->
+                        state.selectFoodList.forEach { foodInfo ->
                             ItemSelectFood(
-                                name = foodName,
-                                onClick = { selectedFoodName ->
-                                    selectedItems.remove(selectedFoodName)
+                                info = foodInfo,
+                                onClick = { selectedFood ->
+                                    viewModel.removeItem(selectedFood)
                                 }
                             )
                         }
@@ -140,12 +131,8 @@ fun FoodSearchScreen(
                         }
                     }
                 ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(it)
-                            .padding(bottom = 56.dp)
-                    ) {
-                        items(state.searchHistory) {query ->
+                    LazyColumn {
+                        items(state.searchHistory) { query ->
                             ItemSearchHistory(
                                 title = query,
                                 imageVector = Icons.Default.History
@@ -159,30 +146,37 @@ fun FoodSearchScreen(
                     }
                 }
 
-                if (pagingItems != null) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(it)
-                            .padding(
-                                bottom = if (selectedItems.isNotEmpty()) {
-                                    64.dp
-                                } else 0.dp
-                            )
-                            .fillMaxSize(),
-                        contentPadding = PaddingValues(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                    ) {
+            }
+        }
+    ) { it ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 56.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    if (pagingItems != null) {
                         items(pagingItems.itemCount) { idx ->
                             val item = pagingItems[idx]
                             if (item != null) {
-                                val isSelected = selectedItems.contains(item.name)
+                                val isSelected = state.selectFoodList.contains(item)
                                 ItemSearchFoodInfo(
                                     info = item,
                                     onClick = {
+                                        Log.e("FOODLIST", isSelected.toString())
                                         if (isSelected) {
-                                            selectedItems.remove(it.name)
+                                            viewModel.removeItem(it)
                                         } else {
-                                            selectedItems.add(it.name)
+                                            viewModel.addItem(it)
                                         }
                                     }, leadingContent = {
                                         if (isSelected) {
@@ -200,18 +194,19 @@ fun FoodSearchScreen(
                                 )
                             }
                         }
-                    }
-                } else {
-                    LazyColumn {
+                    } else {
+                        item {
+                            Text(text = "최근에 먹은 음식")
+                        }
                         items(state.recentFoodList) { item ->
-                            val isSelected = selectedItems.contains(item.name)
+                            val isSelected = state.selectFoodList.contains(item)
                             ItemSearchFoodInfo(
                                 info = item,
                                 onClick = {
                                     if (isSelected) {
-                                        selectedItems.remove(it.name)
+                                        viewModel.removeItem(it)
                                     } else {
-                                        selectedItems.add(it.name)
+                                        viewModel.addItem(it)
                                     }
                                 }, leadingContent = {
                                     if (isSelected) {
@@ -228,20 +223,18 @@ fun FoodSearchScreen(
                                 }
                             )
                         }
+                    }
 
-                        if (placeItemShow) {
-                            items(Constants.ITEM_SHIMMER_SHOW_COUNT) {
-                                ItemSearchFoodInfo(info = null, onClick = { }) { }
-                            }
+                    if (placeItemShow) {
+                        items(Constants.ITEM_SHIMMER_SHOW_COUNT) {
+                            ItemSearchFoodInfo(info = null, onClick = { }) { }
                         }
                     }
                 }
 
                 if (pagingItems != null) {
                     placeItemShow = when (pagingItems.loadState.source.refresh) {
-                        is LoadState.Loading -> {
-                            true
-                        }
+                        is LoadState.Loading -> true
                         is LoadState.Error -> {
                             Toast.makeText(
                                 context,
@@ -250,13 +243,26 @@ fun FoodSearchScreen(
                             ).show()
                             false
                         }
+
                         else -> {
                             pagingItems.itemCount < 0
-                            true
                         }
                     }
                 }
             }
+            ItemInputBottomMenu(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .align(Alignment.BottomCenter)
+                    .background(MaterialTheme.colorScheme.primary),
+                onClick = {
+                    viewModel.insertTakenInfo()
+                    navController.popBackStack()
+                }, onDismiss = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

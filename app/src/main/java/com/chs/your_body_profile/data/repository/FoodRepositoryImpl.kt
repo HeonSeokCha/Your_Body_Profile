@@ -32,10 +32,14 @@ class FoodRepositoryImpl @Inject constructor(
 ) : FoodRepository {
 
     override suspend fun upsertFoodDetailInfo(
-        foodInfo: FoodDetailInfo,
+        foodInfoList: List<FoodDetailInfo>,
         mealHistoryInfo: MealHistoryInfo
     ) {
-        foodDao.upsert(foodInfo.toFoodInfoEntity(mealHistoryInfo))
+        foodDao.upsert(
+            *foodInfoList.map {
+                it.toFoodInfoEntity(mealHistoryInfo)
+            }.toTypedArray()
+        )
     }
 
     override suspend fun upsertMealHistoryInfo(info: MealHistoryInfo) {

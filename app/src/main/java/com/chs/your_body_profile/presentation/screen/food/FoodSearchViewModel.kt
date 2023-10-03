@@ -3,6 +3,9 @@ package com.chs.your_body_profile.presentation.screen.food
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.usecase.GetRecentFoodSearchHistoryUseCase
 import com.chs.your_body_profile.domain.usecase.GetRecentTakenFoodsUseCase
 import com.chs.your_body_profile.domain.usecase.GetSearchResultFoodInfoUseCase
@@ -15,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +33,14 @@ class FoodSearchViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(FoodSearchState())
     val state: StateFlow<FoodSearchState> = _state.asStateFlow()
+
+    fun initMealType(mealType: String) {
+        _state.update { it ->
+            it.copy(
+                mealType = MealType.values().find { it.mean.second == mealType }
+            )
+        }
+    }
 
     fun updateQuery(query: String) {
         _state.update {
@@ -73,12 +85,20 @@ class FoodSearchViewModel @Inject constructor(
         }
     }
 
-    fun insertMealHistoryInfo() {
+    fun insertTakenInfo() {
+        viewModelScope.launch {
+            val takenMealHistoryInfo = MealHistoryInfo(
+                takenDate = state.value.takenDate,
+                takenTime = LocalDateTime.now(),
+                mealType = state.value.mealType!!
+            )
+            upsertMealHistoryInfoUseCase(takenMealHistoryInfo)
 
-    }
-
-    fun insertFoodDetailInfo() {
-
+            upsertFoodDetailInfoUseCase(
+                foodInfoList = state.value.selectFoodList,
+                mealHistoryInfo = takenMealHistoryInfo
+            )
+        }
     }
 
     fun upsertFoodSearchHistory(query: String) {
@@ -87,17 +107,25 @@ class FoodSearchViewModel @Inject constructor(
         }
     }
 
-    fun addItem(name: String) {
+    fun addItem(foodInfo: FoodDetailInfo) {
         _state.update {
-            it.selectItems.add(name)
-            it
+            val tempList: MutableList<FoodDetailInfo> = mutableListOf()
+            tempList.add(foodInfo)
+            tempList.addAll(it.selectFoodList)
+            it.copy(
+                selectFoodList = tempList
+            )
         }
     }
 
-    fun removeItem(name: String) {
+    fun removeItem(foodInfo: FoodDetailInfo) {
         _state.update {
-            it.selectItems.remove(name)
-            it
+            val tempList: MutableList<FoodDetailInfo> = mutableListOf()
+            tempList.addAll(it.selectFoodList)
+            tempList.remove(foodInfo)
+            it.copy(
+                selectFoodList = tempList
+            )
         }
     }
 }

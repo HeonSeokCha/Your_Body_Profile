@@ -10,7 +10,7 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 )
 data class FoodInfoEntity(
     val name: String,
-    val servingWeight: Int,
+    val servingWeight: Float,
     val takenDate: Long,
     val takenTime: Long,
     val takenMealType: String,

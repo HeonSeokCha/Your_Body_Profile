@@ -47,7 +47,7 @@ fun FoodDetailInfo.toFoodInfoEntity(mealHistoryInfo: MealHistoryInfo): FoodInfoE
         name = this.name,
         servingWeight = this.servingWeight,
         takenDate = mealHistoryInfo.takenDate.toMillis(),
-        takenTime = mealHistoryInfo.takenDate.toMillis(),
+        takenTime = mealHistoryInfo.takenTime.toMillis(),
         takenMealType = mealHistoryInfo.mealType.mean.first,
         calorie = this.calorie,
         carbohydrate = this.carbohydrate,
@@ -65,14 +65,14 @@ fun TakenMealHistoryEntity.toMealHistoryInfo(): MealHistoryInfo {
     return MealHistoryInfo(
         takenDate = this.takenDate.toLocalDate(),
         takenTime = this.takenTime.toLocalDateTime(),
-        mealType = MealType.entries.find { it.mean.first == this.takenMealType } ?: MealType.UNKNOWN
+        mealType = MealType.entries.find { it.mean.first == this.takenMealType } ?: MealType.MORNING
     )
 }
 
 fun MealHistoryInfo.toTakenMealHistoryEntity(): TakenMealHistoryEntity {
     return TakenMealHistoryEntity(
         takenDate = this.takenDate.toMillis(),
-        takenTime = this.takenDate.toMillis(),
+        takenTime = this.takenTime.toMillis(),
         takenMealType = this.mealType.mean.first
     )
 }
