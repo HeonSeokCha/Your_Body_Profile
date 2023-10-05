@@ -21,7 +21,7 @@ fun MealListScreen(
     navController: NavHostController
 ) {
     val list = remember {
-        mutableStateOf(List(100) { Random.nextInt(0, 100) })
+        mutableStateOf(List(10) { Random.nextInt(0, 100) })
     }
     val state = rememberScrollState()
     Column(

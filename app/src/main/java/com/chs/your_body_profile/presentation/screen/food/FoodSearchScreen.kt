@@ -15,13 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,9 +31,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,9 +43,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.common.Constants
-import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 
@@ -172,7 +170,6 @@ fun FoodSearchScreen(
                                 ItemSearchFoodInfo(
                                     info = item,
                                     onClick = {
-                                        Log.e("FOODLIST", isSelected.toString())
                                         if (isSelected) {
                                             viewModel.removeItem(it)
                                         } else {
@@ -234,7 +231,27 @@ fun FoodSearchScreen(
 
                 if (pagingItems != null) {
                     placeItemShow = when (pagingItems.loadState.source.refresh) {
-                        is LoadState.Loading -> true
+                        is LoadState.Loading -> {
+                            true
+                        }
+                        is LoadState.Error -> {
+                            Toast.makeText(
+                                context,
+                                "An error occurred while loading...",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            false
+                        }
+
+                        else -> {
+                            pagingItems.itemCount < 0
+                        }
+                    }
+
+                    placeItemShow = when (pagingItems.loadState.append) {
+                        is LoadState.Loading -> {
+                            true
+                        }
                         is LoadState.Error -> {
                             Toast.makeText(
                                 context,

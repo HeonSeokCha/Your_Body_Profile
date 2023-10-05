@@ -23,12 +23,12 @@ class SearchFoodPaging(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FoodDetailInfo> {
         return try {
             val page: Int = params.key ?: 1
+            Log.e("PAGING", "$page, ${page + Constants.FOOD_SEARCH_OFFSET}")
             val response = service.getSearchResultFoodInfo(
                 startIdx = page.toString(),
                 endIdx = (page + Constants.FOOD_SEARCH_OFFSET).toString(),
                 query = query
             )
-
 
             LoadResult.Page(
                 data = response.foodService.row.map {
@@ -36,7 +36,7 @@ class SearchFoodPaging(
                 },
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (response.foodService.totalCount == Constants.FOOD_SEARCH_OFFSET + 1) {
-                    page + Constants.FOOD_SEARCH_OFFSET
+                    page + 1 + Constants.FOOD_SEARCH_OFFSET
                 } else {
                     null
                 }
