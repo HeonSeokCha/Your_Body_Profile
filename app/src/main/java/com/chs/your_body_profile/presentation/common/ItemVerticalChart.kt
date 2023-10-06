@@ -26,15 +26,22 @@ import android.graphics.Paint
 import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.TextStyle
@@ -52,185 +59,56 @@ fun ItemVerticalChart(
     list: List<Int>,
     onSelected: (Int) -> Unit
 ) {
-    val scrollState = rememberScrollState()
-    val dateRangeList = listOf<LocalDate>()
     val density = LocalDensity.current
-    val skyBlue = SkyBlue400
-    val horizontalPadding = with(density) { 12.dp.toPx() }
-    val distance = with(density) { 26.dp.toPx() }
-    val calculatedWidth = with(density) {
-        (distance.times(list.size) + horizontalPadding.times(4)).toDp()
-    }
-    val barWidth = with(density) { 24.dp.toPx() }
-    val selectionWidth = with(density) { 20.dp.toPx() }
-    val smallPadding = with(density) { 4.dp.toPx() }
-    val textSize = with(density) { 22.sp.toPx() }
-    val cornerRadius = with(density) { 4.dp.toPx() }
-    val labelSelectionHeight = smallPadding.times(2) + textSize
-    val paint = Paint().apply {
-        color = 0xffff47586B.toInt()
-        textAlign = Paint.Align.CENTER
-        this.textSize = textSize
-    }
-    val barAreas = list.mapIndexed { index, i ->
-        BarArea(
-            index = index,
-            value = i,
-            xStart = horizontalPadding + distance.times(index) - distance.div(2),
-            xEnd = horizontalPadding + distance.times(index) + distance.div(2)
-        )
-    }
-
-    var selectedPos by remember { mutableFloatStateOf(barAreas.first().xStart.plus(1f)) }
-    var tempPos by remember { mutableFloatStateOf(-1000f) }
-    val selectBar by remember(selectedPos, barAreas) {
-        derivedStateOf {
-            barAreas.find { it.xStart < selectedPos && selectedPos < it.xEnd }
-        }
-    }
-
-    val tempBar by remember(tempPos, barAreas) {
-        derivedStateOf {
-            barAreas.find { it.xStart < tempPos && tempPos < it.xEnd }
-        }
-    }
-
-    val scope = rememberCoroutineScope()
-    val animateAble = remember { Animatable(1f) }
-    val tempAnimateAble = remember { Animatable(0f) }
-    val textMeasure = rememberTextMeasurer()
-
-    val scale = calculateScale((900 - smallPadding).roundToInt(), list)
-
-    val chartAreaBottom = 900 - labelSelectionHeight
+    val height = with(density) { 300.dp.toPx() }
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
             .height(300.dp)
-            .tapOrPress(
-                onStart = { pos ->
-                    scope.launch {
-                        selectBar?.let { selected ->
-                            if (pos !in selected.xStart..selected.xEnd) {
-                                tempPos = pos
-                                scope.launch {
-                                    tempAnimateAble.snapTo(0f)
-                                    tempAnimateAble.animateTo(1f, animationSpec = tween(300))
-                                }
-                            }
-                        }
-                    }
-                }, onCancel = { pos ->
-                    tempPos = -Int.MAX_VALUE.toFloat()
-                    scope.launch {
-                        tempAnimateAble.animateTo(0f)
-                    }
-                }, onCompleted = {
-                    val currentSelected = selectBar
-                    scope.launch {
-                        selectedPos = it
-                        animateAble.snapTo(tempAnimateAble.value)
-                        selectBar?.value?.let { value ->
-                            onSelected(value)
-                        }
-                        async {
-                            animateAble.animateTo(
-                                targetValue = 1f,
-                                animationSpec = tween(
-                                    300
-                                        .times(1f - tempAnimateAble.value)
-                                        .roundToInt()
-                                )
-                            )
-                        }
-                        async {
-                            tempAnimateAble.snapTo(0f)
-                            currentSelected?.let {
-                                tempPos = currentSelected.xStart.plus(1f)
-                                tempAnimateAble.snapTo(1f)
-                                tempAnimateAble.animateTo(0f, tween(300))
-                            }
-                        }
-                    }
+            .drawBehind {
+                repeat(3) {
+                    drawLine(
+                        color = Color.Gray,
+                        start = Offset(0f, ((100.dp.toPx() * (it) + 10))),
+                        end = Offset(size.width, ((100.dp.toPx() * (it) + 10)))
+                    )
                 }
-            )
+            },
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        reverseLayout = true
     ) {
-        items(list.size) { idx ->
-            Canvas(modifier = Modifier
-                .width(24.dp)
-                .height(300.dp)
-            ) {
-
-                val barHeight = list[idx].times(scale).toFloat()
-                Log.e(
-                    "DRAW_RECT",
-                    (horizontalPadding + distance.times(idx) + (idx * 32.dp.toPx()) - barWidth.div(2)).toString()
-                )
-                drawRoundRect(
-                    color = skyBlue,
-                    topLeft = Offset(
-                        x = horizontalPadding + distance.times(idx) + (idx * 32.dp.toPx()) - barWidth.div(
-                            2
-                        ),
-                        y = size.height - barHeight - smallPadding - distance
-                    ),
-                    size = Size(barWidth, barHeight),
-                    cornerRadius = CornerRadius(cornerRadius)
-                )
-
-//                val textPosX = idx * 2f
-//                val textPosY = chartAreaBottom - barHeight - smallPadding - 10f
-//                Log.e("DRAW_TEXT", "${barWidth / 2} , ${barWidth.div(2)}")
-//                drawText(
-//                    textMeasurer = textMeasure,
-//                    text = list[idx].toString(),
-//                    topLeft = Offset(textPosX, size.height),
-//                )
-                if (selectBar != null) {
-                    drawRoundRect(
-                        brush = Brush.verticalGradient(
-                            listOf(
-                                skyBlue.copy(alpha = 0.3f),
-                                Color.Transparent
-                            )
-                        ),
-                        topLeft = Offset(
-                            x = horizontalPadding + distance.times(selectBar!!.index) - selectionWidth.div(
-                                2
-                            ),
-                            y = size.height + smallPadding - size.height.times(animateAble.value)
-                        ),
-                        size = Size(selectionWidth, size.height.minus(smallPadding.times(2))),
-                        cornerRadius = CornerRadius(cornerRadius)
-                    )
-                }
-
-                if (tempBar != null) {
-                    drawRoundRect(
-                        brush = Brush.verticalGradient(
-                            listOf(
-                                skyBlue.copy(alpha = 0.3f),
-                                Color.Transparent
-                            )
-                        ),
-                        topLeft = Offset(
-                            x = horizontalPadding + distance.times(tempBar!!.index) - selectionWidth.div(
-                                2
-                            ), y = size.height + smallPadding - size.height.times(tempAnimateAble.value)
-                        ),
-                        size = Size(selectionWidth, size.height.minus(smallPadding.times(2))),
-                        cornerRadius = CornerRadius(cornerRadius)
-                    )
-                }
+        items(list) {
+            ItemVerticalCharBar(measureValue = it, calculateScale(height.roundToInt(), list)) {
+                onSelected(it)
             }
         }
     }
 }
 
-data class BarArea(
-    val index: Int,
-    val xStart: Float,
-    val xEnd: Float,
-    val value: Int
-)
+
+@Composable
+fun ItemVerticalCharBar(
+    measureValue: Int,
+    scaleValue: Double,
+    onClick: () -> Unit
+) {
+    val textMeasurer = rememberTextMeasurer()
+    Canvas(
+        modifier = Modifier
+            .width(30.dp)
+            .fillMaxHeight()
+            .clickable { onClick() }
+    ) {
+        drawRect(
+            color = SkyBlue400,
+            topLeft = Offset(0f,(850 - measureValue.times(scaleValue)).toFloat()),
+            size = Size(24.dp.toPx(), measureValue.times(scaleValue).toFloat()),
+        )
+
+        drawText(
+            textMeasurer = textMeasurer,
+            text = "$measureValue",
+            topLeft = Offset(0f, ((800 - 54) - measureValue.times(scaleValue) - 22).toFloat())
+        )
+    }
+}
