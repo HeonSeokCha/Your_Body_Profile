@@ -2,19 +2,17 @@ package com.chs.your_body_profile.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.chs.your_body_profile.data.source.db.dao.InsulinDao
+import com.chs.your_body_profile.data.source.db.dao.FoodDao
 
-class InsulinInfoPaging(
-    private val insulinDao: InsulinDao
+class FoodDayTotalCaloriePaging(
+    private val foodDao: FoodDao
 ) : PagingSource<Int, Int>() {
     override fun getRefreshKey(state: PagingState<Int, Int>): Int? {
-        return state.anchorPosition?.let { position ->
-            val page = state.closestPageToPosition(position)
-            page?.prevKey?.minus(1) ?: page?.nextKey?.plus(1)
-        }
+        TODO("Not yet implemented")
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Int> {
         TODO("Not yet implemented")
     }
+
 }

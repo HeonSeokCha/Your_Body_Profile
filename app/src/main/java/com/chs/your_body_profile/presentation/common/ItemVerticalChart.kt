@@ -35,12 +35,16 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
@@ -61,10 +65,12 @@ fun ItemVerticalChart(
 ) {
     val density = LocalDensity.current
     val height = with(density) { 300.dp.toPx() }
+    val scaleValue by remember { mutableDoubleStateOf(calculateScale(height.roundToInt(), list)) }
+    var selectIdx by remember { mutableIntStateOf(0) }
+
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
             .drawBehind {
                 repeat(3) {
                     drawLine(
@@ -77,38 +83,56 @@ fun ItemVerticalChart(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         reverseLayout = true
     ) {
-        items(list) {
-            ItemVerticalCharBar(measureValue = it, calculateScale(height.roundToInt(), list)) {
-                onSelected(it)
+        itemsIndexed(list) { idx, value ->
+            Column(
+                modifier = Modifier
+                    .clickable {
+                        selectIdx = idx
+                        onSelected(value)
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ItemVerticalCharBar(barHeight = value.times(scaleValue).toFloat())
+
+                ItemChartDate(
+                    date = LocalDate.now().minusDays(idx.toLong()),
+                    isFocused = selectIdx == idx
+                )
             }
         }
     }
 }
 
+@Composable
+fun ItemChartDate(
+    date: LocalDate,
+    isFocused: Boolean = false
+) {
+    Text(
+        text = if (isFocused) {
+            "${date.month.value}/${date.dayOfMonth}"
+        } else {
+            if (date.dayOfMonth == 1) {
+                "${date.month.value}/${date.dayOfMonth}"
+            } else {
+                date.dayOfMonth.toString()
+            }
+        },
+        fontSize = 22.sp
+    )
+}
 
 @Composable
-fun ItemVerticalCharBar(
-    measureValue: Int,
-    scaleValue: Double,
-    onClick: () -> Unit
-) {
-    val textMeasurer = rememberTextMeasurer()
+fun ItemVerticalCharBar(barHeight: Float) {
     Canvas(
         modifier = Modifier
             .width(30.dp)
-            .fillMaxHeight()
-            .clickable { onClick() }
+            .height(300.dp)
     ) {
         drawRect(
             color = SkyBlue400,
-            topLeft = Offset(0f,(850 - measureValue.times(scaleValue)).toFloat()),
-            size = Size(24.dp.toPx(), measureValue.times(scaleValue).toFloat()),
-        )
-
-        drawText(
-            textMeasurer = textMeasurer,
-            text = "$measureValue",
-            topLeft = Offset(0f, ((800 - 54) - measureValue.times(scaleValue) - 22).toFloat())
+            topLeft = Offset(3.dp.toPx(), 300.dp.toPx() - barHeight),
+            size = Size(24.dp.toPx(), barHeight),
         )
     }
 }
