@@ -6,10 +6,10 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 
 @Entity(
     tableName = "medicine_info",
-    primaryKeys = ["insertTime", "title"]
+    primaryKeys = ["insertDate", "title"]
 )
 data class MedicineInfoEntity(
-    val insertTime: Long = System.currentTimeMillis().toLocalDateToMillis(),
+    val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
     val doseTime: Long,
     val title: String,
     val takeMedicineType: String,
