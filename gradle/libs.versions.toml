@@ -2,19 +2,20 @@
 androidStudioGradlePlugin = "8.1.2"
 
 compileSdkVersion = "34"
+desugar_jdk_libs = "2.0.3"
 kotlinGradlePlugin = "1.9.10"
 minSdkVersion = "29"
 targetSdkVersion = "33"
 versionCode = "1"
 versionName = "1.0"
 
-activity = "1.7.2"
-compose-ui = "1.5.2"
+activity = "1.8.0"
+compose-ui = "1.5.3"
 composeCompiler = "1.5.3"
 lifecycle = "2.6.2"
 room = "2.5.2"
 coil = "2.4.0"
-hilt = "2.48"
+hilt = "2.48.1"
 kotlin = "1.9.10"
 ksp = "1.9.10-1.0.13"
 kotlin-coroutine = "1.7.3"
@@ -30,7 +31,7 @@ androidX-compose-material-icon-extend = { module = "androidx.compose.material:ma
 androidX-compose-material3 = "androidx.compose.material3:material3:1.1.2"
 androidX-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui" }
 androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.3"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.4"
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle"}
 androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
@@ -41,9 +42,10 @@ androidX-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidX-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 ## Hilt
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
+hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0-beta01"
 
 ## Kotlin
 kotlin-coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
