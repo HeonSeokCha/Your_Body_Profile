@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.common
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -42,12 +44,12 @@ fun ItemVerticalChart(
     val height = with(density) { 300.dp.toPx() }
     var selectIdx by remember { mutableIntStateOf(0) }
     val scrollState = rememberLazyListState()
-    val scaleValue by remember {
-        mutableDoubleStateOf(
-            calculateScale(
-                height.roundToInt(),
-                pagingItems?.itemSnapshotList?.map { it?.second ?: 0 } ?: emptyList()
-            )
+    var scaleValue by remember { mutableDoubleStateOf(1.0) }
+
+    LaunchedEffect(pagingItems?.itemCount) {
+        scaleValue = calculateScale(
+            height.roundToInt(),
+            pagingItems?.itemSnapshotList?.map { it?.second ?: 0 } ?: emptyList()
         )
     }
 
@@ -97,7 +99,7 @@ fun ItemVerticalChart(
                     ItemVerticalCharBar(barHeight = calorie.times(scaleValue).toFloat())
 
                     ItemChartDate(
-                        date = LocalDate.now().minusDays(idx.toLong()),
+                        date = date,
                         isFocused = selectIdx == idx
                     )
                 }

@@ -27,6 +27,8 @@ class MealListViewModel @Inject constructor(
                 chartList = getPagingTotalCalorieUseCase().cachedIn(viewModelScope)
             )
         }
+
+        getDayTakenMealInfo(LocalDate.now())
     }
 
     fun getDayTakenMealInfo(localDate: LocalDate) {

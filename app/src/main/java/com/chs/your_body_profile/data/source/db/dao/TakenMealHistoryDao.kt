@@ -15,7 +15,8 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
          "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
            "AND food.takenTime = mealHistory.takenTime " +
            "AND food.takenMealType = mealHistory.takenMealType " +
-         "WHERE mealHistory.takenDate = :time"
+         "WHERE mealHistory.takenDate = :time " +
+         "ORDER BY mealHistory.takenMealType, food.takenTime ASC"
     )
     abstract fun getDayTakenList(time: Long): Flow<Map<TakenMealHistoryEntity, List<FoodInfoEntity>>>
 
@@ -26,7 +27,8 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
            "AND food.takenTime = mealHistory.takenTime " +
            "AND food.takenMealType = mealHistory.takenMealType " +
          "WHERE mealHistory.takenDate = :time " +
-           "AND mealHistory.takenMealType = :mealTYpe"
+           "AND mealHistory.takenMealType = :mealTYpe " +
+         "ORDER BY food.takenTime ASC"
     )
     abstract fun getDayMealTypeTakenList(
         time: Long,
@@ -54,7 +56,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     )
     abstract fun getDayMealTypeTotalCalorie(
         time: Long,
-        mealType: String
+        mealType: Int
     ): Flow<Int>
 
     @Query(
@@ -68,7 +70,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     )
     abstract fun getDayMealTypeTotalCarbohydrate(
         time: Long,
-        mealType: String
+        mealType: Int
     ): Flow<Float>
 
     @Query(
@@ -82,7 +84,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     )
     abstract fun getDayMealTypeTotalProtein(
         time: Long,
-        mealType: String
+        mealType: Int
     ): Flow<Float>
 
     @Query(
@@ -96,7 +98,6 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     )
     abstract fun getDayMealTypeTotalFat(
         time: Long,
-        mealType: String
+        mealType: Int
     ): Flow<Float>
-
 }

@@ -19,9 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.map
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
-import kotlin.random.Random
 
 @Composable
 fun MealListScreen(

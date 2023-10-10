@@ -13,7 +13,7 @@ data class FoodInfoEntity(
     val servingWeight: Float,
     val takenDate: Long,
     val takenTime: Long,
-    val takenMealType: String,
+    val takenMealType: Int,
     val calorie: Float,
     val carbohydrate: Float = 0f,
     val fat: Float = 0f,

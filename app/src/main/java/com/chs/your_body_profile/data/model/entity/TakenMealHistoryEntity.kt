@@ -9,5 +9,5 @@ import androidx.room.Entity
 data class TakenMealHistoryEntity(
     val takenDate: Long,
     val takenTime: Long,
-    val takenMealType: String
+    val takenMealType: Int
 )

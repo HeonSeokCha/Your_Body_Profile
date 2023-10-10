@@ -46,6 +46,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 
@@ -54,7 +55,8 @@ import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 fun FoodSearchScreen(
     mealType: String,
     navController: NavHostController,
-    viewModel: FoodSearchViewModel = hiltViewModel()
+    viewModel: FoodSearchViewModel = hiltViewModel(),
+    navigateToMealHistoryInputScreen: (List<FoodDetailInfo>) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -274,8 +276,8 @@ fun FoodSearchScreen(
                     .align(Alignment.BottomCenter)
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
-                    viewModel.insertTakenInfo()
                     navController.popBackStack()
+                    navigateToMealHistoryInputScreen(state.selectFoodList)
                 }, onDismiss = {
                     navController.popBackStack()
                 }

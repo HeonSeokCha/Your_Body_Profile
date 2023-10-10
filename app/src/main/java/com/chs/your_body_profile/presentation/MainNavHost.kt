@@ -6,15 +6,21 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
+import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
+import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
 import com.chs.your_body_profile.presentation.screen.body_dash_board.BodyDashBoardScreen
 import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
 import com.chs.your_body_profile.presentation.screen.food.FoodSearchScreen
+import com.chs.your_body_profile.presentation.screen.food.MealHistoryInputScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
 import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun MainNavHost(
@@ -64,8 +70,35 @@ fun MainNavHost(
         ) {
             FoodSearchScreen(
                 it.arguments?.getString("mealType")!!,
-                navController
+                navController,
+                navigateToMealHistoryInputScreen = { foodList ->
+                    val jsonFoodList = Json.encodeToString(
+                        foodList.map { foodInfo ->
+                            foodInfo.toResponseFoodDetailInfo()
+                        }
+                    )
+                    navController.navigate(
+                        "${Screens.ScreenMealHistoryInput.route}/$jsonFoodList"
+                    )
+                }
             )
+        }
+
+        composable(
+            route = "${Screens.ScreenMealHistoryInput.route}/{foodList}",
+            arguments = listOf(
+                navArgument("foodList") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val foodList = Json.decodeFromString<List<ResponseFoodDetailInfo>>(
+                it.arguments?.getString("foodList")!!
+            ).map { responseFoodDetailInfo ->
+                responseFoodDetailInfo.toFoodDetailInfo()
+            }
+
+            MealHistoryInputScreen(foodList = foodList)
         }
 
         composable(Screens.ScreenFoodDetail.route) {

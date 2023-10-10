@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.source.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.toMillis
@@ -23,14 +24,17 @@ class FoodDayTotalCaloriePaging(
         )
 
         val data = LocalDate.now().minusDays(page + 30L)
-            .datesUntil(LocalDate.now().minusDays((page).toLong()))
+            .datesUntil(LocalDate.now().plusDays(1L).minusDays((page).toLong()))
             .map { date ->
+                Log.e("DATE", date.toString())
                 if (localResult.any { it.takenDate == date.toMillis() }) {
                     date.toMillis() to localResult.filter { it.takenDate == date.toMillis() }.map { it.calorie }.sum().toInt()
                 } else {
                     date.toMillis() to 0
                 }
-        }.toList()
+        }.toList().sortedByDescending { it.first }
+
+        Log.e("CALORIE", "${localResult}")
 
         return LoadResult.Page(
             data = data,

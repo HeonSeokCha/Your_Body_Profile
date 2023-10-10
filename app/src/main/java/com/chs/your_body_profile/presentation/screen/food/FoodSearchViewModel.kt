@@ -27,8 +27,7 @@ class FoodSearchViewModel @Inject constructor(
     private val getRecentFoodSearchHistoryUseCase: GetRecentFoodSearchHistoryUseCase,
     private val getRecentTakenFoodsUseCase: GetRecentTakenFoodsUseCase,
     private val upsertFoodSearchHistoryUseCase: UpsertFoodSearchHistoryUseCase,
-    private val upsertMealHistoryInfoUseCase: UpsertMealHistoryInfoUseCase,
-    private val upsertFoodDetailInfoUseCase: UpsertFoodDetailInfoUseCase
+
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FoodSearchState())
@@ -82,22 +81,6 @@ class FoodSearchViewModel @Inject constructor(
                     recentFoodList = getRecentTakenFoodsUseCase()
                 )
             }
-        }
-    }
-
-    fun insertTakenInfo() {
-        viewModelScope.launch {
-            val takenMealHistoryInfo = MealHistoryInfo(
-                takenDate = state.value.takenDate,
-                takenTime = LocalDateTime.now(),
-                mealType = state.value.mealType!!
-            )
-            upsertMealHistoryInfoUseCase(takenMealHistoryInfo)
-
-            upsertFoodDetailInfoUseCase(
-                foodInfoList = state.value.selectFoodList,
-                mealHistoryInfo = takenMealHistoryInfo
-            )
         }
     }
 

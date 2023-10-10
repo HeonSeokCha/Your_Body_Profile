@@ -14,6 +14,6 @@ sealed class Screens(
     data object ScreenMedicineInput : Screens("input_medicine_screen")
     data object ScreenFoodSearch : Screens("search_food_screen")
     data object ScreenFoodDetail : Screens("food_detail_Screen")
-    data object ScreenMealInput : Screens("meal_input_screen")
+    data object ScreenMealHistoryInput : Screens("meal_history_input_screen")
     data object ScreenMealList : Screens("meal_list_screen")
 }
