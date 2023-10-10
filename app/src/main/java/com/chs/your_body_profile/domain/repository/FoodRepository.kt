@@ -48,4 +48,6 @@ interface FoodRepository {
         localDate: LocalDate,
         mealType: MealType
     ): Flow<Float>
+
+    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<Long, Int>>>
 }

@@ -21,6 +21,10 @@ object Constants {
     val DATE_TIME_FORMATTER_DETAIL: DateTimeFormatter = DateTimeFormatter.ofPattern("M월 dd일 (E) a hh:mm")
         .withLocale(Locale.forLanguageTag("ko"))
 
+    val DATE_MONTH_DAY_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("M/d")
+
+    val DATE_DAY_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("d")
+
     val RANGE_BLOOD_SUGAR_NUMBER = 18 .. 400
     val RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER = 81 .. 300
     val RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER = 0 .. 250

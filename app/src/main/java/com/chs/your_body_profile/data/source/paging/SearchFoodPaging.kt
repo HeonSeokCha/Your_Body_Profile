@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.data.source.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.Constants
@@ -23,7 +22,6 @@ class SearchFoodPaging(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FoodDetailInfo> {
         return try {
             val page: Int = params.key ?: 1
-            Log.e("PAGING", "$page, ${page + Constants.FOOD_SEARCH_OFFSET}")
             val response = service.getSearchResultFoodInfo(
                 startIdx = page.toString(),
                 endIdx = (page + Constants.FOOD_SEARCH_OFFSET).toString(),
@@ -42,7 +40,6 @@ class SearchFoodPaging(
                 }
             )
         } catch (e: Exception) {
-            Log.e("RESPONSE", e.toString())
             LoadResult.Error(e)
         }
     }

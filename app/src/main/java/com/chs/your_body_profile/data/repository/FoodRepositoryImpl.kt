@@ -13,6 +13,7 @@ import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
+import com.chs.your_body_profile.data.source.paging.FoodDayTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodInfo
@@ -21,6 +22,7 @@ import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -129,5 +131,13 @@ class FoodRepositoryImpl @Inject constructor(
             time = localDate.toMillis(),
             mealType = mealType.mean.first
         )
+    }
+
+    override fun getPagingDayTotalCalories(): Flow<PagingData<Pair<Long, Int>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            FoodDayTotalCaloriePaging(foodDao = foodDao)
+        }.flow
     }
 }

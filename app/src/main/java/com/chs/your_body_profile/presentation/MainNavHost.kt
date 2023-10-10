@@ -12,7 +12,6 @@ import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInput
 import com.chs.your_body_profile.presentation.screen.body_dash_board.BodyDashBoardScreen
 import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
 import com.chs.your_body_profile.presentation.screen.food.FoodSearchScreen
-import com.chs.your_body_profile.presentation.screen.food.MealInputScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
 import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
@@ -48,10 +47,6 @@ fun MainNavHost(
 
         composable(Screens.ScreenMedicineInput.route) {
 
-        }
-
-        composable(Screens.ScreenMealInput.route) {
-            MealInputScreen(navController)
         }
 
         composable(Screens.ScreenMealList.route) {
