@@ -17,9 +17,12 @@ abstract class FoodDao : BaseDao<FoodInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM food_info " +
-         "WHERE takenDate >= :time"
+         "WHERE takenDate BETWEEN :startDate AND :endDate"
     )
-    abstract suspend fun getPagingDayInfo(time: Long): List<FoodInfoEntity>
+    abstract suspend fun getPagingDayInfo(
+        startDate: Long,
+        endDate: Long
+    ): List<FoodInfoEntity>
 
     @Query(
         "SELECT * " +

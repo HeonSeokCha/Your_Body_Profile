@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
@@ -71,7 +72,7 @@ fun MainNavHost(
             FoodSearchScreen(
                 it.arguments?.getString("mealType")!!,
                 navController,
-                navigateToMealHistoryInputScreen = { foodList ->
+                navigateToMealHistoryInputScreen = { mealHistoryInfo, foodList ->
                     val jsonFoodList = Json.encodeToString(
                         foodList.map { foodInfo ->
                             foodInfo.toResponseFoodDetailInfo()
@@ -85,10 +86,14 @@ fun MainNavHost(
         }
 
         composable(
-            route = "${Screens.ScreenMealHistoryInput.route}/{foodList}",
+            route = "${Screens.ScreenMealHistoryInput.route}/{takenMealInfo}/{foodList}",
             arguments = listOf(
+                navArgument("takenMealInfo") {
+                    type = NavType.StringType
+                },
                 navArgument("foodList") {
                     type = NavType.StringType
+                    defaultValue = Json.encodeToString(listOf<ResponseFoodDetailInfo>())
                 }
             )
         ) {
@@ -98,7 +103,10 @@ fun MainNavHost(
                 responseFoodDetailInfo.toFoodDetailInfo()
             }
 
-            MealHistoryInputScreen(foodList = foodList)
+            MealHistoryInputScreen(
+                takenMealHistoryInfo =
+                foodList = foodList
+            )
         }
 
         composable(Screens.ScreenFoodDetail.route) {

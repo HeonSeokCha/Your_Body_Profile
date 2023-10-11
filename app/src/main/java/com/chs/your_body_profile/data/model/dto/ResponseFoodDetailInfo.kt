@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseFoodDetailInfo(
+    @SerialName("FOOD_CD")
+    val foodCode: String,
     @SerialName("DESC_KOR")
     val name: String,
     @Serializable(with = FoodSerializer::class)

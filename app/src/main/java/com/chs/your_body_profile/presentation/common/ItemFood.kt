@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.screen.food
+package com.chs.your_body_profile.presentation.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

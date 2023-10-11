@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.presentation.screen.food
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -43,12 +42,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
-import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemSearchFoodInfo
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
+import com.chs.your_body_profile.presentation.common.ItemSelectFood
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -56,7 +56,7 @@ fun FoodSearchScreen(
     mealType: String,
     navController: NavHostController,
     viewModel: FoodSearchViewModel = hiltViewModel(),
-    navigateToMealHistoryInputScreen: (List<FoodDetailInfo>) -> Unit
+    navigateToMealHistoryInputScreen: (MealHistoryInfo, List<FoodDetailInfo>) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -277,7 +277,14 @@ fun FoodSearchScreen(
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
                     navController.popBackStack()
-                    navigateToMealHistoryInputScreen(state.selectFoodList)
+                    navigateToMealHistoryInputScreen(
+                        MealHistoryInfo(
+                            takenDate = state.takenDate,
+                            takenTime = state.takenTime!!,
+                            mealType = state.mealType!!
+                        ),
+                        state.selectFoodList
+                    )
                 }, onDismiss = {
                     navController.popBackStack()
                 }

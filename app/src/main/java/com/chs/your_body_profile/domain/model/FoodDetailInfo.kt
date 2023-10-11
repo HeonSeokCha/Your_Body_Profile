@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.domain.model
 
 data class FoodDetailInfo(
+    val code: String,
     val name: String,
     val servingWeight: Float = 0f,
     val calorie: Float = 0f,

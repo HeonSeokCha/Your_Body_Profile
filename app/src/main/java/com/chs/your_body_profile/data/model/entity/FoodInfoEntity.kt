@@ -4,16 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.chs.your_body_profile.common.toLocalDateToMillis
 
-@Entity(
-    tableName = "food_info",
-    primaryKeys = ["name", "servingWeight"]
-)
+@Entity(tableName = "food_info")
 data class FoodInfoEntity(
+    @PrimaryKey
+    val foodCode: String,
     val name: String,
     val servingWeight: Float,
-    val takenDate: Long,
-    val takenTime: Long,
-    val takenMealType: Int,
     val calorie: Float,
     val carbohydrate: Float = 0f,
     val fat: Float = 0f,
