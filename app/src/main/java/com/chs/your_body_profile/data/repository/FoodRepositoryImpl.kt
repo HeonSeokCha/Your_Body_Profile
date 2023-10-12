@@ -39,12 +39,12 @@ class FoodRepositoryImpl @Inject constructor(
     ) {
         foodDao.upsert(
             *foodInfoList.map {
-                it.toFoodInfoEntity(mealHistoryInfo)
+                it.toFoodInfoEntity()
             }.toTypedArray()
         )
     }
 
-    override suspend fun upsertMealHistoryInfo(info: MealHistoryInfo) {
+    override suspend fun upsertMealHistoryInfo(info: MealHistoryInfo, ) {
         takenMealHistoryDao.upsert(info.toTakenMealHistoryEntity())
     }
 
@@ -64,7 +64,6 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override fun getDayTotalCalories(localDate: LocalDate): Flow<Int> {
-        return foodDao.getDayTotalCalories(localDate.toMillis())
     }
 
     override fun getDayMealTypeList(
@@ -92,9 +91,7 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecentTakenFoods(): List<FoodDetailInfo> {
-        return foodDao.getRecentTakenFood().map {
-            it.toFoodDetailInfo()
-        }
+
     }
 
     override suspend fun insertSearchHistory(query: String) {

@@ -7,7 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
+import com.chs.your_body_profile.data.mapper.toMealHistoryInfo
 import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
+import com.chs.your_body_profile.data.model.TakenMealHistoryInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
@@ -90,6 +92,7 @@ fun MainNavHost(
             arguments = listOf(
                 navArgument("takenMealInfo") {
                     type = NavType.StringType
+                    defaultValue = Json.encodeToString(TakenMealHistoryInfo())
                 },
                 navArgument("foodList") {
                     type = NavType.StringType
@@ -97,6 +100,10 @@ fun MainNavHost(
                 }
             )
         ) {
+            val takenMealHistoryInfo = Json.decodeFromString<TakenMealHistoryInfo>(
+                it.arguments?.getString("takenMealInfo")!!
+            ).toMealHistoryInfo()
+
             val foodList = Json.decodeFromString<List<ResponseFoodDetailInfo>>(
                 it.arguments?.getString("foodList")!!
             ).map { responseFoodDetailInfo ->
@@ -104,7 +111,7 @@ fun MainNavHost(
             }
 
             MealHistoryInputScreen(
-                takenMealHistoryInfo =
+                takenMealHistoryInfo = takenMealHistoryInfo,
                 foodList = foodList
             )
         }

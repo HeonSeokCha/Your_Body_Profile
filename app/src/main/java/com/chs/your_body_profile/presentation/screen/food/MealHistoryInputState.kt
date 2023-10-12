@@ -2,11 +2,13 @@ package com.chs.your_body_profile.presentation.screen.food
 
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class MealHistoryInputState(
-    val mealTYpe: MealType? = null,
+    val takenDate: LocalDate? = null,
     val takenTime: LocalDateTime? = null,
+    val mealType: MealType? = null,
     val takenFoodList: List<FoodDetailInfo> = emptyList(),
     val totalCalorie: Int = 0,
     val totalCarbohydrate: Float = 0f,

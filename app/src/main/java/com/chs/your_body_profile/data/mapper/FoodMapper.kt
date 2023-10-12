@@ -3,6 +3,7 @@ package com.chs.your_body_profile.data.mapper
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toMillis
+import com.chs.your_body_profile.data.model.TakenMealHistoryInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
 import com.chs.your_body_profile.data.model.entity.TakenMealHistoryEntity
@@ -12,6 +13,7 @@ import com.chs.your_body_profile.domain.model.MealType
 
 fun ResponseFoodDetailInfo.toFoodDetailInfo(): FoodDetailInfo {
     return FoodDetailInfo(
+        code = this.foodCode,
         name = this.name,
         servingWeight = this.servingWeight,
         calorie = this.calorie,
@@ -28,6 +30,7 @@ fun ResponseFoodDetailInfo.toFoodDetailInfo(): FoodDetailInfo {
 
 fun FoodDetailInfo.toResponseFoodDetailInfo(): ResponseFoodDetailInfo {
     return ResponseFoodDetailInfo(
+        foodCode = this.code,
         name = this.name,
         servingWeight = this.servingWeight,
         calorie = this.calorie,
@@ -44,6 +47,7 @@ fun FoodDetailInfo.toResponseFoodDetailInfo(): ResponseFoodDetailInfo {
 
 fun FoodInfoEntity.toFoodDetailInfo(): FoodDetailInfo {
     return FoodDetailInfo(
+        code = this.foodCode,
         name = this.name,
         servingWeight = this.servingWeight,
         calorie = this.calorie,
@@ -58,13 +62,11 @@ fun FoodInfoEntity.toFoodDetailInfo(): FoodDetailInfo {
     )
 }
 
-fun FoodDetailInfo.toFoodInfoEntity(mealHistoryInfo: MealHistoryInfo): FoodInfoEntity {
+fun FoodDetailInfo.toFoodInfoEntity(): FoodInfoEntity {
     return FoodInfoEntity(
+        foodCode = this.code,
         name = this.name,
         servingWeight = this.servingWeight,
-        takenDate = mealHistoryInfo.takenDate.toMillis(),
-        takenTime = mealHistoryInfo.takenTime.toMillis(),
-        takenMealType = mealHistoryInfo.mealType.mean.first,
         calorie = this.calorie,
         carbohydrate = this.carbohydrate,
         protein = this.protein,
@@ -85,10 +87,19 @@ fun TakenMealHistoryEntity.toMealHistoryInfo(): MealHistoryInfo {
     )
 }
 
-fun MealHistoryInfo.toTakenMealHistoryEntity(): TakenMealHistoryEntity {
+fun TakenMealHistoryInfo.toMealHistoryInfo(): MealHistoryInfo {
+    return MealHistoryInfo(
+        takenDate = this.takenDate.toLocalDate(),
+        takenTime = this.takenTime.toLocalDateTime(),
+        mealType = MealType.entries.find { it.mean.first == this.mealType } ?: MealType.MORNING
+    )
+}
+
+fun MealHistoryInfo.toTakenMealHistoryEntity(foodCode: String): TakenMealHistoryEntity {
     return TakenMealHistoryEntity(
         takenDate = this.takenDate.toMillis(),
         takenTime = this.takenTime.toMillis(),
-        takenMealType = this.mealType.mean.first
+        takenMealType = this.mealType.mean.first,
+        foodCode = foodCode
     )
 }

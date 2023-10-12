@@ -12,23 +12,19 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     @Query(
         "SELECT * " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
-         "ORDER BY mealHistory.takenMealType, food.takenTime ASC"
+         "ORDER BY mealHistory.takenMealType, mealHistory.takenTime ASC"
     )
     abstract fun getDayTakenList(time: Long): Flow<Map<TakenMealHistoryEntity, List<FoodInfoEntity>>>
 
     @Query(
         "SELECT * " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
            "AND mealHistory.takenMealType = :mealTYpe " +
-         "ORDER BY food.takenTime ASC"
+         "ORDER BY mealHistory.takenTime ASC"
     )
     abstract fun getDayMealTypeTakenList(
         time: Long,
@@ -38,9 +34,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     @Query(
         "SELECT IFNULL(sum(food.calorie), 0) " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time"
     )
     abstract fun getDayTakenTotalCalorie(time: Long): Flow<Int>
@@ -48,9 +42,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     @Query(
         "SELECT IFNULL(SUM(food.calorie), 0) " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
            "AND mealHistory.takenMealType = :mealType"
     )
@@ -62,9 +54,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     @Query(
         "SELECT IFNULL(SUM(food.carbohydrate), 0) " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
            "AND mealHistory.takenMealType = :mealType"
     )
@@ -76,9 +66,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     @Query(
         "SELECT IFNULL(SUM(food.protein), 0) " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
            "AND mealHistory.takenMealType = :mealType"
     )
@@ -90,9 +78,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     @Query(
         "SELECT IFNULL(SUM(food.fat), 0) " +
           "FROM taken_meal_history AS mealHistory " +
-         "INNER JOIN food_info AS food ON food.takenDate = mealHistory.takenDate " +
-           "AND food.takenTime = mealHistory.takenTime " +
-           "AND food.takenMealType = mealHistory.takenMealType " +
+         "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
            "AND mealHistory.takenMealType = :mealType"
     )
