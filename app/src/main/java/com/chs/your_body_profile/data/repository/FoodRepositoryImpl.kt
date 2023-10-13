@@ -16,15 +16,14 @@ import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
 import com.chs.your_body_profile.data.source.paging.FoodDayTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.FoodInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao,
@@ -44,12 +43,23 @@ class FoodRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun upsertMealHistoryInfo(info: MealHistoryInfo, ) {
-        takenMealHistoryDao.upsert(info.toTakenMealHistoryEntity())
+    override suspend fun upsertMealHistoryInfo(
+        info: MealHistoryInfo,
+        foodCodeList: List<String>
+    ) {
+        takenMealHistoryDao.upsert(
+            *foodCodeList.map {
+                info.toTakenMealHistoryEntity(it)
+            }.toTypedArray()
+        )
     }
 
     override suspend fun deleteMealHistoryInfo(info: MealHistoryInfo) {
-        takenMealHistoryDao.delete(info.toTakenMealHistoryEntity())
+        takenMealHistoryDao.deleteMealHistory(
+            takenDate = info.takenDate.toMillis(),
+            takenTime = info.takenTime.toMillis(),
+            mealType = info.mealType.mean.first
+        )
     }
 
     override suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>> {
@@ -64,6 +74,9 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override fun getDayTotalCalories(localDate: LocalDate): Flow<Int> {
+        return takenMealHistoryDao.getDayTakenTotalCalorie(localDate.toMillis()).map {
+            it.roundToInt()
+        }
     }
 
     override fun getDayMealTypeList(
@@ -71,7 +84,9 @@ class FoodRepositoryImpl @Inject constructor(
     ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>> {
         return takenMealHistoryDao.getDayTakenList(localDate.toMillis()).map {
             it.map { joinResultMap ->
-                joinResultMap.key.toMealHistoryInfo() to joinResultMap.value.map { it.toFoodDetailInfo() }
+                joinResultMap.key.toMealHistoryInfo() to joinResultMap.value.map {
+                    it.toFoodDetailInfo()
+                }
             }
         }
     }
@@ -91,7 +106,9 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecentTakenFoods(): List<FoodDetailInfo> {
-
+        return takenMealHistoryDao.getRecentTakenFood().map {
+            it.toFoodDetailInfo()
+        }
     }
 
     override suspend fun insertSearchHistory(query: String) {
@@ -130,11 +147,11 @@ class FoodRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getPagingDayTotalCalories(): Flow<PagingData<Pair<Long, Int>>> {
+    override fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, Int>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
-            FoodDayTotalCaloriePaging(foodDao = foodDao)
+            FoodDayTotalCaloriePaging(takenMealHistoryDao = takenMealHistoryDao)
         }.flow
     }
 }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface FoodRepository {
+
     suspend fun insertSearchHistory(query: String)
 
     suspend fun upsertFoodDetailInfo(
@@ -15,7 +16,10 @@ interface FoodRepository {
         mealHistoryInfo: MealHistoryInfo
     )
 
-    suspend fun upsertMealHistoryInfo(info: MealHistoryInfo)
+    suspend fun upsertMealHistoryInfo(
+        info: MealHistoryInfo,
+        foodCodeList: List<String>
+    )
 
     suspend fun deleteMealHistoryInfo(info: MealHistoryInfo)
 
@@ -49,5 +53,5 @@ interface FoodRepository {
         mealType: MealType
     ): Flow<Float>
 
-    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<Long, Int>>>
+    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, Int>>>
 }

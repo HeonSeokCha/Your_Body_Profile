@@ -37,7 +37,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ItemVerticalChart(
-    pagingItems: LazyPagingItems<Pair<Long, Int>>?,
+    pagingItems: LazyPagingItems<Pair<LocalDate, Int>>?,
     onSelected: (LocalDate) -> Unit
 ) {
     val density = LocalDensity.current
@@ -71,7 +71,7 @@ fun ItemVerticalChart(
     ) {
         if (pagingItems != null) {
             items(pagingItems.itemCount) { idx ->
-                val date = pagingItems[idx]!!.first.toLocalDate()
+                val date = pagingItems[idx]!!.first
                 val calorie = pagingItems[idx]!!.second
 
                 Column(
