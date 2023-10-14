@@ -6,15 +6,13 @@ import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface FoodRepository {
 
     suspend fun insertSearchHistory(query: String)
 
-    suspend fun upsertFoodDetailInfo(
-        foodInfoList: List<FoodDetailInfo>,
-        mealHistoryInfo: MealHistoryInfo
-    )
+    suspend fun upsertFoodDetailInfo(foodInfoList: List<FoodDetailInfo>)
 
     suspend fun upsertMealHistoryInfo(
         info: MealHistoryInfo,
@@ -31,7 +29,14 @@ interface FoodRepository {
 
     fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
 
-    fun getDayMealTypeList(localDate: LocalDate): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>
+    fun getDayTakenList(
+        takenDate: LocalDate
+    ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>
+
+    fun getDayMealTypeList(
+        takenDate: LocalDate,
+        mealType: MealType
+    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>>
 
     fun getDayMealTypeTotalCalories(
         localDate: LocalDate,

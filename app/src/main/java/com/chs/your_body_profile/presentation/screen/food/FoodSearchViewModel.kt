@@ -27,18 +27,13 @@ class FoodSearchViewModel @Inject constructor(
     private val getRecentFoodSearchHistoryUseCase: GetRecentFoodSearchHistoryUseCase,
     private val getRecentTakenFoodsUseCase: GetRecentTakenFoodsUseCase,
     private val upsertFoodSearchHistoryUseCase: UpsertFoodSearchHistoryUseCase,
-
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FoodSearchState())
     val state: StateFlow<FoodSearchState> = _state.asStateFlow()
 
-    fun initMealType(mealType: String) {
-        _state.update { it ->
-            it.copy(
-                mealType = MealType.values().find { it.mean.second == mealType }
-            )
-        }
+    fun initMealHistory(mealHistoryInfo: MealHistoryInfo) {
+
     }
 
     fun updateQuery(query: String) {

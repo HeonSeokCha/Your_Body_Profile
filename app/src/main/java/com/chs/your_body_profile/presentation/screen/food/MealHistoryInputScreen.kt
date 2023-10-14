@@ -9,10 +9,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
+import com.chs.your_body_profile.domain.model.MealType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
 @Composable
 fun MealHistoryInputScreen(
-    takenMealHistoryInfo: MealHistoryInfo,
+    takenDate: LocalDate,
+    takenMealType: MealType,
     foodList: List<FoodDetailInfo>,
     viewModel: MealHistoryInputViewModel = hiltViewModel()
 ) {
@@ -20,7 +25,13 @@ fun MealHistoryInputScreen(
     val state = viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(context, viewModel) {
-        viewModel.initMealHistoryInfo(takenMealHistoryInfo)
+        withContext(Dispatchers.IO) {
+            viewModel.initMealHistoryInfo(
+                takenDate = takenDate,
+                takenMealType = takenMealType,
+                foodList = foodList
+            )
+        }
     }
 
     Column {

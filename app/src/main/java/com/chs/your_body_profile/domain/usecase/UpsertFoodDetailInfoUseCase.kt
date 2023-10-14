@@ -8,13 +8,7 @@ import javax.inject.Inject
 class UpsertFoodDetailInfoUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
-    suspend operator fun invoke(
-        foodInfoList: List<FoodDetailInfo>,
-        mealHistoryInfo: MealHistoryInfo
-    ) {
-        repository.upsertFoodDetailInfo(
-            foodInfoList = foodInfoList,
-            mealHistoryInfo = mealHistoryInfo
-        )
+    suspend operator fun invoke(foodInfoList: List<FoodDetailInfo>) {
+        repository.upsertFoodDetailInfo(foodInfoList)
     }
 }

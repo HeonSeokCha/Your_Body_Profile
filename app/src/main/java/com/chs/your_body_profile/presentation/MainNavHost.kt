@@ -6,6 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.chs.your_body_profile.common.toLocalDate
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toMealHistoryInfo
 import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
@@ -24,6 +26,7 @@ import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1c
 import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.time.LocalDate
 
 @Composable
 fun MainNavHost(
@@ -63,8 +66,12 @@ fun MainNavHost(
         }
 
         composable(
-            route = "${Screens.ScreenFoodSearch.route}/{mealType}",
+            route = "${Screens.ScreenFoodSearch.route}/{takenDate}/{mealType}",
             arguments = listOf(
+                navArgument("takenDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                },
                 navArgument("mealType") {
                     type = NavType.StringType
                     defaultValue = MealType.MORNING.mean.second
@@ -72,7 +79,8 @@ fun MainNavHost(
             )
         ) {
             FoodSearchScreen(
-                it.arguments?.getString("mealType")!!,
+                takenDate = it.arguments?.getLong("takenDate")!!.toLocalDate(),
+                mealType = it.arguments?.getString("mealType")!!,
                 navController,
                 navigateToMealHistoryInputScreen = { mealHistoryInfo, foodList ->
                     val jsonFoodList = Json.encodeToString(
@@ -90,9 +98,13 @@ fun MainNavHost(
         composable(
             route = "${Screens.ScreenMealHistoryInput.route}/{takenMealInfo}/{foodList}",
             arguments = listOf(
-                navArgument("takenMealInfo") {
+                navArgument("takenDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                },
+                navArgument("mealType") {
                     type = NavType.StringType
-                    defaultValue = Json.encodeToString(TakenMealHistoryInfo())
+                    defaultValue = MealType.MORNING.mean.second
                 },
                 navArgument("foodList") {
                     type = NavType.StringType
@@ -100,9 +112,9 @@ fun MainNavHost(
                 }
             )
         ) {
-            val takenMealHistoryInfo = Json.decodeFromString<TakenMealHistoryInfo>(
-                it.arguments?.getString("takenMealInfo")!!
-            ).toMealHistoryInfo()
+            val mealType: MealType = MealType.values().find { mealType ->
+                mealType.mean.second == it.arguments?.getString("mealType")!!
+            } ?: MealType.MORNING
 
             val foodList = Json.decodeFromString<List<ResponseFoodDetailInfo>>(
                 it.arguments?.getString("foodList")!!
@@ -111,7 +123,8 @@ fun MainNavHost(
             }
 
             MealHistoryInputScreen(
-                takenMealHistoryInfo = takenMealHistoryInfo,
+                takenDate = it.arguments?.getLong("takenDate")!!.toLocalDate(),
+                takenMealType = mealType,
                 foodList = foodList
             )
         }

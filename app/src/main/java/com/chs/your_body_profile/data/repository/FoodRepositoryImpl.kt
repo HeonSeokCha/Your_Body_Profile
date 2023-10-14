@@ -3,6 +3,7 @@ package com.chs.your_body_profile.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
@@ -22,6 +23,7 @@ import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -32,10 +34,7 @@ class FoodRepositoryImpl @Inject constructor(
     private val foodService: FoodService
 ) : FoodRepository {
 
-    override suspend fun upsertFoodDetailInfo(
-        foodInfoList: List<FoodDetailInfo>,
-        mealHistoryInfo: MealHistoryInfo
-    ) {
+    override suspend fun upsertFoodDetailInfo(foodInfoList: List<FoodDetailInfo>) {
         foodDao.upsert(
             *foodInfoList.map {
                 it.toFoodInfoEntity()
@@ -79,14 +78,28 @@ class FoodRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getDayMealTypeList(
-        localDate: LocalDate,
+    override fun getDayTakenList(
+        takenDate: LocalDate
     ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>> {
-        return takenMealHistoryDao.getDayTakenList(localDate.toMillis()).map {
+        return takenMealHistoryDao.getDayTakenList(takenDate.toMillis()).map {
             it.map { joinResultMap ->
                 joinResultMap.key.toMealHistoryInfo() to joinResultMap.value.map {
                     it.toFoodDetailInfo()
                 }
+            }
+        }
+    }
+
+    override fun getDayMealTypeList(
+        takenDate: LocalDate,
+        mealType: MealType
+    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>> {
+        return takenMealHistoryDao.getDayMealTypeTakenList(
+            takenDate = takenDate.toMillis(),
+            mealTYpe = mealType.mean.first
+        ).map {
+            it.keys.firstOrNull()?.toMealHistoryInfo() to it[it.keys.first()]!!.map {
+                it.toFoodDetailInfo()
             }
         }
     }

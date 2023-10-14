@@ -45,14 +45,17 @@ import androidx.paging.LoadState
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSearchFoodInfo
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 import com.chs.your_body_profile.presentation.common.ItemSelectFood
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodSearchScreen(
+    takenDate: LocalDate,
     mealType: String,
     navController: NavHostController,
     viewModel: FoodSearchViewModel = hiltViewModel(),
@@ -65,7 +68,6 @@ fun FoodSearchScreen(
     var isSearchActive by remember { mutableStateOf(false) }
 
     LaunchedEffect(context, viewModel) {
-        viewModel.initMealType(mealType)
         viewModel.getRecentFoodSearchHistory()
         viewModel.getRecentTakenFoods()
     }
@@ -280,7 +282,7 @@ fun FoodSearchScreen(
                     navigateToMealHistoryInputScreen(
                         MealHistoryInfo(
                             takenDate = state.takenDate,
-                            takenTime = state.takenTime!!,
+                            takenTime = state.takenTime,
                             mealType = state.mealType!!
                         ),
                         state.selectFoodList

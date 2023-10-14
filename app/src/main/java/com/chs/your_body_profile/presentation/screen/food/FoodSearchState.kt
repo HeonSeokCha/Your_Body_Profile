@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 data class FoodSearchState(
     val mealType: MealType? = null,
     val takenDate: LocalDate = LocalDate.now(),
-    val takenTime: LocalDateTime? = null,
+    val takenTime: LocalDateTime = LocalDateTime.now(),
     val searchQuery: String = "",
     val searchHistory: List<String> = emptyList(),
     val searchResult: Flow<PagingData<FoodDetailInfo>>? = null,

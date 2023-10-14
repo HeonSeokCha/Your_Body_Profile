@@ -32,6 +32,17 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     abstract suspend fun getRecentTakenFood():List<FoodInfoEntity>
 
     @Query(
+        "SELECT IFNULL(takenTime, 0) " +
+          "FROM taken_meal_history " +
+         "WHERE takenDate = :takenDate " +
+           "AND takenMealType = :takenMealType"
+    )
+    abstract suspend fun getDayMealTypeTakenTime(
+        takenDate: Long,
+        takenMealType: Int
+    ): Long
+
+    @Query(
         "SELECT * " +
           "FROM taken_meal_history AS mealHistory " +
          "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
@@ -44,13 +55,13 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
         "SELECT * " +
           "FROM taken_meal_history AS mealHistory " +
          "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
-         "WHERE mealHistory.takenDate = :time " +
+         "WHERE mealHistory.takenDate = :takenDate " +
            "AND mealHistory.takenMealType = :mealTYpe " +
          "ORDER BY mealHistory.takenTime ASC"
     )
     abstract fun getDayMealTypeTakenList(
-        time: Long,
-        mealTYpe: String
+        takenDate: Long,
+        mealTYpe: Int
     ): Flow<Map<TakenMealHistoryEntity, List<FoodInfoEntity>>>
 
     @Query(
@@ -118,7 +129,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
             "ON taken_meal_history.foodCode = food.foodCode " +
          "WHERE takenDate BETWEEN :startDate AND :endDate"
     )
-    abstract fun getPagingDayInfo(
+    abstract suspend fun getPagingDayInfo(
         startDate: Long,
         endDate: Long
     ): Map<Long, Float>

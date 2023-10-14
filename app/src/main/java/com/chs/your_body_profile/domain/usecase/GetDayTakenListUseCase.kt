@@ -8,16 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetDayMealTypeListUseCase @Inject constructor(
+class GetDayTakenListUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
     operator fun invoke(
-        takenDate: LocalDate,
-        mealType: MealType
-    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>> {
-        return repository.getDayMealTypeList(
-            takenDate = takenDate,
-            mealType = mealType
-        )
+        takenDate: LocalDate
+    ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>> {
+        return repository.getDayTakenList(takenDate)
     }
 }

@@ -1,15 +1,18 @@
 package com.chs.your_body_profile.presentation.screen.food
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertFoodDetailInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertMealHistoryInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -17,18 +20,39 @@ import javax.inject.Inject
 @HiltViewModel
 class MealHistoryInputViewModel @Inject constructor(
     private val upsertMealHistoryInfoUseCase: UpsertMealHistoryInfoUseCase,
-    private val upsertFoodDetailInfoUseCase: UpsertFoodDetailInfoUseCase
+    private val upsertFoodDetailInfoUseCase: UpsertFoodDetailInfoUseCase,
+    private val getDayMealTypeListUseCase: GetDayMealTypeListUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(MealHistoryInputState())
     val state = _state.asStateFlow()
 
-    fun initMealHistoryInfo(mealHistoryInfo: MealHistoryInfo) {
-        _state.update {
-            it.copy(
-                mealType = mealHistoryInfo.mealType,
-                takenTime = mealHistoryInfo.takenTime,
-                takenDate = mealHistoryInfo.takenDate
-            )
+    fun initMealHistoryInfo(
+        takenDate: LocalDate,
+        takenMealType: MealType,
+        foodList: List<FoodDetailInfo>
+    ) {
+        viewModelScope.launch {
+            getDayMealTypeListUseCase(takenDate = takenDate, mealType = takenMealType).collect { takenInfo ->
+                _state.update {
+                    if (takenInfo.first != null) {
+                        it.copy(
+                            takenDate = takenInfo.first!!.takenDate,
+                            mealType = takenInfo.first!!.mealType,
+                            takenTime =  takenInfo.first!!.takenTime,
+                            takenFoodList = takenInfo.second.toMutableList().apply {
+                                this.addAll(foodList)
+                            }
+                        )
+                    } else {
+                        it.copy(
+                            takenDate = takenDate,
+                            mealType = takenMealType,
+                            takenTime = LocalDateTime.now(),
+                            takenFoodList = foodList
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -53,6 +77,17 @@ class MealHistoryInputViewModel @Inject constructor(
     }
 
     fun insertMealHistory() {
+        viewModelScope.launch {
+            upsertMealHistoryInfoUseCase(
+                info = MealHistoryInfo(
+                    takenDate = state.value.takenDate!!,
+                    takenTime = state.value.takenTime!!,
+                    mealType = state.value.mealType!!
+                ),
+                foodCodeList = state.value.takenFoodList.map { it.code }
+            )
 
+            upsertFoodDetailInfoUseCase(foodInfoList = state.value.takenFoodList)
+        }
     }
 }
