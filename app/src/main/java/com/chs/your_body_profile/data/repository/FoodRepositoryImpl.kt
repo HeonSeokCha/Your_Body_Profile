@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -98,8 +99,12 @@ class FoodRepositoryImpl @Inject constructor(
             takenDate = takenDate.toMillis(),
             mealTYpe = mealType.mean.first
         ).map {
-            it.keys.firstOrNull()?.toMealHistoryInfo() to it[it.keys.first()]!!.map {
-                it.toFoodDetailInfo()
+            if (it.isEmpty()) {
+                null to listOf<FoodDetailInfo>()
+            } else {
+                it.keys.firstOrNull()?.toMealHistoryInfo() to it[it.keys.first()]!!.map {
+                    it.toFoodDetailInfo()
+                }
             }
         }
     }

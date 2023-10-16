@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
+import com.chs.your_body_profile.domain.usecase.GetDayTakenListUseCase
 import com.chs.your_body_profile.domain.usecase.GetPagingTotalCalorieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MealListViewModel @Inject constructor(
     private val getPagingTotalCalorieUseCase: GetPagingTotalCalorieUseCase,
-    private val getDayMealTypeListUseCase: GetDayMealTypeListUseCase
+    private val getDayTakenListUseCase: GetDayTakenListUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(MealListState())
     val state = _state.asStateFlow()
@@ -33,7 +34,7 @@ class MealListViewModel @Inject constructor(
 
     fun getDayTakenMealInfo(localDate: LocalDate) {
         viewModelScope.launch {
-            getDayMealTypeListUseCase(localDate).collect { mealTypeList ->
+            getDayTakenListUseCase(localDate).collect { mealTypeList ->
                 _state.update {
                     it.copy(dayTakenMealList = mealTypeList)
                 }

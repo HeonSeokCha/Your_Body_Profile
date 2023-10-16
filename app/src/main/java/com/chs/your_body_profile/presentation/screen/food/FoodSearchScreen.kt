@@ -51,15 +51,15 @@ import com.chs.your_body_profile.presentation.common.ItemSearchFoodInfo
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 import com.chs.your_body_profile.presentation.common.ItemSelectFood
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodSearchScreen(
-    takenDate: LocalDate,
     mealType: String,
     navController: NavHostController,
     viewModel: FoodSearchViewModel = hiltViewModel(),
-    navigateToMealHistoryInputScreen: (MealHistoryInfo, List<FoodDetailInfo>) -> Unit
+    navigateToMealHistoryInputScreen: (String, List<FoodDetailInfo>) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -68,6 +68,7 @@ fun FoodSearchScreen(
     var isSearchActive by remember { mutableStateOf(false) }
 
     LaunchedEffect(context, viewModel) {
+        viewModel.initInfo(mealType = mealType)
         viewModel.getRecentFoodSearchHistory()
         viewModel.getRecentTakenFoods()
     }
@@ -278,15 +279,13 @@ fun FoodSearchScreen(
                     .align(Alignment.BottomCenter)
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
-                    navController.popBackStack()
-                    navigateToMealHistoryInputScreen(
-                        MealHistoryInfo(
-                            takenDate = state.takenDate,
-                            takenTime = state.takenTime,
-                            mealType = state.mealType!!
-                        ),
-                        state.selectFoodList
-                    )
+                    if (state.selectFoodList.isNotEmpty()) {
+                        navController.popBackStack()
+                        navigateToMealHistoryInputScreen(
+                            state.mealType!!,
+                            state.selectFoodList
+                        )
+                    }
                 }, onDismiss = {
                     navController.popBackStack()
                 }

@@ -8,9 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class FoodSearchState(
-    val mealType: MealType? = null,
-    val takenDate: LocalDate = LocalDate.now(),
-    val takenTime: LocalDateTime = LocalDateTime.now(),
+    val mealType: String? = null,
     val searchQuery: String = "",
     val searchHistory: List<String> = emptyList(),
     val searchResult: Flow<PagingData<FoodDetailInfo>>? = null,

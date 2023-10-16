@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -32,8 +33,12 @@ class FoodSearchViewModel @Inject constructor(
     private val _state = MutableStateFlow(FoodSearchState())
     val state: StateFlow<FoodSearchState> = _state.asStateFlow()
 
-    fun initMealHistory(mealHistoryInfo: MealHistoryInfo) {
-
+    fun initInfo(mealType: String) {
+        _state.update {
+            it.copy(
+                mealType = mealType
+            )
+        }
     }
 
     fun updateQuery(query: String) {

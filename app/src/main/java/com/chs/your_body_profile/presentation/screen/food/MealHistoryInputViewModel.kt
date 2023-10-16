@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
@@ -32,13 +33,15 @@ class MealHistoryInputViewModel @Inject constructor(
         foodList: List<FoodDetailInfo>
     ) {
         viewModelScope.launch {
-            getDayMealTypeListUseCase(takenDate = takenDate, mealType = takenMealType).collect { takenInfo ->
+            getDayMealTypeListUseCase(
+                takenDate = takenDate,
+                mealType = takenMealType
+            ).collect { takenInfo ->
+                Log.e("TAKE", takenInfo.toString())
                 _state.update {
                     if (takenInfo.first != null) {
                         it.copy(
-                            takenDate = takenInfo.first!!.takenDate,
-                            mealType = takenInfo.first!!.mealType,
-                            takenTime =  takenInfo.first!!.takenTime,
+                            mealType = takenInfo.first?.mealType,
                             takenFoodList = takenInfo.second.toMutableList().apply {
                                 this.addAll(foodList)
                             }
@@ -80,8 +83,8 @@ class MealHistoryInputViewModel @Inject constructor(
         viewModelScope.launch {
             upsertMealHistoryInfoUseCase(
                 info = MealHistoryInfo(
-                    takenDate = state.value.takenDate!!,
-                    takenTime = state.value.takenTime!!,
+                    takenDate = state.value.takenDate,
+                    takenTime = state.value.takenTime,
                     mealType = state.value.mealType!!
                 ),
                 foodCodeList = state.value.takenFoodList.map { it.code }
