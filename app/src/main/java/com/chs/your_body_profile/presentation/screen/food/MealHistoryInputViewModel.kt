@@ -41,6 +41,8 @@ class MealHistoryInputViewModel @Inject constructor(
                 _state.update {
                     if (takenInfo.first != null) {
                         it.copy(
+                            takenDate = takenInfo.first!!.takenDate,
+                            takenTime = takenInfo.first!!.takenTime,
                             mealType = takenInfo.first?.mealType,
                             takenFoodList = takenInfo.second.toMutableList().apply {
                                 this.addAll(foodList)
@@ -48,9 +50,7 @@ class MealHistoryInputViewModel @Inject constructor(
                         )
                     } else {
                         it.copy(
-                            takenDate = takenDate,
                             mealType = takenMealType,
-                            takenTime = LocalDateTime.now(),
                             takenFoodList = foodList
                         )
                     }

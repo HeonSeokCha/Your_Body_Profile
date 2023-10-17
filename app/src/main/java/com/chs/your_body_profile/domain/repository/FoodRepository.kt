@@ -2,11 +2,10 @@ package com.chs.your_body_profile.domain.repository
 
 import androidx.paging.PagingData
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.TakenMealInfo
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 interface FoodRepository {
 
@@ -14,12 +13,12 @@ interface FoodRepository {
 
     suspend fun upsertFoodDetailInfo(foodInfoList: List<FoodDetailInfo>)
 
-    suspend fun upsertMealHistoryInfo(
-        info: MealHistoryInfo,
+    suspend fun upsertTakenMealInfo(
+        info: TakenMealInfo,
         foodCodeList: List<String>
     )
 
-    suspend fun deleteMealHistoryInfo(info: MealHistoryInfo)
+    suspend fun deleteTakenMealInfo(info: TakenMealInfo)
 
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 
@@ -31,12 +30,12 @@ interface FoodRepository {
 
     fun getDayTakenList(
         takenDate: LocalDate
-    ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>
+    ): Flow<Map<TakenMealInfo, List<FoodDetailInfo>>>
 
     fun getDayMealTypeList(
         takenDate: LocalDate,
         mealType: MealType
-    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>>
+    ): Flow<Pair<TakenMealInfo?, List<FoodDetailInfo>>>
 
     fun getDayMealTypeTotalCalories(
         localDate: LocalDate,

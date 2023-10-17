@@ -14,6 +14,7 @@ import com.chs.your_body_profile.data.model.entity.*
         DrinkInfoEntity::class,
         FoodInfoEntity::class,
         TakenMealHistoryEntity::class,
+        TakenMealInfoEntity::class,
         InsulinInfoEntity::class,
         HemoglobinA1cInfoEntity::class,
         MedicineInfoEntity::class,
@@ -33,6 +34,7 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val weightInfoDao: WeightInfoDao
     abstract val foodDao: FoodDao
     abstract val takenMealHistoryDao: TakenMealHistoryDao
+    abstract val takenMealInfoDao: TakenMealDao
     abstract val foodSearchHistoryDao: FoodSearchHistoryDao
 
     companion object {

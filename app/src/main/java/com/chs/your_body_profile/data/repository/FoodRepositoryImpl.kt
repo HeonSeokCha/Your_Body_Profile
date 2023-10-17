@@ -4,33 +4,34 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
-import com.chs.your_body_profile.data.mapper.toMealHistoryInfo
-import com.chs.your_body_profile.data.mapper.toTakenMealHistoryEntity
+import com.chs.your_body_profile.data.mapper.toMealInfo
+import com.chs.your_body_profile.data.mapper.toMealInfoEntity
 import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
+import com.chs.your_body_profile.data.model.entity.TakenMealHistoryEntity
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
+import com.chs.your_body_profile.data.source.db.dao.TakenMealDao
 import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
 import com.chs.your_body_profile.data.source.paging.FoodDayTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao,
     private val takenMealHistoryDao: TakenMealHistoryDao,
+    private val takenMealInfoDao: TakenMealDao,
     private val foodSearchHistoryDao: FoodSearchHistoryDao,
     private val foodService: FoodService
 ) : FoodRepository {
@@ -43,21 +44,27 @@ class FoodRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun upsertMealHistoryInfo(
-        info: MealHistoryInfo,
+    override suspend fun upsertTakenMealInfo(
+        info: TakenMealInfo,
         foodCodeList: List<String>
+
     ) {
+        takenMealInfoDao.upsert(info.toMealInfoEntity())
+
         takenMealHistoryDao.upsert(
             *foodCodeList.map {
-                info.toTakenMealHistoryEntity(it)
+                TakenMealHistoryEntity(
+                    takenDate = info.takenDate.toMillis(),
+                    takenMealType = info.mealType.mean.first,
+                    foodCode = it
+                )
             }.toTypedArray()
         )
     }
 
-    override suspend fun deleteMealHistoryInfo(info: MealHistoryInfo) {
+    override suspend fun deleteTakenMealInfo(info: TakenMealInfo) {
         takenMealHistoryDao.deleteMealHistory(
             takenDate = info.takenDate.toMillis(),
-            takenTime = info.takenTime.toMillis(),
             mealType = info.mealType.mean.first
         )
     }
@@ -81,20 +88,20 @@ class FoodRepositoryImpl @Inject constructor(
 
     override fun getDayTakenList(
         takenDate: LocalDate
-    ): Flow<List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>> {
+    ): Flow<Map<TakenMealInfo, List<FoodDetailInfo>>> {
         return takenMealHistoryDao.getDayTakenList(takenDate.toMillis()).map {
             it.map { joinResultMap ->
-                joinResultMap.key.toMealHistoryInfo() to joinResultMap.value.map {
+                joinResultMap.key.toMealInfo() to joinResultMap.value.map {
                     it.toFoodDetailInfo()
                 }
-            }
+            }.toMap()
         }
     }
 
     override fun getDayMealTypeList(
         takenDate: LocalDate,
         mealType: MealType
-    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>> {
+    ): Flow<Pair<TakenMealInfo?, List<FoodDetailInfo>>> {
         return takenMealHistoryDao.getDayMealTypeTakenList(
             takenDate = takenDate.toMillis(),
             mealTYpe = mealType.mean.first
@@ -102,7 +109,7 @@ class FoodRepositoryImpl @Inject constructor(
             if (it.isEmpty()) {
                 null to listOf<FoodDetailInfo>()
             } else {
-                it.keys.firstOrNull()?.toMealHistoryInfo() to it[it.keys.first()]!!.map {
+                it.keys.firstOrNull()?.toMealInfo() to it[it.keys.first()]!!.map {
                     it.toFoodDetailInfo()
                 }
             }

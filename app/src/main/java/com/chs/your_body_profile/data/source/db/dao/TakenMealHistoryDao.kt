@@ -5,6 +5,7 @@ import androidx.room.MapInfo
 import androidx.room.Query
 import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
 import com.chs.your_body_profile.data.model.entity.TakenMealHistoryEntity
+import com.chs.your_body_profile.data.model.entity.TakenMealInfoEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -14,55 +15,45 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
         "DELETE " +
           "FROM taken_meal_history " +
          "WHERE takenDate = :takenDate " +
-           "AND takenTime = :takenTime " +
            "AND takenMealType = :mealType"
     )
     abstract suspend fun deleteMealHistory(
         takenDate: Long,
-        takenTime: Long,
         mealType: Int
     )
 
     @Query(
-        "SELECT * " +
+        "SELECT food.* " +
           "FROM taken_meal_history AS mealHistory " +
          "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
-         "ORDER BY mealHistory.takenTime DESC LIMIT 10"
+         "ORDER BY mealHistory.takenDate DESC LIMIT 10"
     )
     abstract suspend fun getRecentTakenFood():List<FoodInfoEntity>
 
     @Query(
-        "SELECT IFNULL(takenTime, 0) " +
-          "FROM taken_meal_history " +
-         "WHERE takenDate = :takenDate " +
-           "AND takenMealType = :takenMealType"
-    )
-    abstract suspend fun getDayMealTypeTakenTime(
-        takenDate: Long,
-        takenMealType: Int
-    ): Long
-
-    @Query(
-        "SELECT * " +
+        "SELECT mealInfo.*, food.*" +
           "FROM taken_meal_history AS mealHistory " +
+         "INNER JOIN taken_meal_info AS mealInfo ON mealInfo.takenDate = mealHistory.takenDate " +
+           "AND mealInfo.takenMealType = mealHistory.takenMealType " +
          "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :time " +
-         "ORDER BY mealHistory.takenMealType, mealHistory.takenTime ASC"
+         "ORDER BY mealHistory.takenMealType ASC"
     )
-    abstract fun getDayTakenList(time: Long): Flow<Map<TakenMealHistoryEntity, List<FoodInfoEntity>>>
+    abstract fun getDayTakenList(time: Long): Flow<Map<TakenMealInfoEntity, List<FoodInfoEntity>>>
 
     @Query(
-        "SELECT * " +
+        "SELECT mealInfo.*, food.*" +
           "FROM taken_meal_history AS mealHistory " +
+         "INNER JOIN taken_meal_info AS mealInfo ON mealInfo.takenDate = mealHistory.takenDate " +
+           "AND mealInfo.takenMealType = mealHistory.takenMealType " +
          "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "WHERE mealHistory.takenDate = :takenDate " +
-           "AND mealHistory.takenMealType = :mealTYpe " +
-         "ORDER BY mealHistory.takenTime ASC"
+           "AND mealHistory.takenMealType = :mealTYpe "
     )
     abstract fun getDayMealTypeTakenList(
         takenDate: Long,
         mealTYpe: Int
-    ): Flow<Map<TakenMealHistoryEntity, List<FoodInfoEntity>>>
+    ): Flow<Map<TakenMealInfoEntity, List<FoodInfoEntity>>>
 
     @Query(
         "SELECT IFNULL(sum(food.calorie), 0) " +

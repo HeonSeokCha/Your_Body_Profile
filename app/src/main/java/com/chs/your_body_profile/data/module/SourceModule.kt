@@ -11,6 +11,7 @@ import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
 import com.chs.your_body_profile.data.source.db.dao.MedicineDao
+import com.chs.your_body_profile.data.source.db.dao.TakenMealDao
 import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
 import dagger.Module
@@ -110,5 +111,11 @@ object SourceModule {
     @Provides
     fun provideTakenMealHistoryDao(bodyProfileDataBase: BodyProfileDataBase): TakenMealHistoryDao {
         return bodyProfileDataBase.takenMealHistoryDao
+    }
+
+    @Singleton
+    @Provides
+    fun provideTakenMealInfoDao(bodyProfileDataBase: BodyProfileDataBase): TakenMealDao {
+        return bodyProfileDataBase.takenMealInfoDao
     }
 }

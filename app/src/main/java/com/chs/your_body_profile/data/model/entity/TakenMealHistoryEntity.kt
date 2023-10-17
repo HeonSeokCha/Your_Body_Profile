@@ -4,11 +4,10 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "taken_meal_history",
-    primaryKeys = ["takenDate", "takenMealType"]
+    primaryKeys = ["takenDate", "takenMealType", "foodCode"]
 )
 data class TakenMealHistoryEntity(
     val takenDate: Long,
     val takenMealType: Int,
-    val takenTime: Long,
     val foodCode: String
 )
