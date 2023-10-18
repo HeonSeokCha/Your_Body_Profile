@@ -9,11 +9,8 @@ import androidx.navigation.navArgument
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
-import com.chs.your_body_profile.data.mapper.toMealHistoryInfo
 import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
-import com.chs.your_body_profile.data.model.TakenMealHistoryInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
-import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen

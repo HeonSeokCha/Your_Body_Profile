@@ -4,22 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MealHistoryInfo
-import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.usecase.GetRecentFoodSearchHistoryUseCase
 import com.chs.your_body_profile.domain.usecase.GetRecentTakenFoodsUseCase
 import com.chs.your_body_profile.domain.usecase.GetSearchResultFoodInfoUseCase
-import com.chs.your_body_profile.domain.usecase.UpsertFoodDetailInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertFoodSearchHistoryUseCase
-import com.chs.your_body_profile.domain.usecase.UpsertMealHistoryInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel

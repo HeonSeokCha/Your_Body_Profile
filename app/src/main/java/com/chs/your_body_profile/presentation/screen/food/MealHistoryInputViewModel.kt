@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertFoodDetailInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertMealHistoryInfoUseCase
@@ -82,7 +82,7 @@ class MealHistoryInputViewModel @Inject constructor(
     fun insertMealHistory() {
         viewModelScope.launch {
             upsertMealHistoryInfoUseCase(
-                info = MealHistoryInfo(
+                info = TakenMealInfo(
                     takenDate = state.value.takenDate,
                     takenTime = state.value.takenTime,
                     mealType = state.value.mealType!!
