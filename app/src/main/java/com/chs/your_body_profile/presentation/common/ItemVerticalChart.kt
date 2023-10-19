@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import com.chs.your_body_profile.common.Constants
-import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.presentation.ui.theme.SkyBlue400
 import java.time.LocalDate
 import kotlin.math.roundToInt

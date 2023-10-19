@@ -45,6 +45,7 @@ import androidx.paging.LoadState
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSearchFoodInfo
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 import com.chs.your_body_profile.presentation.common.ItemSelectFood
@@ -235,6 +236,7 @@ fun FoodSearchScreen(
                         is LoadState.Loading -> {
                             true
                         }
+
                         is LoadState.Error -> {
                             Toast.makeText(
                                 context,
@@ -253,6 +255,7 @@ fun FoodSearchScreen(
                         is LoadState.Loading -> {
                             true
                         }
+
                         is LoadState.Error -> {
                             Toast.makeText(
                                 context,
@@ -268,24 +271,22 @@ fun FoodSearchScreen(
                     }
                 }
             }
-            ItemInputBottomMenu(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .align(Alignment.BottomCenter)
-                    .background(MaterialTheme.colorScheme.primary),
-                onClick = {
-                    if (state.selectFoodList.isNotEmpty()) {
-                        navController.popBackStack()
-                        navigateToMealHistoryInputScreen(
-                            state.mealType!!,
-                            state.selectFoodList
-                        )
-                    }
-                }, onDismiss = {
+
+            if (state.selectFoodList.isNotEmpty()) {
+                ItemInputButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(MaterialTheme.colorScheme.primary),
+                ) {
                     navController.popBackStack()
+                    navigateToMealHistoryInputScreen(
+                        state.mealType!!,
+                        state.selectFoodList
+                    )
                 }
-            )
+            }
         }
     }
 }

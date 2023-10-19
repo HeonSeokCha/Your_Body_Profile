@@ -23,7 +23,7 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     )
 
     @Query(
-        "SELECT food.* " +
+        "SELECT DISTINCT food.* " +
           "FROM taken_meal_history AS mealHistory " +
          "INNER JOIN food_info AS food ON food.foodCode = mealHistory.foodCode " +
          "ORDER BY mealHistory.takenDate DESC LIMIT 10"
@@ -113,12 +113,13 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
 
     @MapInfo(keyColumn = "takenDate", valueColumn = "calorie")
     @Query(
-        "SELECT taken_meal_history.takenDate AS takenDate," +
+        "SELECT takenDate," +
                "SUM(food.calorie) AS calorie " +
           "FROM taken_meal_history " +
          "INNER JOIN food_info as food " +
             "ON taken_meal_history.foodCode = food.foodCode " +
-         "WHERE takenDate BETWEEN :startDate AND :endDate"
+         "WHERE takenDate BETWEEN :startDate AND :endDate " +
+         "GROUP BY takenDate"
     )
     abstract suspend fun getPagingDayInfo(
         startDate: Long,

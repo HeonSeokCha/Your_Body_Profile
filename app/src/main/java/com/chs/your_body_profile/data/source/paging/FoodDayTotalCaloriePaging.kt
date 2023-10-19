@@ -24,8 +24,8 @@ class FoodDayTotalCaloriePaging(
             endDate = localDate.minusDays(page).toMillis()
         )
 
-        val data = LocalDate.now().minusDays(page + 30L)
-            .datesUntil(LocalDate.now().plusDays(1L).minusDays(page))
+        val data = localDate.minusDays(page + 30L)
+            .datesUntil(localDate.plusDays(1L).minusDays(page))
             .map {
                 if (localResult.containsKey(it.toMillis())) {
                     it to localResult[it.toMillis()]!!.toInt()

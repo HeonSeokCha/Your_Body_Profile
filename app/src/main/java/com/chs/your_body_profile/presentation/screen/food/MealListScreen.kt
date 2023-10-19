@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.presentation.screen.food
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,12 +28,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 import com.chs.your_body_profile.presentation.common.toDecimalPlace
 
@@ -52,7 +56,8 @@ fun MealListScreen(
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(12.dp)
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ItemVerticalChart(pagingItems) {
                 viewModel.getDayTakenMealInfo(it)
@@ -63,32 +68,53 @@ fun MealListScreen(
             Text(
                 text = "${
                     state.dayTakenMealList.map { it.value.map { it.calorie }.sum() }.sum().toInt()
-                } kcal"
+                } kcal",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             state.dayTakenMealList.forEach {
-                Row {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
                     Column(
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(55.dp)
                             .clip(CircleShape)
                             .background(Color.LightGray),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
                         Text(text = "${it.value.map { it.calorie }.sum().toInt()}")
-                        Text(text = "kcal")
+                        Text(
+                            text = "kcal",
+                            fontSize = 12.sp
+                        )
                     }
                     Column(
                         modifier = Modifier
                             .padding(start = 18.dp)
                     ) {
-                        Text(text = it.key.mealType.mean.second)
+                        Text(
+                            text = it.key.mealType.mean.second,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                         Row {
-                            it.value.forEach {
-                                Text(text = it.name)
-                                Spacer(modifier = Modifier.width(4.dp))
+                            it.value.forEachIndexed { index, foodDetailInfo ->
+                                Text(
+                                    text = foodDetailInfo.name,
+                                    color = Color.Gray
+                                )
+                                if (index != it.value.size -1) {
+                                    Text(
+                                        text = ", ",
+                                        color = Color.Gray
+                                    )
+                                }
                             }
                         }
                     }
@@ -99,34 +125,41 @@ fun MealListScreen(
 
             if (state.dayTakenMealList.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "탄수화물 : (${
-                        state.dayTakenMealList.map { it.value.map { it.carbohydrate }.sum() }.sum()
-                            .toDecimalPlace()}) g"
-                )
-                Text(
-                    text = "지방 : (${
-                        state.dayTakenMealList.map { it.value.map { it.fat }.sum() }.sum()
-                            .toDecimalPlace()}) g"
-                )
-                Text(
-                    text = "단백질 : (${
-                        state.dayTakenMealList.map { it.value.map { it.protein }.sum() }.sum()
-                            .toDecimalPlace()}) g"
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "탄수화물 : (${
+                            state.dayTakenMealList.map { it.value.map { it.carbohydrate }.sum() }
+                                .sum()
+                                .toDecimalPlace()
+                        }) g"
+                    )
+                    Text(
+                        text = "지방 : (${
+                            state.dayTakenMealList.map { it.value.map { it.fat }.sum() }.sum()
+                                .toDecimalPlace()
+                        }) g"
+                    )
+                    Text(
+                        text = "단백질 : (${
+                            state.dayTakenMealList.map { it.value.map { it.protein }.sum() }.sum()
+                                .toDecimalPlace()
+                        }) g"
+                    )
+                }
             }
         }
-        ItemInputBottomMenu(
+
+        ItemInputButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
-            onClick = {
+        ) {
 
-            }, onDismiss = {
-                navController.popBackStack()
-            }
-        )
+        }
     }
 }
