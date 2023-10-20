@@ -13,7 +13,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fastfood
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -21,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,7 +51,7 @@ fun ItemMeasureTypeHorizontalList(
             horizontalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             items(items.size) {
-                Column (
+                Column(
                     modifier = Modifier
                         .clickable { selectIdx = it },
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -73,34 +76,34 @@ fun ItemMeasureTypeHorizontalList(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemMeasureTypeVerticalList(
+fun ItemVerticalListAlertDialog(
     title: String,
     items: List<String>,
+    onDisMiss: (Boolean) -> Unit,
     onClick: (String) -> Unit
 ) {
     var selectIdx by remember { mutableIntStateOf(0) }
 
-    ItemTitleCard(title = title) {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(8.dp),
-        ) {
-            items(items.size) {
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                        .clickable {
-                            selectIdx = it
-                            onClick(items[it])
-                        }
-                ) {
+    AlertDialog(onDismissRequest = { onDisMiss(false) }) {
+        ItemTitleCard(title = title) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(8.dp),
+            ) {
+                items(items.size) {
                     Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                            .clickable {
+                                selectIdx = it
+                                onClick(items[it])
+                            },
                         text = items[it],
                         fontSize = 24.sp
                     )
-
                 }
             }
         }

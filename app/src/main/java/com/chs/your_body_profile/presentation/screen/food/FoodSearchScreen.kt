@@ -56,7 +56,7 @@ fun FoodSearchScreen(
     mealType: String,
     navController: NavHostController,
     viewModel: FoodSearchViewModel = hiltViewModel(),
-    navigateToMealHistoryInputScreen: (String, List<FoodDetailInfo>) -> Unit
+    navigateToMealHistoryInputScreen: (List<FoodDetailInfo>) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -281,10 +281,7 @@ fun FoodSearchScreen(
                         .background(MaterialTheme.colorScheme.primary),
                 ) {
                     navController.popBackStack()
-                    navigateToMealHistoryInputScreen(
-                        state.mealType!!,
-                        state.selectFoodList
-                    )
+                    navigateToMealHistoryInputScreen(state.selectFoodList)
                 }
             }
         }

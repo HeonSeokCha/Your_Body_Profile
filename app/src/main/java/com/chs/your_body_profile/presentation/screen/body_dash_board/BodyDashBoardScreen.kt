@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,33 +23,23 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.presentation.Screens
-import com.chs.your_body_profile.presentation.common.MealTypeBottomSheet
-import kotlinx.coroutines.launch
+import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BodyDashBoardScreen(
     navController: NavHostController,
     viewModel: BodyDashBoardViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle(initialValue = BodyDashBoardState())
-    val mealTypeSheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
+    var isShowMealTypeDialog by remember { mutableStateOf(false) }
 
-    if (mealTypeSheetState.isVisible) {
-        ModalBottomSheet(onDismissRequest = {
-            scope.launch {
-                mealTypeSheetState.hide()
-            }
-        }) {
-            MealTypeBottomSheet {
-                scope.launch {
-                    mealTypeSheetState.hide()
-                }
-                navController.navigate("${Screens.ScreenFoodSearch.route}/$it")
-            }
+    if (isShowMealTypeDialog) {
+        ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
+            isShowMealTypeDialog = false
+            navController.navigate("${Screens.ScreenFoodSearch.route}/$it")
         }
     }
+
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
@@ -106,11 +95,7 @@ fun BodyDashBoardScreen(
                 onClick = {
                     navController.navigate(Screens.ScreenMealList.route)
                 },
-                btnClick = {
-                    scope.launch {
-                        mealTypeSheetState.show()
-                    }
-                }
+                btnClick = { isShowMealTypeDialog = true }
             )
         }
 

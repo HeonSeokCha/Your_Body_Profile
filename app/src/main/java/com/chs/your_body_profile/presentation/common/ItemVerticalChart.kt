@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.presentation.common
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

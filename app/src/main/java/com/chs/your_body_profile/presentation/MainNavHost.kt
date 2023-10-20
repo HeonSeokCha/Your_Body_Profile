@@ -62,31 +62,35 @@ fun MainNavHost(
             MealListScreen(navController)
         }
 
-        composable("${Screens.ScreenFoodSearch.route}/{mealType}") {
-            FoodSearchScreen(
-                mealType = it.arguments?.getString("mealType")!!,
-                navController,
-                navigateToMealHistoryInputScreen = { mealTYpe, foodList ->
-                    val jsonFoodList = Json.encodeToString(
-                        foodList.map { foodInfo ->
-                            foodInfo.toResponseFoodDetailInfo()
-                        }
-                    )
-                    navController.navigate(
-                        "${Screens.ScreenMealHistoryInput.route}/$mealTYpe/$jsonFoodList"
-                    )
-                }
-            )
-        }
-
         composable(
-            route = "${Screens.ScreenMealHistoryInput.route}/{mealType}/{foodList}",
+            route = "${Screens.ScreenFoodSearch.route}/{mealType}?takenDate={takenDate}",
             arguments = listOf(
                 navArgument("takenDate") {
                     type = NavType.LongType
                     defaultValue = LocalDate.now().toMillis()
                 }
             )
+        ) {
+            val takenDate: Long = it.arguments?.getLong("takenDate")!!
+            val mealType: String = it.arguments?.getString("mealType")!!
+            FoodSearchScreen(
+                mealType = mealType,
+                navController,
+                navigateToMealHistoryInputScreen = { foodList ->
+                    val jsonFoodList = Json.encodeToString(
+                        foodList.map { foodInfo ->
+                            foodInfo.toResponseFoodDetailInfo()
+                        }
+                    )
+                    navController.navigate(
+                        "${Screens.ScreenMealHistoryInput.route}/$takenDate/$mealType/$jsonFoodList"
+                    )
+                }
+            )
+        }
+
+        composable(
+            "${Screens.ScreenMealHistoryInput.route}/{takenDate}/{mealType}/{foodList}"
         ) {
             val mealType: MealType = MealType.values().find { mealType ->
                 mealType.mean.second == it.arguments?.getString("mealType")!!

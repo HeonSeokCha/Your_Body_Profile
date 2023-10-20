@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -22,14 +23,12 @@ class MealListViewModel @Inject constructor(
     private val _state = MutableStateFlow(MealListState())
     val state = _state.asStateFlow()
 
-    init {
+    fun getPagingTotalCalories() {
         _state.update {
             it.copy(
                 chartList = getPagingTotalCalorieUseCase().cachedIn(viewModelScope)
             )
         }
-
-        getDayTakenMealInfo(LocalDate.now())
     }
 
     fun getDayTakenMealInfo(localDate: LocalDate) {
@@ -39,6 +38,14 @@ class MealListViewModel @Inject constructor(
                     it.copy(dayTakenMealList = mealTypeList)
                 }
             }
+        }
+    }
+
+    fun updateSelectDate(localDate: LocalDate) {
+        _state.update {
+            it.copy(
+                selectDate = localDate
+            )
         }
     }
 }

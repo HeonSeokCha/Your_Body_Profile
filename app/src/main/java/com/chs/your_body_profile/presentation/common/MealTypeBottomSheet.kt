@@ -4,12 +4,14 @@ import androidx.compose.runtime.Composable
 import com.chs.your_body_profile.domain.model.MealType
 
 @Composable
-fun MealTypeBottomSheet(
+fun ItemMealTypeAlertDialog(
+    onDisMiss: (Boolean) -> Unit,
     onClick: (String) -> Unit
 ) {
-    ItemMeasureTypeVerticalList(
+    ItemVerticalListAlertDialog(
         title = "식사종류",
-        items = MealType.values().map { it.mean.second }
+        items = MealType.values().map { it.mean.second },
+        onDisMiss = { onDisMiss(it) }
     ) {
         onClick(it)
     }
