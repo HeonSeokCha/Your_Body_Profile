@@ -9,5 +9,6 @@ import java.time.LocalDate
 data class MealListState(
     val chartList: Flow<PagingData<Pair<LocalDate, Int>>>? = null,
     val selectDate: LocalDate = LocalDate.now(),
-    val dayTakenMealList: Map<TakenMealInfo, List<FoodDetailInfo>> = mapOf()
+    val dayTakenMealList: Map<TakenMealInfo, List<FoodDetailInfo>> = mapOf(),
+    val deleteMealInfoList: List<TakenMealInfo> = emptyList()
 )

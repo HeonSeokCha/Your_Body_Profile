@@ -3,6 +3,7 @@ package com.chs.your_body_profile.domain.repository
 import androidx.paging.PagingData
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.TakenMealHistoryInfo
 import com.chs.your_body_profile.domain.model.TakenMealInfo
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -18,7 +19,7 @@ interface FoodRepository {
         foodCodeList: List<String>
     )
 
-    suspend fun deleteTakenMealInfo(info: TakenMealInfo)
+    suspend fun deleteTakenMealInfo(info: List<TakenMealInfo>)
 
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 

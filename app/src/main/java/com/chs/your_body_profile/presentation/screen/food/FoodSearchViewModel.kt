@@ -84,24 +84,10 @@ class FoodSearchViewModel @Inject constructor(
         }
     }
 
-    fun addItem(foodInfo: FoodDetailInfo) {
+    fun updateSelectItem(list: List<FoodDetailInfo>) {
         _state.update {
-            val tempList: MutableList<FoodDetailInfo> = mutableListOf()
-            tempList.add(foodInfo)
-            tempList.addAll(it.selectFoodList)
             it.copy(
-                selectFoodList = tempList
-            )
-        }
-    }
-
-    fun removeItem(foodInfo: FoodDetailInfo) {
-        _state.update {
-            val tempList: MutableList<FoodDetailInfo> = mutableListOf()
-            tempList.addAll(it.selectFoodList)
-            tempList.remove(foodInfo)
-            it.copy(
-                selectFoodList = tempList
+                selectFoodList = list
             )
         }
     }

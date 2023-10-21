@@ -2,8 +2,10 @@ package com.chs.your_body_profile.presentation.screen.food
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,19 +18,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -44,14 +41,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.presentation.Screens
-import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 import com.chs.your_body_profile.presentation.common.toDecimalPlace
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MealListScreen(
     navController: NavHostController,
@@ -61,6 +58,8 @@ fun MealListScreen(
     val context: Context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val pagingItems = state.chartList?.collectAsLazyPagingItems()
+    val removeMealInfoList = remember { mutableStateListOf<TakenMealInfo>() }
+    var isEditMode: Boolean by remember { mutableStateOf(false) }
     var isShowMealTypeDialog by remember { mutableStateOf(false) }
 
     if (isShowMealTypeDialog) {
@@ -78,6 +77,10 @@ fun MealListScreen(
         viewModel.getDayTakenMealInfo(state.selectDate)
     }
 
+    LaunchedEffect(removeMealInfoList.size) {
+        viewModel.updateRemoveList(removeMealInfoList)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -88,36 +91,52 @@ fun MealListScreen(
                 .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ItemVerticalChart(pagingItems) {
-                viewModel.updateSelectDate(it)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "${
-                    state.dayTakenMealList.map { it.value.map { it.calorie }.sum() }.sum().toInt()
-                } kcal",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             LazyColumn (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 56.dp)
             ) {
+                item {
+                    ItemVerticalChart(pagingItems) {
+                        viewModel.updateSelectDate(it)
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "${
+                            state.dayTakenMealList.map { it.value.map { it.calorie }.sum() }.sum().toInt()
+                        } kcal",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
                 items(state.dayTakenMealList.size) {
                     val key = state.dayTakenMealList.keys.toList()[it]
                     val values = state.dayTakenMealList.values.toList()[it]
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-
-                            }
+                            .combinedClickable(
+                                onLongClick = {
+                                    isShowMealTypeDialog = true
+                                },
+                                onClick = {
+                                    if (isShowMealTypeDialog) {
+                                        if (removeMealInfoList.contains(key)) {
+                                            removeMealInfoList.remove(key)
+                                        } else {
+                                            removeMealInfoList.add(key)
+                                        }
+                                    } else {
+                                        navController
+                                    }
+                                }
+                            )
                     ) {
                         Column(
                             modifier = Modifier

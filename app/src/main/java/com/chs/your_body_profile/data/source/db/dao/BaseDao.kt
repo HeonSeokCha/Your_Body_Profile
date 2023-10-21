@@ -12,5 +12,5 @@ interface BaseDao<T> {
     suspend fun upsert(vararg entity: T)
 
     @Delete
-    suspend fun delete(entity: T)
+    suspend fun delete(vararg entity: T)
 }

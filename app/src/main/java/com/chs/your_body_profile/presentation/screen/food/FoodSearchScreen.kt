@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -61,13 +63,20 @@ fun FoodSearchScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
+    val selectFoodItems = remember { mutableStateListOf<FoodDetailInfo>() }
     var placeItemShow by remember { mutableStateOf(false) }
     var isSearchActive by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(context, viewModel) {
         viewModel.initInfo(mealType = mealType)
         viewModel.getRecentFoodSearchHistory()
         viewModel.getRecentTakenFoods()
+    }
+
+    LaunchedEffect(selectFoodItems.size) {
+        Log.e("SIZE", selectFoodItems.size.toString())
+        viewModel.updateSelectItem(selectFoodItems)
     }
 
     Scaffold(
@@ -93,7 +102,7 @@ fun FoodSearchScreen(
                             ItemSelectFood(
                                 info = foodInfo,
                                 onClick = { selectedFood ->
-                                    viewModel.removeItem(selectedFood)
+                                    selectFoodItems.remove(selectedFood)
                                 }
                             )
                         }
@@ -168,14 +177,14 @@ fun FoodSearchScreen(
                         items(pagingItems.itemCount) { idx ->
                             val item = pagingItems[idx]
                             if (item != null) {
-                                val isSelected = state.selectFoodList.contains(item)
+                                val isSelected = selectFoodItems.contains(item)
                                 ItemSearchFoodInfo(
                                     info = item,
                                     onClick = {
                                         if (isSelected) {
-                                            viewModel.removeItem(it)
+                                            selectFoodItems.remove(it)
                                         } else {
-                                            viewModel.addItem(it)
+                                            selectFoodItems.add(it)
                                         }
                                     }, leadingContent = {
                                         if (isSelected) {
@@ -198,14 +207,14 @@ fun FoodSearchScreen(
                             Text(text = "최근에 먹은 음식")
                         }
                         items(state.recentFoodList) { item ->
-                            val isSelected = state.selectFoodList.contains(item)
+                            val isSelected = selectFoodItems.contains(item)
                             ItemSearchFoodInfo(
                                 info = item,
                                 onClick = {
                                     if (isSelected) {
-                                        viewModel.removeItem(it)
+                                        selectFoodItems.remove(it)
                                     } else {
-                                        viewModel.addItem(it)
+                                        selectFoodItems.add(it)
                                     }
                                 }, leadingContent = {
                                     if (isSelected) {

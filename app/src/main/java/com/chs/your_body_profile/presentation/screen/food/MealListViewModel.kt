@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.chs.your_body_profile.domain.model.TakenMealHistoryInfo
+import com.chs.your_body_profile.domain.model.TakenMealInfo
+import com.chs.your_body_profile.domain.usecase.DeleteMealInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayTakenListUseCase
 import com.chs.your_body_profile.domain.usecase.GetPagingTotalCalorieUseCase
@@ -18,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MealListViewModel @Inject constructor(
     private val getPagingTotalCalorieUseCase: GetPagingTotalCalorieUseCase,
-    private val getDayTakenListUseCase: GetDayTakenListUseCase
+    private val getDayTakenListUseCase: GetDayTakenListUseCase,
+    private val deleteTakenMealInfoUseCase: DeleteMealInfoUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(MealListState())
     val state = _state.asStateFlow()
@@ -45,6 +49,22 @@ class MealListViewModel @Inject constructor(
         _state.update {
             it.copy(
                 selectDate = localDate
+            )
+        }
+    }
+
+    fun updateRemoveList(list: List<TakenMealInfo>) {
+        _state.update {
+            it.copy(
+                deleteMealInfoList = list
+            )
+        }
+    }
+
+    fun deleteMealInfo() {
+        viewModelScope.launch {
+            deleteTakenMealInfoUseCase(
+                state.value.deleteMealInfoList
             )
         }
     }

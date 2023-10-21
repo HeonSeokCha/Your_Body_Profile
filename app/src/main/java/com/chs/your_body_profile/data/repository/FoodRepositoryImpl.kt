@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -20,6 +19,7 @@ import com.chs.your_body_profile.data.source.paging.FoodDayTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.TakenMealHistoryInfo
 import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
@@ -62,12 +62,20 @@ class FoodRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteTakenMealInfo(info: TakenMealInfo) {
-        takenMealHistoryDao.deleteMealHistory(
-            takenDate = info.takenDate.toMillis(),
-            mealType = info.mealType.mean.first
-        )
+    override suspend fun deleteTakenMealInfo(info: List<TakenMealInfo>) {
+        info.forEach {
+            takenMealInfoDao.deleteTakenMealInfo(
+                takenDate = it.takenDate.toMillis(),
+                mealTYpe = it.mealType.mean.first
+            )
+
+            takenMealHistoryDao.deleteMealHistory(
+                takenDate = it.takenDate.toMillis(),
+                mealType = it.mealType.mean.first
+            )
+        }
     }
+
 
     override suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>> {
         return Pager(

@@ -3,7 +3,6 @@ package com.chs.your_body_profile.data.mapper
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.model.TakenMealHistoryInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
 import com.chs.your_body_profile.data.model.entity.TakenMealInfoEntity
