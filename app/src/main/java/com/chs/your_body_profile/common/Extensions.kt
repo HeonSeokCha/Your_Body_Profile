@@ -1,5 +1,9 @@
 package com.chs.your_body_profile.common
 
+import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -32,4 +36,12 @@ fun Long.toLocalDate(): LocalDate {
 
 fun Long.toLocalDateToMillis(): Long {
     return this.toLocalDate().toMillis()
+}
+
+fun List<FoodDetailInfo>.toJsonStringEncode(): String {
+    return Json.encodeToString(
+        this.map { foodInfo ->
+            foodInfo.toResponseFoodDetailInfo()
+        }
+    )
 }

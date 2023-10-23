@@ -45,20 +45,24 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toJsonStringEncode
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSearchFoodInfo
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 import com.chs.your_body_profile.presentation.common.ItemSelectFood
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodSearchScreen(
+    takenDate: Long,
     mealType: String,
     navController: NavHostController,
     viewModel: FoodSearchViewModel = hiltViewModel(),
-    navigateToMealHistoryInputScreen: (List<FoodDetailInfo>) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -75,7 +79,6 @@ fun FoodSearchScreen(
     }
 
     LaunchedEffect(selectFoodItems.size) {
-        Log.e("SIZE", selectFoodItems.size.toString())
         viewModel.updateSelectItem(selectFoodItems)
     }
 
@@ -290,7 +293,10 @@ fun FoodSearchScreen(
                         .background(MaterialTheme.colorScheme.primary),
                 ) {
                     navController.popBackStack()
-                    navigateToMealHistoryInputScreen(state.selectFoodList)
+                    Log.e("BTN", takenDate.toLocalDate().toString())
+                    navController.navigate(
+                        "${Screens.ScreenMealHistoryInput.route}/$takenDate/$mealType/${state.selectFoodList.toJsonStringEncode()}"
+                    )
                 }
             }
         }

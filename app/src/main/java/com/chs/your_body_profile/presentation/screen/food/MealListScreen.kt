@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputButton
@@ -65,7 +66,10 @@ fun MealListScreen(
     if (isShowMealTypeDialog) {
         ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
             isShowMealTypeDialog = false
-            navController.navigate("${Screens.ScreenFoodSearch.route}/$it")
+            Log.e("nav", state.selectDate.toString())
+            navController.navigate(
+                    "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectDate.toMillis()}"
+            )
         }
     }
 

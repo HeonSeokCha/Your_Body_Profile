@@ -32,12 +32,12 @@ class MealHistoryInputViewModel @Inject constructor(
         takenMealType: MealType,
         foodList: List<FoodDetailInfo>
     ) {
+        Log.e("TAKE", "$takenDate, $takenMealType")
         viewModelScope.launch {
             getDayMealTypeListUseCase(
                 takenDate = takenDate,
                 mealType = takenMealType
             ).collect { takenInfo ->
-                Log.e("TAKE", takenInfo.toString())
                 _state.update {
                     if (takenInfo.first != null) {
                         it.copy(
@@ -50,6 +50,7 @@ class MealHistoryInputViewModel @Inject constructor(
                         )
                     } else {
                         it.copy(
+                            takenDate = takenDate,
                             mealType = takenMealType,
                             takenFoodList = foodList
                         )

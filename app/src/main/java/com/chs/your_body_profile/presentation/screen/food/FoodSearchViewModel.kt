@@ -79,8 +79,10 @@ class FoodSearchViewModel @Inject constructor(
     }
 
     fun upsertFoodSearchHistory(query: String) {
-        viewModelScope.launch {
-            upsertFoodSearchHistoryUseCase(query)
+        if (query.isNotEmpty()) {
+            viewModelScope.launch {
+                upsertFoodSearchHistoryUseCase(query)
+            }
         }
     }
 

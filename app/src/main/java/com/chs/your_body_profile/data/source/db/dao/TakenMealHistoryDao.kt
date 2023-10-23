@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.data.source.db.dao
 
 import androidx.room.Dao
+import androidx.room.MapColumn
 import androidx.room.MapInfo
 import androidx.room.Query
 import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
@@ -111,7 +112,6 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
         mealType: Int
     ): Flow<Float>
 
-    @MapInfo(keyColumn = "takenDate", valueColumn = "calorie")
     @Query(
         "SELECT takenDate," +
                "SUM(food.calorie) AS calorie " +
@@ -124,5 +124,5 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
     abstract suspend fun getPagingDayInfo(
         startDate: Long,
         endDate: Long
-    ): Map<Long, Float>
+    ): Map<@MapColumn("takenDate") Long, @MapColumn("calorie") Float>
 }
