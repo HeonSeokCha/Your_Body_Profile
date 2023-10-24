@@ -6,12 +6,11 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 
 @Entity(
     tableName = "weight_info",
-    primaryKeys = ["insertDate", "measureTime"]
+    primaryKeys = ["measureDate", "measureTime"]
 )
 data class WeightInfoEntity(
-    val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
+    val measureDate: Long,
     val measureTime: Long,
     val weight: Float,
-    val memo: String,
-    val lastModifyTime: Long
+    val memo: String
 )

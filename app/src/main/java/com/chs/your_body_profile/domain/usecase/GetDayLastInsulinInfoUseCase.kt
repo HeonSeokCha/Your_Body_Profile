@@ -10,5 +10,5 @@ class GetDayLastInsulinInfoUseCase @Inject constructor(
     private val repository: InsulinRepository
 ) {
     operator fun invoke(localDate: LocalDate): Flow<InsulinInfo?> =
-        repository.getDayLastInfo(localDate)
+        repository.getDayInfo(localDate)
 }

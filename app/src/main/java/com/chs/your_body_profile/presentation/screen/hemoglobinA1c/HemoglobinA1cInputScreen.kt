@@ -22,9 +22,11 @@ import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemDualNumberPicker
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
+import java.time.LocalDate
 
 @Composable
 fun HemoglobinA1cInputScreen(
+    measureDate: LocalDate,
     navController: NavHostController,
     viewModel: HemoglobinA1cInputViewModel = hiltViewModel()
 ) {

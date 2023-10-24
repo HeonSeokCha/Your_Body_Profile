@@ -1,10 +1,10 @@
 package com.chs.your_body_profile.domain.model
 
 enum class MeasureType(
-    val mean: Pair<String, String>
+    val mean: Pair<Int, String>
 ) {
-    EMPTY("empty" to "공복"),
-    BEFORE_EAT("beforeEat" to "식전"),
-    AFTER_EAT("afterEat" to "식후"),
-    NORMAL("normal" to "평상시")
+    EMPTY(0 to "공복"),
+    BEFORE_EAT(1 to "식전"),
+    AFTER_EAT(2 to "식후"),
+    NORMAL(3 to "평상시")
 }

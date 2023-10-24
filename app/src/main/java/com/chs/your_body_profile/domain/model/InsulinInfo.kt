@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 
 data class InsulinInfo(
-    val injectTime: LocalDate,
+    val injectDate: LocalDate,
     val level :Int,
     val memo: String?
 )

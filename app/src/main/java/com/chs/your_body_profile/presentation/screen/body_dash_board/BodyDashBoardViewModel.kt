@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
-import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
@@ -96,8 +95,8 @@ class BodyDashBoardViewModel @Inject constructor(
                 bloodPressureInfo = (list[1] as BloodPressureInfo?),
                 bloodSugarInfo = (list[2] as BloodSugarInfo?),
                 insulinInfo = (list[3] as InsulinInfo?),
-                drinkCoffeeInfo = (list[4] as DrinkCoffeeInfo?),
-                drinkWaterInfo = (list[5] as DrinkWaterInfo?),
+                drinkCoffeeInfo = (list[4] as DrinkType.DrinkCoffeeInfo?),
+                drinkWaterInfo = (list[5] as DrinkType.DrinkWaterInfo?),
                 hemoglobinA1cInfo = (list[6] as HemoglobinA1cInfo?),
                 medicineInfo = (list[7] as MedicineInfo?),
                 totalCalorie = (list[8] as Int),
@@ -111,7 +110,10 @@ class BodyDashBoardViewModel @Inject constructor(
             upsertDrinkCoffeeInfoUseCase(
                 _state.value.drinkCoffeeInfo?.copy(
                     totalCups = totalCups
-                ) ?: DrinkCoffeeInfo(totalCups = totalCups)
+                ) ?: DrinkType.DrinkCoffeeInfo(
+                    takenDate = todayLocalDate,
+                    totalCups = totalCups
+                )
             )
         }
     }
@@ -121,7 +123,10 @@ class BodyDashBoardViewModel @Inject constructor(
             upsertDrinkWaterInfoUseCase(
                 _state.value.drinkWaterInfo?.copy(
                     totalCups = totalCups
-                ) ?: DrinkWaterInfo(totalCups = totalCups)
+                ) ?: DrinkType.DrinkWaterInfo(
+                    takenDate = todayLocalDate,
+                    totalCups = totalCups
+                )
             )
         }
     }

@@ -6,11 +6,10 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 
 @Entity(
     tableName = "drink_info",
-    primaryKeys = ["insertDate", "drinkType"]
+    primaryKeys = ["takenDate", "drinkType"]
 )
 data class DrinkInfoEntity(
-    val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
+    val takenDate: Long,
     val drinkType: String,
     val totalCups: Int,
-    val lastModifyTime: Long
 )

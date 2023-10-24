@@ -16,17 +16,9 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
     private val hemoglobinA1cDao: HemoglobinA1cDao
 ) : HemoglobinA1cRepository {
 
-    override fun getDayLastInfo(localDate: LocalDate): Flow<HemoglobinA1cInfo?> {
-        return hemoglobinA1cDao.getDayLastInfo(localDate.toMillis()).map {
+    override fun getDayInfo(localDate: LocalDate): Flow<HemoglobinA1cInfo?> {
+        return hemoglobinA1cDao.getDayInfo(localDate.toMillis()).map {
             it?.toHemoglobinA1cInfo()
-        }
-    }
-
-    override fun getDayInfoList(localDate: LocalDate): Flow<List<HemoglobinA1cInfo>> {
-        return hemoglobinA1cDao.getDayInfoList(localDate.toMillis()).map {
-            it.map { hemoglobinA1cInfoEntity ->
-                hemoglobinA1cInfoEntity.toHemoglobinA1cInfo()
-            }
         }
     }
 

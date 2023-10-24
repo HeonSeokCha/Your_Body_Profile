@@ -40,7 +40,7 @@ class InsulinInputViewModel @Inject constructor(
                 InsulinInfo(
                     level = _state.value.level,
                     memo = _state.value.memo,
-                    injectTime = LocalDate.now()
+                    injectDate = LocalDate.now()
                 )
             )
         }

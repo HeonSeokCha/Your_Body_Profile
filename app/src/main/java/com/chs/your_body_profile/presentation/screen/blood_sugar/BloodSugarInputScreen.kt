@@ -24,9 +24,11 @@ import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalList
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
+import java.time.LocalDate
 
 @Composable
 fun BloodSugarInputScreen(
+    measureDate: LocalDate,
     navController: NavHostController,
     viewModel: BloodSugarInputViewModel = hiltViewModel()
 ) {

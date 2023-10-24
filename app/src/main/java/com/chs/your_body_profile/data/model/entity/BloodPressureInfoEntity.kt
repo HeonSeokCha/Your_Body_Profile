@@ -6,13 +6,12 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 
 @Entity(
     tableName = "blood_pressure_info",
-    primaryKeys = ["insertDate", "measureTime"]
+    primaryKeys = ["measureDate", "measureTime"]
 )
 data class BloodPressureInfoEntity(
-    val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
+    val measureDate: Long,
     val measureTime: Long,
     val systolic: Int,
     val diastolic: Int,
-    val memo: String?,
-    val lastModifyTime: Long
+    val memo: String?
 )

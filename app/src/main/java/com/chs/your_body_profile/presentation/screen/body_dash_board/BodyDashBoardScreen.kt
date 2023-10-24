@@ -55,7 +55,7 @@ fun BodyDashBoardScreen(
                     ?: MedicineType.UNKNOWN.time.second,
                 subValue = todayMedicineInfo?.title
                     ?: stringResource(id = R.string.text_take_medicine_default),
-                subValue2 = todayMedicineInfo?.doseTime?.format(Constants.DATE_TIME_FORMATTER)
+                subValue2 = todayMedicineInfo?.takenTime?.format(Constants.DATE_TIME_FORMATTER)
             ) {
 
             }

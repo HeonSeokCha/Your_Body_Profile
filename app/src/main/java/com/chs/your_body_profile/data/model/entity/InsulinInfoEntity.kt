@@ -7,8 +7,7 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 @Entity(tableName = "insulin_info")
 data class InsulinInfoEntity(
     @PrimaryKey
-    val insertDate: Long = System.currentTimeMillis().toLocalDateToMillis(),
+    val injectDate: Long,
     val level: Int,
-    val memo: String?,
-    val lastModifyTime: Long
+    val memo: String?
 )

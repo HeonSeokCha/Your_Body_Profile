@@ -10,5 +10,5 @@ class GetDayLastHemoglobinA1cInfoUseCase @Inject constructor(
     private val repository: HemoglobinA1cRepository
 ) {
     operator fun invoke(localDate: LocalDate): Flow<HemoglobinA1cInfo?> =
-        repository.getDayLastInfo(localDate)
+        repository.getDayInfo(localDate)
 }

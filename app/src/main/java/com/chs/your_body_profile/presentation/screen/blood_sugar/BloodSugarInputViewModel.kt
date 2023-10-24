@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -21,6 +22,18 @@ class BloodSugarInputViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(BloodSugarInputState())
     val state = _state.asStateFlow()
+
+    fun initMeasureInfo(
+        measureDate: LocalDate,
+        measureTime: LocalDateTime
+    ) {
+        _state.update {
+            it.copy(
+                measureDate = measureDate,
+                measureTime = measureTime
+            )
+        }
+    }
 
     fun updateBloodSugarMeasureTime(localDateTime: LocalDateTime) {
         _state.update {
@@ -58,7 +71,8 @@ class BloodSugarInputViewModel @Inject constructor(
         viewModelScope.launch {
             upsertBloodSugarInfoUseCase(
                 BloodSugarInfo(
-                    measureTime = state.value.measureTime!!,
+                    measureDate = state.value.measureDate,
+                    measureTime = state.value.measureTime,
                     measureType = state.value.measureType!!,
                     number = state.value.level,
                     memo = state.value.memo

@@ -7,11 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
-import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
@@ -23,7 +21,6 @@ import com.chs.your_body_profile.presentation.screen.food.MealHistoryInputScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
 import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
@@ -40,23 +37,75 @@ fun MainNavHost(
             BodyDashBoardScreen(navController)
         }
 
-        composable(Screens.ScreenBloodSugarInput.route) {
-            BloodSugarInputScreen(navController)
+        composable(
+            route = "${Screens.ScreenBloodSugarInput.route}?measureDate={measureDate}",
+            arguments = listOf(
+                navArgument("measureDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                }
+            )
+        ) {
+            BloodSugarInputScreen(
+                measureDate = it.arguments?.getLong("measureDate")!!.toLocalDate(),
+                navController = navController
+            )
         }
 
-        composable(Screens.ScreenBloodPressureInput.route) {
-            BloodPressureInputScreen(navController)
+        composable(
+            route = "${Screens.ScreenBloodPressureInput.route}?measureDate={measureDate}",
+            arguments = listOf(
+                navArgument("measureDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                }
+            )
+        ) {
+            BloodPressureInputScreen(
+                measureDate = it.arguments?.getLong("measureDate")!!.toLocalDate(),
+                navController = navController
+            )
         }
 
-        composable(Screens.ScreenInsulinInput.route) {
-            InsulinInputScreen(navController)
+        composable(
+            route = "${Screens.ScreenInsulinInput.route}?measureDate={measureDate}",
+            arguments = listOf(
+                navArgument("measureDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                }
+            )
+        ) {
+            InsulinInputScreen(
+                measureDate = it.arguments?.getLong("measureDate")!!.toLocalDate(),
+                navController = navController
+            )
         }
 
-        composable(Screens.ScreenHemoglobinA1cInput.route) {
-            HemoglobinA1cInputScreen(navController)
+        composable(
+            route = "${Screens.ScreenHemoglobinA1cInput.route}?measureDate={measureDate}",
+            arguments = listOf(
+                navArgument("measureDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                }
+            )
+        ) {
+            HemoglobinA1cInputScreen(
+                measureDate = it.arguments?.getLong("measureDate")!!.toLocalDate(),
+                navController = navController
+            )
         }
 
-        composable(Screens.ScreenMedicineInput.route) {
+        composable(
+            route = "${Screens.ScreenMedicineInput.route}?measureDate={measureDate}",
+            arguments = listOf(
+                navArgument("measureDate") {
+                    type = NavType.LongType
+                    defaultValue = LocalDate.now().toMillis()
+                }
+            )
+        ) {
 
         }
 

@@ -21,9 +21,11 @@ import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
+import java.time.LocalDate
 
 @Composable
 fun InsulinInputScreen(
+    measureDate: LocalDate,
     navController: NavHostController,
     viewModel: InsulinInputViewModel = hiltViewModel()
 ) {

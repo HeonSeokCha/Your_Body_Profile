@@ -11,9 +11,8 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
     @Query("""
         SELECT * 
           FROM drink_info
-         WHERE insertDate = :time
+         WHERE takenDate = :time
            AND drinkType = :drinkType
-         ORDER BY lastModifyTime DESC
          LIMIT 1
     """)
     abstract fun getDayLastDrinkInfo(drinkType: String, time: Long): Flow<DrinkInfoEntity?>

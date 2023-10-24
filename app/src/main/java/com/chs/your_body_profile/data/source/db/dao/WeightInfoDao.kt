@@ -11,16 +11,16 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
     @Query("""
         SELECT * 
           FROM weight_info
-         WHERE insertDate = :time
-         ORDER BY lastModifyTime DESC LIMIT 1
+         WHERE measureDate = :time
+         ORDER BY measureTime DESC LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<WeightInfoEntity?>
 
     @Query("""
         SELECT * 
           FROM weight_info
-         WHERE insertDate = :time
-         ORDER BY lastModifyTime DESC
+         WHERE measureDate = :time
+         ORDER BY measureTime DESC
     """)
     abstract fun getDayInfoList(time: Long): Flow<List<WeightInfoEntity>>
 }

@@ -11,16 +11,16 @@ abstract class MedicineDao : BaseDao<MedicineInfoEntity> {
     @Query("""
         SELECT * 
           FROM medicine_info
-         WHERE insertDate = :time
-         ORDER BY lastModifyTime DESC LIMIT 1
+         WHERE takenDate = :time
+         ORDER BY takenTime DESC LIMIT 1
     """)
     abstract fun getDayLastInfo(time: Long): Flow<MedicineInfoEntity?>
 
     @Query("""
         SELECT * 
           FROM medicine_info
-         WHERE insertDate = :time
-         ORDER BY lastModifyTime DESC
+         WHERE takenDate = :time
+         ORDER BY takeMedicineType DESC
     """)
     abstract fun getDayInfoList(time: Long): Flow<List<MedicineInfoEntity>>
 }
