@@ -127,17 +127,21 @@ fun MealListScreen(
                             .fillMaxWidth()
                             .combinedClickable(
                                 onLongClick = {
-                                    isShowMealTypeDialog = true
+                                    isEditMode = true
                                 },
                                 onClick = {
-                                    if (isShowMealTypeDialog) {
+                                    if (isEditMode) {
                                         if (removeMealInfoList.contains(key)) {
                                             removeMealInfoList.remove(key)
                                         } else {
                                             removeMealInfoList.add(key)
                                         }
                                     } else {
-                                        navController
+                                        navController.navigate(
+                                            "${Screens.ScreenMealHistoryInput.route}" +
+                                                    "/${key.takenDate.toMillis()}" +
+                                                    "/${key.mealType.mean.second}"
+                                        )
                                     }
                                 }
                             )

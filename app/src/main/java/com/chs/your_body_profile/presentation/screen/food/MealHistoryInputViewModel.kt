@@ -32,7 +32,6 @@ class MealHistoryInputViewModel @Inject constructor(
         takenMealType: MealType,
         foodList: List<FoodDetailInfo>
     ) {
-        Log.e("TAKE", "$takenDate, $takenMealType")
         viewModelScope.launch {
             getDayMealTypeListUseCase(
                 takenDate = takenDate,

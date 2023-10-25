@@ -295,7 +295,10 @@ fun FoodSearchScreen(
                     navController.popBackStack()
                     Log.e("BTN", takenDate.toLocalDate().toString())
                     navController.navigate(
-                        "${Screens.ScreenMealHistoryInput.route}/$takenDate/$mealType/${state.selectFoodList.toJsonStringEncode()}"
+                        "${Screens.ScreenMealHistoryInput.route}" +
+                                "/$takenDate" +
+                                "/$mealType" +
+                                "?foodList=${state.selectFoodList.toJsonStringEncode()}"
                     )
                 }
             }

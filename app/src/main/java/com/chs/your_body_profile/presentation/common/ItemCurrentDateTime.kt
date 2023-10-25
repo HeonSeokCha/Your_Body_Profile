@@ -38,7 +38,7 @@ fun ItemTimePicker(
     dateTime: LocalDateTime,
     onClick: (LocalDateTime) -> Unit
 ) {
-    var currentDateTime by remember { mutableStateOf(dateTime) }
+    val currentDateTime by remember { mutableStateOf(dateTime) }
     Button(
         onClick = { }
     ) {
