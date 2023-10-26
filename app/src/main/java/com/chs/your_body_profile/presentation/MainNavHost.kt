@@ -7,10 +7,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
@@ -133,11 +135,15 @@ fun MainNavHost(
         }
 
         composable(
-            route = "${Screens.ScreenMealHistoryInput.route}/{takenDate}/{mealType}/{foodList}",
+            route = "${Screens.ScreenMealHistoryInput.route}/{takenDate}/{mealType}?foodList={foodList}",
             arguments = listOf(
                 navArgument("takenDate") {
                     type = NavType.LongType
                     defaultValue = LocalDate.now().toMillis()
+                },
+                navArgument("foodList") {
+                    type = NavType.StringType
+                    defaultValue = listOf<FoodDetailInfo>().toJsonStringEncode()
                 }
             )
         ) {
@@ -151,7 +157,7 @@ fun MainNavHost(
             ).map { responseFoodDetailInfo ->
                 responseFoodDetailInfo.toFoodDetailInfo()
             }
-            Log.e("MEALHISTORYINPUT", "${takenDate.toLocalDate()}, $mealType, ${foodList[0].name}")
+
             MealHistoryInputScreen(
                 takenDate = takenDate.toLocalDate(),
                 takenMealType = mealType,
