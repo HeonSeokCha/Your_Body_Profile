@@ -40,7 +40,6 @@ import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemTimePicker
-import com.chs.your_body_profile.presentation.ui.theme.SkyBlue400
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
@@ -82,67 +81,75 @@ fun MealHistoryInputScreen(
             }
 
             item {
-
                 Spacer(modifier = Modifier.height(16.dp))
+
                 ItemTimePicker(dateTime = state.takenTime) {
 
                 }
             }
 
             item {
-                Column(
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(
-                            SkyBlue400.copy(
-                                alpha = 0.4f
-                            )
-                        )
+                        .padding(vertical = 16.dp)
                 ) {
-                    state.takenFoodList.forEach {
+                    Column {
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        state.takenFoodList.forEach {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+
+                                Text(
+                                    text = it.name,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Row {
+                                    Text(
+                                        text = "${it.calorie.roundToInt()}kcal, ",
+                                        color = Color.Gray
+                                    )
+
+                                    Text(
+                                        text = "${it.servingWeight.roundToInt()}g",
+                                        color = Color.Gray
+                                    )
+                                }
+
+                                Divider(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp),
+                                    color = Color.Gray
+                                )
+                            }
+                        }
+
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .height(72.dp)
                                 .padding(horizontal = 8.dp)
+                                .clickable {
+                                    navController.navigate(
+                                        Screens.ScreenFoodSearch.route +
+                                                "/${state.mealType!!.mean.second}" +
+                                                "?takenDate=${state.takenDate.toMillis()}"
+                                    )
+                                },
+                            verticalArrangement = Arrangement.Center
                         ) {
-
                             Text(
-                                text = it.name,
+                                text = "음식 추가",
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.Bold
                             )
-                            Row {
-                                Text(
-                                    text = "${it.calorie.roundToInt()}kcal, ",
-                                    color = Color.Gray
-                                )
-
-                                Text(
-                                    text = "${it.servingWeight.roundToInt()}g",
-                                    color = Color.Gray
-                                )
-                            }
-                            Divider(color = Color.Gray)
                         }
-                    }
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                            .clickable {
-                                navController.navigate(
-                                    "${Screens.ScreenFoodSearch.route}" +
-                                            "/${state.mealType!!.mean.second}" +
-                                            "?takenDate=${state.takenDate.toMillis()}"
-                                )
-                            }
-                    ) {
-                        Text(
-                            text = "음식 추가",
-                            fontSize = 22.sp
-                        )
                     }
                 }
             }

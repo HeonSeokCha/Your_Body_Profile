@@ -27,6 +27,10 @@ class MealHistoryInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(MealHistoryInputState())
     val state = _state.asStateFlow()
 
+    init {
+        Log.e("VIEWMODEL","INIT ${state.value.takenFoodList.size}")
+    }
+
     fun initMealHistoryInfo(
         takenDate: LocalDate,
         takenMealType: MealType,

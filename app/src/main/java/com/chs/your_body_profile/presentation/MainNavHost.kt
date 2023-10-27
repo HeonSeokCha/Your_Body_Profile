@@ -2,6 +2,11 @@ package com.chs.your_body_profile.presentation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -30,11 +35,14 @@ import java.time.LocalDate
 fun MainNavHost(
     navController: NavHostController
 ) {
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    }
+
     NavHost(
         navController = navController,
         startDestination = Screens.ScreenBodyDash.route
     ) {
-
         composable(Screens.ScreenBodyDash.route) {
             BodyDashBoardScreen(navController)
         }
@@ -126,7 +134,6 @@ fun MainNavHost(
         ) {
             val takenDate: Long = it.arguments?.getLong("takenDate")!!
             val mealType: String = it.arguments?.getString("mealType")!!
-            Log.e("FOODSEARCH", takenDate.toLocalDate().toString())
             FoodSearchScreen(
                 takenDate = takenDate,
                 mealType = mealType,
@@ -162,7 +169,8 @@ fun MainNavHost(
                 takenDate = takenDate.toLocalDate(),
                 takenMealType = mealType,
                 foodList = foodList,
-                navController = navController
+                navController = navController,
+                viewModel = hiltViewModel(viewModelStoreOwner)
             )
         }
 
