@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,13 +56,23 @@ fun MealHistoryInputScreen(
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val takenFoodItems = remember { mutableStateListOf<FoodDetailInfo>() }
 
     LaunchedEffect(context, viewModel) {
+        Log.e("INPUT","LAUNCHED")
         viewModel.initMealHistoryInfo(
             takenDate = takenDate,
             takenMealType = takenMealType,
-            foodList = foodList
         )
+    }
+
+    LaunchedEffect(foodList) {
+        Log.e("INPUT", foodList.map { it.name }.toString())
+        viewModel.updateTakenFoodList(foodList)
+    }
+
+    LaunchedEffect(state.takenFoodList) {
+        Log.e("TAKEN", state.takenFoodList.map { it.name }.toString())
     }
 
     Box(

@@ -1,6 +1,8 @@
 package com.chs.your_body_profile.common
 
+import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
+import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -44,4 +46,10 @@ fun List<FoodDetailInfo>.toJsonStringEncode(): String {
             foodInfo.toResponseFoodDetailInfo()
         }
     )
+}
+
+fun String.toDecodeFoodList(): List<FoodDetailInfo> {
+    return Json.decodeFromString<List<ResponseFoodDetailInfo>>(this).map {
+        it.toFoodDetailInfo()
+    }
 }

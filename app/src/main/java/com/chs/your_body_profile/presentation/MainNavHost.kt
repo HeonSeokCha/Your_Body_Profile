@@ -12,6 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.chs.your_body_profile.common.toDecodeFoodList
 import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
@@ -159,10 +160,10 @@ fun MainNavHost(
                 mealType.mean.second == it.arguments?.getString("mealType")!!
             } ?: MealType.MORNING
 
-            val foodList = Json.decodeFromString<List<ResponseFoodDetailInfo>>(
-                it.arguments?.getString("foodList")!!
-            ).map { responseFoodDetailInfo ->
-                responseFoodDetailInfo.toFoodDetailInfo()
+            val argumentFoodList = it.arguments?.getString("foodList")!!.toDecodeFoodList()
+            val backStackFoodList = it.savedStateHandle.get<String>("addNewFoodList")
+            val foodList = argumentFoodList.ifEmpty {
+                backStackFoodList?.toDecodeFoodList() ?: argumentFoodList
             }
 
             MealHistoryInputScreen(

@@ -33,8 +33,7 @@ class MealHistoryInputViewModel @Inject constructor(
 
     fun initMealHistoryInfo(
         takenDate: LocalDate,
-        takenMealType: MealType,
-        foodList: List<FoodDetailInfo>
+        takenMealType: MealType
     ) {
         viewModelScope.launch {
             getDayMealTypeListUseCase(
@@ -44,22 +43,31 @@ class MealHistoryInputViewModel @Inject constructor(
                 _state.update {
                     if (takenInfo.first != null) {
                         it.copy(
-                            takenDate = takenInfo.first!!.takenDate,
+                            takenDate = takenDate,
                             takenTime = takenInfo.first!!.takenTime,
-                            mealType = takenInfo.first?.mealType,
-                            takenFoodList = takenInfo.second.toMutableList().apply {
-                                this.addAll(foodList)
+                            mealType = takenMealType,
+                            takenFoodList = it.takenFoodList.toMutableList().apply {
+                                this.addAll(0, takenInfo.second)
                             }
                         )
                     } else {
                         it.copy(
                             takenDate = takenDate,
-                            mealType = takenMealType,
-                            takenFoodList = foodList
+                            mealType = takenMealType
                         )
                     }
                 }
             }
+        }
+    }
+
+    fun updateTakenFoodList(list: List<FoodDetailInfo>) {
+        _state.update {
+            it.copy(
+                takenFoodList = it.takenFoodList.toMutableList().apply {
+                    this.addAll(list)
+                }
+            )
         }
     }
 

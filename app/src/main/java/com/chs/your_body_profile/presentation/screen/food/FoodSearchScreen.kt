@@ -46,15 +46,12 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toJsonStringEncode
-import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.presentation.Screens
-import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSearchFoodInfo
 import com.chs.your_body_profile.presentation.common.ItemSearchHistory
 import com.chs.your_body_profile.presentation.common.ItemSelectFood
-import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -66,6 +63,7 @@ fun FoodSearchScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val previousBackStackEntry = navController.previousBackStackEntry
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
     val selectFoodItems = remember { mutableStateListOf<FoodDetailInfo>() }
     var placeItemShow by remember { mutableStateOf(false) }
@@ -292,14 +290,22 @@ fun FoodSearchScreen(
                         .align(Alignment.BottomCenter)
                         .background(MaterialTheme.colorScheme.primary),
                 ) {
-                    navController.popBackStack()
-                    Log.e("BTN", takenDate.toLocalDate().toString())
-                    navController.navigate(
-                        "${Screens.ScreenMealHistoryInput.route}" +
-                                "/$takenDate" +
-                                "/$mealType" +
-                                "?foodList=${state.selectFoodList.toJsonStringEncode()}"
-                    )
+                    val prevRoute = previousBackStackEntry?.destination?.route
+                    if (prevRoute == Screens.ScreenBodyDash.route
+                        || prevRoute == Screens.ScreenMealList.route
+                    ) {
+                        navController.navigate(
+                            "${Screens.ScreenMealHistoryInput.route}" +
+                                    "/$takenDate" +
+                                    "/$mealType" +
+                                    "?foodList=${state.selectFoodList.toJsonStringEncode()}"
+                        )
+                    } else {
+                        previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("addNewFoodList", state.selectFoodList.toJsonStringEncode())
+                        navController.popBackStack()
+                    }
                 }
             }
         }
