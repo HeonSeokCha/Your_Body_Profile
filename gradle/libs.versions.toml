@@ -1,8 +1,8 @@
 [versions]
-androidStudioGradlePlugin = "8.1.2"
+androidStudioGradlePlugin = "8.1.3"
 
 compileSdkVersion = "34"
-desugar_jdk_libs = "2.0.3"
+desugar_jdk_libs = "2.0.4"
 kotlinGradlePlugin = "1.9.10"
 minSdkVersion = "29"
 targetSdkVersion = "33"
@@ -11,13 +11,13 @@ versionName = "1.0"
 
 activity = "1.8.0"
 compose-ui = "1.5.4"
-composeCompiler = "1.5.3"
+composeCompiler = "1.5.4"
 lifecycle = "2.6.2"
 room = "2.6.0"
 coil = "2.4.0"
 hilt = "2.48.1"
-kotlin = "1.9.10"
-ksp = "1.9.10-1.0.13"
+kotlin = "1.9.20"
+ksp = "1.9.20-1.0.14"
 kotlin-coroutine = "1.7.3"
 ktor = "2.3.4"
 paging = "3.2.1"
@@ -31,7 +31,7 @@ androidX-compose-material-icon-extend = { module = "androidx.compose.material:ma
 androidX-compose-material3 = "androidx.compose.material3:material3:1.1.2"
 androidX-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui" }
 androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.4"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.5"
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle"}
 androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }

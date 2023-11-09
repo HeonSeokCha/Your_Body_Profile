@@ -67,6 +67,7 @@ fun FoodSearchScreen(
     val pagingItems = state.searchResult?.collectAsLazyPagingItems()
     val selectFoodItems = remember { mutableStateListOf<FoodDetailInfo>() }
     var placeItemShow by remember { mutableStateOf(false) }
+    var loadMoreItemShow by remember { mutableStateOf(false) }
     var isSearchActive by remember { mutableStateOf(false) }
 
 
@@ -171,7 +172,10 @@ fun FoodSearchScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
-                    contentPadding = PaddingValues(bottom = 56.dp),
+                    contentPadding = PaddingValues(
+                        top = 16.dp,
+                        bottom = 56.dp
+                   ),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     if (pagingItems != null) {
@@ -234,7 +238,7 @@ fun FoodSearchScreen(
                         }
                     }
 
-                    if (placeItemShow) {
+                    if (placeItemShow || loadMoreItemShow) {
                         items(Constants.ITEM_SHIMMER_SHOW_COUNT) {
                             ItemSearchFoodInfo(info = null, onClick = { }) { }
                         }
@@ -261,7 +265,7 @@ fun FoodSearchScreen(
                         }
                     }
 
-                    placeItemShow = when (pagingItems.loadState.append) {
+                     loadMoreItemShow = when (pagingItems.loadState.append) {
                         is LoadState.Loading -> {
                             true
                         }
