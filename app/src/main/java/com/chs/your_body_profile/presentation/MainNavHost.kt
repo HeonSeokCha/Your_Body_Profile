@@ -1,10 +1,6 @@
 package com.chs.your_body_profile.presentation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
@@ -16,8 +12,6 @@ import com.chs.your_body_profile.common.toDecodeFoodList
 import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
-import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
@@ -29,7 +23,6 @@ import com.chs.your_body_profile.presentation.screen.food.MealHistoryInputScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
 import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
-import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
 @Composable

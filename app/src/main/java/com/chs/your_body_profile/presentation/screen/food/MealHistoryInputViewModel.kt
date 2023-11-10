@@ -27,13 +27,10 @@ class MealHistoryInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(MealHistoryInputState())
     val state = _state.asStateFlow()
 
-    init {
-        Log.e("VIEWMODEL","INIT ${state.value.takenFoodList.size}")
-    }
-
     fun initMealHistoryInfo(
         takenDate: LocalDate,
-        takenMealType: MealType
+        takenMealType: MealType,
+        foodList: List<FoodDetailInfo>
     ) {
         viewModelScope.launch {
             getDayMealTypeListUseCase(
@@ -46,28 +43,20 @@ class MealHistoryInputViewModel @Inject constructor(
                             takenDate = takenDate,
                             takenTime = takenInfo.first!!.takenTime,
                             mealType = takenMealType,
+                            previousMealHistory = takenInfo.second,
                             takenFoodList = it.takenFoodList.toMutableList().apply {
-                                this.addAll(0, takenInfo.second)
+                                this.addAll(foodList)
                             }
                         )
                     } else {
                         it.copy(
                             takenDate = takenDate,
-                            mealType = takenMealType
+                            mealType = takenMealType,
+                            takenFoodList = foodList
                         )
                     }
                 }
             }
-        }
-    }
-
-    fun updateTakenFoodList(list: List<FoodDetailInfo>) {
-        _state.update {
-            it.copy(
-                takenFoodList = it.takenFoodList.toMutableList().apply {
-                    this.addAll(list)
-                }
-            )
         }
     }
 
@@ -88,7 +77,13 @@ class MealHistoryInputViewModel @Inject constructor(
     }
 
     fun removeTakenFood(foodDetailInfo: FoodDetailInfo) {
-
+        _state.update {
+            it.copy(
+                takenFoodList = it.takenFoodList.toMutableList().apply {
+                    this.remove(foodDetailInfo)
+                }
+            )
+        }
     }
 
     fun insertMealHistory() {

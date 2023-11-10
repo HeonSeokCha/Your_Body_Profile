@@ -294,21 +294,20 @@ fun FoodSearchScreen(
                         .align(Alignment.BottomCenter)
                         .background(MaterialTheme.colorScheme.primary),
                 ) {
+
                     val prevRoute = previousBackStackEntry?.destination?.route
-                    if (prevRoute == Screens.ScreenBodyDash.route
-                        || prevRoute == Screens.ScreenMealList.route
-                    ) {
+                    if (prevRoute == Screens.ScreenMealHistoryInput.route) {
+                        previousBackStackEntry
+                            .savedStateHandle["addNewFoodList"] = state.selectFoodList.toJsonStringEncode()
+                        navController.popBackStack()
+                    } else {
+                        navController.popBackStack()
                         navController.navigate(
                             "${Screens.ScreenMealHistoryInput.route}" +
                                     "/$takenDate" +
                                     "/$mealType" +
                                     "?foodList=${state.selectFoodList.toJsonStringEncode()}"
                         )
-                    } else {
-                        previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set("addNewFoodList", state.selectFoodList.toJsonStringEncode())
-                        navController.popBackStack()
                     }
                 }
             }

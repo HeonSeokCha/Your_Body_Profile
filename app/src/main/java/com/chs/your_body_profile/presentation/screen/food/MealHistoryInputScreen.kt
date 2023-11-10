@@ -56,19 +56,14 @@ fun MealHistoryInputScreen(
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val takenFoodItems = remember { mutableStateListOf<FoodDetailInfo>() }
 
     LaunchedEffect(context, viewModel) {
         Log.e("INPUT","LAUNCHED")
         viewModel.initMealHistoryInfo(
             takenDate = takenDate,
             takenMealType = takenMealType,
+            foodList = foodList
         )
-    }
-
-    LaunchedEffect(foodList) {
-        Log.e("INPUT", foodList.map { it.name }.toString())
-        viewModel.updateTakenFoodList(foodList)
     }
 
     LaunchedEffect(state.takenFoodList) {
@@ -110,37 +105,12 @@ fun MealHistoryInputScreen(
                     Column {
                         Spacer(modifier = Modifier.height(8.dp))
 
+                        state.previousMealHistory.forEach {
+                            ItemMealHistoryInput(foodDetailInfo = it)
+                        }
+
                         state.takenFoodList.forEach {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp),
-                                verticalArrangement = Arrangement.Center
-                            ) {
-
-                                Text(
-                                    text = it.name,
-                                    fontSize = 22.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Row {
-                                    Text(
-                                        text = "${it.calorie.roundToInt()}kcal, ",
-                                        color = Color.Gray
-                                    )
-
-                                    Text(
-                                        text = "${it.servingWeight.roundToInt()}g",
-                                        color = Color.Gray
-                                    )
-                                }
-
-                                Divider(
-                                    modifier = Modifier
-                                        .padding(vertical = 8.dp),
-                                    color = Color.Gray
-                                )
-                            }
+                            ItemMealHistoryInput(foodDetailInfo = it)
                         }
 
                         Column(
@@ -177,10 +147,16 @@ fun MealHistoryInputScreen(
             onClick = {
                   if (state.takenFoodList.isNotEmpty()) {
                       viewModel.insertMealHistory()
-                      navController.popBackStack()
+                      navController.apply {
+                          this.currentBackStackEntry?.savedStateHandle?.remove<String>("addNewFoodList")
+                          this.popBackStack()
+                      }
                   }
             }, onDismiss = {
-                navController.popBackStack()
+                navController.apply {
+                    this.currentBackStackEntry?.savedStateHandle?.remove<String>("addNewFoodList")
+                    this.popBackStack()
+                }
             }
         )
     }

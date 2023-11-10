@@ -9,6 +9,7 @@ data class MealHistoryInputState(
     val takenDate: LocalDate = LocalDate.now(),
     val takenTime: LocalDateTime = LocalDateTime.now(),
     val mealType: MealType? = null,
+    val previousMealHistory: List<FoodDetailInfo> = emptyList(),
     val takenFoodList: List<FoodDetailInfo> = emptyList(),
     val totalCalorie: Int = 0,
     val totalCarbohydrate: Float = 0f,
