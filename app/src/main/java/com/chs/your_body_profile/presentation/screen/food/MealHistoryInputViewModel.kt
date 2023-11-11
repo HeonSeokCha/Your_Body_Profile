@@ -44,9 +44,7 @@ class MealHistoryInputViewModel @Inject constructor(
                             takenTime = takenInfo.first!!.takenTime,
                             mealType = takenMealType,
                             previousMealHistory = takenInfo.second,
-                            takenFoodList = it.takenFoodList.toMutableList().apply {
-                                this.addAll(foodList)
-                            }
+                            takenFoodList = foodList
                         )
                     } else {
                         it.copy(

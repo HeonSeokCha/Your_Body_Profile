@@ -1,35 +1,25 @@
 package com.chs.your_body_profile.presentation.screen.food
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,6 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
@@ -44,7 +36,6 @@ import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemTimePicker
 import java.time.LocalDate
-import kotlin.math.roundToInt
 
 @Composable
 fun MealHistoryInputScreen(
@@ -58,16 +49,11 @@ fun MealHistoryInputScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(context, viewModel) {
-        Log.e("INPUT","LAUNCHED")
         viewModel.initMealHistoryInfo(
             takenDate = takenDate,
             takenMealType = takenMealType,
             foodList = foodList
         )
-    }
-
-    LaunchedEffect(state.takenFoodList) {
-        Log.e("TAKEN", state.takenFoodList.map { it.name }.toString())
     }
 
     Box(
@@ -78,7 +64,8 @@ fun MealHistoryInputScreen(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(
-                top = 32.dp
+                top = 32.dp,
+                bottom = 56.dp
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -119,6 +106,10 @@ fun MealHistoryInputScreen(
                                 .height(72.dp)
                                 .padding(horizontal = 8.dp)
                                 .clickable {
+                                   navController.currentBackStackEntry
+                                       ?.savedStateHandle?.set("addNewFoodList",
+                                           state.takenFoodList.toJsonStringEncode()
+                                       )
                                     navController.navigate(
                                         Screens.ScreenFoodSearch.route +
                                                 "/${state.mealType!!.mean.second}" +
@@ -148,13 +139,13 @@ fun MealHistoryInputScreen(
                   if (state.takenFoodList.isNotEmpty()) {
                       viewModel.insertMealHistory()
                       navController.apply {
-                          this.currentBackStackEntry?.savedStateHandle?.remove<String>("addNewFoodList")
+                          this.currentBackStackEntry?.savedStateHandle?.remove<String>(Constants.TEMP_FOOD_LIST)
                           this.popBackStack()
                       }
                   }
             }, onDismiss = {
                 navController.apply {
-                    this.currentBackStackEntry?.savedStateHandle?.remove<String>("addNewFoodList")
+                    this.currentBackStackEntry?.savedStateHandle?.remove<String>(Constants.TEMP_FOOD_LIST)
                     this.popBackStack()
                 }
             }

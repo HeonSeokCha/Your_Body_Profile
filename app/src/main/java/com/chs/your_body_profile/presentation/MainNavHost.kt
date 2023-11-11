@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -8,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toDecodeFoodList
 import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toLocalDate
@@ -154,17 +156,19 @@ fun MainNavHost(
             } ?: MealType.MORNING
 
             val argumentFoodList = it.arguments?.getString("foodList")!!.toDecodeFoodList()
-            val backStackFoodList = it.savedStateHandle.get<String>("addNewFoodList")
+            val backStackFoodList = it.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)
             val foodList = argumentFoodList.ifEmpty {
+
                 backStackFoodList?.toDecodeFoodList() ?: argumentFoodList
             }
+
+            Log.e("FOOD", foodList.map { it.name }.toString())
 
             MealHistoryInputScreen(
                 takenDate = takenDate.toLocalDate(),
                 takenMealType = mealType,
                 foodList = foodList,
                 navController = navController,
-                viewModel = hiltViewModel(viewModelStoreOwner)
             )
         }
 

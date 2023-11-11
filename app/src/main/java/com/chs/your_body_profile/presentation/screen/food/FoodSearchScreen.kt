@@ -45,6 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toDecodeFoodList
 import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.presentation.Screens
@@ -175,7 +176,7 @@ fun FoodSearchScreen(
                     contentPadding = PaddingValues(
                         top = 16.dp,
                         bottom = 56.dp
-                   ),
+                    ),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     if (pagingItems != null) {
@@ -265,7 +266,7 @@ fun FoodSearchScreen(
                         }
                     }
 
-                     loadMoreItemShow = when (pagingItems.loadState.append) {
+                    loadMoreItemShow = when (pagingItems.loadState.append) {
                         is LoadState.Loading -> {
                             true
                         }
@@ -297,8 +298,16 @@ fun FoodSearchScreen(
 
                     val prevRoute = previousBackStackEntry?.destination?.route
                     if (prevRoute == Screens.ScreenMealHistoryInput.route) {
-                        previousBackStackEntry
-                            .savedStateHandle["addNewFoodList"] = state.selectFoodList.toJsonStringEncode()
+                            if (previousBackStackEntry.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST) != null) {
+                                val tempState: String = previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST]!!
+                                previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
+                                    tempState.toDecodeFoodList().toMutableList().apply {
+                                        addAll(state.selectFoodList)
+                                    }.toJsonStringEncode()
+                            } else {
+                                previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
+                                    state.selectFoodList.toJsonStringEncode()
+                            }
                         navController.popBackStack()
                     } else {
                         navController.popBackStack()
@@ -307,7 +316,9 @@ fun FoodSearchScreen(
                                     "/$takenDate" +
                                     "/$mealType" +
                                     "?foodList=${state.selectFoodList.toJsonStringEncode()}"
-                        )
+                        ) {
+                            launchSingleTop = true
+                        }
                     }
                 }
             }
