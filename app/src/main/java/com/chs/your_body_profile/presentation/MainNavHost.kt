@@ -155,14 +155,11 @@ fun MainNavHost(
                 mealType.mean.second == it.arguments?.getString("mealType")!!
             } ?: MealType.MORNING
 
-            val argumentFoodList = it.arguments?.getString("foodList")!!.toDecodeFoodList()
-            val backStackFoodList = it.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)
-            val foodList = argumentFoodList.ifEmpty {
-
-                backStackFoodList?.toDecodeFoodList() ?: argumentFoodList
-            }
-
-            Log.e("FOOD", foodList.map { it.name }.toString())
+            val argumentFoodList = it.arguments?.getString("foodList")?.toDecodeFoodList() ?: emptyList()
+            val backStackFoodList = it.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)?.toDecodeFoodList() ?: emptyList()
+            val foodList = argumentFoodList.toMutableList().apply {
+                this.addAll(backStackFoodList)
+            }.distinct()
 
             MealHistoryInputScreen(
                 takenDate = takenDate.toLocalDate(),

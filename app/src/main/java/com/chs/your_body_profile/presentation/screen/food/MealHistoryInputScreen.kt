@@ -106,15 +106,17 @@ fun MealHistoryInputScreen(
                                 .height(72.dp)
                                 .padding(horizontal = 8.dp)
                                 .clickable {
-                                   navController.currentBackStackEntry
-                                       ?.savedStateHandle?.set("addNewFoodList",
+                                   navController.apply {
+                                       this.currentBackStackEntry
+                                       ?.savedStateHandle?.set(Constants.TEMP_FOOD_LIST,
                                            state.takenFoodList.toJsonStringEncode()
                                        )
-                                    navController.navigate(
-                                        Screens.ScreenFoodSearch.route +
-                                                "/${state.mealType!!.mean.second}" +
-                                                "?takenDate=${state.takenDate.toMillis()}"
-                                    )
+                                       this.navigate(
+                                           Screens.ScreenFoodSearch.route +
+                                                   "/${state.mealType!!.mean.second}" +
+                                                   "?takenDate=${state.takenDate.toMillis()}"
+                                       )
+                                   }
                                 },
                             verticalArrangement = Arrangement.Center
                         ) {

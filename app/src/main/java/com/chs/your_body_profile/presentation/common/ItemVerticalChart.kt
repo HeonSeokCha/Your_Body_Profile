@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +41,7 @@ fun ItemVerticalChart(
 ) {
     val density = LocalDensity.current
     val height = with(density) { 300.dp.toPx() }
-    var selectIdx by remember { mutableIntStateOf(0) }
+    var selectIdx by rememberSaveable { mutableIntStateOf(0) }
     val scrollState = rememberLazyListState()
     var scaleValue by remember { mutableDoubleStateOf(1.0) }
 

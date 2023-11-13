@@ -295,30 +295,19 @@ fun FoodSearchScreen(
                         .align(Alignment.BottomCenter)
                         .background(MaterialTheme.colorScheme.primary),
                 ) {
-
                     val prevRoute = previousBackStackEntry?.destination?.route
-                    if (prevRoute == Screens.ScreenMealHistoryInput.route) {
-                            if (previousBackStackEntry.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST) != null) {
-                                val tempState: String = previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST]!!
-                                previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
-                                    tempState.toDecodeFoodList().toMutableList().apply {
-                                        addAll(state.selectFoodList)
-                                    }.toJsonStringEncode()
-                            } else {
-                                previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
-                                    state.selectFoodList.toJsonStringEncode()
-                            }
-                        navController.popBackStack()
-                    } else {
+                    if (prevRoute != "meal_history_input_screen/{takenDate}/{mealType}?foodList={foodList}") {
                         navController.popBackStack()
                         navController.navigate(
                             "${Screens.ScreenMealHistoryInput.route}" +
                                     "/$takenDate" +
                                     "/$mealType" +
                                     "?foodList=${state.selectFoodList.toJsonStringEncode()}"
-                        ) {
-                            launchSingleTop = true
-                        }
+                        )
+                    } else {
+                        previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
+                            state.selectFoodList.toJsonStringEncode()
+                        navController.popBackStack()
                     }
                 }
             }
