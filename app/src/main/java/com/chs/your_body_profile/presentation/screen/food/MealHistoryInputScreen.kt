@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -106,6 +107,7 @@ fun MealHistoryInputScreen(
                                 .height(72.dp)
                                 .padding(horizontal = 8.dp)
                                 .clickable {
+                                    Log.e("CLICK", state.takenFoodList.map { it.name }.toString())
                                    navController.apply {
                                        this.currentBackStackEntry
                                        ?.savedStateHandle?.set(Constants.TEMP_FOOD_LIST,

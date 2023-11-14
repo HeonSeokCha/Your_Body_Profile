@@ -306,7 +306,11 @@ fun FoodSearchScreen(
                         )
                     } else {
                         previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
-                            state.selectFoodList.toJsonStringEncode()
+                            previousBackStackEntry.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)
+                                ?.toDecodeFoodList()?.toMutableList().apply {
+                                    this?.addAll(state.selectFoodList)
+                                }
+                                ?.toJsonStringEncode() ?: state.selectFoodList.toJsonStringEncode()
                         navController.popBackStack()
                     }
                 }

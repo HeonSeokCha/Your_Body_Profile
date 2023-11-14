@@ -157,6 +157,8 @@ fun MainNavHost(
 
             val argumentFoodList = it.arguments?.getString("foodList")?.toDecodeFoodList() ?: emptyList()
             val backStackFoodList = it.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)?.toDecodeFoodList() ?: emptyList()
+            Log.e("ARG", argumentFoodList.map { it.name }.toString())
+            Log.e("BCK", backStackFoodList.map { it.name }.toString())
             val foodList = argumentFoodList.toMutableList().apply {
                 this.addAll(backStackFoodList)
             }.distinct()
