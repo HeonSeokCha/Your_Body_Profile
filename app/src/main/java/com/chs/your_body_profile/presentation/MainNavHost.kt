@@ -1,9 +1,6 @@
 package com.chs.your_body_profile.presentation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,13 +25,7 @@ import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
 import java.time.LocalDate
 
 @Composable
-fun MainNavHost(
-    navController: NavHostController
-) {
-    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
-    }
-
+fun MainNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screens.ScreenBodyDash.route
@@ -120,27 +111,27 @@ fun MainNavHost(
         }
 
         composable(
-            route = "${Screens.ScreenFoodSearch.route}/{mealType}?takenDate={takenDate}",
+            route = "${Screens.ScreenFoodSearch.route}" +
+                    "/{${Constants.ARG_TAKEN_MEAL_TYPE}}" +
+                    "?${Constants.ARG_TAKEN_DATE}={${Constants.ARG_TAKEN_DATE}}",
             arguments = listOf(
-                navArgument("takenDate") {
+                navArgument(Constants.ARG_TAKEN_DATE) {
                     type = NavType.LongType
                     defaultValue = LocalDate.now().toMillis()
                 }
             )
         ) {
-            val takenDate: Long = it.arguments?.getLong("takenDate")!!
-            val mealType: String = it.arguments?.getString("mealType")!!
-            FoodSearchScreen(
-                takenDate = takenDate,
-                mealType = mealType,
-                navController
-            )
+            FoodSearchScreen(navController)
         }
 
         composable(
-            route = "${Screens.ScreenMealHistoryInput.route}/{takenDate}/{mealType}?foodList={foodList}",
+            route = "${Screens.ScreenMealHistoryInput.route}" +
+                    "/{${Constants.ARG_TAKEN_DATE}}" +
+                    "/{${Constants.ARG_TAKEN_MEAL_TYPE}}" +
+                    "?foodList={foodList}"
+            ,
             arguments = listOf(
-                navArgument("takenDate") {
+                navArgument(Constants.ARG_TAKEN_DATE) {
                     type = NavType.LongType
                     defaultValue = LocalDate.now().toMillis()
                 },
@@ -150,22 +141,14 @@ fun MainNavHost(
                 }
             )
         ) {
-            val takenDate: Long = it.arguments?.getLong("takenDate")!!
-            val mealType: MealType = MealType.values().find { mealType ->
-                mealType.mean.second == it.arguments?.getString("mealType")!!
-            } ?: MealType.MORNING
 
             val argumentFoodList = it.arguments?.getString("foodList")?.toDecodeFoodList() ?: emptyList()
             val backStackFoodList = it.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)?.toDecodeFoodList() ?: emptyList()
-            Log.e("ARG", argumentFoodList.map { it.name }.toString())
-            Log.e("BCK", backStackFoodList.map { it.name }.toString())
             val foodList = argumentFoodList.toMutableList().apply {
                 this.addAll(backStackFoodList)
             }.distinct()
 
             MealHistoryInputScreen(
-                takenDate = takenDate.toLocalDate(),
-                takenMealType = mealType,
                 foodList = foodList,
                 navController = navController,
             )

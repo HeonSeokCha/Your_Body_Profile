@@ -15,6 +15,8 @@ object Constants {
     const val DRINK_TYPE_COFFEE: String = "coffee"
     const val DRINK_TYPE_WATER: String = "water"
     const val TEMP_FOOD_LIST: String = "temp_food_list"
+    const val ARG_TAKEN_DATE: String = "arg_taken_date"
+    const val ARG_TAKEN_MEAL_TYPE: String = "arg_taken_meal_type"
 
     val DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("a hh:mm:ss")
         .withLocale(Locale.forLanguageTag("ko"))

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class MealHistoryInputState(
     val takenDate: LocalDate = LocalDate.now(),
     val takenTime: LocalDateTime = LocalDateTime.now(),
-    val mealType: MealType? = null,
+    val mealType: MealType = MealType.MORNING,
     val previousMealHistory: List<FoodDetailInfo> = emptyList(),
     val takenFoodList: List<FoodDetailInfo> = emptyList(),
     val totalCalorie: Int = 0,

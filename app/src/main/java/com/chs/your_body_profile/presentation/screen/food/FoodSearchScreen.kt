@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.presentation.screen.food
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -57,8 +56,6 @@ import com.chs.your_body_profile.presentation.common.ItemSelectFood
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodSearchScreen(
-    takenDate: Long,
-    mealType: String,
     navController: NavHostController,
     viewModel: FoodSearchViewModel = hiltViewModel(),
 ) {
@@ -73,7 +70,7 @@ fun FoodSearchScreen(
 
 
     LaunchedEffect(context, viewModel) {
-        viewModel.initInfo(mealType = mealType)
+        viewModel.initInfo()
         viewModel.getRecentFoodSearchHistory()
         viewModel.getRecentTakenFoods()
     }
@@ -87,7 +84,7 @@ fun FoodSearchScreen(
             Column {
                 FoodAppBar(
                     navController = navController,
-                    mealType = mealType,
+                    mealType = state.mealType,
                     selectCount = state.selectFoodList.size
                 )
 
@@ -300,8 +297,8 @@ fun FoodSearchScreen(
                         navController.popBackStack()
                         navController.navigate(
                             "${Screens.ScreenMealHistoryInput.route}" +
-                                    "/$takenDate" +
-                                    "/$mealType" +
+                                    "/${state.takenDate}" +
+                                    "/${state.mealType}" +
                                     "?foodList=${state.selectFoodList.toJsonStringEncode()}"
                         )
                     } else {

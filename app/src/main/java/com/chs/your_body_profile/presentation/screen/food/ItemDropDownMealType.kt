@@ -32,7 +32,7 @@ fun ItemDropDownMealType(
             modifier = Modifier.menuAnchor(),
             readOnly = true,
             onValueChange = {},
-            value = selectItem.mean.second,
+            value = initMealType.mean.second,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandState)
             },

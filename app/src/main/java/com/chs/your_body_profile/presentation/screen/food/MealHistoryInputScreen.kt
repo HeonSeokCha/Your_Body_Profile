@@ -40,8 +40,6 @@ import java.time.LocalDate
 
 @Composable
 fun MealHistoryInputScreen(
-    takenDate: LocalDate,
-    takenMealType: MealType,
     foodList: List<FoodDetailInfo>,
     navController: NavHostController,
     viewModel: MealHistoryInputViewModel = hiltViewModel()
@@ -51,8 +49,6 @@ fun MealHistoryInputScreen(
 
     LaunchedEffect(context, viewModel) {
         viewModel.initMealHistoryInfo(
-            takenDate = takenDate,
-            takenMealType = takenMealType,
             foodList = foodList
         )
     }
@@ -71,7 +67,7 @@ fun MealHistoryInputScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                ItemDropDownMealType(initMealType = takenMealType) {
+                ItemDropDownMealType(initMealType = state.mealType) {
                     viewModel.updateMealType(it)
                 }
             }

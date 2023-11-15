@@ -1,8 +1,10 @@
 package com.chs.your_body_profile.presentation.screen.food
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.usecase.GetRecentFoodSearchHistoryUseCase
 import com.chs.your_body_profile.domain.usecase.GetRecentTakenFoodsUseCase
@@ -18,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FoodSearchViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getSearchResultFoodInfoUseCase: GetSearchResultFoodInfoUseCase,
     private val getRecentFoodSearchHistoryUseCase: GetRecentFoodSearchHistoryUseCase,
     private val getRecentTakenFoodsUseCase: GetRecentTakenFoodsUseCase,
@@ -27,10 +30,14 @@ class FoodSearchViewModel @Inject constructor(
     private val _state = MutableStateFlow(FoodSearchState())
     val state: StateFlow<FoodSearchState> = _state.asStateFlow()
 
-    fun initInfo(mealType: String) {
+    val takenDate: Long = savedStateHandle[Constants.ARG_TAKEN_DATE] ?: 0L
+    val mealType: String = savedStateHandle[Constants.ARG_TAKEN_MEAL_TYPE] ?: ""
+
+    fun initInfo() {
         _state.update {
             it.copy(
-                mealType = mealType
+                mealType = mealType,
+                takenDate = takenDate
             )
         }
     }

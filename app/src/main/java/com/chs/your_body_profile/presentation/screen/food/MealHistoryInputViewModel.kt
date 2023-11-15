@@ -1,8 +1,10 @@
 package com.chs.your_body_profile.presentation.screen.food
 
-import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.TakenMealInfo
@@ -20,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MealHistoryInputViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val upsertMealHistoryInfoUseCase: UpsertMealHistoryInfoUseCase,
     private val upsertFoodDetailInfoUseCase: UpsertFoodDetailInfoUseCase,
     private val getDayMealTypeListUseCase: GetDayMealTypeListUseCase
@@ -27,9 +30,12 @@ class MealHistoryInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(MealHistoryInputState())
     val state = _state.asStateFlow()
 
+    private val takenDate: LocalDate = (savedStateHandle[Constants.ARG_TAKEN_DATE] ?: 0L).toLocalDate()
+    private val takenMealType: MealType = MealType.values().find { mealType ->
+        mealType.mean.second == savedStateHandle[Constants.ARG_TAKEN_MEAL_TYPE]
+    } ?: MealType.MORNING
+
     fun initMealHistoryInfo(
-        takenDate: LocalDate,
-        takenMealType: MealType,
         foodList: List<FoodDetailInfo>
     ) {
         viewModelScope.launch {

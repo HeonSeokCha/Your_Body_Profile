@@ -2,13 +2,11 @@ package com.chs.your_body_profile.presentation.screen.food
 
 import androidx.paging.PagingData
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MealType
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class FoodSearchState(
-    val mealType: String? = null,
+    val mealType: String = "",
+    val takenDate: Long = 0L,
     val searchQuery: String = "",
     val searchHistory: List<String> = emptyList(),
     val searchResult: Flow<PagingData<FoodDetailInfo>>? = null,
