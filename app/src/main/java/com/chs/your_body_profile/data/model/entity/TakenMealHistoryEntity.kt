@@ -4,10 +4,9 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "taken_meal_history",
-    primaryKeys = ["takenDate", "takenMealType", "foodCode"]
+    primaryKeys = ["takenDate", "takenMealType"]
 )
 data class TakenMealHistoryEntity(
     val takenDate: Long,
-    val takenMealType: Int,
-    val foodCode: String
+    val takenMealType: Int
 )

@@ -66,7 +66,6 @@ fun MealListScreen(
     if (isShowMealTypeDialog) {
         ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
             isShowMealTypeDialog = false
-            Log.e("nav", state.selectDate.toString())
             navController.navigate(
                     "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectDate.toMillis()}"
             )

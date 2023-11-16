@@ -124,4 +124,10 @@ abstract class TakenMealHistoryDao : BaseDao<TakenMealHistoryEntity> {
         startDate: Long,
         endDate: Long
     ): Map<@MapColumn("takenDate") Long, @MapColumn("calorie") Float>
+
+
+    @Query(
+        ""
+    )
+    abstract suspend fun deleteMealHistory(date: )
 }
