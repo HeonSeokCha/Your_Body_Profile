@@ -7,7 +7,6 @@ import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
-import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertFoodDetailInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertMealHistoryInfoUseCase

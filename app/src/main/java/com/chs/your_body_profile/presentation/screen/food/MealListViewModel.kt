@@ -1,13 +1,9 @@
 package com.chs.your_body_profile.presentation.screen.food
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.chs.your_body_profile.domain.model.TakenMealHistoryInfo
-import com.chs.your_body_profile.domain.model.TakenMealInfo
 import com.chs.your_body_profile.domain.usecase.DeleteMealInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayTakenListUseCase
 import com.chs.your_body_profile.domain.usecase.GetPagingTotalCalorieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
