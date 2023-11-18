@@ -1,8 +1,14 @@
 package com.chs.your_body_profile.data.mapper
 
+import com.chs.your_body_profile.common.toLocalDate
+import com.chs.your_body_profile.common.toLocalDateTime
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
+import com.chs.your_body_profile.data.model.entity.TakenMealHistoryEntity
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.TakenMealHistoryInfo
 
 fun ResponseFoodDetailInfo.toFoodDetailInfo(): FoodDetailInfo {
     return FoodDetailInfo(
@@ -70,5 +76,22 @@ fun FoodDetailInfo.toFoodInfoEntity(historyId: Long): FoodInfoEntity {
         saturatedFat = this.saturatedFat,
         transFat = this.transFat,
         mealHistoryId = historyId
+    )
+}
+
+fun TakenMealHistoryInfo.toEntity(): TakenMealHistoryEntity {
+    return TakenMealHistoryEntity(
+        takenDate = this.takenDate.toMillis(),
+        takenTime = this.takenTime.toMillis(),
+        takenMealType = this.mealType.mean.first
+    )
+}
+
+fun TakenMealHistoryEntity.toTakenMealHistoryInfo(): TakenMealHistoryInfo {
+    return TakenMealHistoryInfo(
+        takenDate = this.takenDate.toLocalDate(),
+        takenTime = this.takenTime.toLocalDateTime(),
+        mealType = MealType.values().find { it.mean.first == this.takenMealType }
+            ?: MealType.MORNING
     )
 }

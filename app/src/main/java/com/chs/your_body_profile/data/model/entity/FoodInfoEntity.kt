@@ -1,9 +1,7 @@
 package com.chs.your_body_profile.data.model.entity
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.chs.your_body_profile.common.toLocalDateToMillis
 
 @Entity(tableName = "food_info")
 data class FoodInfoEntity(
@@ -20,4 +18,5 @@ data class FoodInfoEntity(
     val cholesterol: Float = 0f,
     val saturatedFat: Float = 0f,
     val transFat: Float = 0f,
+    val mealHistoryId: Long
 )

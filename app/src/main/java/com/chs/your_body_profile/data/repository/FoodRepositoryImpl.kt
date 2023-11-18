@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
+import com.chs.your_body_profile.data.mapper.toTakenMealHistoryInfo
 import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
 import com.chs.your_body_profile.data.model.entity.TakenMealHistoryEntity
 import com.chs.your_body_profile.data.source.api.FoodService
@@ -77,22 +78,27 @@ class FoodRepositoryImpl @Inject constructor(
     override fun getDayTakenList(
         takenDate: LocalDate
     ): Flow<Map<TakenMealHistoryInfo, List<FoodDetailInfo>>> {
-
+        return takenMealHistoryDao.getDayTakenList(takenDate.toMillis()).map {
+            it.map { joinResult ->
+                joinResult.key.toTakenMealHistoryInfo() to joinResult.value.map {
+                    it.toFoodDetailInfo()
+                }
+            }.toMap()
         }
     }
 
     override fun getDayMealTypeList(
         takenDate: LocalDate,
         mealType: MealType
-    ): Flow<Pair<TakenMealHistoryInfo, List<FoodDetailInfo>>> {
+    ): Flow<Pair<TakenMealHistoryInfo?, List<FoodDetailInfo>>> {
         return takenMealHistoryDao.getDayMealTypeTakenList(
             takenDate = takenDate.toMillis(),
             mealTYpe = mealType.mean.first
         ).map {
             if (it.isEmpty()) {
-                null to listOf<FoodDetailInfo>()
+                null to emptyList()
             } else {
-                it.keys.firstOrNull()?.toMealInfo() to it[it.keys.first()]!!.map {
+                it.keys.first().toTakenMealHistoryInfo() to it[it.keys.first()]!!.map {
                     it.toFoodDetailInfo()
                 }
             }
