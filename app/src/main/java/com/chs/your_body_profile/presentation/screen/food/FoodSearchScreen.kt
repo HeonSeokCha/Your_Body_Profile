@@ -293,7 +293,7 @@ fun FoodSearchScreen(
                         .background(MaterialTheme.colorScheme.primary),
                 ) {
                     val prevRoute = previousBackStackEntry?.destination?.route
-                    if (prevRoute != "meal_history_input_screen/{takenDate}/{mealType}?foodList={foodList}") {
+                    if (prevRoute != "meal_history_input_screen/{${Constants.ARG_TAKEN_DATE}}/{${Constants.ARG_TAKEN_MEAL_TYPE}}?foodList={foodList}") {
                         navController.popBackStack()
                         navController.navigate(
                             "${Screens.ScreenMealHistoryInput.route}" +

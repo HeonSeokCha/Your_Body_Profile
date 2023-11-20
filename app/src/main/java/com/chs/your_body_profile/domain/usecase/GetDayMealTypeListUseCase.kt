@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.domain.usecase
 
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,7 @@ class GetDayMealTypeListUseCase @Inject constructor(
     operator fun invoke(
         takenDate: LocalDate,
         mealType: MealType
-    ): Flow<Pair<TakenMealInfo?, List<FoodDetailInfo>>> {
+    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>> {
         return repository.getDayMealTypeList(
             takenDate = takenDate,
             mealType = mealType

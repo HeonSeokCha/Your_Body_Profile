@@ -111,7 +111,7 @@ fun MealHistoryInputScreen(
                                        )
                                        this.navigate(
                                            Screens.ScreenFoodSearch.route +
-                                                   "/${state.mealType!!.mean.second}" +
+                                                   "/${state.mealType.mean.second}" +
                                                    "?takenDate=${state.takenDate.toMillis()}"
                                        )
                                    }

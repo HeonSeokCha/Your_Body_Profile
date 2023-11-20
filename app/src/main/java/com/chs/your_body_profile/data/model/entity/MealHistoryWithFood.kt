@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "taken_meal_history_mapper"
+    tableName = "meal_history_with_food"
 )
-data class TakenMealHistoryWithFood(
+data class MealHistoryWithFood(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val takenDate: Long,

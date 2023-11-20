@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.domain.usecase
 
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -11,7 +12,7 @@ class GetDayTakenListUseCase @Inject constructor(
 ) {
     operator fun invoke(
         takenDate: LocalDate
-    ): Flow<Map<TakenMealInfo, List<FoodDetailInfo>>> {
+    ): Flow<Map<MealHistoryInfo, List<FoodDetailInfo>>> {
         return repository.getDayTakenList(takenDate)
     }
 }

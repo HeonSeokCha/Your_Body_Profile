@@ -3,11 +3,12 @@ package com.chs.your_body_profile.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
+import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
+import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
 import java.time.LocalDate
 
 class FoodDayTotalCaloriePaging(
-    private val takenMealHistoryDao: TakenMealHistoryDao
+    private val mealHistoryWithFoodDao: MealHistoryWithFoodDao
 ) : PagingSource<Long, Pair<LocalDate, Int>>() {
     override fun getRefreshKey(state: PagingState<Long, Pair<LocalDate, Int>>): Long? {
         return state.anchorPosition?.let { position ->
@@ -19,7 +20,7 @@ class FoodDayTotalCaloriePaging(
     override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Pair<LocalDate, Int>> {
         val page: Long = params.key ?: 0L
         val localDate: LocalDate = LocalDate.now()
-        val localResult = takenMealHistoryDao.getPagingDayInfo(
+        val localResult = mealHistoryWithFoodDao.getPagingDayInfo(
             startDate = localDate.minusDays(page + 30L).toMillis(),
             endDate = localDate.minusDays(page).toMillis()
         )

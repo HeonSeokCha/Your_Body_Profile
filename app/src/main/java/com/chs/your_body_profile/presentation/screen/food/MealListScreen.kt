@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.common.toMillis
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
@@ -56,7 +57,7 @@ fun MealListScreen(
     val context: Context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val pagingItems = state.chartList?.collectAsLazyPagingItems()
-    val removeMealInfoList = remember { mutableStateListOf<TakenMealInfo>() }
+    val removeMealInfoList = remember { mutableStateListOf<MealHistoryInfo>() }
     var isEditMode: Boolean by remember { mutableStateOf(false) }
     var isShowMealTypeDialog by remember { mutableStateOf(false) }
 

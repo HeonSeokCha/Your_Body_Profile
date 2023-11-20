@@ -11,7 +11,8 @@ import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
 import com.chs.your_body_profile.data.source.db.dao.MedicineDao
-import com.chs.your_body_profile.data.source.db.dao.TakenMealHistoryDao
+import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
+import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
 import dagger.Module
 import dagger.Provides
@@ -108,13 +109,13 @@ object SourceModule {
 
     @Singleton
     @Provides
-    fun provideTakenMealHistoryDao(bodyProfileDataBase: BodyProfileDataBase): TakenMealHistoryDao {
-        return bodyProfileDataBase.takenMealHistoryDao
+    fun provideMealHistoryDao(bodyProfileDataBase: BodyProfileDataBase): MealHistoryDao {
+        return bodyProfileDataBase.mealHistoryDao
     }
 
     @Singleton
     @Provides
-    fun provideTakenMealInfoDao(bodyProfileDataBase: BodyProfileDataBase): TakenMealDao {
-        return bodyProfileDataBase.takenMealInfoDao
+    fun provideMealHistoryWithFoodDao(bodyProfileDataBase: BodyProfileDataBase): MealHistoryWithFoodDao {
+        return bodyProfileDataBase.mealHistoryWithFoodDao
     }
 }

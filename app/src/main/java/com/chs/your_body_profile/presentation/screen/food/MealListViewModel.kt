@@ -3,6 +3,7 @@ package com.chs.your_body_profile.presentation.screen.food
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.usecase.DeleteMealInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayTakenListUseCase
 import com.chs.your_body_profile.domain.usecase.GetPagingTotalCalorieUseCase
@@ -49,7 +50,7 @@ class MealListViewModel @Inject constructor(
         }
     }
 
-    fun updateRemoveList(list: List<TakenMealInfo>) {
+    fun updateRemoveList(list: List<MealHistoryInfo>) {
         _state.update {
             it.copy(
                 deleteMealInfoList = list

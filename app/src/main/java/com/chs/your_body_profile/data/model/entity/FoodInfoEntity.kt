@@ -17,6 +17,5 @@ data class FoodInfoEntity(
     val sugar: Float = 0f,
     val cholesterol: Float = 0f,
     val saturatedFat: Float = 0f,
-    val transFat: Float = 0f,
-    val mealHistoryId: Long
+    val transFat: Float = 0f
 )
