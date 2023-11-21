@@ -12,28 +12,30 @@ import kotlinx.coroutines.flow.Flow
 abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
 
     @Query(
-        "SELECT DISTINCT food.* " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "ORDER BY mealHistory.takenDate DESC LIMIT 10"
+        "SELECT foodInfo.* " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "ORDER BY mealHistoryWithFood.takenDate, mealHistoryWithFood.takenMealType DESC LIMIT 10"
     )
     abstract suspend fun getRecentTakenFood():List<FoodInfoEntity>
 
     @Query(
-        "SELECT * " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :time " +
-                "ORDER BY mealHistory.takenMealType ASC"
+        "SELECT mealHistory.*, foodInfo.* " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN meal_history AS mealHistory ON mealHistory.takenDate = mealHistoryWithFood.takenDate " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :time " +
+         "ORDER BY mealHistoryWithFood.takenMealType ASC"
     )
     abstract fun getDayTakenList(time: Long): Flow<Map<MealHistoryEntity, List<FoodInfoEntity>>>
 
     @Query(
-        "SELECT * " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :takenDate " +
-                "AND mealHistory.takenMealType = :mealTYpe "
+        "SELECT mealHistory.*, foodInfo.* " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN meal_history AS mealHistory ON mealHistory.takenDate = mealHistoryWithFood.takenDate " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :takenDate " +
+           "AND mealHistoryWithFood.takenMealType = :mealTYpe "
     )
     abstract fun getDayMealTypeTakenList(
         takenDate: Long,
@@ -41,19 +43,19 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
     ): Flow<Map<MealHistoryEntity, List<FoodInfoEntity>>>
 
     @Query(
-        "SELECT IFNULL(sum(food.calorie), 0) " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :time"
+        "SELECT IFNULL(sum(foodInfo.calorie), 0) " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :time"
     )
     abstract fun getDayTakenTotalCalorie(time: Long): Flow<Float>
 
     @Query(
-        "SELECT IFNULL(SUM(food.calorie), 0) " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+        "SELECT IFNULL(SUM(foodInfo.calorie), 0) " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :time " +
+           "AND mealHistoryWithFood.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalCalorie(
         time: Long,
@@ -61,11 +63,11 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
     ): Flow<Int>
 
     @Query(
-        "SELECT IFNULL(SUM(food.carbohydrate), 0) " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+        "SELECT IFNULL(SUM(foodInfo.carbohydrate), 0) " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :time " +
+           "AND mealHistoryWithFood.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalCarbohydrate(
         time: Long,
@@ -73,11 +75,11 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
     ): Flow<Float>
 
     @Query(
-        "SELECT IFNULL(SUM(food.protein), 0) " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+        "SELECT IFNULL(SUM(foodInfo.protein), 0) " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :time " +
+           "AND mealHistoryWithFood.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalProtein(
         time: Long,
@@ -85,11 +87,11 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
     ): Flow<Float>
 
     @Query(
-        "SELECT IFNULL(SUM(food.fat), 0) " +
-                "FROM meal_history AS mealHistory " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = mealHistory.id " +
-                "WHERE mealHistory.takenDate = :time " +
-                "AND mealHistory.takenMealType = :mealType"
+        "SELECT IFNULL(SUM(foodInfo.fat), 0) " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE mealHistoryWithFood.takenDate = :time " +
+           "AND mealHistoryWithFood.takenMealType = :mealType"
     )
     abstract fun getDayMealTypeTotalFat(
         time: Long,
@@ -97,12 +99,12 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
     ): Flow<Float>
 
     @Query(
-        "SELECT takenDate," +
-                "SUM(food.calorie) AS calorie " +
-                "FROM meal_history " +
-                "INNER JOIN food_info AS food ON food.mealHistoryId = id " +
-                "WHERE takenDate BETWEEN :startDate AND :endDate " +
-                "GROUP BY takenDate"
+        "SELECT mealHistoryWithFood.takenDate," +
+               "SUM(foodInfo.calorie) AS calorie " +
+          "FROM meal_history_with_food AS mealHistoryWithFood " +
+         "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
+         "WHERE takenDate BETWEEN :startDate AND :endDate " +
+         "GROUP BY takenDate"
     )
     abstract suspend fun getPagingDayInfo(
         startDate: Long,

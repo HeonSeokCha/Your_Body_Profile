@@ -64,6 +64,7 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteTakenMealInfo(info: List<MealHistoryInfo>) {
+
     }
 
 
