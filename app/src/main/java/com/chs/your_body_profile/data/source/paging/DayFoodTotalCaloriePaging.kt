@@ -3,11 +3,10 @@ package com.chs.your_body_profile.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
 import java.time.LocalDate
 
-class FoodDayTotalCaloriePaging(
+class DayFoodTotalCaloriePaging(
     private val mealHistoryWithFoodDao: MealHistoryWithFoodDao
 ) : PagingSource<Long, Pair<LocalDate, Int>>() {
     override fun getRefreshKey(state: PagingState<Long, Pair<LocalDate, Int>>): Long? {

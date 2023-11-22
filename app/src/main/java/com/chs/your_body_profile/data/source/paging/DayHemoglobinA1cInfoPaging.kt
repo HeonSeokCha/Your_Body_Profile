@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 
-class HemoglobinA1cInfoPaging(
+class DayHemoglobinA1cInfoPaging(
     private val hemoglobinA1cDao: HemoglobinA1cDao
 ) : PagingSource<Int, Int>() {
     override fun getRefreshKey(state: PagingState<Int, Int>): Int? {

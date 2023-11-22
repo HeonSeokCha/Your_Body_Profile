@@ -9,7 +9,7 @@ targetSdkVersion = "33"
 versionCode = "1"
 versionName = "1.0"
 
-activity = "1.8.0"
+activity = "1.8.1"
 compose-ui = "1.5.4"
 composeCompiler = "1.5.4"
 lifecycle = "2.6.2"

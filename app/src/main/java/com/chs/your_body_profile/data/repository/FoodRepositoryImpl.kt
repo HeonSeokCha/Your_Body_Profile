@@ -9,14 +9,13 @@ import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.mapper.toTakenMealHistoryInfo
 import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
-import com.chs.your_body_profile.data.model.entity.MealHistoryEntity
 import com.chs.your_body_profile.data.model.entity.MealHistoryWithFood
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
-import com.chs.your_body_profile.data.source.paging.FoodDayTotalCaloriePaging
+import com.chs.your_body_profile.data.source.paging.DayFoodTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
@@ -175,7 +174,7 @@ class FoodRepositoryImpl @Inject constructor(
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
-            FoodDayTotalCaloriePaging(mealHistoryWithFoodDao = mealHistoryWithFoodDao)
+            DayFoodTotalCaloriePaging(mealHistoryWithFoodDao = mealHistoryWithFoodDao)
         }.flow
     }
 }

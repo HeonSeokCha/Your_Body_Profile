@@ -23,6 +23,7 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
         "SELECT mealHistory.*, foodInfo.* " +
           "FROM meal_history_with_food AS mealHistoryWithFood " +
          "INNER JOIN meal_history AS mealHistory ON mealHistory.takenDate = mealHistoryWithFood.takenDate " +
+           "AND mealHistory.takenMealType = mealHistoryWithFood.takenMealType " +
          "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
          "WHERE mealHistoryWithFood.takenDate = :time " +
          "ORDER BY mealHistoryWithFood.takenMealType ASC"
@@ -33,6 +34,7 @@ abstract class MealHistoryWithFoodDao : BaseDao<MealHistoryWithFood> {
         "SELECT mealHistory.*, foodInfo.* " +
           "FROM meal_history_with_food AS mealHistoryWithFood " +
          "INNER JOIN meal_history AS mealHistory ON mealHistory.takenDate = mealHistoryWithFood.takenDate " +
+           "AND mealHistory.takenMealType = mealHistoryWithFood.takenMealType " +
          "INNER JOIN food_info AS foodInfo ON mealHistoryWithFood.foodCode = foodInfo.foodCode " +
          "WHERE mealHistoryWithFood.takenDate = :takenDate " +
            "AND mealHistoryWithFood.takenMealType = :mealTYpe "
