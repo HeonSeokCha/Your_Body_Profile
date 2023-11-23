@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.data.source.db.dao
 
 import androidx.room.Dao
+import androidx.room.MapColumn
 import androidx.room.Query
 import com.chs.your_body_profile.data.model.entity.BloodSugarInfoEntity
 import kotlinx.coroutines.flow.Flow
@@ -32,4 +33,17 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
 
     @Query("SELECT IFNULL(AVG(number), 0) FROM BLOOD_SUGAR_INFO WHERE measureDate = :time")
     abstract fun getDayAvgInfo(time: Long): Flow<Int>
+
+    @Query(
+        "SELECT bloodSugar.measureDate," +
+               "CAST(AVG(bloodSugar1.number) AS INT) AS number " +
+          "FROM blood_sugar_info AS bloodSugar " +
+         "INNER JOIN blood_sugar_info AS bloodSugar1 ON bloodSugar.measureDate = bloodSugar1.measureDate " +
+         "WHERE measureDate BETWEEN :startDate AND :endDate " +
+         "GROUP BY bloodSugar.measureDate"
+    )
+    abstract suspend fun getPagingDayInfo(
+        startDate: Long,
+        endDate: Long
+    ): Map<@MapColumn("measureDate") Long, @MapColumn("number") Int>
 }

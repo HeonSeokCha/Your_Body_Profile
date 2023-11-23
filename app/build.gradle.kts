@@ -81,12 +81,11 @@ dependencies {
     implementation(libs.kotlin.coroutine.core)
     implementation(libs.kotlin.serialization)
 
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.androidX.room.ktx)
     ksp(libs.androidX.room.compiler)
+
+    implementation(libs.bundles.hilt)
+    implementation(libs.bundles.room)
 
     implementation(libs.androidX.paging.compose)
 }

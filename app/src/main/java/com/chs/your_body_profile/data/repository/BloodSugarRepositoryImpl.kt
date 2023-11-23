@@ -1,9 +1,13 @@
 package com.chs.your_body_profile.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toBloodSugarInfo
 import com.chs.your_body_profile.data.mapper.toBloodSugarInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
+import com.chs.your_body_profile.data.source.paging.DayBloodSugarPaging
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.repository.BloodSugarRepository
 import kotlinx.coroutines.flow.Flow
@@ -46,5 +50,13 @@ class BloodSugarRepositoryImpl @Inject constructor(
                 bloodSugarInfoEntity.toBloodSugarInfo()
             }
         }
+    }
+
+    override fun getDayPagingInfo(localDate: LocalDate): Flow<PagingData<Pair<LocalDate, Int>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            DayBloodSugarPaging(bloodSugarDao)
+        }.flow
     }
 }

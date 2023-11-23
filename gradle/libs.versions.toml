@@ -45,7 +45,7 @@ androidX-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0-rc01"
+hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.1.0"
 
 ## Kotlin
 kotlin-coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutine" }
@@ -72,9 +72,15 @@ ktor = [
     "ktor-negotiation",
     "ktor-logging"
 ]
+
 android = [
     "androidX-core-ktx",
     "androidX-activity-compose",
+]
+
+room = [
+    "androidX-room-runtime",
+    "androidX-room-ktx",
 ]
 
 compose = [
@@ -86,6 +92,11 @@ compose = [
     "androidX-compose-ui-tooling",
     "androidX-lifecycle-viewmodel-compose",
     "androidX-lifecycle-runtime-compose"
+]
+
+hilt = [
+    "hilt-android",
+    "hilt-navigation-compose"
 ]
 
 [plugins]

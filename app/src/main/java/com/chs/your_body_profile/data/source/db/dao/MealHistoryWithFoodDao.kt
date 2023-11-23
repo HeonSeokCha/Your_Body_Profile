@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.source.db.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.MapColumn
 import androidx.room.Query
