@@ -35,12 +35,11 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
     abstract fun getDayAvgInfo(time: Long): Flow<Int>
 
     @Query(
-        "SELECT bloodSugar.measureDate," +
-               "CAST(AVG(bloodSugar1.number) AS INT) AS number " +
-          "FROM blood_sugar_info AS bloodSugar " +
-         "INNER JOIN blood_sugar_info AS bloodSugar1 ON bloodSugar.measureDate = bloodSugar1.measureDate " +
+        "SELECT measureDate," +
+          "CAST(AVG(number) AS INT) AS number " +
+          "FROM blood_sugar_info " +
          "WHERE measureDate BETWEEN :startDate AND :endDate " +
-         "GROUP BY bloodSugar.measureDate"
+         "GROUP BY measureDate"
     )
     abstract suspend fun getPagingDayInfo(
         startDate: Long,

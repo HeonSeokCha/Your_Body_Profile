@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.data.mapper
 
-import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toLocalDateToMillis
@@ -76,13 +75,10 @@ fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkType.DrinkCoffeeInfo {
     )
 }
 
-fun DrinkType.toDrinkInfoEntity(drinkType: DrinkType): DrinkInfoEntity {
+fun DrinkType.toDrinkInfoEntity(): DrinkInfoEntity {
     return DrinkInfoEntity(
         takenDate = this.takenDate.toMillis(),
-        drinkType = when (drinkType) {
-            is DrinkType.DrinkWaterInfo -> Constants.DRINK_TYPE_WATER
-            is DrinkType.DrinkCoffeeInfo -> Constants.DRINK_TYPE_COFFEE
-        },
+        drinkType = this.typeInfo,
         totalCups = this.totalCups
     )
 }

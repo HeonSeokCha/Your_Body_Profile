@@ -17,11 +17,11 @@ class DrinkRepositoryImpl @Inject constructor(
     private val drinkDao: DrinkDao
 ) : DrinkRepository {
     override suspend fun upsertInfo(info: DrinkType) {
-        drinkDao.upsert(info.toDrinkInfoEntity(info))
+        drinkDao.upsert(info.toDrinkInfoEntity())
     }
 
     override suspend fun deleteInfo(info: DrinkType) {
-        drinkDao.delete(info.toDrinkInfoEntity(info))
+        drinkDao.delete(info.toDrinkInfoEntity())
     }
 
     override fun getDayCoffeeInfo(localDate: LocalDate): Flow<DrinkType.DrinkCoffeeInfo?> {

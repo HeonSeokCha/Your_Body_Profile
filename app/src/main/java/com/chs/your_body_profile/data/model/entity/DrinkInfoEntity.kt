@@ -10,6 +10,6 @@ import com.chs.your_body_profile.common.toLocalDateToMillis
 )
 data class DrinkInfoEntity(
     val takenDate: Long,
-    val drinkType: String,
+    val drinkType: Int,
     val totalCups: Int,
 )
