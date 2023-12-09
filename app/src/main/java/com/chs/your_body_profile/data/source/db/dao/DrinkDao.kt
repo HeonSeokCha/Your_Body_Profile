@@ -22,7 +22,11 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
 
 
     @Query(
-        ""
+        "SELECT takenDate, COUNT(*) AS totalCups " +
+          "FROM drink_info " +
+         "WHERE takenDate BETWEEN :beginTime AND :endTime " +
+           "AND drinkType = :drinkType " +
+         "GROUP BY takenDate"
     )
     abstract suspend fun getDayPagingInfo(
         beginTime: Long,

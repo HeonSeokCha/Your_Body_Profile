@@ -2,6 +2,7 @@ package com.chs.your_body_profile.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
 import java.time.LocalDate
@@ -20,11 +21,11 @@ class DayFoodTotalCaloriePaging(
         val page: Long = params.key ?: 0L
         val localDate: LocalDate = LocalDate.now()
         val localResult = mealHistoryWithFoodDao.getPagingDayInfo(
-            startDate = localDate.minusDays(page + 30L).toMillis(),
+            startDate = localDate.minusDays(page + Constants.SEARCH_OFFSET.toLong()).toMillis(),
             endDate = localDate.minusDays(page).toMillis()
         )
 
-        val data = localDate.minusDays(page + 30L)
+        val data = localDate.minusDays(page + Constants.SEARCH_OFFSET.toLong())
             .datesUntil(localDate.plusDays(1L).minusDays(page))
             .map {
                 if (localResult.containsKey(it.toMillis())) {
@@ -36,8 +37,8 @@ class DayFoodTotalCaloriePaging(
 
         return LoadResult.Page(
             data = data,
-            prevKey = if (page == 0L) null else page - 30,
-            nextKey = page + 30
+            prevKey = if (page == 0L) null else page - Constants.SEARCH_OFFSET,
+            nextKey = page + Constants.SEARCH_OFFSET
         )
     }
 }

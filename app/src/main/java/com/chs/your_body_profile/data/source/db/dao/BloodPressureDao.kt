@@ -38,5 +38,5 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     abstract suspend fun getPagingDayInfo(
         startDate: Long,
         endDate: Long
-    ): Map<@MapColumn("measureDate") Long, @MapColumn("number") Int>
+    ): Map<@MapColumn("measureDate") Long, BloodPressureInfoEntity>
 }

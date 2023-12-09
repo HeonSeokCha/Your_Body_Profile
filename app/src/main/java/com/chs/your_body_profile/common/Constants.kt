@@ -10,7 +10,7 @@ object Constants {
     const val FOOD_API_KEY: String = BuildConfig.API_ACCESS_KEY
     const val FOOD_PARAMETER_FOOD_NAME: String = "DESC_KOR"
     const val TYPE_JSON: String = "json"
-    const val FOOD_SEARCH_OFFSET: Int = 30
+    const val SEARCH_OFFSET: Int = 15
 
     const val DRINK_TYPE_COFFEE: String = "coffee"
     const val DRINK_TYPE_WATER: String = "water"

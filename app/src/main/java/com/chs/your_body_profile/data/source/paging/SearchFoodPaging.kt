@@ -24,7 +24,7 @@ class SearchFoodPaging(
             val page: Int = params.key ?: 1
             val response = service.getSearchResultFoodInfo(
                 startIdx = page.toString(),
-                endIdx = (page + Constants.FOOD_SEARCH_OFFSET).toString(),
+                endIdx = (page + Constants.SEARCH_OFFSET).toString(),
                 query = query
             )
 
@@ -33,8 +33,8 @@ class SearchFoodPaging(
                     it.toFoodDetailInfo()
                 },
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (response.foodService.totalCount == Constants.FOOD_SEARCH_OFFSET + 1) {
-                    page + 1 + Constants.FOOD_SEARCH_OFFSET
+                nextKey = if (response.foodService.totalCount == Constants.SEARCH_OFFSET + 1) {
+                    page + 1 + Constants.SEARCH_OFFSET
                 } else {
                     null
                 }

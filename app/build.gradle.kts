@@ -74,18 +74,13 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.bundles.android)
+    implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.compose)
-    implementation(libs.coil.compose)
-
-    implementation(libs.kotlin.coroutine.core)
-    implementation(libs.kotlin.serialization)
+    implementation(libs.bundles.hilt)
+    implementation(libs.bundles.room)
 
     ksp(libs.hilt.compiler)
     ksp(libs.androidX.room.compiler)
 
-    implementation(libs.bundles.hilt)
-    implementation(libs.bundles.room)
-
-    implementation(libs.androidX.paging.compose)
 }
