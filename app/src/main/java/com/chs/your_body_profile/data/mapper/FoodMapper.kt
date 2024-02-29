@@ -3,9 +3,9 @@ package com.chs.your_body_profile.data.mapper
 import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.model.dto.ResponseFoodDetailInfo
-import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
-import com.chs.your_body_profile.data.model.entity.MealHistoryEntity
+import com.chs.your_body_profile.data.source.api.dto.ResponseFoodDetailInfo
+import com.chs.your_body_profile.data.source.db.entity.FoodInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.MealHistoryEntity
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MealHistoryInfo

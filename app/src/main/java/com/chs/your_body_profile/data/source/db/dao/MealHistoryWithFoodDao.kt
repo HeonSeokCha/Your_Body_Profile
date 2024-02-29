@@ -1,12 +1,11 @@
 package com.chs.your_body_profile.data.source.db.dao
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.MapColumn
 import androidx.room.Query
-import com.chs.your_body_profile.data.model.entity.FoodInfoEntity
-import com.chs.your_body_profile.data.model.entity.MealHistoryEntity
-import com.chs.your_body_profile.data.model.entity.MealHistoryWithFood
+import com.chs.your_body_profile.data.source.db.entity.FoodInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.MealHistoryEntity
+import com.chs.your_body_profile.data.source.db.entity.MealHistoryWithFood
 import kotlinx.coroutines.flow.Flow
 
 @Dao

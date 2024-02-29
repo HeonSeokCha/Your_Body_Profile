@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.data.model.entity
+package com.chs.your_body_profile.data.source.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

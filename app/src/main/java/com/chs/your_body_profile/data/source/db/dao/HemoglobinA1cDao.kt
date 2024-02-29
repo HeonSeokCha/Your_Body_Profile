@@ -3,7 +3,7 @@ package com.chs.your_body_profile.data.source.db.dao
 import androidx.room.Dao
 import androidx.room.MapColumn
 import androidx.room.Query
-import com.chs.your_body_profile.data.model.entity.HemoglobinA1cInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.HemoglobinA1cInfoEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

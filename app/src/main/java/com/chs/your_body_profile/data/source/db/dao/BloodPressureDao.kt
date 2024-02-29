@@ -3,7 +3,7 @@ package com.chs.your_body_profile.data.source.db.dao
 import androidx.room.Dao
 import androidx.room.MapColumn
 import androidx.room.Query
-import com.chs.your_body_profile.data.model.entity.BloodPressureInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.BloodPressureInfoEntity
 import kotlinx.coroutines.flow.Flow
 
 
@@ -38,5 +38,5 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     abstract suspend fun getPagingDayInfo(
         startDate: Long,
         endDate: Long
-    ): Map<@MapColumn("measureDate") Long, BloodPressureInfoEntity>
+    ): Map<@MapColumn("measureDate") Long, List<BloodPressureInfoEntity>>
 }

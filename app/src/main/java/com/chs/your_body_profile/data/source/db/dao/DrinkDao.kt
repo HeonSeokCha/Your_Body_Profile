@@ -3,7 +3,7 @@ package com.chs.your_body_profile.data.source.db.dao
 import androidx.room.Dao
 import androidx.room.MapColumn
 import androidx.room.Query
-import com.chs.your_body_profile.data.model.entity.DrinkInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,17 +21,13 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
     ): Flow<DrinkInfoEntity?>
 
 
-    @Query(
-        "SELECT takenDate, COUNT(*) AS totalCups " +
-          "FROM drink_info " +
-         "WHERE takenDate BETWEEN :beginTime AND :endTime " +
-           "AND drinkType = :drinkType " +
-         "GROUP BY takenDate"
-    )
-    abstract suspend fun getDayPagingInfo(
-        beginTime: Long,
-        endTime: Long,
-        drinkType: String
-    ): Map<@MapColumn("takenDate") Long, @MapColumn("totalCups") Int>
+//    @Query(
+//        ""
+//    )
+//    abstract suspend fun getDayPagingInfo(
+//        beginTime: Long,
+//        endTime: Long,
+//        drinkType: String
+//    ): Map<@MapColumn("takenDate") Long, @MapColumn("totalCups") Int>
 
 }

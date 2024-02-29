@@ -8,8 +8,8 @@ import com.chs.your_body_profile.data.mapper.toEntity
 import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.mapper.toTakenMealHistoryInfo
-import com.chs.your_body_profile.data.model.entity.FoodSearchHistoryEntity
-import com.chs.your_body_profile.data.model.entity.MealHistoryWithFood
+import com.chs.your_body_profile.data.source.db.entity.FoodSearchHistoryEntity
+import com.chs.your_body_profile.data.source.db.entity.MealHistoryWithFood
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
