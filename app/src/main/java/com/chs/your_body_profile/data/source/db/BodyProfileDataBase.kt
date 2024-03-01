@@ -37,15 +37,4 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val foodSearchHistoryDao: FoodSearchHistoryDao
     abstract val mealHistoryWithFoodDao: MealHistoryWithFoodDao
 
-    companion object {
-        fun getInstance(context: Context): BodyProfileDataBase {
-            return Room
-                .databaseBuilder(
-                    context,
-                    BodyProfileDataBase::class.java,
-                    "body_profile_db"
-                )
-                .build()
-        }
-    }
 }
