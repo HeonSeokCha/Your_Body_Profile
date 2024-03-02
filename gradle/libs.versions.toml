@@ -1,9 +1,9 @@
 [versions]
-androidStudioGradlePlugin = "8.2.2"
+androidStudioGradlePlugin = "8.3.0"
 
 compileSdkVersion = "34"
 desugar_jdk_libs = "2.0.4"
-kotlinGradlePlugin = "1.9.10"
+kotlinGradlePlugin = "1.9.22"
 minSdkVersion = "29"
 targetSdkVersion = "33"
 versionCode = "1"

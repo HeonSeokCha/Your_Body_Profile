@@ -52,6 +52,10 @@ fun ItemVerticalChart(
     val labelSectionHeight = smallPadding.times(2) + textSize
     val textMeasurer = rememberTextMeasurer()
 
+    LazyRow {
+
+    }
+
     Row(
         modifier = Modifier
             .height(300.dp)

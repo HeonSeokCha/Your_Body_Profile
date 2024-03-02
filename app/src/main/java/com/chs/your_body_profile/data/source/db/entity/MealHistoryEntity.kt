@@ -3,11 +3,12 @@ package com.chs.your_body_profile.data.source.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "meal_history")
+@Entity(
+    tableName = "meal_history",
+    primaryKeys = ["insertTime, foodCode"]
+)
 data class MealHistoryEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
-    val takenDate: Long,
-    val takenTime: Long,
+    val insertTime: Long,
+    val foodCode: String,
     val takenMealType: Int
 )

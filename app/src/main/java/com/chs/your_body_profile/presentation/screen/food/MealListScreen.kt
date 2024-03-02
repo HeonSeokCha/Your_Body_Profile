@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -99,8 +101,20 @@ fun MealListScreen(
                     .padding(bottom = 56.dp)
             ) {
                 item {
-                    ItemVerticalChart(pagingItems) {
-                        viewModel.updateSelectDate(it)
+                    LazyRow(reverseLayout = true) {
+                        if (pagingItems != null) {
+                            items(
+                                count = pagingItems.itemCount,
+                            ) {
+                                if (pagingItems[it] != null) {
+                                    Column {
+                                        Text(pagingItems[it]!!.first.toString())
+                                        Text(pagingItems[it]!!.second.toString())
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))

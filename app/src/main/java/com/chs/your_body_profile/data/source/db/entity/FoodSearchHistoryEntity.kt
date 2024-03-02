@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "food_search_history")
 data class FoodSearchHistoryEntity(
     @PrimaryKey
-    val query: String,
+    val foodName: String,
     val insertDate: Long = System.currentTimeMillis()
 )

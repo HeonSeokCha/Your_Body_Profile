@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class FoodSearchHistoryDao : BaseDao<FoodSearchHistoryEntity> {
 
-    @Query("SELECT `query` FROM food_search_history ORDER BY insertDate DESC LIMIT 10")
+    @Query("SELECT foodName FROM food_search_history ORDER BY insertDate DESC LIMIT 10")
     abstract fun getRecentSearchHistory(): Flow<List<String>>
 }

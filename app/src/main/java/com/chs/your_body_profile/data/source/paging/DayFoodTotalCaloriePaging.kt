@@ -4,29 +4,27 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
 import java.time.LocalDate
 
 class DayFoodTotalCaloriePaging(
     private val mealHistoryWithFoodDao: MealHistoryWithFoodDao
-) : PagingSource<Long, Pair<LocalDate, Int>>() {
-    override fun getRefreshKey(state: PagingState<Long, Pair<LocalDate, Int>>): Long? {
+) : PagingSource<LocalDate, Pair<LocalDate, Int>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Int>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
-            page?.prevKey?.minus(1L) ?: page?.nextKey?.plus(1L)
+            page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Pair<LocalDate, Int>> {
-        val page: Long = params.key ?: 0L
-        val localDate: LocalDate = LocalDate.now()
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Int>> {
+        val pageDate: LocalDate = params.key ?: LocalDate.now()
         val localResult = mealHistoryWithFoodDao.getPagingDayInfo(
-            startDate = localDate.minusDays(page + Constants.SEARCH_OFFSET.toLong()).toMillis(),
-            endDate = localDate.minusDays(page).toMillis()
+            startDate = pageDate.minusDays(Constants.SEARCH_OFFSET.toLong()).toMillis(),
+            endDate = pageDate.toMillis()
         )
 
-        val data = localDate.minusDays(page + Constants.SEARCH_OFFSET.toLong())
-            .datesUntil(localDate.plusDays(1L).minusDays(page))
+        val data = pageDate.minusDays(Constants.SEARCH_OFFSET.toLong())
+            .datesUntil(pageDate.plusDays(1L))
             .map {
                 if (localResult.containsKey(it.toMillis())) {
                     it to localResult[it.toMillis()]!!.toInt()
@@ -37,8 +35,8 @@ class DayFoodTotalCaloriePaging(
 
         return LoadResult.Page(
             data = data,
-            prevKey = if (page == 0L) null else page - Constants.SEARCH_OFFSET,
-            nextKey = page + Constants.SEARCH_OFFSET
+            prevKey = null,
+            nextKey = pageDate.minusDays(Constants.SEARCH_OFFSET + 1L)
         )
     }
 }

@@ -9,12 +9,10 @@ import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toFoodInfoEntity
 import com.chs.your_body_profile.data.mapper.toTakenMealHistoryInfo
 import com.chs.your_body_profile.data.source.db.entity.FoodSearchHistoryEntity
-import com.chs.your_body_profile.data.source.db.entity.MealHistoryWithFood
 import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
-import com.chs.your_body_profile.data.source.db.dao.MealHistoryWithFoodDao
 import com.chs.your_body_profile.data.source.paging.DayFoodTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
@@ -30,7 +28,6 @@ import kotlin.math.roundToInt
 class FoodRepositoryImpl @Inject constructor(
     private val foodDao: FoodDao,
     private val mealHistoryDao: MealHistoryDao,
-    private val mealHistoryWithFoodDao: MealHistoryWithFoodDao,
     private val foodSearchHistoryDao: FoodSearchHistoryDao,
     private val foodService: FoodService
 ) : FoodRepository {
@@ -136,7 +133,7 @@ class FoodRepositoryImpl @Inject constructor(
 
     override suspend fun insertSearchHistory(query: String) {
         foodSearchHistoryDao.upsert(
-            FoodSearchHistoryEntity(query = query)
+            FoodSearchHistoryEntity(query)
         )
     }
 
