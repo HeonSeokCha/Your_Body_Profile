@@ -11,10 +11,10 @@ import javax.inject.Inject
 class GetDayMealTypeListUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
-    operator fun invoke(
+    suspend operator fun invoke(
         takenDate: LocalDate,
         mealType: MealType
-    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>> {
+    ): Pair<MealHistoryInfo?, List<FoodDetailInfo>> {
         return repository.getDayMealTypeList(
             takenDate = takenDate,
             mealType = mealType

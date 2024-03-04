@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetDayTotalCalorieUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
-    operator fun invoke(time: LocalDate): Flow<Int> {
+    suspend operator fun invoke(time: LocalDate): Int {
         return repository.getDayTotalCalories(time)
     }
 }

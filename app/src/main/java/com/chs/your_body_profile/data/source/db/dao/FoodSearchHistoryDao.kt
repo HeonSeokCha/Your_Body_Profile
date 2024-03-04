@@ -9,5 +9,5 @@ import kotlinx.coroutines.flow.Flow
 abstract class FoodSearchHistoryDao : BaseDao<FoodSearchHistoryEntity> {
 
     @Query("SELECT foodName FROM food_search_history ORDER BY insertDate DESC LIMIT 10")
-    abstract fun getRecentSearchHistory(): Flow<List<String>>
+    abstract suspend fun getRecentSearchHistory(): List<String>
 }

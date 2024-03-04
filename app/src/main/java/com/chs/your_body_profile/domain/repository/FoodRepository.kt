@@ -22,40 +22,20 @@ interface FoodRepository {
 
     suspend fun getSearchResultFoodInfo(query: String): Flow<PagingData<FoodDetailInfo>>
 
-    fun getRecentFoodSearchHistory(): Flow<List<String>>
+    suspend fun getRecentFoodSearchHistory(): List<String>
 
     suspend fun getRecentTakenFoods(): List<FoodDetailInfo>
 
-    fun getDayTotalCalories(localDate: LocalDate): Flow<Int>
+    suspend fun getDayTotalCalories(localDate: LocalDate): Int
 
-    fun getDayTakenList(
+    suspend fun getDayTakenList(
         takenDate: LocalDate
-    ): Flow<Map<MealHistoryInfo, List<FoodDetailInfo>>>
+    ): List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>
 
-    fun getDayMealTypeList(
+    suspend fun getDayMealTypeList(
         takenDate: LocalDate,
         mealType: MealType
-    ): Flow<Pair<MealHistoryInfo?, List<FoodDetailInfo>>>
+    ): Pair<MealHistoryInfo?, List<FoodDetailInfo>>
 
-    fun getDayMealTypeTotalCalories(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<Int>
-
-    fun getMealTypeTotalCarbohydrate(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<Float>
-
-    fun getMealTypeTotalFat(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<Float>
-
-    fun getMealTypeTotalProtein(
-        localDate: LocalDate,
-        mealType: MealType
-    ): Flow<Float>
-
-    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, Int>>>
+    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>>>
 }
