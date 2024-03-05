@@ -20,10 +20,10 @@ abstract class MealHistoryDao : BaseDao<MealHistoryEntity> {
     ): Map<MealHistoryEntity, List<FoodInfoEntity>>
 
     @Query(
-        "SELECT foodInfo.* " +
+        "SELECT * " +
           "FROM meal_history as mealHistory " +
          "INNER JOIN food_info as foodInfo ON foodInfo.foodCode = mealHistory.foodCode " +
-         "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') =  DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
+         "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
            "AND mealHistory.takenMealType = :mealType " +
          "ORDER BY mealHistory.insertTime DESC"
     )
@@ -36,7 +36,7 @@ abstract class MealHistoryDao : BaseDao<MealHistoryEntity> {
         "SELECT foodInfo.* " +
           "FROM meal_history as mealHistory " +
          "INNER JOIN food_info as foodInfo ON foodInfo.foodCode = mealHistory.foodCode " +
-         "ORDER BY mealHistory.insertTime LIMIT 10  "
+         "ORDER BY mealHistory.insertTime LIMIT 10 "
     )
     abstract suspend fun getRecentTakenFoodList(): List<FoodInfoEntity>
 }

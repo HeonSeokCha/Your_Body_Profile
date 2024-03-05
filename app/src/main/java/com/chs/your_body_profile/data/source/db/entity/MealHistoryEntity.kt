@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "meal_history",
-    primaryKeys = ["insertTime, foodCode"]
+    primaryKeys = ["insertTime", "foodCode"]
 )
 data class MealHistoryEntity(
     val insertTime: Long,

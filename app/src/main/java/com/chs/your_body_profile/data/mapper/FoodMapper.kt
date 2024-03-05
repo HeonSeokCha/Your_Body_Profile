@@ -77,20 +77,3 @@ fun FoodDetailInfo.toFoodInfoEntity(): FoodInfoEntity {
         transFat = this.transFat,
     )
 }
-
-fun MealHistoryInfo.toEntity(): MealHistoryEntity {
-    return MealHistoryEntity(
-        takenDate = this.takenDate.toMillis(),
-        takenTime = this.takenTime.toMillis(),
-        takenMealType = this.mealType.mean.first
-    )
-}
-
-fun MealHistoryEntity.toTakenMealHistoryInfo(): MealHistoryInfo {
-    return MealHistoryInfo(
-        takenDate = this.takenDate.toLocalDate(),
-        takenTime = this.takenTime.toLocalDateTime(),
-        mealType = MealType.values().find { it.mean.first == this.takenMealType }
-            ?: MealType.MORNING
-    )
-}

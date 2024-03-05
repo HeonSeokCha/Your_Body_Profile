@@ -13,10 +13,7 @@ interface FoodRepository {
 
     suspend fun upsertFoodDetailInfo(foodInfoList: List<FoodDetailInfo>)
 
-    suspend fun upsertTakenMealInfo(
-        info: MealHistoryInfo,
-        foodCodeList: List<String>
-    )
+    suspend fun upsertTakenMealInfo(info: MealHistoryInfo)
 
     suspend fun deleteTakenMealInfo(info: List<MealHistoryInfo>)
 
@@ -30,12 +27,12 @@ interface FoodRepository {
 
     suspend fun getDayTakenList(
         takenDate: LocalDate
-    ): List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>
+    ): List<MealHistoryInfo>
 
     suspend fun getDayMealTypeList(
         takenDate: LocalDate,
         mealType: MealType
-    ): Pair<MealHistoryInfo?, List<FoodDetailInfo>>
+    ): MealHistoryInfo
 
-    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, List<Pair<MealHistoryInfo, List<FoodDetailInfo>>>>>>
+    fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, List<MealHistoryInfo>>>>
 }
