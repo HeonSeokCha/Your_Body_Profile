@@ -18,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MealListViewModel @Inject constructor(
     private val getPagingTotalCalorieUseCase: GetPagingTotalCalorieUseCase,
-    private val getDayTakenListUseCase: GetDayTakenListUseCase,
     private val deleteTakenMealInfoUseCase: DeleteMealInfoUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(MealListState())
@@ -28,40 +27,6 @@ class MealListViewModel @Inject constructor(
         _state.update {
             it.copy(
                 chartList = getPagingTotalCalorieUseCase().cachedIn(viewModelScope)
-            )
-        }
-    }
-
-    fun getDayTakenMealInfo(localDate: LocalDate) {
-        viewModelScope.launch {
-            getDayTakenListUseCase(localDate).collect { mealTypeList ->
-                _state.update {
-                    it.copy(dayTakenMealList = mealTypeList)
-                }
-            }
-        }
-    }
-
-    fun updateSelectDate(localDate: LocalDate) {
-        _state.update {
-            it.copy(
-                selectDate = localDate
-            )
-        }
-    }
-
-    fun updateRemoveList(list: List<MealHistoryInfo>) {
-        _state.update {
-            it.copy(
-                deleteMealInfoList = list
-            )
-        }
-    }
-
-    fun deleteMealInfo() {
-        viewModelScope.launch {
-            deleteTakenMealInfoUseCase(
-                state.value.deleteMealInfoList
             )
         }
     }
