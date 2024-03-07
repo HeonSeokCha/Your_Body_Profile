@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "insulin_info")
 data class InsulinInfoEntity(
     @PrimaryKey
-    val injectDate: Long,
+    val injectDateTime: Long,
     val level: Int,
     val memo: String?
 )

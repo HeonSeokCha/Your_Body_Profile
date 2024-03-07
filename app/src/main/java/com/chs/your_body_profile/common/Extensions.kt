@@ -4,6 +4,7 @@ import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
 import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
 import com.chs.your_body_profile.data.source.api.dto.ResponseFoodDetailInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MeasureType
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.time.Instant

@@ -7,8 +7,7 @@ import androidx.room.Entity
     primaryKeys = ["takenDate", "takeMedicineType", "title"]
 )
 data class MedicineInfoEntity(
-    val takenDate: Long,
-    val takenTime: Long,
+    val takenDateTime: Long,
     val takeMedicineType: Int,
     val title: String,
     val memo: String? = null

@@ -35,4 +35,5 @@ object Constants {
     val RANGE_HEMOGLOBIN_A1C_FIRST_RANGE = 3 .. 15
     val RANGE_HEMOGLOBIN_A1C_SECOND_RANGE = 0 .. 9
     const val ITEM_SHIMMER_SHOW_COUNT: Int = 7
+
 }

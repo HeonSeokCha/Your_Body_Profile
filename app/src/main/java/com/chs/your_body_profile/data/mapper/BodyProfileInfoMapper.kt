@@ -23,8 +23,7 @@ import com.chs.your_body_profile.domain.model.WeightInfo
 
 fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
     return BloodPressureInfo(
-        measureDate = this.measureDate.toLocalDate(),
-        measureTime = this.measureTime.toLocalDateTime(),
+        measureDateTime = this.measureDateTime.toLocalDateTime(),
         systolic = this.systolic,
         diastolic = this.diastolic,
         memo = this.memo,
@@ -33,8 +32,7 @@ fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
 
 fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
     return BloodPressureInfoEntity(
-        measureDate = this.measureDate.toMillis(),
-        measureTime = this.measureTime.toMillis(),
+        measureDateTime = this.measureDateTime.toMillis(),
         systolic = this.systolic,
         diastolic = this.diastolic,
         memo = this.memo,
@@ -43,9 +41,8 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
 
 fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
     return BloodSugarInfo(
-        measureDate = this.measureDate.toLocalDate(),
-        measureTime = this.measureTime.toLocalDateTime(),
-        measureType = MeasureType.values().find { it.mean.first == this.measureType } ?: MeasureType.EMPTY,
+        measureDateTime = this.measureDateTime.toLocalDateTime(),
+        measureType = MeasureType.entries.find { it.mean.first == this.measureType } ?: MeasureType.EMPTY,
         number = this.number,
         memo = this.memo
     )
@@ -53,8 +50,7 @@ fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
 
 fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
     return BloodSugarInfoEntity(
-        measureDate = this.measureDate.toMillis(),
-        measureTime = this.measureTime.toMillis(),
+        measureDateTime = this.measureDateTime.toMillis(),
         measureType = this.measureType.mean.first,
         number = this.number,
         memo = this.memo
@@ -85,7 +81,7 @@ fun DrinkType.toDrinkInfoEntity(): DrinkInfoEntity {
 
 fun HemoglobinA1cInfoEntity.toHemoglobinA1cInfo(): HemoglobinA1cInfo {
     return HemoglobinA1cInfo(
-        measureDate = this.measureDate.toLocalDate(),
+        measureDate = this.measureDateTime.toLocalDateTime(),
         number = this.number,
         measureHospital = this.measureHospital,
         memo = this.memo
@@ -94,7 +90,7 @@ fun HemoglobinA1cInfoEntity.toHemoglobinA1cInfo(): HemoglobinA1cInfo {
 
 fun HemoglobinA1cInfo.toHemoglobinA1cInfoEntity(): HemoglobinA1cInfoEntity {
     return HemoglobinA1cInfoEntity(
-        measureDate = System.currentTimeMillis().toLocalDateToMillis(),
+        measureDateTime = System.currentTimeMillis().toLocalDateToMillis(),
         number = this.number,
         measureHospital = this.measureHospital,
         memo = this.memo
@@ -103,7 +99,7 @@ fun HemoglobinA1cInfo.toHemoglobinA1cInfoEntity(): HemoglobinA1cInfoEntity {
 
 fun InsulinInfoEntity.toInsulinInfo(): InsulinInfo {
     return InsulinInfo(
-        injectDate = this.injectDate.toLocalDate(),
+        injectDateTime = this.injectDateTime.toLocalDateTime(),
         level = this.level,
         memo = this.memo
     )
@@ -111,7 +107,7 @@ fun InsulinInfoEntity.toInsulinInfo(): InsulinInfo {
 
 fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
     return InsulinInfoEntity(
-        injectDate = this.injectDate.toMillis(),
+        injectDateTime = this.injectDateTime.toMillis(),
         level = this.level,
         memo = this.memo
     )
@@ -119,9 +115,8 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
 
 fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
     return MedicineInfo(
-        takenDate = this.takenDate.toLocalDate(),
-        takenTime = this.takenTime.toLocalDateTime(),
-        medicineType = MedicineType.values().find { it.time.first == this.takeMedicineType } ?: MedicineType.UNKNOWN,
+        takenDateTime = this.takenDateTime.toLocalDateTime(),
+        medicineType = MedicineType.entries.find { it.time.first == this.takeMedicineType } ?: MedicineType.UNKNOWN,
         title = this.title,
         memo = this.memo
     )
@@ -129,8 +124,7 @@ fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
 
 fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
     return MedicineInfoEntity(
-        takenDate = this.takenDate.toMillis(),
-        takenTime = this.takenTime.toMillis(),
+        takenDateTime = this.takenDateTime.toMillis(),
         takeMedicineType = this.medicineType.time.first,
         title = this.title,
         memo = this.memo
@@ -139,8 +133,7 @@ fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
 
 fun WeightInfoEntity.toWeightInfo(): WeightInfo {
     return WeightInfo(
-        measureDate = this.measureDate.toLocalDate(),
-        measureTime = this.measureTime.toLocalDateTime(),
+        measureDateTime = this.measureDateTime.toLocalDateTime(),
         weight = this.weight,
         memo = this.memo
     )
@@ -148,8 +141,7 @@ fun WeightInfoEntity.toWeightInfo(): WeightInfo {
 
 fun WeightInfo.toWeightInfoEntity(): WeightInfoEntity {
     return WeightInfoEntity(
-        measureDate = this.measureDate.toMillis(),
-        measureTime = this.measureTime.toMillis(),
+        measureDateTime = this.measureDateTime.toMillis(),
         weight = this.weight,
         memo = this.memo,
     )

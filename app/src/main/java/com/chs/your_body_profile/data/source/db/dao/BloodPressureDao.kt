@@ -12,31 +12,17 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     @Query("""
         SELECT * 
           FROM blood_pressure_info
-         WHERE measureDate = :time
-         ORDER BY measureTime DESC
+         WHERE DATE(measureDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime')
+         ORDER BY measureDateTime DESC
          LIMIT 1
     """)
-    abstract fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
+    abstract suspend fun getDayLastInfo(time: Long): BloodPressureInfoEntity?
 
     @Query("""
         SELECT * 
           FROM blood_pressure_info
-         WHERE measureDate = :time
-         ORDER BY measureTime DESC
+         WHERE DATE(measureDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime')
+         ORDER BY measureDateTime DESC
     """)
-    abstract fun getDayInfoList(time: Long): Flow<List<BloodPressureInfoEntity>>
-
-    @Query(
-        "SELECT bloodPressure.measureDate, " +
-               "bloodPressure1.* " +
-          "FROM blood_pressure_info AS bloodPressure " +
-         "INNER JOIN blood_pressure_info AS bloodPressure1 ON bloodPressure.measureDate = bloodPressure1.measureDate " +
-           "AND bloodPressure.measureTime = bloodPressure1.measureTime " +
-         "WHERE bloodPressure.measureDate BETWEEN :startDate AND :endDate " +
-         "GROUP BY bloodPressure.measureDate"
-    )
-    abstract suspend fun getPagingDayInfo(
-        startDate: Long,
-        endDate: Long
-    ): Map<@MapColumn("measureDate") Long, List<BloodPressureInfoEntity>>
+    abstract suspend fun getDayInfoList(time: Long): List<BloodPressureInfoEntity>
 }

@@ -6,5 +6,5 @@ import java.time.LocalDate
 
 interface InsulinRepository : BaseRepository<InsulinInfo> {
 
-    fun getDayInfo(localDate: LocalDate): Flow<InsulinInfo?>
+    suspend fun getDayInfo(localDate: LocalDate): InsulinInfo?
 }

@@ -12,29 +12,16 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
     @Query("""
         SELECT * 
           FROM weight_info
-         WHERE measureDate = :time
-         ORDER BY measureTime DESC LIMIT 1
+         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') =  DATE(:time / 1000, 'unixepoch', 'localtime')
+         ORDER BY measureDateTime DESC LIMIT 1
     """)
-    abstract fun getDayLastInfo(time: Long): Flow<WeightInfoEntity?>
+    abstract suspend fun getDayLastInfo(time: Long): WeightInfoEntity?
 
     @Query("""
         SELECT * 
           FROM weight_info
-         WHERE measureDate = :time
-         ORDER BY measureTime DESC
+         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') =  DATE(:time / 1000, 'unixepoch', 'localtime')
+         ORDER BY measureDateTime DESC
     """)
-    abstract fun getDayInfoList(time: Long): Flow<List<WeightInfoEntity>>
-
-
-    @Query(
-        "SELECT measureDate, " +
-               "CAST(weight AS INT) AS weight " +
-          "FROM weight_info " +
-         "WHERE measureDate BETWEEN :beginTime AND :endTime " +
-         "GROUP BY measureDate "
-    )
-    abstract suspend fun getDayPagingInfo(
-        beginTime: Long,
-        endTime: Long
-    ): Map<@MapColumn("measureDate") Long, @MapColumn("weight") Int>
+    abstract suspend fun getDayInfoList(time: Long): List<WeightInfoEntity>
 }

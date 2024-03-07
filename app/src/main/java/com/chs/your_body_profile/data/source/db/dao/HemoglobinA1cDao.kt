@@ -11,19 +11,17 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM hemoglobin_a1c_info " +
-         "WHERE measureDate = :time "
+         "WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
+         "ORDER BY measureDateTime DESC " +
+         "LIMIT 1"
     )
-    abstract fun getDayInfo(time: Long): Flow<HemoglobinA1cInfoEntity?>
+    abstract suspend fun getDayLastInfo(time: Long): HemoglobinA1cInfoEntity?
 
     @Query(
-        "SELECT measureDate," +
-               "CAST(number AS INT) AS number " +
+        "SELECT * " +
           "FROM hemoglobin_a1c_info " +
-         "WHERE measureDate BETWEEN :beginTime AND :endTime " +
-         "GROUP BY measureDate"
+         "WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
+        "ORDER By measureDateTime DESC"
     )
-    abstract suspend fun getDayPagingInfo(
-        beginTime: Long,
-        endTime: Long
-    ): Map<@MapColumn("measureDate") Long, @MapColumn("number") Int>
+    abstract suspend fun getDayInfo(time: Long): List<HemoglobinA1cInfoEntity>
 }

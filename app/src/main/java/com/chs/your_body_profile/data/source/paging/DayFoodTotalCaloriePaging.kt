@@ -33,7 +33,6 @@ class DayFoodTotalCaloriePaging(
                 .reversed()
                 .map {
                     it to mealHistoryDao.getDayMealHistoryFoodInfo(it.toMillis()).map {
-
                         val mealHistoryInfo = it.key
                         MealHistoryInfo(
                             takenDateTime = mealHistoryInfo.insertTime.toLocalDateTime(),

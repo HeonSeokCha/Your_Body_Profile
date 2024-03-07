@@ -35,17 +35,13 @@ class BloodPressureRepositoryImpl @Inject constructor(
         bloodPressureDao.delete(info.toBloodPressureInfoEntity())
     }
 
-    override fun getDayLastInfo(localDate: LocalDate): Flow<BloodPressureInfo?> {
-        return bloodPressureDao.getDayLastInfo(localDate.toMillis()).map {
-            it?.toBloodPressureInfo()
-        }
+    override suspend fun getDayLastInfo(localDate: LocalDate): BloodPressureInfo? {
+        return bloodPressureDao.getDayLastInfo(localDate.toMillis())?.toBloodPressureInfo()
     }
 
-    override fun getDayInfoList(localDate: LocalDate): Flow<List<BloodPressureInfo>> {
+    override suspend fun getDayInfoList(localDate: LocalDate): List<BloodPressureInfo> {
         return bloodPressureDao.getDayInfoList(localDate.toMillis()).map {
-            it.map { bloodPressureInfoEntity ->
-                bloodPressureInfoEntity.toBloodPressureInfo()
-            }
+            it.toBloodPressureInfo()
         }
     }
 }

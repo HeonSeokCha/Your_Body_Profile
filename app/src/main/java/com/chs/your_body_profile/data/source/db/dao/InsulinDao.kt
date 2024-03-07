@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.data.source.db.dao
 import androidx.room.Dao
-import androidx.room.MapColumn
 import androidx.room.Query
 import com.chs.your_body_profile.data.source.db.entity.InsulinInfoEntity
 import kotlinx.coroutines.flow.Flow
@@ -11,20 +10,16 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM insulin_info " +
-         "WHERE injectDate = :time " +
+         "WHERE DATE(injectDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime') " +
          "LIMIT 1"
     )
-    abstract fun getDayInfo(time: Long): Flow<InsulinInfoEntity?>
+    abstract suspend fun getDayInfo(time: Long): InsulinInfoEntity?
 
-    @Query(
-        "SELECT injectDate, " +
-               "level " +
-          "FROM insulin_info " +
-        "WHERE injectDate BETWEEN :startDate AND :endDate " +
-        "GROUP BY injectDate"
-    )
-    abstract suspend fun getPagingDayInfo(
-        startDate: Long,
-        endDate: Long
-    ): Map<@MapColumn("injectDate") Long, @MapColumn("level") Int>
+    @Query("""
+        SELECT * 
+          FROM insulin_info
+         WHERE DATE(injectDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime')
+         ORDER BY injectDateTime DESC 
+    """)
+    abstract suspend fun getDayInfoList(time: Long): List<InsulinInfoEntity>
 }

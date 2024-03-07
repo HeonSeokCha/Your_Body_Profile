@@ -14,17 +14,13 @@ import javax.inject.Inject
 class MedicineRepositoryImpl @Inject constructor(
     private val medicineDao: MedicineDao
 ) : MedicineRepository {
-    override fun getDayLastInfo(localDate: LocalDate): Flow<MedicineInfo?> {
-        return medicineDao.getDayLastInfo(localDate.toMillis()).map {
-            it?.toMedicineInfo()
-        }
+    override suspend fun getDayLastInfo(localDate: LocalDate): MedicineInfo? {
+        return medicineDao.getDayLastInfo(localDate.toMillis())?.toMedicineInfo()
     }
 
-    override fun getDayInfoList(localDate: LocalDate): Flow<List<MedicineInfo>> {
+    override suspend fun getDayInfoList(localDate: LocalDate): List<MedicineInfo> {
         return medicineDao.getDayInfoList(localDate.toMillis()).map {
-            it.map { medicineInfoEntity ->
-                medicineInfoEntity.toMedicineInfo()
-            }
+            it.toMedicineInfo()
         }
     }
 

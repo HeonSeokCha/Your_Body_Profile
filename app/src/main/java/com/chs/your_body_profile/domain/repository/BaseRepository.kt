@@ -1,8 +1,5 @@
 package com.chs.your_body_profile.domain.repository
 
-import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
-
 interface BaseRepository <T> {
 
     suspend fun upsertInfo(info: T)

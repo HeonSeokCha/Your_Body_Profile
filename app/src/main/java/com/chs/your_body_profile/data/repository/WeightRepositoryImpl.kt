@@ -15,17 +15,13 @@ class WeightRepositoryImpl @Inject constructor(
     private val weightInfoDao: WeightInfoDao
 ) : WeightRepository {
 
-    override fun getDayLastInfo(localDate: LocalDate): Flow<WeightInfo?> {
-        return weightInfoDao.getDayLastInfo(localDate.toMillis()).map {
-            it?.toWeightInfo()
-        }
+    override suspend fun getDayLastInfo(localDate: LocalDate): WeightInfo? {
+        return weightInfoDao.getDayLastInfo(localDate.toMillis())?.toWeightInfo()
     }
 
-    override fun getDayInfoList(localDate: LocalDate): Flow<List<WeightInfo>> {
+    override suspend fun getDayInfoList(localDate: LocalDate): List<WeightInfo> {
         return weightInfoDao.getDayInfoList(localDate.toMillis()).map {
-            it.map { weightInfoEntity ->
-                weightInfoEntity.toWeightInfo()
-            }
+           it.toWeightInfo()
         }
     }
 
