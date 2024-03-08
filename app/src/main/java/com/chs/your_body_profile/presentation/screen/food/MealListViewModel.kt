@@ -26,7 +26,7 @@ class MealListViewModel @Inject constructor(
     fun getPagingTotalCalories() {
         _state.update {
             it.copy(
-                chartList = getPagingTotalCalorieUseCase().cachedIn(viewModelScope)
+                pagingList = getPagingTotalCalorieUseCase().cachedIn(viewModelScope)
             )
         }
     }

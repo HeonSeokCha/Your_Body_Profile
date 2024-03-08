@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 data class MealListState(
-    val chartList: Flow<PagingData<Pair<LocalDate, Int>>>? = null,
+    val pagingList: Flow<PagingData<Pair<LocalDate, List<MealHistoryInfo>>>>? = null,
     val selectDate: LocalDate = LocalDate.now(),
     val dayTakenMealList: Map<MealHistoryInfo, List<FoodDetailInfo>> = mapOf(),
     val deleteMealInfoList: List<MealHistoryInfo> = emptyList()

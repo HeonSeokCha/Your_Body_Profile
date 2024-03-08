@@ -4,7 +4,7 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "medicine_info",
-    primaryKeys = ["takenDate", "takeMedicineType", "title"]
+    primaryKeys = ["takenDateTime", "takeMedicineType", "title"]
 )
 data class MedicineInfoEntity(
     val takenDateTime: Long,
