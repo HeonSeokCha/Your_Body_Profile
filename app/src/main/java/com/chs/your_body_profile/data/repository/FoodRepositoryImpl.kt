@@ -113,6 +113,14 @@ class FoodRepositoryImpl @Inject constructor(
         }.first()
     }
 
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<MealHistoryInfo>>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            DayFoodTotalCaloriePaging(mealHistoryDao)
+        }.flow
+    }
+
 
     override suspend fun getRecentFoodSearchHistory(): List<String> {
         return foodSearchHistoryDao.getRecentSearchHistory()
@@ -126,13 +134,5 @@ class FoodRepositoryImpl @Inject constructor(
         foodSearchHistoryDao.upsert(
             FoodSearchHistoryEntity(query)
         )
-    }
-
-    override fun getPagingDayTotalCalories(): Flow<PagingData<Pair<LocalDate, List<MealHistoryInfo>>>> {
-        return Pager(
-            PagingConfig(pageSize = 10)
-        ) {
-            DayFoodTotalCaloriePaging(mealHistoryDao)
-        }.flow
     }
 }

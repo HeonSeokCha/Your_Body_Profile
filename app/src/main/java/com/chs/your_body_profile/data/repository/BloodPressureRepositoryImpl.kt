@@ -1,9 +1,13 @@
 package com.chs.your_body_profile.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfo
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
+import com.chs.your_body_profile.data.source.paging.DayBloodPressurePaging
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.repository.BloodPressureRepository
 import kotlinx.coroutines.flow.Flow
@@ -33,6 +37,14 @@ class BloodPressureRepositoryImpl @Inject constructor(
 
     override suspend fun deleteInfo(info: BloodPressureInfo) {
         bloodPressureDao.delete(info.toBloodPressureInfoEntity())
+    }
+
+    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            DayBloodPressurePaging(bloodPressureDao)
+        }.flow
     }
 
     override suspend fun getDayLastInfo(localDate: LocalDate): BloodPressureInfo? {

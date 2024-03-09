@@ -1,13 +1,16 @@
 package com.chs.your_body_profile.domain.repository
 
+import androidx.paging.PagingData
 import com.chs.your_body_profile.domain.model.DrinkType
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface DrinkRepository : BaseRepository<DrinkType> {
 
-    fun getDayCoffeeInfo(localDate: LocalDate): Flow<DrinkType.DrinkCoffeeInfo?>
+    suspend fun getDayCoffeeInfo(localDate: LocalDate): DrinkType.DrinkCoffeeInfo?
 
-    fun getDayWaterInfo(localDate: LocalDate): Flow<DrinkType.DrinkWaterInfo?>
+    suspend fun getDayWaterInfo(localDate: LocalDate): DrinkType.DrinkWaterInfo?
+
+    suspend fun getDayPagingInfoList(drinkType: DrinkType): Flow<PagingData<Pair<LocalDate, List<DrinkType>>>>
 
 }

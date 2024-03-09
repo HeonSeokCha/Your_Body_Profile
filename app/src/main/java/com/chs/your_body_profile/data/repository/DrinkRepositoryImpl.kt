@@ -1,11 +1,15 @@
 package com.chs.your_body_profile.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
 import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
+import com.chs.your_body_profile.data.source.paging.DayDrinkPaging
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.repository.DrinkRepository
 import kotlinx.coroutines.flow.Flow
@@ -24,19 +28,30 @@ class DrinkRepositoryImpl @Inject constructor(
         drinkDao.delete(info.toDrinkInfoEntity())
     }
 
-    override fun getDayCoffeeInfo(localDate: LocalDate): Flow<DrinkType.DrinkCoffeeInfo?> {
-        return drinkDao.getDayLastDrinkInfo(
-            time = localDate.toMillis(),
-            drinkType = Constants.DRINK_TYPE_COFFEE).map {
-            it?.toDrinkCoffeeInfo()
-        }
+    override suspend fun getDayPagingInfoList(
+        drinkType: DrinkType
+    ): Flow<PagingData<Pair<LocalDate, List<DrinkType>>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            DayDrinkPaging(
+                drinkDao = drinkDao,
+                drinkType = drinkType.typeInfo
+            )
+        }.flow
     }
 
-    override fun getDayWaterInfo(localDate: LocalDate): Flow<DrinkType.DrinkWaterInfo?> {
+    override suspend fun getDayCoffeeInfo(localDate: LocalDate): DrinkType.DrinkCoffeeInfo? {
         return drinkDao.getDayLastDrinkInfo(
             time = localDate.toMillis(),
-            drinkType = Constants.DRINK_TYPE_WATER).map {
-            it?.toDrinkWaterInfo()
-        }
+            drinkType = Constants.DRINK_TYPE_COFFEE
+        )?.toDrinkCoffeeInfo()
+    }
+
+    override suspend fun getDayWaterInfo(localDate: LocalDate): DrinkType.DrinkWaterInfo? {
+        return drinkDao.getDayLastDrinkInfo(
+            time = localDate.toMillis(),
+            drinkType = Constants.DRINK_TYPE_WATER
+        )?.toDrinkWaterInfo()
     }
 }

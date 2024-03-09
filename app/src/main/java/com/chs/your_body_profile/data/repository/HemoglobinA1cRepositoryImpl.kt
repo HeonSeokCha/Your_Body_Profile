@@ -1,9 +1,13 @@
 package com.chs.your_body_profile.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfo
 import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
+import com.chs.your_body_profile.data.source.paging.DayHemoglobinA1cInfoPaging
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.repository.BaseInfoRepository
 import com.chs.your_body_profile.domain.repository.HemoglobinA1cRepository
@@ -22,6 +26,14 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
 
     override suspend fun deleteInfo(info: HemoglobinA1cInfo) {
         hemoglobinA1cDao.delete(info.toHemoglobinA1cInfoEntity())
+    }
+
+    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+            DayHemoglobinA1cInfoPaging(hemoglobinA1cDao)
+        }.flow
     }
 
     override suspend fun upsertInfo(info: HemoglobinA1cInfo) {

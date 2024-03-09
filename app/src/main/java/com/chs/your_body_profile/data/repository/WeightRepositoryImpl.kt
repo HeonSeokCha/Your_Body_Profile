@@ -1,9 +1,13 @@
 package com.chs.your_body_profile.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toWeightInfo
 import com.chs.your_body_profile.data.mapper.toWeightInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
+import com.chs.your_body_profile.data.source.paging.DayWeightPaging
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.repository.WeightRepository
 import kotlinx.coroutines.flow.Flow
@@ -31,5 +35,13 @@ class WeightRepositoryImpl @Inject constructor(
 
     override suspend fun deleteInfo(info: WeightInfo) {
         weightInfoDao.delete(info.toWeightInfoEntity())
+    }
+
+    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>> {
+        return Pager(
+            PagingConfig(pageSize = 10)
+        ) {
+           DayWeightPaging(weightInfoDao)
+        }.flow
     }
 }
