@@ -7,5 +7,5 @@ import java.time.LocalDate
 
 interface MedicineRepository : BaseInfoRepository<MedicineInfo> {
 
-    suspend fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>>
+    fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>>
 }

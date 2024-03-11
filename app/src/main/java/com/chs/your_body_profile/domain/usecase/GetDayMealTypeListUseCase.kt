@@ -6,7 +6,7 @@ import com.chs.your_body_profile.domain.repository.FoodRepository
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetDayMealTypeUseCase @Inject constructor(
+class GetDayMealTypeListUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
     suspend operator fun invoke(

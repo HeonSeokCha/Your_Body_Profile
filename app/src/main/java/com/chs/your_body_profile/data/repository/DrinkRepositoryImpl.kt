@@ -28,7 +28,7 @@ class DrinkRepositoryImpl @Inject constructor(
         drinkDao.delete(info.toDrinkInfoEntity())
     }
 
-    override suspend fun getDayPagingInfoList(
+    override fun getDayPagingInfoList(
         drinkType: DrinkType
     ): Flow<PagingData<Pair<LocalDate, List<DrinkType>>>> {
         return Pager(

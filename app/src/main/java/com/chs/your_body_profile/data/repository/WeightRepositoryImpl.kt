@@ -11,7 +11,6 @@ import com.chs.your_body_profile.data.source.paging.DayWeightPaging
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.repository.WeightRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -37,11 +36,11 @@ class WeightRepositoryImpl @Inject constructor(
         weightInfoDao.delete(info.toWeightInfoEntity())
     }
 
-    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>> {
+    override fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
-           DayWeightPaging(weightInfoDao)
+            DayWeightPaging(weightInfoDao)
         }.flow
     }
 }

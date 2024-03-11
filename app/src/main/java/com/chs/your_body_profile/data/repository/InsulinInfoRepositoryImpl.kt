@@ -22,16 +22,16 @@ class InsulinInfoRepositoryImpl @Inject constructor(
         return insulinDao.getDayInfo(localDate.toMillis())?.toInsulinInfo()
     }
 
-    override suspend fun deleteInfo(info: InsulinInfo) {
-        insulinDao.delete(info.toInsulinInfoEntity())
-    }
-
-    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>> {
+    override fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
             DayInsulinInfoPaging(insulinDao)
         }.flow
+    }
+
+    override suspend fun deleteInfo(info: InsulinInfo) {
+        insulinDao.delete(info.toInsulinInfoEntity())
     }
 
     override suspend fun upsertInfo(info: InsulinInfo) {

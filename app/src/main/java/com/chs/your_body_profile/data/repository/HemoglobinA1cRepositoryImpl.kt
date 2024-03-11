@@ -24,16 +24,16 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
         return hemoglobinA1cDao.getDayLastInfo(localDate.toMillis())?.toHemoglobinA1cInfo()
     }
 
-    override suspend fun deleteInfo(info: HemoglobinA1cInfo) {
-        hemoglobinA1cDao.delete(info.toHemoglobinA1cInfoEntity())
-    }
-
-    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>> {
+    override fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
             DayHemoglobinA1cInfoPaging(hemoglobinA1cDao)
         }.flow
+    }
+
+    override suspend fun deleteInfo(info: HemoglobinA1cInfo) {
+        hemoglobinA1cDao.delete(info.toHemoglobinA1cInfoEntity())
     }
 
     override suspend fun upsertInfo(info: HemoglobinA1cInfo) {

@@ -18,6 +18,7 @@ import javax.inject.Inject
 class MedicineRepositoryImpl @Inject constructor(
     private val medicineDao: MedicineDao
 ) : MedicineRepository {
+
     override suspend fun getDayLastInfo(localDate: LocalDate): MedicineInfo? {
         return medicineDao.getDayLastInfo(localDate.toMillis())?.toMedicineInfo()
     }
@@ -36,7 +37,7 @@ class MedicineRepositoryImpl @Inject constructor(
         medicineDao.delete(info.toMedicineInfoEntity())
     }
 
-    override suspend fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>> {
+    override fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

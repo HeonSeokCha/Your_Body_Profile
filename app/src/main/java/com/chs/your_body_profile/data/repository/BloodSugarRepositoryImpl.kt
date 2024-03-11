@@ -48,7 +48,7 @@ class BloodSugarRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getDayPagingInfo(localDate: LocalDate): Flow<PagingData<Pair<LocalDate, Int>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

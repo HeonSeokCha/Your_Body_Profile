@@ -7,5 +7,5 @@ import java.time.LocalDate
 
 interface WeightRepository : BaseInfoRepository<WeightInfo> {
 
-    suspend fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>>
+    fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>>
 }

@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetPagingTotalCalorieUseCase @Inject constructor(
+class GetPagingFoodInfoUseCase @Inject constructor(
     private val foodRepository: FoodRepository
 ) {
     operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<MealHistoryInfo>>>> {
-        return foodRepository.getPagingDayTotalCalories()
+        return foodRepository.getDayPagingInfo()
     }
 }
