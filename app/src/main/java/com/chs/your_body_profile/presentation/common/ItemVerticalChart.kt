@@ -43,64 +43,66 @@ import kotlin.math.roundToInt
 @Composable
 fun ItemVerticalChart(
     items: List<Pair<LocalDate, Int>>,
-    onSelected: (LocalDate) -> Unit
+    onSelected: (Int) -> Unit
 ) {
-    val density = LocalDensity.current
-    var selectIdx by rememberSaveable { mutableIntStateOf(0) }
-    val textSize = with(density) { 10.sp.toPx() }
-    val smallPadding = with(density) { 4.dp.toPx() }
-    val labelSectionHeight = smallPadding.times(2) + textSize
-    val textMeasurer = rememberTextMeasurer()
 
-    LazyRow {
-
-    }
-
-    Row(
+    LazyRow(
         modifier = Modifier
             .height(300.dp)
             .fillMaxWidth()
             .padding(vertical = 16.dp)
-    ) {
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            repeat(3) {
-                drawLine(
-                    color = Color.Gray,
-                    start = Offset(0f, ((100.dp.toPx() * (it) + 10))),
-                    end = Offset(size.width, ((100.dp.toPx() * (it) + 10)))
-                )
-            }
-            val scale = calculateScale(
-                (size.height - smallPadding).roundToInt(),
-                items.map { it.second }
-            )
-            val chartBottomArea = size.height - labelSectionHeight
-            items.forEachIndexed { idx, pair ->
-                val barHeight = pair.second.times(scale).toFloat()
-                drawRoundRect(
-                    color = Color.LightGray,
-                    topLeft = Offset(
-                        x = 6.dp.toPx() + 14.dp.toPx().times(idx) - 6.dp.toPx().div(2),
-                        y = size.height - barHeight - smallPadding - labelSectionHeight
-                    ),
-                    size = Size(6.dp.toPx(), barHeight),
-                    cornerRadius = CornerRadius(4.dp.toPx())
-                )
-
-                drawText(
-                    textMeasurer = textMeasurer,
-                    text = pair.first.format(Constants.DATE_DAY_FORMATTER),
-                    topLeft = Offset(
-                        x = 6.dp.toPx() + 14.dp.toPx().times(idx) - 6.dp.toPx() / 2,
-                        y = chartBottomArea
+            .drawBehind {
+                repeat(3) {
+                    drawLine(
+                        color = Color.Gray,
+                        start = Offset(0f, ((100.dp.toPx() * (it) + 10))),
+                        end = Offset(size.width, ((100.dp.toPx() * (it) + 10)))
                     )
-                )
-            }
-        }
+                }
+            },
+        reverseLayout = true
+    ) {
+
     }
+
+//    Row(
+//        modifier = Modifier
+//            .height(300.dp)
+//            .fillMaxWidth()
+//            .padding(vertical = 16.dp)
+//    ) {
+//        Canvas(
+//            modifier = Modifier
+//                .fillMaxSize()
+//        ) {
+//            val scale = calculateScale(
+//                (size.height - smallPadding).roundToInt(),
+//                items.map { it.second }
+//            )
+//            val chartBottomArea = size.height - labelSectionHeight
+//            items.forEachIndexed { idx, pair ->
+//                val barHeight = pair.second.times(scale).toFloat()
+//                drawRoundRect(
+//                    color = Color.LightGray,
+//                    topLeft = Offset(
+//                        x = 6.dp.toPx() + 14.dp.toPx().times(idx) - 6.dp.toPx().div(2),
+//                        y = size.height - barHeight - smallPadding - labelSectionHeight
+//                    ),
+//                    size = Size(6.dp.toPx(), barHeight),
+//                    cornerRadius = CornerRadius(4.dp.toPx())
+//                )
+//
+//                drawText(
+//                    textMeasurer = textMeasurer,
+//                    text = pair.first.format(Constants.DATE_DAY_FORMATTER),
+//                    topLeft = Offset(
+//                        x = 6.dp.toPx() + 14.dp.toPx().times(idx) - 6.dp.toPx() / 2,
+//                        y = chartBottomArea
+//                    )
+//                )
+//            }
+//        }
+//    }
 }
 
 @Composable

@@ -20,13 +20,14 @@ class BloodPressureInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(BloodPressureInputState())
 
     fun initMeasureInfo(
-        measureDate: LocalDate,
-        measureTime: LocalDateTime
+        bloodPressureInfo: BloodPressureInfo
     ) {
         _state.update {
             it.copy(
-                measureDate = measureDate,
-                measureTime = measureTime
+                measureDateTime = bloodPressureInfo.measureDateTime,
+                diastolic = bloodPressureInfo.diastolic,
+                systolic = bloodPressureInfo.systolic,
+                memo = bloodPressureInfo.memo
             )
         }
     }
@@ -35,8 +36,7 @@ class BloodPressureInputViewModel @Inject constructor(
         viewModelScope.launch {
             upsertBloodPressureInfoUseCase(
                 BloodPressureInfo(
-                    measureDate = _state.value.measureDate,
-                    measureTime = _state.value.measureTime,
+                    measureDateTime = _state.value.measureDateTime,
                     systolic = _state.value.systolic,
                     diastolic = _state.value.diastolic,
                     memo = _state.value.memo
@@ -72,7 +72,7 @@ class BloodPressureInputViewModel @Inject constructor(
     fun updateMeasureTime(localDateTime: LocalDateTime) {
         _state.update {
             it.copy(
-                measureTime = localDateTime
+                measureDateTime = localDateTime
             )
         }
     }

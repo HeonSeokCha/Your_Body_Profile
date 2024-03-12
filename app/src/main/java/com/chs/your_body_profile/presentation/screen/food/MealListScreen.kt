@@ -46,8 +46,8 @@ import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
-import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 import com.chs.your_body_profile.presentation.common.toDecimalPlace
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -58,7 +58,7 @@ fun MealListScreen(
 
     val context: Context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val pagingItems = state.chartList?.collectAsLazyPagingItems()
+    val pagingItems = state.pagingList?.collectAsLazyPagingItems()
     val removeMealInfoList = remember { mutableStateListOf<MealHistoryInfo>() }
     var isEditMode: Boolean by remember { mutableStateOf(false) }
     var isShowMealTypeDialog by remember { mutableStateOf(false) }
@@ -67,7 +67,7 @@ fun MealListScreen(
         ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
             isShowMealTypeDialog = false
             navController.navigate(
-                    "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectDate.toMillis()}"
+                    "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectInfo!!.takenDateTime.toMillis()}"
             )
         }
     }
@@ -76,13 +76,6 @@ fun MealListScreen(
         viewModel.getPagingTotalCalories()
     }
 
-    LaunchedEffect(state.selectDate) {
-        viewModel.getDayTakenMealInfo(state.selectDate)
-    }
-
-    LaunchedEffect(removeMealInfoList.size) {
-        viewModel.updateRemoveList(removeMealInfoList)
-    }
 
     Box(
         modifier = Modifier
@@ -121,7 +114,7 @@ fun MealListScreen(
 
                     Text(
                         text = "${
-                            state.dayTakenMealList.map { it.value.map { it.calorie }.sum() }.sum().toInt()
+                            state.selectInfo?.foodList?.sumOf { it.calorie.roundToInt() }
                         } kcal",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold

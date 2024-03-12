@@ -75,7 +75,7 @@ fun MealHistoryInputScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ItemTimePicker(dateTime = state.takenTime) {
+                ItemTimePicker(dateTime = state.takenDateTime) {
 
                 }
             }
@@ -112,7 +112,7 @@ fun MealHistoryInputScreen(
                                        this.navigate(
                                            Screens.ScreenFoodSearch.route +
                                                    "/${state.mealType.mean.second}" +
-                                                   "?takenDate=${state.takenDate.toMillis()}"
+                                                   "?takenDate=${state.takenDateTime.toMillis()}"
                                        )
                                    }
                                 },
