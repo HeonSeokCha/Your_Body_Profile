@@ -36,12 +36,4 @@ class MedicineRepositoryImpl @Inject constructor(
     override suspend fun deleteInfo(info: MedicineInfo) {
         medicineDao.delete(info.toMedicineInfoEntity())
     }
-
-    override fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>> {
-        return Pager(
-            PagingConfig(pageSize = 10)
-        ) {
-            DayMedicinePaging(medicineDao)
-        }.flow
-    }
 }

@@ -13,15 +13,15 @@ import java.time.LocalDate
 
 class DayBloodSugarPaging(
     private val bloodSugarDao: BloodSugarDao
-)  : PagingSource<LocalDate, Pair<LocalDate, List<BloodSugarInfo>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<BloodSugarInfo>>>): LocalDate? {
+)  : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<BloodSugarInfo>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -32,8 +32,7 @@ class DayBloodSugarPaging(
                 .map {
                     val date = it
                     date to bloodSugarDao.getDayInfoList(date.toMillis()).map {
-                        it.toBloodSugarInfo()
-
+                        it.number
                     }
                 }
         }

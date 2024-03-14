@@ -113,7 +113,7 @@ class FoodRepositoryImpl @Inject constructor(
         }.first()
     }
 
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<MealHistoryInfo>>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

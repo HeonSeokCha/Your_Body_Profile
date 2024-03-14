@@ -4,24 +4,23 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toMillis
-import com.chs.your_body_profile.data.mapper.toHemoglobinA1cInfo
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
-import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class DayHemoglobinA1cInfoPaging(
     private val hemoglobinA1cDao: HemoglobinA1cDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<HemoglobinA1cInfo>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<HemoglobinA1cInfo>>>): LocalDate? {
+) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<HemoglobinA1cInfo>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
         val pageDate: LocalDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -30,9 +29,7 @@ class DayHemoglobinA1cInfoPaging(
                 .toList()
                 .reversed()
                 .map {
-                    it to hemoglobinA1cDao.getDayInfo(it.toMillis()).map {
-                        it.toHemoglobinA1cInfo()
-                    }
+                    it to hemoglobinA1cDao.getDayInfo(it.toMillis()).map { it.number.roundToInt() }
                 }
         }
 

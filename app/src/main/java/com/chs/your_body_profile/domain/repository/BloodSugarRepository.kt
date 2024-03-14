@@ -13,5 +13,5 @@ interface BloodSugarRepository : BaseInfoRepository<BloodSugarInfo> {
 
     fun getDayAvgInfo(localDate: LocalDate): Flow<Int>
 
-    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>>
+    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>>
 }

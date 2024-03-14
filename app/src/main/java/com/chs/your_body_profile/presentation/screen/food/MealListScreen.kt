@@ -46,6 +46,7 @@ import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
+import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 import com.chs.your_body_profile.presentation.common.toDecimalPlace
 import kotlin.math.roundToInt
 
@@ -67,7 +68,7 @@ fun MealListScreen(
         ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
             isShowMealTypeDialog = false
             navController.navigate(
-                    "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectInfo!!.takenDateTime.toMillis()}"
+                "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectInfo!!.takenDateTime.toMillis()}"
             )
         }
     }
@@ -88,39 +89,38 @@ fun MealListScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            LazyColumn (
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 56.dp)
             ) {
+                if (pagingItems != null) {
+                    items(pagingItems.itemCount) {
+                        val date = pagingItems[it]!!.first
+                        val data = pagingItems[it]!!.second
+
+                        data.sumOf { it.foodList.sumOf { it.calorie.roundToInt() } }
+                    }
+                }
+
                 item {
-                    LazyRow(reverseLayout = true) {
-                        if (pagingItems != null) {
-                            items(
-                                count = pagingItems.itemCount,
-                            ) {
-                                if (pagingItems[it] != null) {
-                                    Column {
-                                        Text(pagingItems[it]!!.first.toString())
-                                        Text(pagingItems[it]!!.second.toString())
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                    }
-                                }
-                            }
-                        }
+                    ItemVerticalChart(pagingItems) {
+                        viewModel.updateSelectDate(it)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
                         text = "${
-                            state.selectInfo?.foodList?.sumOf { it.calorie.roundToInt() }
+                            state.dayTakenMealList.map { it.value.map { it.calorie }.sum() }.sum()
+                                .toInt()
                         } kcal",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
+
                 }
 
                 items(state.dayTakenMealList.size) {
@@ -180,7 +180,7 @@ fun MealListScreen(
                                         text = foodDetailInfo.name,
                                         color = Color.Gray
                                     )
-                                    if (index != values.size -1) {
+                                    if (index != values.size - 1) {
                                         Text(
                                             text = ", ",
                                             color = Color.Gray

@@ -13,15 +13,16 @@ import java.time.LocalDate
 
 class DayInsulinInfoPaging(
     private val insulinDao: InsulinDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<InsulinInfo>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<InsulinInfo>>>): LocalDate? {
+) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
+
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<InsulinInfo>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
         val pageDate: LocalDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -31,10 +32,11 @@ class DayInsulinInfoPaging(
                 .reversed()
                 .map {
                     it to insulinDao.getDayInfoList(it.toMillis()).map {
-                        it.toInsulinInfo()
+                        it.level
                     }
                 }
         }
+
         return LoadResult.Page(
             data = data,
             prevKey = null,

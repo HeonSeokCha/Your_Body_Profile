@@ -9,5 +9,5 @@ interface HemoglobinA1cRepository : BaseRepository<HemoglobinA1cInfo> {
 
     suspend fun getDayInfo(localDate: LocalDate): HemoglobinA1cInfo?
 
-    fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>>
+    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>>
 }

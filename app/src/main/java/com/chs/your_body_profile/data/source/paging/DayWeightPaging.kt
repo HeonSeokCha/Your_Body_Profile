@@ -10,18 +10,20 @@ import com.chs.your_body_profile.domain.model.WeightInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class DayWeightPaging(
     private val weightInfoDao: WeightInfoDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<WeightInfo>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<WeightInfo>>>): LocalDate? {
+) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
+
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<WeightInfo>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -31,7 +33,7 @@ class DayWeightPaging(
                 .reversed()
                 .map {
                     it to weightInfoDao.getDayInfoList(it.toMillis()).map {
-                        it.toWeightInfo()
+                        it.weight.roundToInt()
                     }
                 }
         }

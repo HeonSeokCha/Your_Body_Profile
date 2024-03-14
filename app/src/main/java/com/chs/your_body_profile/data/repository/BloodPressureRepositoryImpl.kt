@@ -39,7 +39,7 @@ class BloodPressureRepositoryImpl @Inject constructor(
         bloodPressureDao.delete(info.toBloodPressureInfoEntity())
     }
 
-    override fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Pair<Int, Int>>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

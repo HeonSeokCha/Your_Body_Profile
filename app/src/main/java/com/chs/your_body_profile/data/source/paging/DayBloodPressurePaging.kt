@@ -13,16 +13,16 @@ import java.time.LocalDate
 
 class DayBloodPressurePaging(
     private val bloodPressureDao: BloodPressureDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<BloodPressureInfo>>>(){
+) : PagingSource<LocalDate, Pair<LocalDate, List<Pair<Int, Int>>>>(){
 
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<BloodPressureInfo>>>): LocalDate? {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Pair<Int, Int>>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<BloodPressureInfo>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Pair<Int, Int>>>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -32,7 +32,9 @@ class DayBloodPressurePaging(
                 .reversed()
                 .map {
                     it to bloodPressureDao.getDayInfoList(it.toMillis()).map {
-                        it.toBloodPressureInfo()
+                        it.run {
+                            it.systolic to it.diastolic
+                        }
                     }
                 }
         }

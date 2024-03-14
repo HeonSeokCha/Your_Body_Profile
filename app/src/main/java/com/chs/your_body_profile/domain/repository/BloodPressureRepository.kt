@@ -13,5 +13,6 @@ interface BloodPressureRepository : BaseInfoRepository<BloodPressureInfo> {
 
     fun getDayAvgInfo(localDate: LocalDate): Flow<Int>
 
-    fun getDayPagingInfoList(): Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>>
+    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Pair<Int, Int>>>>>
+
 }

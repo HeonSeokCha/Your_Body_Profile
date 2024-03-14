@@ -12,18 +12,19 @@ import com.chs.your_body_profile.domain.model.MealType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class DayFoodTotalCaloriePaging(
     private val mealHistoryDao: MealHistoryDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<MealHistoryInfo>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<MealHistoryInfo>>>): LocalDate? {
+) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<MealHistoryInfo>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
         val pageDate: LocalDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -38,7 +39,7 @@ class DayFoodTotalCaloriePaging(
                             takenDateTime = mealHistoryInfo.insertTime.toLocalDateTime(),
                             foodList = it.value.map { it.toFoodDetailInfo() },
                             mealType = MealType.entries.find { it.mean.first == mealHistoryInfo.takenMealType } ?: MealType.MORNING
-                        )
+                        ).foodList.sumOf { it.calorie.roundToInt() }
                     }
                 }
         }

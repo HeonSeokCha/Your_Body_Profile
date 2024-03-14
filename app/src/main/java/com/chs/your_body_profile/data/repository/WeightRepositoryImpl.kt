@@ -36,7 +36,7 @@ class WeightRepositoryImpl @Inject constructor(
         weightInfoDao.delete(info.toWeightInfoEntity())
     }
 
-    override fun getDayPagingList(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {
