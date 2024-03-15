@@ -7,6 +7,6 @@ class GetPagingDrinkCoffeeUseCase @Inject constructor(
     private val repository: DrinkRepository
 ) {
     operator fun invoke() {
-
+        repository.getDayPagingInfoList()
     }
 }

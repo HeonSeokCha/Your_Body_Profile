@@ -11,6 +11,6 @@ interface DrinkRepository : BaseRepository<DrinkType> {
 
     suspend fun getDayWaterInfo(localDate: LocalDate): DrinkType.DrinkWaterInfo?
 
-    fun getDayPagingInfoList(drinkType: DrinkType): Flow<PagingData<Pair<LocalDate, List<DrinkType>>>>
+    fun getDayPagingInfoList(drinkType: DrinkType): Flow<PagingData<Pair<LocalDate, List<Int>>>>
 
 }

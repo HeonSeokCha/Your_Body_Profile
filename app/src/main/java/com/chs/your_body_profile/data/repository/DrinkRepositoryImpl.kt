@@ -30,7 +30,7 @@ class DrinkRepositoryImpl @Inject constructor(
 
     override fun getDayPagingInfoList(
         drinkType: DrinkType
-    ): Flow<PagingData<Pair<LocalDate, List<DrinkType>>>> {
+    ): Flow<PagingData<Pair<LocalDate, List<Int>>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

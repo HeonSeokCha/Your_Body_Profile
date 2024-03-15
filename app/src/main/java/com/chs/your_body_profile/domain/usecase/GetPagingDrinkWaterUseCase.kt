@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetPagingDrinkWaterUseCase @Inject constructor(
     private val repository: DrinkRepository
 ) {
-   operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<DrinkType>>>> {
+   operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<Int>>>> {
        return repository.getDayPagingInfoList()
    }
 }

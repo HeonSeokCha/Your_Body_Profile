@@ -16,16 +16,16 @@ import java.time.LocalDate
 class DayDrinkPaging(
     private val drinkDao: DrinkDao,
     private val drinkType: Int
-) : PagingSource<LocalDate, Pair<LocalDate, List<DrinkType>>>() {
+) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
 
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<DrinkType>>>): LocalDate? {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<DrinkType>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -40,15 +40,15 @@ class DayDrinkPaging(
                     ).map {
                         when (it.drinkType) {
                             1 -> {
-                                it.toDrinkWaterInfo()
+                                it.toDrinkWaterInfo().totalCups
                             }
 
                             2 -> {
-                                it.toDrinkCoffeeInfo()
+                                it.toDrinkCoffeeInfo().totalCups
                             }
 
                             else -> {
-                                it.toDrinkWaterInfo()
+                                it.toDrinkWaterInfo().totalCups
                             }
                         }
                     }
