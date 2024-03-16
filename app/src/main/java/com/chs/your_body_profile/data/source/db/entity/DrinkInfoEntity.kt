@@ -8,6 +8,6 @@ import androidx.room.Entity
 )
 data class DrinkInfoEntity(
     val takenDate: Long,
-    val drinkType: Int,
+    val drinkType: String,
     val totalCups: Int,
 )

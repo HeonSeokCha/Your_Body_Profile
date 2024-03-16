@@ -18,7 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.presentation.common.ItemInputButton
+import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 
 @Composable
 fun BloodSugarListScreen(
@@ -27,6 +29,7 @@ fun BloodSugarListScreen(
 ) {
     val context: Context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val pagingItems = state.pagingList?.collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier
@@ -45,6 +48,9 @@ fun BloodSugarListScreen(
                     .padding(bottom = 56.dp)
             ) {
                 item {
+                    ItemVerticalChart(pagingItems = ) {
+
+                    }
 
                 }
             }

@@ -71,7 +71,7 @@ fun ItemVerticalChart(
         if (pagingItems != null) {
             items(pagingItems.itemCount) { idx ->
                 val date = pagingItems[idx]!!.first
-                val calorie = pagingItems[idx]!!.second
+                val value = pagingItems[idx]!!.second
 
                 Column(
                     modifier = Modifier
@@ -95,7 +95,7 @@ fun ItemVerticalChart(
                         },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ItemVerticalCharBar(barHeight = calorie.times(scaleValue).toFloat())
+                    ItemVerticalCharBar(barHeight = value.times(scaleValue).toFloat())
 
                     ItemChartDate(
                         date = date,
@@ -105,6 +105,22 @@ fun ItemVerticalChart(
             }
         }
     }
+}
+
+@Composable
+fun ItemSingleValue(
+    pagingItems: LazyPagingItems<Pair<LocalDate, Int>>?,
+    onSelected: (LocalDate) -> Unit
+) {
+    
+}
+
+@Composable
+fun ItemMultipleValue(
+    pagingItems: LazyPagingItems<Pair<LocalDate, Pair<Int, Int>>>?,
+    onSelected: (LocalDate) -> Unit
+) {
+    
 }
 
 @Composable

@@ -1,6 +1,8 @@
 package com.chs.your_body_profile.presentation.screen.blood_pressure
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.usecase.GetPagingBloodPressureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +23,7 @@ class BloodPressureListViewModel @Inject constructor(
         _state.update {
             it.copy(
                 pagingList = getPagingBloodPressureUseCase()
+                    .cachedIn(viewModelScope)
             )
         }
     }

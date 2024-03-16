@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 data class BloodPressureListState(
-    val pagingList: Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>>? = null,
+    val pagingList: Flow<PagingData<Pair<LocalDate, List<Pair<Int, Int>>>>>? = null,
     val selectInfo: BloodPressureInfo? = null
 )

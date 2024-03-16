@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.data.mapper
 
-import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toLocalDateToMillis
 import com.chs.your_body_profile.common.toMillis
@@ -13,7 +12,9 @@ import com.chs.your_body_profile.data.source.db.entity.MedicineInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.WeightInfoEntity
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.DrinkType
+import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
+import com.chs.your_body_profile.domain.model.DrinkInfo
+import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MeasureType
@@ -57,24 +58,24 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
     )
 }
 
-fun DrinkInfoEntity.toDrinkWaterInfo(): DrinkType.DrinkWaterInfo {
-    return DrinkType.DrinkWaterInfo(
-        takenDate = takenDate.toLocalDate(),
+fun DrinkInfoEntity.toDrinkWaterInfo(): DrinkWaterInfo {
+    return DrinkWaterInfo(
+        takenDateTime = takenDate.toLocalDateTime(),
         totalCups = this.totalCups
     )
 }
 
-fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkType.DrinkCoffeeInfo {
-    return DrinkType.DrinkCoffeeInfo(
-        takenDate = takenDate.toLocalDate(),
+fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkCoffeeInfo {
+    return DrinkCoffeeInfo(
+        takenDateTime = takenDate.toLocalDateTime(),
         totalCups = this.totalCups
     )
 }
 
-fun DrinkType.toDrinkInfoEntity(): DrinkInfoEntity {
+fun DrinkInfo.toDrinkInfoEntity(type: String): DrinkInfoEntity {
     return DrinkInfoEntity(
-        takenDate = this.takenDate.toMillis(),
-        drinkType = this.typeInfo,
+        takenDate = this.takenDateTime.toMillis(),
+        drinkType = type,
         totalCups = this.totalCups
     )
 }

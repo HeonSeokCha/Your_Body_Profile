@@ -7,15 +7,13 @@ import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toDrinkCoffeeInfo
 import com.chs.your_body_profile.data.mapper.toDrinkWaterInfo
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
-import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
-import com.chs.your_body_profile.domain.model.DrinkType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
 class DayDrinkPaging(
     private val drinkDao: DrinkDao,
-    private val drinkType: Int
+    private val drinkType: String
 ) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
 
     override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
@@ -38,19 +36,7 @@ class DayDrinkPaging(
                         time = it.toMillis(),
                         drinkType = drinkType
                     ).map {
-                        when (it.drinkType) {
-                            1 -> {
-                                it.toDrinkWaterInfo().totalCups
-                            }
-
-                            2 -> {
-                                it.toDrinkCoffeeInfo().totalCups
-                            }
-
-                            else -> {
-                                it.toDrinkWaterInfo().totalCups
-                            }
-                        }
+                        it.totalCups
                     }
                 }
         }

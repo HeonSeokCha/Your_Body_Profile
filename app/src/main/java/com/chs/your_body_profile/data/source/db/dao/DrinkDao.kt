@@ -1,11 +1,8 @@
 package com.chs.your_body_profile.data.source.db.dao
 
 import androidx.room.Dao
-import androidx.room.MapColumn
 import androidx.room.Query
 import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
-import com.chs.your_body_profile.domain.model.DrinkType
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
@@ -30,7 +27,7 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
     )
     abstract suspend fun getDayDrinkInfoList(
         time: Long,
-        drinkType: Int,
+        drinkType: String,
     ): List<DrinkInfoEntity>
 
 }
