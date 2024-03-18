@@ -12,15 +12,15 @@ import kotlin.math.roundToInt
 
 class DayHemoglobinA1cInfoPaging(
     private val hemoglobinA1cDao: HemoglobinA1cDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
+) : PagingSource<LocalDate, Pair<LocalDate, Int>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Int>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Int>> {
         val pageDate: LocalDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -29,7 +29,9 @@ class DayHemoglobinA1cInfoPaging(
                 .toList()
                 .reversed()
                 .map {
-                    it to hemoglobinA1cDao.getDayInfo(it.toMillis()).map { it.number.roundToInt() }
+                    it to hemoglobinA1cDao.getDayInfo(it.toMillis()).map {
+                        it.number
+                    }.average().roundToInt()
                 }
         }
 

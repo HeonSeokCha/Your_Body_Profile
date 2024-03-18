@@ -36,7 +36,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ItemVerticalChart(
-    pagingItems: LazyPagingItems<Pair<LocalDate, Int>>?,
+    pagingItems: LazyPagingItems<Pair<LocalDate, List<Int>>>?,
     onSelected: (LocalDate) -> Unit
 ) {
     val density = LocalDensity.current

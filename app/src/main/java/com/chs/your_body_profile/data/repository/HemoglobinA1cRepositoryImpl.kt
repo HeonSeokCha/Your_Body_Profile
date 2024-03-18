@@ -24,7 +24,7 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
         return hemoglobinA1cDao.getDayLastInfo(localDate.toMillis())?.toHemoglobinA1cInfo()
     }
 
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

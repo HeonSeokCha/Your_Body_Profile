@@ -14,16 +14,16 @@ import kotlin.math.roundToInt
 
 class DayWeightPaging(
     private val weightInfoDao: WeightInfoDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
+) : PagingSource<LocalDate, Pair<LocalDate, Int>>() {
 
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Int>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Int>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -33,8 +33,8 @@ class DayWeightPaging(
                 .reversed()
                 .map {
                     it to weightInfoDao.getDayInfoList(it.toMillis()).map {
-                        it.weight.roundToInt()
-                    }
+                        it.weight
+                    }.average().roundToInt()
                 }
         }
 

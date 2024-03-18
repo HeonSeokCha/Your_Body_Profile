@@ -10,19 +10,20 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class DayBloodPressurePaging(
     private val bloodPressureDao: BloodPressureDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<Pair<Int, Int>>>>(){
+) : PagingSource<LocalDate, Pair<LocalDate, Pair<Int, Int>>>(){
 
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Pair<Int, Int>>>>): LocalDate? {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Pair<Int, Int>>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Pair<Int, Int>>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Pair<Int, Int>>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -31,10 +32,9 @@ class DayBloodPressurePaging(
                 .toList()
                 .reversed()
                 .map {
-                    it to bloodPressureDao.getDayInfoList(it.toMillis()).map {
-                        it.run {
-                            it.systolic to it.diastolic
-                        }
+                    it to bloodPressureDao.getDayInfoList(it.toMillis()).run {
+                        this.map { it.systolic }.average().roundToInt() to
+                                this.map { it.diastolic }.average().roundToInt()
                     }
                 }
         }

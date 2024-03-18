@@ -10,5 +10,5 @@ interface InsulinRepository : BaseRepository<InsulinInfo> {
 
     suspend fun getDayInfo(localDate: LocalDate): InsulinInfo?
 
-    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>>
+    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>>
 }

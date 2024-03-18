@@ -16,15 +16,15 @@ import kotlin.math.roundToInt
 
 class DayFoodTotalCaloriePaging(
     private val mealHistoryDao: MealHistoryDao
-) : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
+) : PagingSource<LocalDate, Pair<LocalDate, Int>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Int>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Int>> {
         val pageDate: LocalDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -33,13 +33,9 @@ class DayFoodTotalCaloriePaging(
                 .toList()
                 .reversed()
                 .map {
-                    it to mealHistoryDao.getDayMealHistoryFoodInfo(it.toMillis()).map {
-                        val mealHistoryInfo = it.key
-                        MealHistoryInfo(
-                            takenDateTime = mealHistoryInfo.insertTime.toLocalDateTime(),
-                            foodList = it.value.map { it.toFoodDetailInfo() },
-                            mealType = MealType.entries.find { it.mean.first == mealHistoryInfo.takenMealType } ?: MealType.MORNING
-                        ).foodList.sumOf { it.calorie.roundToInt() }
+                    it to mealHistoryDao.getDayMealHistoryFoodInfo(it.toMillis()).values.sumOf {
+                        it.map { it.calorie }
+                            .average().roundToInt()
                     }
                 }
         }

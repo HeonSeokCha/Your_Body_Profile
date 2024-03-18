@@ -22,7 +22,7 @@ class InsulinInfoRepositoryImpl @Inject constructor(
         return insulinDao.getDayInfo(localDate.toMillis())?.toInsulinInfo()
     }
 
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<Int>>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {
         return Pager(
             PagingConfig(pageSize = 10)
         ) {

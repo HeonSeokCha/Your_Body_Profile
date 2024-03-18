@@ -10,18 +10,19 @@ import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class DayBloodSugarPaging(
     private val bloodSugarDao: BloodSugarDao
-)  : PagingSource<LocalDate, Pair<LocalDate, List<Int>>>() {
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, List<Int>>>): LocalDate? {
+)  : PagingSource<LocalDate, Pair<LocalDate, Int>>() {
+    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Int>>): LocalDate? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
             page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, List<Int>>> {
+    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Int>> {
         val pageDate = params.key ?: LocalDate.now()
 
         val data = withContext(Dispatchers.IO) {
@@ -30,10 +31,9 @@ class DayBloodSugarPaging(
                 .toList()
                 .reversed()
                 .map {
-                    val date = it
-                    date to bloodSugarDao.getDayInfoList(date.toMillis()).map {
+                    it to bloodSugarDao.getDayInfoList(it.toMillis()).map {
                         it.number
-                    }
+                    }.average().roundToInt()
                 }
         }
 

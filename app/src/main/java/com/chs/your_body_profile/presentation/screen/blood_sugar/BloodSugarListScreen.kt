@@ -48,7 +48,7 @@ fun BloodSugarListScreen(
                     .padding(bottom = 56.dp)
             ) {
                 item {
-                    ItemVerticalChart(pagingItems = ) {
+                    ItemVerticalChart(pagingItems = pagingItems) {
 
                     }
 
