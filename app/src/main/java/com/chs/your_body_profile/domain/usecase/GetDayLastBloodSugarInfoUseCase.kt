@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetDayLastBloodSugarInfoUseCase @Inject constructor(
     private val repository: BloodSugarRepository
 ) {
-    operator fun invoke(localDate: LocalDate): Flow<BloodSugarInfo?> {
+    suspend operator fun invoke(localDate: LocalDate): BloodSugarInfo? {
         return repository.getDayLastInfo(localDate)
     }
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetDayBloodPressureInfoList @Inject constructor(
     private val repository: BloodPressureRepository
 ) {
-    operator fun invoke(localDate: LocalDate): Flow<List<BloodPressureInfo>> {
+    suspend operator fun invoke(localDate: LocalDate): List<BloodPressureInfo> {
         return repository.getDayInfoList(localDate)
     }
 }

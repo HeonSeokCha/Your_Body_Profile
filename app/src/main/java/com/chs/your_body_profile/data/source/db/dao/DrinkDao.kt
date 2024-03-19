@@ -20,7 +20,7 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
 
 
     @Query(
-        "SELECT DATE(takenDate / 1000, 'unixepoch', 'localtime') as 'date', * " +
+        "SELECT * " +
           "FROM drink_info " +
          "WHERE DATE(takenDate / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
            "AND drinkType = :drinkType "

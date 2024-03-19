@@ -5,8 +5,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class BloodSugarInputState(
-    val measureDate: LocalDate = LocalDate.now(),
-    val measureTime: LocalDateTime = LocalDateTime.now(),
+    val measureDateTime: LocalDateTime = LocalDateTime.now(),
     val level: Int = 0,
     val measureType: MeasureType? = null,
     val memo: String? = null,

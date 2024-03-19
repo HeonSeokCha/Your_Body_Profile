@@ -94,18 +94,10 @@ fun MealListScreen(
                     .fillMaxWidth()
                     .padding(bottom = 56.dp)
             ) {
-                if (pagingItems != null) {
-                    items(pagingItems.itemCount) {
-                        val date = pagingItems[it]!!.first
-                        val data = pagingItems[it]!!.second
-
-                        data.sumOf { it.foodList.sumOf { it.calorie.roundToInt() } }
-                    }
-                }
 
                 item {
                     ItemVerticalChart(pagingItems) {
-                        viewModel.updateSelectDate(it)
+
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))

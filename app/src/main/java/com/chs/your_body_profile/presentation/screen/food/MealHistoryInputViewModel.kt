@@ -9,7 +9,6 @@ import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.usecase.GetDayMealTypeListUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayMealTypeUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertFoodDetailInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertMealHistoryInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,13 +25,13 @@ class MealHistoryInputViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val upsertMealHistoryInfoUseCase: UpsertMealHistoryInfoUseCase,
     private val upsertFoodDetailInfoUseCase: UpsertFoodDetailInfoUseCase,
-    private val getDayMealTypeListUseCase: GetDayMealTypeUseCase
+    private val getDayMealTypeListUseCase: GetDayMealTypeListUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(MealHistoryInputState())
     val state = _state.asStateFlow()
 
     private val takenDate: LocalDate = (savedStateHandle[Constants.ARG_TAKEN_DATE] ?: 0L).toLocalDate()
-    private val takenMealType: MealType = MealType.values().find { mealType ->
+    private val takenMealType: MealType = MealType.entries.find { mealType ->
         mealType.mean.second == savedStateHandle[Constants.ARG_TAKEN_MEAL_TYPE]
     } ?: MealType.MORNING
 

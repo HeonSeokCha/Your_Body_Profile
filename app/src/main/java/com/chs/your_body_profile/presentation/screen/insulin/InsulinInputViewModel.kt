@@ -38,9 +38,9 @@ class InsulinInputViewModel @Inject constructor(
         viewModelScope.launch {
             upsertInsulinInfoUseCase(
                 InsulinInfo(
+                    injectDateTime = _state.value.injectDateTime,
                     level = _state.value.level,
                     memo = _state.value.memo,
-                    injectDate = LocalDate.now()
                 )
             )
         }

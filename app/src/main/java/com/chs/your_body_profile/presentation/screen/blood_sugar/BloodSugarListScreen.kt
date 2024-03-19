@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.chs.your_body_profile.common.toMillis
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 
@@ -51,7 +53,6 @@ fun BloodSugarListScreen(
                     ItemVerticalChart(pagingItems = pagingItems) {
 
                     }
-
                 }
             }
         }
@@ -63,7 +64,10 @@ fun BloodSugarListScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
         ) {
-
+            navController.navigate(
+                Screens.ScreenBloodSugarInput.route +
+                        "/${state.bloodSugarInfo!!.measureDateTime.toMillis()}"
+            )
         }
     }
 }

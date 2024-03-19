@@ -23,23 +23,9 @@ class BloodSugarInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(BloodSugarInputState())
     val state = _state.asStateFlow()
 
-    fun initMeasureInfo(
-        measureDate: LocalDate,
-        measureTime: LocalDateTime
-    ) {
-        _state.update {
-            it.copy(
-                measureDate = measureDate,
-                measureTime = measureTime
-            )
-        }
-    }
-
     fun updateBloodSugarMeasureTime(localDateTime: LocalDateTime) {
         _state.update {
-            it.copy(
-                measureTime = localDateTime
-            )
+            it.copy(measureDateTime = localDateTime)
         }
     }
 
@@ -71,8 +57,7 @@ class BloodSugarInputViewModel @Inject constructor(
         viewModelScope.launch {
             upsertBloodSugarInfoUseCase(
                 BloodSugarInfo(
-                    measureDate = state.value.measureDate,
-                    measureTime = state.value.measureTime,
+                    measureDateTime = state.value.measureDateTime,
                     measureType = state.value.measureType!!,
                     number = state.value.level,
                     memo = state.value.memo

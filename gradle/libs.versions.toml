@@ -1,5 +1,5 @@
 [versions]
-androidStudioGradlePlugin = "8.3.0"
+androidStudioGradlePlugin = "8.3.1"
 
 compileSdkVersion = "34"
 desugar_jdk_libs = "2.0.4"

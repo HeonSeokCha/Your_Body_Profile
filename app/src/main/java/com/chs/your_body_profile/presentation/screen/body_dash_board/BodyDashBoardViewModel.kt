@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
+import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
+import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
@@ -27,6 +29,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,7 +48,7 @@ class BodyDashBoardViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        val todayLocalDate: LocalDate = LocalDate.now()
+        val todayLocalDate: LocalDateTime = LocalDateTime.now()
     }
 
     private val _bloodPressureInfo = getDayLastBloodPressureInfoUseCase(todayLocalDate)
@@ -89,13 +92,13 @@ class BodyDashBoardViewModel @Inject constructor(
         _dayTotalCalorie,
         _weightInfo
     ) { list ->
-        (list[0] as BodyDashBoardState).run {
+        list[0].run {
             this.copy(
                 bloodPressureInfo = (list[1] as BloodPressureInfo?),
                 bloodSugarInfo = (list[2] as BloodSugarInfo?),
                 insulinInfo = (list[3] as InsulinInfo?),
-                drinkCoffeeInfo = (list[4] as DrinkType.DrinkCoffeeInfo?),
-                drinkWaterInfo = (list[5] as DrinkType.DrinkWaterInfo?),
+                drinkCoffeeInfo = (list[4] as DrinkCoffeeInfo?),
+                drinkWaterInfo = (list[5] as DrinkWaterInfo?),
                 hemoglobinA1cInfo = (list[6] as HemoglobinA1cInfo?),
                 medicineInfo = (list[7] as MedicineInfo?),
                 totalCalorie = (list[8] as Int),
@@ -109,8 +112,8 @@ class BodyDashBoardViewModel @Inject constructor(
             upsertDrinkCoffeeInfoUseCase(
                 _state.value.drinkCoffeeInfo?.copy(
                     totalCups = totalCups
-                ) ?: DrinkType.DrinkCoffeeInfo(
-                    takenDate = todayLocalDate,
+                ) ?: DrinkCoffeeInfo(
+                    takenDateTime = todayLocalDate,
                     totalCups = totalCups
                 )
             )
@@ -122,8 +125,8 @@ class BodyDashBoardViewModel @Inject constructor(
             upsertDrinkWaterInfoUseCase(
                 _state.value.drinkWaterInfo?.copy(
                     totalCups = totalCups
-                ) ?: DrinkType.DrinkWaterInfo(
-                    takenDate = todayLocalDate,
+                ) ?: DrinkWaterInfo(
+                    takenDateTime = todayLocalDate,
                     totalCups = totalCups
                 )
             )
