@@ -13,6 +13,7 @@ import com.chs.your_body_profile.domain.repository.BloodSugarRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class BloodSugarRepositoryImpl @Inject constructor(
@@ -38,8 +39,8 @@ class BloodSugarRepositoryImpl @Inject constructor(
         bloodSugarDao.delete(info.toBloodSugarInfoEntity())
     }
 
-    override suspend fun getDayLastInfo(localDate: LocalDate): BloodSugarInfo? {
-        return bloodSugarDao.getDayLastInfo(localDate.toMillis())?.toBloodSugarInfo()
+    override fun getDayLastInfo(time: LocalDateTime): Flow<BloodSugarInfo?> {
+        return bloodSugarDao.getDayLastInfo(time.toMillis()).map { it?.toBloodSugarInfo() }
     }
 
     override suspend fun getDayInfoList(localDate: LocalDate): List<BloodSugarInfo> {

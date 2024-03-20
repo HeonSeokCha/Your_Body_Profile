@@ -13,14 +13,15 @@ import com.chs.your_body_profile.domain.repository.MedicineRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class MedicineRepositoryImpl @Inject constructor(
     private val medicineDao: MedicineDao
 ) : MedicineRepository {
 
-    override suspend fun getDayLastInfo(localDate: LocalDate): MedicineInfo? {
-        return medicineDao.getDayLastInfo(localDate.toMillis())?.toMedicineInfo()
+    override fun getDayLastInfo(time: LocalDateTime): Flow<MedicineInfo?> {
+        return medicineDao.getDayLastInfo(time.toMillis()).map { it?.toMedicineInfo() }
     }
 
     override suspend fun getDayInfoList(localDate: LocalDate): List<MedicineInfo> {

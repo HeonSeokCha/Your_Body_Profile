@@ -16,7 +16,7 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
          ORDER BY measureDateTime DESC
          LIMIT 1
     """)
-    abstract suspend fun getDayLastInfo(time: Long): BloodPressureInfoEntity?
+    abstract fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
 
     @Query("""
         SELECT * 

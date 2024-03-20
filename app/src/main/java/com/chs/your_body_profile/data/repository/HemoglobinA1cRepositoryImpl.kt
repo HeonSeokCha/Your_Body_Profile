@@ -14,14 +14,17 @@ import com.chs.your_body_profile.domain.repository.HemoglobinA1cRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class HemoglobinA1cRepositoryImpl @Inject constructor(
     private val hemoglobinA1cDao: HemoglobinA1cDao
 ) : HemoglobinA1cRepository {
 
-    override suspend fun getDayInfo(localDate: LocalDate): HemoglobinA1cInfo? {
-        return hemoglobinA1cDao.getDayLastInfo(localDate.toMillis())?.toHemoglobinA1cInfo()
+    override fun getDayInfo(time: LocalDateTime): Flow<HemoglobinA1cInfo?> {
+        return hemoglobinA1cDao.getDayLastInfo(time.toMillis()).map {
+            it?.toHemoglobinA1cInfo()
+        }
     }
 
     override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {

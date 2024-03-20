@@ -13,6 +13,7 @@ import com.chs.your_body_profile.domain.repository.BloodPressureRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class BloodPressureRepositoryImpl @Inject constructor(
@@ -47,8 +48,8 @@ class BloodPressureRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override suspend fun getDayLastInfo(localDate: LocalDate): BloodPressureInfo? {
-        return bloodPressureDao.getDayLastInfo(localDate.toMillis())?.toBloodPressureInfo()
+    override fun getDayLastInfo(time: LocalDateTime): Flow<BloodPressureInfo?> {
+        return bloodPressureDao.getDayLastInfo(time.toMillis()).map { it?.toBloodPressureInfo() }
     }
 
     override suspend fun getDayInfoList(localDate: LocalDate): List<BloodPressureInfo> {

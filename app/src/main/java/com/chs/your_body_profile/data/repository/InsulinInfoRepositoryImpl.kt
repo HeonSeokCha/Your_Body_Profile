@@ -11,15 +11,17 @@ import com.chs.your_body_profile.data.source.paging.DayInsulinInfoPaging
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.repository.InsulinRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class InsulinInfoRepositoryImpl @Inject constructor(
     private val insulinDao: InsulinDao
 ) : InsulinRepository {
 
-    override suspend fun getDayInfo(localDate: LocalDate): InsulinInfo? {
-        return insulinDao.getDayInfo(localDate.toMillis())?.toInsulinInfo()
+    override fun getDayLastInfo(time: LocalDateTime): Flow<InsulinInfo?> {
+        return insulinDao.getDayLastInfo(time.toMillis()).map { it?.toInsulinInfo() }
     }
 
     override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {

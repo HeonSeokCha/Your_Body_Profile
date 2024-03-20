@@ -14,7 +14,7 @@ abstract class MedicineDao : BaseDao<MedicineInfoEntity> {
          WHERE DATE(takenDateTime / 1000, 'unixepoch', 'localtime') =  DATE(:time / 1000, 'unixepoch', 'localtime')
          ORDER BY takenDateTime DESC LIMIT 1
     """)
-    abstract suspend fun getDayLastInfo(time: Long): MedicineInfoEntity?
+    abstract fun getDayLastInfo(time: Long): Flow<MedicineInfoEntity?>
 
     @Query("""
         SELECT * 

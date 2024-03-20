@@ -15,7 +15,9 @@ import com.chs.your_body_profile.domain.model.DrinkInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.repository.DrinkRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class DrinkRepositoryImpl @Inject constructor(
@@ -58,17 +60,17 @@ class DrinkRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override suspend fun getDayCoffeeInfo(localDate: LocalDate): DrinkCoffeeInfo? {
+    override fun getDayCoffeeInfo(time: LocalDateTime): Flow<DrinkCoffeeInfo?> {
         return drinkDao.getDayLastDrinkInfo(
-            time = localDate.toMillis(),
+            time = time.toMillis(),
             drinkType = Constants.DRINK_TYPE_COFFEE
-        )?.toDrinkCoffeeInfo()
+        ).map { it?.toDrinkCoffeeInfo() }
     }
 
-    override suspend fun getDayWaterInfo(localDate: LocalDate): DrinkWaterInfo? {
+    override fun getDayWaterInfo(time: LocalDateTime): Flow<DrinkWaterInfo?> {
         return drinkDao.getDayLastDrinkInfo(
-            time = localDate.toMillis(),
+            time = time.toMillis(),
             drinkType = Constants.DRINK_TYPE_WATER
-        )?.toDrinkWaterInfo()
+        ).map { it?.toDrinkWaterInfo() }
     }
 }

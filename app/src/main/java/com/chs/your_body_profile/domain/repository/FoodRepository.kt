@@ -6,6 +6,7 @@ import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface FoodRepository {
 

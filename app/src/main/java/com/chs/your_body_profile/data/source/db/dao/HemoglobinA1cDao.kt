@@ -15,7 +15,7 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
          "ORDER BY measureDateTime DESC " +
          "LIMIT 1"
     )
-    abstract suspend fun getDayLastInfo(time: Long): HemoglobinA1cInfoEntity?
+    abstract fun getDayLastInfo(time: Long): Flow<HemoglobinA1cInfoEntity?>
 
     @Query(
         "SELECT * " +

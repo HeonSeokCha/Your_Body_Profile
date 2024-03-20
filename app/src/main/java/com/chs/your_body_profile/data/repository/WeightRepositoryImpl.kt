@@ -11,15 +11,17 @@ import com.chs.your_body_profile.data.source.paging.DayWeightPaging
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.repository.WeightRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class WeightRepositoryImpl @Inject constructor(
     private val weightInfoDao: WeightInfoDao
 ) : WeightRepository {
 
-    override suspend fun getDayLastInfo(localDate: LocalDate): WeightInfo? {
-        return weightInfoDao.getDayLastInfo(localDate.toMillis())?.toWeightInfo()
+    override fun getDayLastInfo(time: LocalDateTime): Flow<WeightInfo?> {
+        return weightInfoDao.getDayLastInfo(time.toMillis()).map { it?.toWeightInfo() }
     }
 
     override suspend fun getDayInfoList(localDate: LocalDate): List<WeightInfo> {

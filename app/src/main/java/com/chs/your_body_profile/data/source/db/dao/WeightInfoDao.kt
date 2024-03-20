@@ -15,7 +15,7 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
          WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') =  DATE(:time / 1000, 'unixepoch', 'localtime')
          ORDER BY measureDateTime DESC LIMIT 1
     """)
-    abstract suspend fun getDayLastInfo(time: Long): WeightInfoEntity?
+    abstract fun getDayLastInfo(time: Long): Flow<WeightInfoEntity?>
 
     @Query("""
         SELECT * 

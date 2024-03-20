@@ -4,15 +4,25 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.chs.your_body_profile.data.source.db.entity.FoodInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.MealHistoryEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class MealHistoryDao : BaseDao<MealHistoryEntity> {
 
     @Query(
+        "SELECT food.* " +
+          "FROM meal_history as mealHistory " +
+         "INNER JOIN food_info as food ON food.foodCode = mealHistory.foodCode " +
+         "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
+         "ORDER BY mealHistory.insertTime DESC LIMIT 1"
+    )
+    abstract fun getDayLastInfo(targetDate: Long): Flow<FoodInfoEntity?>
+
+    @Query(
         "SELECT * " +
           "FROM meal_history as mealHistory " +
          "INNER JOIN food_info as foodInfo ON foodInfo.foodCode = mealHistory.foodCode " +
-         "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') =  DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
+         "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
          "ORDER BY mealHistory.insertTime, mealHistory.takenMealType "
     )
     abstract suspend fun getDayMealHistoryFoodInfo(

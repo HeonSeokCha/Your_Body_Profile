@@ -20,7 +20,9 @@ import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
