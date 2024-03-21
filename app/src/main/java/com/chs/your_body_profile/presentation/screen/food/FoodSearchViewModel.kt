@@ -65,12 +65,10 @@ class FoodSearchViewModel @Inject constructor(
 
     fun getRecentFoodSearchHistory() {
         viewModelScope.launch {
-            getRecentFoodSearchHistoryUseCase().collect { searchHistory ->
-                _state.update {
-                    it.copy(
-                        searchHistory = searchHistory
-                    )
-                }
+            _state.update {
+                it.copy(
+                    searchHistory = getRecentFoodSearchHistoryUseCase()
+                )
             }
         }
     }

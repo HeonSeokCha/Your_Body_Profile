@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +25,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
                     number = state.value.number,
                     memo = state.value.memo,
                     measureHospital = state.value.measureHospital ?: "",
-                    measureDate = LocalDate.now()
+                    measureDate = LocalDateTime.now()
                 )
             )
         }

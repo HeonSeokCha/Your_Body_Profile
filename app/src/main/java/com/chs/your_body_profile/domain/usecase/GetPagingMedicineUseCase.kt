@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetPagingMedicineUseCase @Inject constructor(
-    private val repository: MedicineRepository
-) {
-   operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>> {
-       return repository.getDayPagingList()
-   }
-}
+//class GetPagingMedicineUseCase @Inject constructor(
+//    private val repository: MedicineRepository
+//) {
+//   operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<MedicineInfo>>>> {
+//       return repository.get()
+//   }
+//}

@@ -14,6 +14,6 @@ fun ItemBloodPressureInfo(
     ItemDetailInfo(
         title = "${bloodPressureInfo.systolic}/${bloodPressureInfo.diastolic}",
         measureUnit = stringResource(id = R.string.text_blood_sugar_unit),
-        subTitle = bloodPressureInfo.measureTime.format(Constants.DATE_TIME_FORMATTER)
+        subTitle = bloodPressureInfo.measureDateTime.format(Constants.DATE_TIME_FORMATTER)
     ) { }
 }

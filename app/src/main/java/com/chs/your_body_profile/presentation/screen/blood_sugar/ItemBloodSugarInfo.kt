@@ -17,7 +17,7 @@ fun ItemBloodSugarInfo(
     ItemDetailInfo(
         title = bloodSugarInfo.number.toString(),
         measureUnit = stringResource(id = R.string.text_blood_sugar_unit),
-        subTitle = bloodSugarInfo.measureTime.format(Constants.DATE_TIME_FORMATTER)
+        subTitle = bloodSugarInfo.measureDateTime.format(Constants.DATE_TIME_FORMATTER)
     ) {
         Icon(imageVector = Icons.Filled.WbSunny, contentDescription = null)
     }
