@@ -33,10 +33,7 @@ class DayFoodTotalCaloriePaging(
                 .toList()
                 .reversed()
                 .map {
-                    it to mealHistoryDao.getDayMealHistoryFoodInfo(it.toMillis()).values.sumOf {
-                        it.map { it.calorie }
-                            .average().roundToInt()
-                    }
+                    it to mealHistoryDao.getDayTotalCalorie(it.toMillis()).roundToInt()
                 }
         }
 

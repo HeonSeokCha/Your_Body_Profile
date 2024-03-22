@@ -7,5 +7,6 @@ import java.time.LocalDate
 
 data class MealListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, Int>>>? = null,
-    val selectInfo: MealHistoryInfo? = null
+    val selectDate: LocalDate = LocalDate.now(),
+    val dayTakenList: List<MealHistoryInfo> = listOf()
 )

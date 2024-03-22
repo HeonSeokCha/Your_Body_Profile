@@ -12,8 +12,6 @@ interface FoodRepository {
 
     suspend fun insertSearchHistory(query: String)
 
-    suspend fun upsertFoodDetailInfo(foodInfoList: List<FoodDetailInfo>)
-
     suspend fun upsertTakenMealInfo(info: MealHistoryInfo)
 
     suspend fun deleteTakenMealInfo(info: List<MealHistoryInfo>)
@@ -24,11 +22,9 @@ interface FoodRepository {
 
     suspend fun getRecentTakenFoods(): List<FoodDetailInfo>
 
-    suspend fun getDayTotalCalories(localDate: LocalDate): Int
+    fun getDayTakenList(takenDate: LocalDate): Flow<List<MealHistoryInfo>>
 
-    suspend fun getDayTakenList(
-        takenDate: LocalDate
-    ): List<MealHistoryInfo>
+    fun getDayLastTakenFood(takenDate: LocalDate): Flow<FoodDetailInfo?>
 
     suspend fun getDayMealTypeList(
         takenDate: LocalDate,

@@ -2,12 +2,13 @@ package com.chs.your_body_profile.domain.usecase
 
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.repository.FoodRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UpsertFoodDetailInfoUseCase @Inject constructor(
+class GetDayLastTakenFoodInfoUseCase @Inject constructor(
     private val repository: FoodRepository
 ) {
-    suspend operator fun invoke(foodInfoList: List<FoodDetailInfo>) {
-        repository.upsertFoodDetailInfo(foodInfoList)
+    operator fun invoke(): Flow<FoodDetailInfo?> {
+        return repository.get
     }
 }

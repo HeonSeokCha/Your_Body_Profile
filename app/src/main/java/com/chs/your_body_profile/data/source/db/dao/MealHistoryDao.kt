@@ -19,15 +19,26 @@ abstract class MealHistoryDao : BaseDao<MealHistoryEntity> {
     abstract fun getDayLastInfo(targetDate: Long): Flow<FoodInfoEntity?>
 
     @Query(
+        "SELECT SUM(foodInfo.calorie) " +
+          "FROM meal_history as mealHistory " +
+         "INNER JOIN food_info as foodInfo ON foodInfo.foodCode = mealHistory.foodCode " +
+         "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
+         "ORDER BY mealHistory.insertTime, mealHistory.takenMealType "
+    )
+    abstract suspend fun getDayTotalCalorie(
+        targetDate: Long
+    ): Float
+
+    @Query(
         "SELECT * " +
           "FROM meal_history as mealHistory " +
          "INNER JOIN food_info as foodInfo ON foodInfo.foodCode = mealHistory.foodCode " +
          "WHERE DATE(mealHistory.insertTime / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
          "ORDER BY mealHistory.insertTime, mealHistory.takenMealType "
     )
-    abstract suspend fun getDayMealHistoryFoodInfo(
+    abstract fun getDayMealHistoryFoodInfo(
         targetDate: Long
-    ): Map<MealHistoryEntity, List<FoodInfoEntity>>
+    ): Flow<Map<MealHistoryEntity, List<FoodInfoEntity>>>
 
     @Query(
         "SELECT * " +

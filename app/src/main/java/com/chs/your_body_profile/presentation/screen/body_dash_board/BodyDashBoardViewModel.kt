@@ -18,7 +18,6 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCa
 import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayTotalCalorieUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertDrinkCoffeeInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertDrinkWaterInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +27,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -42,7 +40,6 @@ class BodyDashBoardViewModel @Inject constructor(
     getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
     getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
     getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
-    getDayTotalCalorieUseCase: GetDayTotalCalorieUseCase,
     private val upsertDrinkWaterInfoUseCase: UpsertDrinkWaterInfoUseCase,
     private val upsertDrinkCoffeeInfoUseCase: UpsertDrinkCoffeeInfoUseCase
 ) : ViewModel() {

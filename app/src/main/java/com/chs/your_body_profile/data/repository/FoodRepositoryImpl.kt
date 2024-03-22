@@ -33,16 +33,6 @@ class FoodRepositoryImpl @Inject constructor(
     private val foodService: FoodService
 ) : FoodRepository {
 
-    override suspend fun upsertFoodDetailInfo(
-        foodInfoList: List<FoodDetailInfo>
-    ) {
-        foodDao.upsert(
-            *foodInfoList.map {
-                it.toFoodInfoEntity()
-            }.toTypedArray()
-        )
-    }
-
     override suspend fun upsertTakenMealInfo(info: MealHistoryInfo) {
         mealHistoryDao.upsert(
             *info.foodList.map {
@@ -51,6 +41,12 @@ class FoodRepositoryImpl @Inject constructor(
                     foodCode = it.code,
                     takenMealType = info.mealType.mean.first
                 )
+            }.toTypedArray()
+        )
+
+        foodDao.upsert(
+            *info.foodList.map {
+                it.toFoodInfoEntity()
             }.toTypedArray()
         )
     }
@@ -79,22 +75,24 @@ class FoodRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override suspend fun getDayTotalCalories(localDate: LocalDate): Int {
-        return mealHistoryDao.getDayMealHistoryFoodInfo(localDate.toMillis()).map {
-            it.value.sumOf { it.calorie.roundToInt() }
-        }.sum()
+    override fun getDayTakenList(
+        takenDate: LocalDate
+    ): Flow<List<MealHistoryInfo>> {
+        return mealHistoryDao.getDayMealHistoryFoodInfo(targetDate = takenDate.toMillis()).map {
+            it.map {
+                val mealHistoryInfo = it.key
+                MealHistoryInfo(
+                    takenDateTime = mealHistoryInfo.insertTime.toLocalDateTime(),
+                    foodList = it.value.map { it.toFoodDetailInfo() },
+                    mealType = MealType.entries.find { it.mean.first == mealHistoryInfo.takenMealType } ?: MealType.MORNING
+                )
+            }
+        }
     }
 
-    override suspend fun getDayTakenList(
-        takenDate: LocalDate
-    ): List<MealHistoryInfo> {
-        return mealHistoryDao.getDayMealHistoryFoodInfo(targetDate = takenDate.toMillis()).map {
-            val mealHistoryInfo = it.key
-            MealHistoryInfo(
-                takenDateTime = mealHistoryInfo.insertTime.toLocalDateTime(),
-                foodList = it.value.map { it.toFoodDetailInfo() },
-                mealType = MealType.entries.find { it.mean.first == mealHistoryInfo.takenMealType } ?: MealType.MORNING
-            )
+    override fun getDayLastTakenFood(takenDate: LocalDate): Flow<FoodDetailInfo?> {
+        return mealHistoryDao.getDayLastInfo(takenDate.toMillis()).map {
+            it?.toFoodDetailInfo()
         }
     }
 

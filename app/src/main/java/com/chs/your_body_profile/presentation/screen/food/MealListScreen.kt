@@ -67,9 +67,9 @@ fun MealListScreen(
     if (isShowMealTypeDialog) {
         ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
             isShowMealTypeDialog = false
-            navController.navigate(
-                "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectInfo!!.takenDateTime.toMillis()}"
-            )
+//            navController.navigate(
+//                "${Screens.ScreenFoodSearch.route}/$it?takenDate=${state.selectInfo!!.takenDateTime.toMillis()}"
+//            )
         }
     }
 
@@ -77,6 +77,9 @@ fun MealListScreen(
         viewModel.getPagingTotalCalories()
     }
 
+    LaunchedEffect(state.selectDate) {
+        viewModel.getDayTakenList()
+    }
 
     Box(
         modifier = Modifier
@@ -97,15 +100,18 @@ fun MealListScreen(
 
                 item {
                     ItemVerticalChart(pagingItems) {
-
+                        viewModel.updateSelectDate(it)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
                         text = "${
-                            state.dayTakenMealList.map { it.value.map { it.calorie }.sum() }.sum()
-                                .toInt()
+                            state.dayTakenList.sumOf {
+                                it.foodList.sumOf {
+                                    it.calorie.roundToInt() 
+                                }
+                            }
                         } kcal",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
@@ -115,9 +121,9 @@ fun MealListScreen(
 
                 }
 
-                items(state.dayTakenMealList.size) {
-                    val key = state.dayTakenMealList.keys.toList()[it]
-                    val values = state.dayTakenMealList.values.toList()[it]
+                items(state.dayTakenList.size) {
+                    val key = state.dayTakenList[it]
+                    val values = state.dayTakenList[it].foodList
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -135,7 +141,7 @@ fun MealListScreen(
                                     } else {
                                         navController.navigate(
                                             "${Screens.ScreenMealHistoryInput.route}" +
-                                                    "/${key.takenDate.toMillis()}" +
+                                                    "/${key.takenDateTime.toMillis()}" +
                                                     "/${key.mealType.mean.second}"
                                         )
                                     }
@@ -186,7 +192,7 @@ fun MealListScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                if (state.dayTakenMealList.isNotEmpty()) {
+                if (state.dayTakenList.isNotEmpty()) {
                     item {
                         Column(
                             modifier = Modifier
@@ -194,25 +200,23 @@ fun MealListScreen(
                         ) {
                             Text(
                                 text = "탄수화물 : (${
-                                    state.dayTakenMealList.map {
-                                        it.value.map { it.carbohydrate }.sum()
+                                    state.dayTakenList.sumOf {
+                                        it.foodList.sumOf { it.carbohydrate.roundToInt() }
                                     }
-                                        .sum()
-                                        .toDecimalPlace()
                                 }) g"
                             )
                             Text(
                                 text = "지방 : (${
-                                    state.dayTakenMealList.map { it.value.map { it.fat }.sum() }
-                                        .sum()
-                                        .toDecimalPlace()
+                                    state.dayTakenList.sumOf {
+                                        it.foodList.sumOf { it.fat.roundToInt() }
+                                    }
                                 }) g"
                             )
                             Text(
                                 text = "단백질 : (${
-                                    state.dayTakenMealList.map { it.value.map { it.protein }.sum() }
-                                        .sum()
-                                        .toDecimalPlace()
+                                    state.dayTakenList.sumOf {
+                                        it.foodList.sumOf { it.protein.roundToInt() }
+                                    }
                                 }) g"
                             )
                         }
