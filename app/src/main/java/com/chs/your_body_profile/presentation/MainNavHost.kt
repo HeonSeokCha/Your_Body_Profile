@@ -149,7 +149,6 @@ fun MainNavHost(navController: NavHostController) {
             }.distinct()
 
             MealHistoryInputScreen(
-                foodList = foodList,
                 navController = navController,
             )
         }

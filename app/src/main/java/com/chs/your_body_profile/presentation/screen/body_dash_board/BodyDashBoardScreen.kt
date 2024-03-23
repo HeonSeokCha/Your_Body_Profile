@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.presentation.Screens
@@ -87,7 +88,7 @@ fun BodyDashBoardScreen(
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {
-            val todayTotalCalorie: Int = state.totalCalorie
+            val todayTotalCalorie: FoodDetailInfo? = state.takenFoodInfo
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_title_food),
                 infoValue = todayTotalCalorie.toString(),

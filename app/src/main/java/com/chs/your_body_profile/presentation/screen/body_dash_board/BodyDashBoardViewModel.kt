@@ -6,6 +6,7 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
@@ -17,6 +18,7 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkWaterInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetDayLastTakenFoodInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertDrinkCoffeeInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertDrinkWaterInfoUseCase
@@ -40,6 +42,7 @@ class BodyDashBoardViewModel @Inject constructor(
     getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
     getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
     getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
+    getDayLastTakenFoodInfoUseCase: GetDayLastTakenFoodInfoUseCase,
     private val upsertDrinkWaterInfoUseCase: UpsertDrinkWaterInfoUseCase,
     private val upsertDrinkCoffeeInfoUseCase: UpsertDrinkCoffeeInfoUseCase
 ) : ViewModel() {
@@ -69,8 +72,8 @@ class BodyDashBoardViewModel @Inject constructor(
     private val _medicineInfo = getDayLastMedicineInfoUseCase(todayLocalDate)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    private val _dayTotalCalorie = getDayTotalCalorieUseCase(todayLocalDate)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
+    private val _foodInfo = getDayLastTakenFoodInfoUseCase(todayLocalDate)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     private val _weightInfo = getDayLastWeightInfoUseCase(todayLocalDate)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
@@ -86,10 +89,10 @@ class BodyDashBoardViewModel @Inject constructor(
         _drinkWaterInfo,
         _hemoglobinA1cInfo,
         _medicineInfo,
-        _dayTotalCalorie,
+        _foodInfo,
         _weightInfo
     ) { list ->
-        list[0].run {
+        (list[0] as BodyDashBoardState).run {
             this.copy(
                 bloodPressureInfo = (list[1] as BloodPressureInfo?),
                 bloodSugarInfo = (list[2] as BloodSugarInfo?),
@@ -98,7 +101,7 @@ class BodyDashBoardViewModel @Inject constructor(
                 drinkWaterInfo = (list[5] as DrinkWaterInfo?),
                 hemoglobinA1cInfo = (list[6] as HemoglobinA1cInfo?),
                 medicineInfo = (list[7] as MedicineInfo?),
-                totalCalorie = (list[8] as Int),
+                takenFoodInfo = (list[8] as FoodDetailInfo?),
                 weightInfo = (list[9] as WeightInfo?)
             )
         }

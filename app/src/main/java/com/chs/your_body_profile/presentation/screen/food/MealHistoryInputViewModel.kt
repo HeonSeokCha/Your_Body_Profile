@@ -33,16 +33,14 @@ class MealHistoryInputViewModel @Inject constructor(
         mealType.mean.second == savedStateHandle[Constants.ARG_TAKEN_MEAL_TYPE]
     } ?: MealType.MORNING
 
-    fun initMealHistoryInfo() {
+    fun initMealHistoryInfo(
+        mealHistoryInfo: MealHistoryInfo
+    ) {
         viewModelScope.launch {
-            val a = getDayMealTypeListUseCase(
-                takenDate = takenDate,
-                mealType = takenMealType
-            )
             _state.update {
                 it.copy(
-                    takenDateTime = a.takenDateTime,
-                    takenFoodList = a.foodList,
+                    takenDateTime = mealHistoryInfo.takenDateTime,
+                    takenFoodList = mealHistoryInfo.foodList,
                 )
             }
         }

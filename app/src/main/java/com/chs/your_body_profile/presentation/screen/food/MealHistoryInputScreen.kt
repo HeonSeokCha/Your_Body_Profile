@@ -32,6 +32,7 @@ import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toJsonStringEncode
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
@@ -40,7 +41,7 @@ import java.time.LocalDate
 
 @Composable
 fun MealHistoryInputScreen(
-    foodList: List<FoodDetailInfo>,
+    mealHistoryInfo: MealHistoryInfo,
     navController: NavHostController,
     viewModel: MealHistoryInputViewModel = hiltViewModel()
 ) {
@@ -48,9 +49,7 @@ fun MealHistoryInputScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(context, viewModel) {
-        viewModel.initMealHistoryInfo(
-            foodList = foodList
-        )
+        viewModel.initMealHistoryInfo(mealHistoryInfo)
     }
 
     Box(

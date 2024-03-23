@@ -90,7 +90,7 @@ class FoodRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getDayLastTakenFood(takenDate: LocalDate): Flow<FoodDetailInfo?> {
+    override fun getDayLastTakenFood(takenDate: LocalDateTime): Flow<FoodDetailInfo?> {
         return mealHistoryDao.getDayLastInfo(takenDate.toMillis()).map {
             it?.toFoodDetailInfo()
         }
