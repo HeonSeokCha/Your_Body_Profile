@@ -28,7 +28,6 @@ import java.time.LocalDate
 
 @Composable
 fun BloodSugarInputScreen(
-    measureDate: LocalDate,
     navController: NavHostController,
     viewModel: BloodSugarInputViewModel = hiltViewModel()
 ) {

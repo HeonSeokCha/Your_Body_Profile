@@ -37,7 +37,7 @@ fun BodyDashBoardScreen(
     if (isShowMealTypeDialog) {
         ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
             isShowMealTypeDialog = false
-            navController.navigate("${Screens.ScreenFoodSearch.route}/$it")
+            navController.navigate(Screens.ScreenFoodSearch())
         }
     }
 

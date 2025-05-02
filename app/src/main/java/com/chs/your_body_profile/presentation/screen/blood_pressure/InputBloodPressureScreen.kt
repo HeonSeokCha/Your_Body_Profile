@@ -28,7 +28,6 @@ import java.time.LocalDate
 
 @Composable
 fun BloodPressureInputScreen(
-    measureDate: LocalDate,
     navController: NavHostController,
     viewModel: BloodPressureInputViewModel = hiltViewModel()
 ) {

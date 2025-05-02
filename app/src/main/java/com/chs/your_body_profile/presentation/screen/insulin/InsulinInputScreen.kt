@@ -25,7 +25,6 @@ import java.time.LocalDate
 
 @Composable
 fun InsulinInputScreen(
-    measureDate: LocalDate,
     navController: NavHostController,
     viewModel: InsulinInputViewModel = hiltViewModel()
 ) {

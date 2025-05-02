@@ -1,37 +1,37 @@
 [versions]
-androidStudioGradlePlugin = "8.3.1"
+androidStudioGradlePlugin = "8.6.1"
 
-compileSdkVersion = "34"
-desugar_jdk_libs = "2.0.4"
-kotlinGradlePlugin = "1.9.22"
+compileSdkVersion = "35"
+desugar_jdk_libs = "2.1.5"
+kotlinGradlePlugin = "2.1.20"
 minSdkVersion = "29"
 targetSdkVersion = "33"
 versionCode = "1"
 versionName = "1.0"
 
-activity = "1.8.2"
-compose-ui = "1.6.3"
+activity = "1.10.1"
+compose-ui = "1.8.0"
 composeCompiler = "1.5.10"
-lifecycle = "2.7.0"
-room = "2.6.1"
-coil = "2.4.0"
-hilt = "2.49"
-kotlin = "1.9.22"
-ksp = "1.9.22-1.0.17"
-kotlin-coroutine = "1.7.3"
-ktor = "2.3.7"
-paging = "3.2.1"
+lifecycle = "2.8.7"
+room = "2.7.1"
+coil = "2.7.0"
+hilt = "2.56.2"
+kotlin = "2.0.21"
+ksp = "2.1.20-2.0.0"
+kotlin-coroutine = "1.9.0"
+ktor = "3.1.2"
+paging = "3.3.6"
 
 [libraries]
 ## AndroidX
-androidX-core-ktx = "androidx.core:core-ktx:1.12.0"
+androidX-core-ktx = "androidx.core:core-ktx:1.16.0"
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity"}
 androidX-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
 androidX-compose-material-icon-extend = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-ui"}
-androidX-compose-material3 = "androidx.compose.material3:material3:1.2.1"
+androidX-compose-material3 = "androidx.compose.material3:material3:1.3.2"
 androidX-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui" }
 androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
-androidX-navigation-compose = "androidx.navigation:navigation-compose:2.7.7"
+androidX-navigation-compose = "androidx.navigation:navigation-compose:2.8.9"
 androidX-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle"}
 androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
 androidX-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
@@ -76,16 +76,8 @@ ktor = [
 android = [
     "androidX-core-ktx",
     "androidX-activity-compose",
-]
-
-room = [
-    "androidX-room-runtime",
-    "androidX-room-ktx",
-]
-
-compose = [
+    "androidX-navigation-compose",
     "androidX-compose-ui",
-    "androidX-activity-compose",
     "androidX-compose-material-icon-extend",
     "androidX-compose-material3",
     "androidX-compose-ui-tooling-preview",
@@ -93,6 +85,11 @@ compose = [
     "androidX-lifecycle-viewmodel-compose",
     "androidX-lifecycle-runtime-compose",
     "androidX-paging-compose"
+]
+
+room = [
+    "androidX-room-runtime",
+    "androidX-room-ktx",
 ]
 
 hilt = [
@@ -103,8 +100,8 @@ hilt = [
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidStudioGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidStudioGradlePlugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
