@@ -108,11 +108,11 @@ fun MealHistoryInputScreen(
                                        ?.savedStateHandle?.set(Constants.TEMP_FOOD_LIST,
                                            state.takenFoodList.toJsonStringEncode()
                                        )
-                                       this.navigate(
-                                           Screens.ScreenFoodSearch.route +
-                                                   "/${state.mealType.mean.second}" +
-                                                   "?takenDate=${state.takenDateTime.toMillis()}"
-                                       )
+//                                       this.navigate(
+//                                           Screens.ScreenFoodSearch.route +
+//                                                   "/${state.mealType.mean.second}" +
+//                                                   "?takenDate=${state.takenDateTime.toMillis()}"
+//                                       )
                                    }
                                 },
                             verticalArrangement = Arrangement.Center

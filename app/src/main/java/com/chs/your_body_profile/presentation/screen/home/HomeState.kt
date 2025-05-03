@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.screen.body_dash_board
+package com.chs.your_body_profile.presentation.screen.home
 
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
@@ -10,7 +10,7 @@ import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 
-data class BodyDashBoardState(
+data class HomeState(
     val bloodPressureInfo: BloodPressureInfo? = null,
     val bloodSugarInfo: BloodSugarInfo? = null,
     val drinkWaterInfo: DrinkWaterInfo? = null,

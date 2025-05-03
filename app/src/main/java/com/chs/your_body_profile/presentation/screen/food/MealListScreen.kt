@@ -139,11 +139,11 @@ fun MealListScreen(
                                             removeMealInfoList.add(key)
                                         }
                                     } else {
-                                        navController.navigate(
-                                            "${Screens.ScreenMealHistoryInput.route}" +
-                                                    "/${key.takenDateTime.toMillis()}" +
-                                                    "/${key.mealType.mean.second}"
-                                        )
+//                                        navController.navigate(
+//                                            "${Screens.ScreenMealHistoryInput.route}" +
+//                                                    "/${key.takenDateTime.toMillis()}" +
+//                                                    "/${key.mealType.mean.second}"
+//                                        )
                                     }
                                 }
                             )

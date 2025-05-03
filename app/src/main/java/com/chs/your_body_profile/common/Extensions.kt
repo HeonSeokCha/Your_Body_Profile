@@ -12,6 +12,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.util.stream.Collectors
 
 fun LocalDateTime.toMillis(): Long {
     return this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -53,4 +54,10 @@ fun String.toDecodeFoodList(): List<FoodDetailInfo> {
     return Json.decodeFromString<List<ResponseFoodDetailInfo>>(this).map {
         it.toFoodDetailInfo()
     }
+}
+
+fun LocalDate.reverseDateUntil(targetDate: LocalDate): List<LocalDate> {
+    return this.datesUntil(targetDate.plusDays(1L))
+        .collect(Collectors.toList())
+        .reversed()
 }

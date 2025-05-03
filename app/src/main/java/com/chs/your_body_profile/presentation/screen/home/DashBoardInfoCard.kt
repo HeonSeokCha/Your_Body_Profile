@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.screen.body_dash_board
+package com.chs.your_body_profile.presentation.screen.home
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,9 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowCircleDown
+import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -37,8 +40,6 @@ import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.ui.theme.Your_Body_ProfileTheme
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashBoardSmallCard(
     cardHeight: Int = R.dimen.size_dash_board_small_height,
@@ -65,7 +66,11 @@ fun DashBoardSmallCard(
                 ),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = title)
+            Text(
+                text = title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -195,7 +200,6 @@ fun FoodInfoDashBoard(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashBoardSingleLineCard(
     title: String,
@@ -272,7 +276,7 @@ fun DashBoardInputCard(
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewHomeBasicInfoCard() {
     Your_Body_ProfileTheme {
@@ -339,12 +343,31 @@ fun PreviewHomeBasicInfoCard() {
             }
             item(span = StaggeredGridItemSpan.FullLine) {
                 DashBoardInputCard(
-                    title = "혈당",
-                    infoValue = "--",
-                    infoUnit = "mg/dL",
-                    onClick = {},
-                    btnClick = {}
+                    title = stringResource(id = R.string.text_insulin),
+                    infoValue = "0",
+                    infoUnit = stringResource(id = R.string.text_insulin_unit),
+                    onClick = {
+
+                    },
+                    btnClick = {
+
+                    }
                 )
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                DashBoardInputCard(
+                    title = stringResource(id = R.string.text_blood_pressure),
+                    infoValue = "0/0",
+                    infoUnit = stringResource(id = R.string.text_blood_pressure_unit),
+                    onClick = {
+
+                    },
+                    btnClick = {
+
+                    }
+                )
+
             }
         }
     }

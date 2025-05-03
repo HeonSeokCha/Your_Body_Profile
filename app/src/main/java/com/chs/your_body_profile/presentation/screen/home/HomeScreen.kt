@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.screen.body_dash_board
+package com.chs.your_body_profile.presentation.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,17 +27,41 @@ import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
 
 @Composable
-fun BodyDashBoardScreen(
-    navController: NavHostController,
-    viewModel: BodyDashBoardViewModel = hiltViewModel()
+fun HomeScreenRoot(
+    viewModel: HomeViewModel,
+    onNavigate: (Screens) -> Unit
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle(initialValue = BodyDashBoardState())
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    HomeScreen(state) { event ->
+        when(event) {
+            HomeEvent.Click.BloodPressure -> TODO()
+            HomeEvent.Click.BloodSugar -> TODO()
+            HomeEvent.Click.Coffee -> TODO()
+            HomeEvent.Click.Food -> TODO()
+            HomeEvent.Click.HemoglobinA1c -> TODO()
+            HomeEvent.Click.Insulin -> TODO()
+            HomeEvent.Click.Medicine -> TODO()
+            HomeEvent.Click.Water -> TODO()
+            HomeEvent.Click.Weight -> TODO()
+
+            else -> viewModel.changeEvent(event)
+        }
+    }
+}
+
+@Composable
+fun HomeScreen(
+    state: HomeState,
+    onEvent: (HomeEvent) -> Unit
+) {
     var isShowMealTypeDialog by remember { mutableStateOf(false) }
 
     if (isShowMealTypeDialog) {
-        ItemMealTypeAlertDialog(onDisMiss = { isShowMealTypeDialog = it }) {
+        ItemMealTypeAlertDialog(
+            onDisMiss = { isShowMealTypeDialog = it }
+        ) {
             isShowMealTypeDialog = false
-            navController.navigate(Screens.ScreenFoodSearch())
         }
     }
 
@@ -67,9 +91,8 @@ fun BodyDashBoardScreen(
                 title = stringResource(id = R.string.text_title_drink_water),
                 value = state.drinkWaterInfo?.totalCups ?: 0,
                 drinkEventClick = { totalCups ->
-                    viewModel.updateDrinkWaterInfo(totalCups)
+                    onEvent(HomeEvent.Update.Water(totalCups))
                 }, cardClick = {
-
                 }
             )
         }
@@ -79,10 +102,9 @@ fun BodyDashBoardScreen(
                 title = stringResource(id = R.string.text_title_drink_coffee),
                 value = state.drinkCoffeeInfo?.totalCups ?: 0,
                 drinkEventClick = { totalCups ->
-                    viewModel.updateDrinkCoffeeInfo(totalCups)
+                    onEvent(HomeEvent.Update.Coffee(totalCups))
                 },
                 cardClick = {
-
                 }
             )
         }
@@ -91,10 +113,9 @@ fun BodyDashBoardScreen(
             val todayTotalCalorie: FoodDetailInfo? = state.takenFoodInfo
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_title_food),
-                infoValue = todayTotalCalorie.toString(),
+                infoValue = (todayTotalCalorie ?: 0).toString(),
                 infoUnit = stringResource(id = R.string.text_food_unit),
                 onClick = {
-                    navController.navigate(Screens.ScreenMealList.route)
                 },
                 btnClick = { isShowMealTypeDialog = true }
             )
@@ -106,10 +127,10 @@ fun BodyDashBoardScreen(
                 infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
                 onClick = {
-                          
+
                 },
                 btnClick = {
-                    navController.navigate(Screens.ScreenBloodSugarInput.route)
+
                 }
             )
         }
@@ -120,10 +141,10 @@ fun BodyDashBoardScreen(
                 infoValue = "${state.insulinInfo?.level ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_insulin_unit),
                 onClick = {
-                          
+
                 },
                 btnClick = {
-                    navController.navigate(Screens.ScreenInsulinInput.route)
+
                 }
             )
         }
@@ -142,7 +163,7 @@ fun BodyDashBoardScreen(
 
                 },
                 btnClick = {
-                    navController.navigate(Screens.ScreenBloodPressureInput.route)
+
                 }
             )
         }
@@ -155,7 +176,7 @@ fun BodyDashBoardScreen(
 
                 },
                 btnClick = {
-                    navController.navigate(Screens.ScreenHemoglobinA1cInput.route)
+
                 }
             )
         }

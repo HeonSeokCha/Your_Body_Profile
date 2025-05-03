@@ -51,7 +51,6 @@ fun ItemSmallInput(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemSmallInputText(
     onChangedText: (String) -> Unit
@@ -67,7 +66,7 @@ fun ItemSmallInputText(
                     color = Color.Gray
                 )
             },
-            colors = TextFieldDefaults.textFieldColors(
+            colors = TextFieldDefaults.colors(
                 cursorColor = Color.Black,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent

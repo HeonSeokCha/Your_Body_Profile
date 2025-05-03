@@ -57,17 +57,17 @@ fun BloodSugarListScreen(
             }
         }
 
-        ItemInputButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .align(Alignment.BottomCenter)
-                .background(MaterialTheme.colorScheme.primary),
-        ) {
-            navController.navigate(
-                Screens.ScreenBloodSugarInput.route +
-                        "/${state.bloodSugarInfo!!.measureDateTime.toMillis()}"
-            )
-        }
+//        ItemInputButton(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(56.dp)
+//                .align(Alignment.BottomCenter)
+//                .background(MaterialTheme.colorScheme.primary),
+//        ) {
+//            navController.navigate(
+//                Screens.ScreenBloodSugarInput.route +
+//                        "/${state.bloodSugarInfo!!.measureDateTime.toMillis()}"
+//            )
+//        }
     }
 }

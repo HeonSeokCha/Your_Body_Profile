@@ -284,34 +284,34 @@ fun FoodSearchScreen(
                 }
             }
 
-            if (state.selectFoodList.isNotEmpty()) {
-                ItemInputButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(MaterialTheme.colorScheme.primary),
-                ) {
-                    val prevRoute = previousBackStackEntry?.destination?.route
-                    if (prevRoute != "meal_history_input_screen/{${Constants.ARG_TAKEN_DATE}}/{${Constants.ARG_TAKEN_MEAL_TYPE}}?foodList={foodList}") {
-                        navController.popBackStack()
-                        navController.navigate(
-                            "${Screens.ScreenMealHistoryInput.route}" +
-                                    "/${state.takenDate}" +
-                                    "/${state.mealType}" +
-                                    "?foodList=${state.selectFoodList.toJsonStringEncode()}"
-                        )
-                    } else {
-                        previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
-                            previousBackStackEntry.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)
-                                ?.toDecodeFoodList()?.toMutableList().apply {
-                                    this?.addAll(state.selectFoodList)
-                                }
-                                ?.toJsonStringEncode() ?: state.selectFoodList.toJsonStringEncode()
-                        navController.popBackStack()
-                    }
-                }
-            }
+//            if (state.selectFoodList.isNotEmpty()) {
+//                ItemInputButton(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(56.dp)
+//                        .align(Alignment.BottomCenter)
+//                        .background(MaterialTheme.colorScheme.primary),
+//                ) {
+//                    val prevRoute = previousBackStackEntry?.destination?.route
+//                    if (prevRoute != "meal_history_input_screen/{${Constants.ARG_TAKEN_DATE}}/{${Constants.ARG_TAKEN_MEAL_TYPE}}?foodList={foodList}") {
+//                        navController.popBackStack()
+//                        navController.navigate(
+//                            "${Screens.ScreenMealHistoryInput.route}" +
+//                                    "/${state.takenDate}" +
+//                                    "/${state.mealType}" +
+//                                    "?foodList=${state.selectFoodList.toJsonStringEncode()}"
+//                        )
+//                    } else {
+//                        previousBackStackEntry.savedStateHandle[Constants.TEMP_FOOD_LIST] =
+//                            previousBackStackEntry.savedStateHandle.get<String>(Constants.TEMP_FOOD_LIST)
+//                                ?.toDecodeFoodList()?.toMutableList().apply {
+//                                    this?.addAll(state.selectFoodList)
+//                                }
+//                                ?.toJsonStringEncode() ?: state.selectFoodList.toJsonStringEncode()
+//                        navController.popBackStack()
+//                    }
+//                }
+//            }
         }
     }
 }

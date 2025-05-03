@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.mapper
 
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toLocalDateTime
 import com.chs.your_body_profile.common.toLocalDateToMillis
 import com.chs.your_body_profile.common.toMillis
@@ -60,14 +61,14 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
 
 fun DrinkInfoEntity.toDrinkWaterInfo(): DrinkWaterInfo {
     return DrinkWaterInfo(
-        takenDateTime = takenDate.toLocalDateTime(),
+        takenDateTime = takenDate.toLocalDate(),
         totalCups = this.totalCups
     )
 }
 
 fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkCoffeeInfo {
     return DrinkCoffeeInfo(
-        takenDateTime = takenDate.toLocalDateTime(),
+        takenDateTime = takenDate.toLocalDate(),
         totalCups = this.totalCups
     )
 }
