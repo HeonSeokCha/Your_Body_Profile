@@ -136,20 +136,6 @@ fun HomeScreen(
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {
-            DashBoardInputCard(
-                title = stringResource(id = R.string.text_insulin),
-                infoValue = "${state.insulinInfo?.level ?: stringResource(id = R.string.text_default_measure_zero)}",
-                infoUnit = stringResource(id = R.string.text_insulin_unit),
-                onClick = {
-
-                },
-                btnClick = {
-
-                }
-            )
-        }
-
-        item(span = StaggeredGridItemSpan.FullLine) {
             val todayBloodPressureInfo: BloodPressureInfo? = state.bloodPressureInfo
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_blood_pressure),

@@ -11,24 +11,25 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM drink_info " +
-         "WHERE DATE(takenDate / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
+         "WHERE takenDate = :targetDate " +
            "AND drinkType = :drinkType "
     )
     abstract fun getDayLastDrinkInfo(
         drinkType: String,
-        time: Long
+        targetDate: Long
     ): Flow<DrinkInfoEntity?>
 
 
     @Query(
         "SELECT * " +
           "FROM drink_info " +
-         "WHERE DATE(takenDate / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
-           "AND drinkType = :drinkType "
+         "WHERE takenDate BETWEEN :beginDate AND :endDate " +
+           "AND drinkType = :drinkType " +
+         "ORDER BY takenDate DESC "
     )
     abstract suspend fun getDayDrinkInfoList(
-        time: Long,
+        beginDate: Long,
+        endDate: Long,
         drinkType: String,
     ): List<DrinkInfoEntity>
-
 }

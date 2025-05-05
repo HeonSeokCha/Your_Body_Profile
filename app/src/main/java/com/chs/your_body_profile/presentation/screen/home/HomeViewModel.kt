@@ -8,7 +8,6 @@ import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
-import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodPressureInfoUseCase
@@ -16,7 +15,6 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastBloodSugarInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkCoffeeInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkWaterInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastTakenFoodInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
@@ -41,7 +39,6 @@ class HomeViewModel @Inject constructor(
     private val getDayLastDrinkCoffeeInfoUseCase: GetDayLastDrinkCoffeeInfoUseCase,
     private val getDayLastDrinkWaterInfoUseCase: GetDayLastDrinkWaterInfoUseCase,
     private val getDayLastMedicineInfoUseCase: GetDayLastMedicineInfoUseCase,
-    private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
     private val getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
     private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
     private val getDayLastTakenFoodInfoUseCase: GetDayLastTakenFoodInfoUseCase,
@@ -65,7 +62,6 @@ class HomeViewModel @Inject constructor(
         combine(
             getDayLastBloodPressureInfoUseCase(currentDate),
             getDayLastBloodSugarInfoUseCase(currentDate),
-            getDayLastInsulinInfoUseCase(currentDate),
             getDayLastDrinkCoffeeInfoUseCase(currentDate),
             getDayLastDrinkWaterInfoUseCase(currentDate),
             getDayLastHemoglobinA1cInfoUseCase(currentDate),
@@ -77,7 +73,6 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     bloodPressureInfo = (list[0] as BloodPressureInfo?),
                     bloodSugarInfo = (list[1] as BloodSugarInfo?),
-                    insulinInfo = (list[2] as InsulinInfo?),
                     drinkCoffeeInfo = (list[3] as DrinkCoffeeInfo?),
                     drinkWaterInfo = (list[4] as DrinkWaterInfo?),
                     hemoglobinA1cInfo = (list[5] as HemoglobinA1cInfo?),
@@ -88,7 +83,7 @@ class HomeViewModel @Inject constructor(
             }
         }.stateIn(
             viewModelScope,
-            SharingStarted.Eagerly,
+            SharingStarted.WhileSubscribed(5000L),
             HomeState()
         )
     }

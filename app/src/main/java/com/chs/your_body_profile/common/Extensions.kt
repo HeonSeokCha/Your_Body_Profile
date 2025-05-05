@@ -56,8 +56,7 @@ fun String.toDecodeFoodList(): List<FoodDetailInfo> {
     }
 }
 
-fun LocalDate.reverseDateUntil(targetDate: LocalDate): List<LocalDate> {
+fun LocalDate.dateUntilToList(targetDate: LocalDate): List<LocalDate> {
     return this.datesUntil(targetDate.plusDays(1L))
         .collect(Collectors.toList())
-        .reversed()
 }

@@ -10,7 +10,7 @@ fun ItemMealTypeAlertDialog(
 ) {
     ItemVerticalListAlertDialog(
         title = "식사종류",
-        items = MealType.values().map { it.mean.second },
+        items = MealType.entries.map { it.mean.second },
         onDisMiss = { onDisMiss(it) }
     ) {
         onClick(it)

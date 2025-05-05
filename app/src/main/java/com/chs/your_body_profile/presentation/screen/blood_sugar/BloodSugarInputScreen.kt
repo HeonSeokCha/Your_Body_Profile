@@ -12,8 +12,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -24,13 +26,23 @@ import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalList
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
+import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
 import java.time.LocalDate
 
 @Composable
-fun BloodSugarInputScreen(
-    navController: NavHostController,
-    viewModel: BloodSugarInputViewModel = hiltViewModel()
+fun BloodSugarInputScreenRoot(
+    viewModel: BloodSugarInputViewModel,
+    onBack: () -> Unit
 ) {
+
+}
+
+@Composable
+fun BloodSugarInputScreen(
+    state: BloodSugarInputState,
+    onEvent: (BloodSugarInputEvent) -> Unit
+) {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,10 +57,10 @@ fun BloodSugarInputScreen(
                     top = 16.dp,
                     bottom = 68.dp
                 ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ItemCurrentDateTime {
-                viewModel.updateBloodSugarMeasureTime(it)
+//                viewModel.updateBloodSugarMeasureTime(it)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -57,9 +69,9 @@ fun BloodSugarInputScreen(
                 title = "혈당 (mg/dL)",
                 items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it },
                 startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
-                onBack = { navController.popBackStack() },
+                onBack = {  },
                 onSelectItemValue = { number ->
-                viewModel.updateBloodSugarNumber(number)
+//                viewModel.updateBloodSugarNumber(number)
                 }
             )
 
@@ -67,17 +79,17 @@ fun BloodSugarInputScreen(
 
             ItemMeasureTypeHorizontalList(
                 title = "현재 상태 선택",
-                items = MeasureType.values().map { it.mean.second }
+                items = Constants.bloodSugarMeasureList
             ) { value ->
-                viewModel.updateBloodSugarMeasureType(
-                    MeasureType.values().find { it.mean.second == value } ?: MeasureType.EMPTY
-                )
+//                viewModel.updateBloodSugarMeasureType(
+                    MeasureType.entries.find { it.mean.second == value } ?: MeasureType.EMPTY
+//                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             ItemSmallInputText(onChangedText = {
-                viewModel.updateBloodSugarMemo(it)
+//                viewModel.updateBloodSugarMemo(it)
             })
         }
 
@@ -88,12 +100,20 @@ fun BloodSugarInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-                viewModel.insertBloodSugarInfo()
-                navController.popBackStack()
+//                viewModel.insertBloodSugarInfo()
             },
             onDismiss = {
-                navController.popBackStack()
             }
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBloodSugarInputScreen() {
+    YourBodyProfileTheme {
+        BloodSugarInputScreen(BloodSugarInputState()) {
+
+        }
     }
 }

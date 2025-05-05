@@ -9,39 +9,51 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
+import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputViewModel
+import com.chs.your_body_profile.presentation.screen.drink.DrinkListScreen
+import com.chs.your_body_profile.presentation.screen.drink.DrinkListScreenRoot
+import com.chs.your_body_profile.presentation.screen.drink.DrinkViewModel
 import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
 import com.chs.your_body_profile.presentation.screen.home.HomeScreenRoot
 import com.chs.your_body_profile.presentation.screen.home.HomeViewModel
-import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreen
 
 @Composable
 fun MainNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screens.ScreenBodyDash
+        startDestination = Screens.Home
     ) {
-        composable<Screens.ScreenBodyDash> {
+        composable<Screens.Home> {
             val viewModel: HomeViewModel = hiltViewModel()
             HomeScreenRoot(viewModel) {
                 navController.navigate(it)
             }
         }
 
-        composable<Screens.ScreenBloodSugarInput> {
-            val arg = it.toRoute<Screens.ScreenBloodSugarInput>()
+        composable<Screens.DrinkList> {
+            val viewModel: DrinkViewModel = hiltViewModel()
+            DrinkListScreenRoot(viewModel) {
+
+            }
+        }
+
+        composable<Screens.BloodSugarInput> {
+            val arg = it.toRoute<Screens.BloodSugarInput>()
             val parentEntry = remember(it) {
                 navController.getBackStackEntry(arg)
             }
+            val viewModel: BloodSugarInputViewModel = hiltViewModel(parentEntry)
 
-            BloodSugarInputScreen(
-                navController = navController
-            )
+            BloodSugarInputScreenRoot(viewModel) {
+
+            }
         }
 
-        composable<Screens.ScreenBloodPressureInput> {
-            val arg = it.toRoute<Screens.ScreenBloodPressureInput>()
+        composable<Screens.BloodPressureInput> {
+            val arg = it.toRoute<Screens.BloodPressureInput>()
             val parentEntry = remember(it) {
                 navController.getBackStackEntry(arg)
             }
@@ -50,18 +62,8 @@ fun MainNavHost(navController: NavHostController) {
             )
         }
 
-        composable<Screens.ScreenInsulinInput> {
-            val arg = it.toRoute<Screens.ScreenInsulinInput>()
-            val parentEntry = remember(it) {
-                navController.getBackStackEntry(arg)
-            }
-            InsulinInputScreen(
-                navController = navController
-            )
-        }
-
-        composable<Screens.ScreenHemoglobinA1cInput> {
-            val arg = it.toRoute<Screens.ScreenHemoglobinA1cInput>()
+        composable<Screens.HemoglobinA1cInput> {
+            val arg = it.toRoute<Screens.HemoglobinA1cInput>()
             val parentEntry = remember(it) {
                 navController.getBackStackEntry(arg)
             }
@@ -70,15 +72,15 @@ fun MainNavHost(navController: NavHostController) {
             )
         }
 
-        composable<Screens.ScreenMedicineInput> {
-            val arg = it.toRoute<Screens.ScreenMedicineInput>()
+        composable<Screens.MedicineInput> {
+            val arg = it.toRoute<Screens.MedicineInput>()
             val parentEntry = remember(it) {
                 navController.getBackStackEntry(arg)
             }
             MealListScreen(navController)
         }
 
-        composable<Screens.ScreenFoodDetail> {
+        composable<Screens.FoodDetail> {
             FoodDetailScreen(navController)
         }
     }

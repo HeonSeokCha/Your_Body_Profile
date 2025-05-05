@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.R
-import com.chs.your_body_profile.presentation.ui.theme.Your_Body_ProfileTheme
+import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
 
 @Composable
 fun DashBoardSmallCard(
@@ -279,7 +279,7 @@ fun DashBoardInputCard(
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeBasicInfoCard() {
-    Your_Body_ProfileTheme {
+    YourBodyProfileTheme {
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
             contentPadding = PaddingValues(
