@@ -12,7 +12,7 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     @Query("""
         SELECT * 
           FROM blood_pressure_info
-         WHERE DATE(measureDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime')
+         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime')
          ORDER BY measureDateTime DESC
          LIMIT 1
     """)
@@ -21,7 +21,7 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     @Query("""
         SELECT * 
           FROM blood_pressure_info
-         WHERE DATE(measureDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime')
+         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime')
          ORDER BY measureDateTime DESC
     """)
     abstract suspend fun getDayInfoList(time: Long): List<BloodPressureInfoEntity>

@@ -64,13 +64,17 @@ class DrinkRepositoryImpl @Inject constructor(
         return drinkDao.getDayLastDrinkInfo(
             targetDate = time.toMillis(),
             drinkType = Constants.DRINK_TYPE_COFFEE
-        ).map { it?.toDrinkCoffeeInfo() }
+        ).map {
+            it?.toDrinkCoffeeInfo()
+        }
     }
 
     override fun getDayWaterInfo(time: LocalDateTime): Flow<DrinkWaterInfo?> {
         return drinkDao.getDayLastDrinkInfo(
             targetDate = time.toMillis(),
             drinkType = Constants.DRINK_TYPE_WATER
-        ).map { it?.toDrinkWaterInfo() }
+        ).map {
+            it?.toDrinkWaterInfo()
+        }
     }
 }

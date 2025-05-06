@@ -8,12 +8,16 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +54,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Picker(
     items: List<Int>,
@@ -111,7 +114,7 @@ fun Picker(
         }
     })
 
-    Box {
+    Box(modifier = modifier) {
         if (editEnabled) {
             PickerTextField(
                 modifier = modifier
@@ -130,17 +133,14 @@ fun Picker(
             }
         } else {
             LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(itemHeightDp * 3)
+                    .fadingEdge(fadingEdgeGradient),
                 state = listState,
                 flingBehavior = flingBehavior,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .height((itemHeightDp + 16.dp) * 3)
-                    .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-                    .drawWithContent {
-                        drawContent()
-                        drawRect(brush = fadingEdgeGradient, blendMode = BlendMode.DstIn)
-                    },
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(listScrollCount) { idx ->
                     Text(
@@ -151,15 +151,27 @@ fun Picker(
                         modifier = Modifier
                             .onSizeChanged { size -> itemHeightPixels.intValue = size.height }
                             .then(textModifier)
-                            .clickable {
-                                onChangeEdit()
-                            }
                     )
                 }
             }
+
+            HorizontalDivider(
+                modifier = Modifier.offset(y = (itemHeightDp * visibleItemsMiddle))
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.offset(y = (itemHeightDp * (visibleItemsMiddle + 1)) + 4.dp)
+            )
         }
     }
 }
+
+private fun Modifier.fadingEdge(brush: Brush) = this
+    .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+    .drawWithContent {
+        drawContent()
+        drawRect(brush = brush, blendMode = BlendMode.DstIn)
+    }
 
 @Composable
 fun PickerTextField(

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
+import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputViewModel
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputViewModel
@@ -17,6 +18,7 @@ import com.chs.your_body_profile.presentation.screen.drink.DrinkViewModel
 import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputViewModel
 import com.chs.your_body_profile.presentation.screen.home.HomeScreenRoot
 import com.chs.your_body_profile.presentation.screen.home.HomeViewModel
 
@@ -41,42 +43,28 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.BloodSugarInput> {
-            val arg = it.toRoute<Screens.BloodSugarInput>()
-            val parentEntry = remember(it) {
-                navController.getBackStackEntry(arg)
-            }
-            val viewModel: BloodSugarInputViewModel = hiltViewModel(parentEntry)
-
+            val viewModel: BloodSugarInputViewModel = hiltViewModel()
             BloodSugarInputScreenRoot(viewModel) {
 
             }
         }
 
         composable<Screens.BloodPressureInput> {
-            val arg = it.toRoute<Screens.BloodPressureInput>()
-            val parentEntry = remember(it) {
-                navController.getBackStackEntry(arg)
-            }
+            val viewModel: BloodPressureInputViewModel = hiltViewModel()
             BloodPressureInputScreen(
                 navController = navController
             )
         }
 
         composable<Screens.HemoglobinA1cInput> {
-            val arg = it.toRoute<Screens.HemoglobinA1cInput>()
-            val parentEntry = remember(it) {
-                navController.getBackStackEntry(arg)
-            }
+            val viewModel: HemoglobinA1cInputViewModel = hiltViewModel()
             HemoglobinA1cInputScreen(
                 navController = navController
             )
         }
 
         composable<Screens.MedicineInput> {
-            val arg = it.toRoute<Screens.MedicineInput>()
-            val parentEntry = remember(it) {
-                navController.getBackStackEntry(arg)
-            }
+
             MealListScreen(navController)
         }
 

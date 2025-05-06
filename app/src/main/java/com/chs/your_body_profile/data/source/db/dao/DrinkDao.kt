@@ -11,8 +11,8 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM drink_info " +
-         "WHERE takenDate = :targetDate " +
-           "AND drinkType = :drinkType "
+         "WHERE DATE(takenDate / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
+           "AND drinkType = :drinkType LIMIT 1"
     )
     abstract fun getDayLastDrinkInfo(
         drinkType: String,

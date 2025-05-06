@@ -13,11 +13,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.MeasureType
@@ -34,7 +36,9 @@ fun BloodSugarInputScreenRoot(
     viewModel: BloodSugarInputViewModel,
     onBack: () -> Unit
 ) {
-
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    BloodSugarInputScreen(state = state) { event ->
+    }
 }
 
 @Composable
@@ -42,7 +46,6 @@ fun BloodSugarInputScreen(
     state: BloodSugarInputState,
     onEvent: (BloodSugarInputEvent) -> Unit
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()

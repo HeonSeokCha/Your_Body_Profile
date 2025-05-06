@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -73,14 +74,13 @@ fun ItemDualNumberPicker(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Picker(
-                modifier = Modifier
-                    .width(50.dp),
                 items = firstItems,
                 startIdx = firstStartIdx,
                 state = firstState,
+                modifier = Modifier.weight(0.5f),
+                textModifier = Modifier.padding(8.dp),
                 onBack = {
                     onBack()
-
                 },
                 onChangeEdit = { editEnabled = !editEnabled },
                 editEnabled = editEnabled
@@ -89,11 +89,11 @@ fun ItemDualNumberPicker(
             Text(modifier = Modifier.width(8.dp), text = ".", fontSize = 24.sp)
 
             Picker(
-                modifier = Modifier
-                    .width(50.dp),
                 items = secondItems,
                 startIdx = secondStartIdx,
                 state = secondState,
+                modifier = Modifier.weight(0.5f),
+                textModifier = Modifier.padding(8.dp),
                 onBack = { onBack() },
                 onChangeEdit = { editEnabled = !editEnabled },
                 editEnabled = editEnabled
@@ -115,7 +115,7 @@ fun CollapsingNumberPicker(
 
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewNumberPicker() {
     Column(modifier = Modifier.fillMaxSize()) {

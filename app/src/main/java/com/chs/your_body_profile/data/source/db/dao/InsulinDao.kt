@@ -10,7 +10,7 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM insulin_info " +
-         "WHERE DATE(injectDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime') " +
+         "WHERE DATE(injectDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
          "LIMIT 1"
     )
     abstract fun getDayLastInfo(time: Long): Flow<InsulinInfoEntity?>
@@ -18,7 +18,7 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
     @Query("""
         SELECT * 
           FROM insulin_info
-         WHERE DATE(injectDateTime / 1000, 'unixepoc', 'localtime') = DATE(:time / 1000, 'unixepoc', 'localtime')
+         WHERE DATE(injectDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime')
          ORDER BY injectDateTime DESC 
     """)
     abstract suspend fun getDayInfoList(time: Long): List<InsulinInfoEntity>

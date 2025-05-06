@@ -1,7 +1,9 @@
 package com.chs.your_body_profile.presentation.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
@@ -73,17 +75,17 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     bloodPressureInfo = (list[0] as BloodPressureInfo?),
                     bloodSugarInfo = (list[1] as BloodSugarInfo?),
-                    drinkCoffeeInfo = (list[3] as DrinkCoffeeInfo?),
-                    drinkWaterInfo = (list[4] as DrinkWaterInfo?),
-                    hemoglobinA1cInfo = (list[5] as HemoglobinA1cInfo?),
-                    medicineInfo = (list[6] as MedicineInfo?),
-                    takenFoodInfo = (list[7] as FoodDetailInfo?),
-                    weightInfo = (list[8] as WeightInfo?)
+                    drinkCoffeeInfo = (list[2] as DrinkCoffeeInfo?),
+                    drinkWaterInfo = (list[3] as DrinkWaterInfo?),
+                    hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
+                    medicineInfo = (list[5] as MedicineInfo?),
+                    takenFoodInfo = (list[6] as FoodDetailInfo?),
+                    weightInfo = (list[7] as WeightInfo?)
                 )
             }
         }.stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000L),
+            SharingStarted.Eagerly,
             HomeState()
         )
     }

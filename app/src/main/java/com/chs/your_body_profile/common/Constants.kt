@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.chs.your_body_profile.BuildConfig
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.domain.model.MeasureType
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -38,6 +39,12 @@ object Constants {
 
     val DATE_DAY_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("d")
 
+    val RANGE_DATE_LIST = LocalDate.now()
+        .dateUntilToList(LocalDate.now().minusYears(5L))
+        .reversed()
+    val RANGE_TIME_MERIDIEM_LIST = listOf("오전", "오후")
+    val RANGE_TIME_HOUR_LIST = 1 .. 12
+    val RANGE_TIME_MIN_LIST = (0 .. 59).map { String.format("%02d", it) }
     val RANGE_BLOOD_SUGAR_NUMBER = 18 .. 400
     val RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER = 81 .. 300
     val RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER = 0 .. 250

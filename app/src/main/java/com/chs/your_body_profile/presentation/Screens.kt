@@ -8,58 +8,35 @@ sealed class Screens {
     data object Home : Screens()
 
     @Serializable
-    data class DrinkList(
-        val drinkType: String,
-        val targetDateMilli: Long
-    ) : Screens()
+    data class DrinkList(val drinkType: String) : Screens()
 
     @Serializable
-    data class BloodSugarInput(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object BloodSugarInput : Screens()
 
     @Serializable
-    data class BloodSugarList(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object BloodSugarList : Screens()
 
     @Serializable
-    data class BloodPressureInput(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object BloodPressureInput : Screens()
 
     @Serializable
-    data class BloodPressureList(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object BloodPressureList : Screens()
 
     @Serializable
-    data class HemoglobinA1cInput(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object HemoglobinA1cInput : Screens()
 
     @Serializable
-    data class MedicineInput(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object MedicineInput : Screens()
 
     @Serializable
-    data class FoodSearch(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object FoodSearch : Screens()
 
     @Serializable
-    data class FoodDetail(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object FoodDetail : Screens()
 
     @Serializable
-    data class MealHistoryInput(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object MealHistoryInput : Screens()
 
     @Serializable
-    data class MealList(
-        val targetDateMilli: Long
-    ) : Screens()
+    data object MealList : Screens()
 }

@@ -19,12 +19,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
+import java.time.LocalDateTime
 
 @Composable
 fun HomeScreenRoot(
@@ -35,15 +37,7 @@ fun HomeScreenRoot(
 
     HomeScreen(state) { event ->
         when(event) {
-            HomeEvent.Click.BloodPressure -> TODO()
-            HomeEvent.Click.BloodSugar -> TODO()
-            HomeEvent.Click.Coffee -> TODO()
-            HomeEvent.Click.Food -> TODO()
-            HomeEvent.Click.HemoglobinA1c -> TODO()
-            HomeEvent.Click.Insulin -> TODO()
-            HomeEvent.Click.Medicine -> TODO()
-            HomeEvent.Click.Water -> TODO()
-            HomeEvent.Click.Weight -> TODO()
+            is HomeEvent.Navigate -> { onNavigate(event.target) }
 
             else -> viewModel.changeEvent(event)
         }
@@ -130,7 +124,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-
+                    onEvent(HomeEvent.Navigate(Screens.BloodSugarInput))
                 }
             )
         }
@@ -149,7 +143,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-
+                    onEvent(HomeEvent.Navigate(Screens.BloodPressureInput))
                 }
             )
         }
@@ -162,7 +156,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-
+                    onEvent(HomeEvent.Navigate(Screens.HemoglobinA1cInput))
                 }
             )
         }
