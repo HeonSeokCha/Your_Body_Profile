@@ -1,8 +1,6 @@
 package com.chs.your_body_profile.presentation.common
 
-import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +14,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -56,10 +53,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Picker(
-    items: List<Int>,
-    state: PickerState = rememberPickerState(),
-    @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier,
+    items: List<String>,
+    state: PickerState = rememberPickerState(),
     startIdx: Int = 0,
     textModifier: Modifier = Modifier,
     editEnabled: Boolean = false,
@@ -144,24 +140,17 @@ fun Picker(
             ) {
                 items(listScrollCount) { idx ->
                     Text(
-                        text = getItem(idx).toString(),
+                        text = getItem(idx),
                         fontSize = 24.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
+                            .clickable { onChangeEdit() }
                             .onSizeChanged { size -> itemHeightPixels.intValue = size.height }
                             .then(textModifier)
                     )
                 }
             }
-
-            HorizontalDivider(
-                modifier = Modifier.offset(y = (itemHeightDp * visibleItemsMiddle))
-            )
-
-            HorizontalDivider(
-                modifier = Modifier.offset(y = (itemHeightDp * (visibleItemsMiddle + 1)) + 4.dp)
-            )
         }
     }
 }
@@ -177,7 +166,7 @@ private fun Modifier.fadingEdge(brush: Brush) = this
 fun PickerTextField(
     modifier: Modifier,
     defaultValue: String,
-    onDone: (Int) -> Unit
+    onDone: (String) -> Unit
 ) {
     var textState by remember {
         mutableStateOf(
@@ -203,7 +192,7 @@ fun PickerTextField(
                 keyboardType = KeyboardType.NumberPassword
             ),
             keyboardActions = KeyboardActions(
-                onDone = { onDone(textState.text.toInt()) }
+                onDone = { onDone(textState.text) }
             ),
             textStyle = LocalTextStyle.current.copy(
                 textAlign = TextAlign.Center,
@@ -221,5 +210,5 @@ fun rememberPickerState() = remember { PickerState() }
 private fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp() }
 
 class PickerState {
-    var selectedItem by mutableIntStateOf(0)
+    var selectedItem by mutableStateOf("")
 }

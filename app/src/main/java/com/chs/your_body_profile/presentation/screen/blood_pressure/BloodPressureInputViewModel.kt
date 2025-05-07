@@ -6,6 +6,7 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.usecase.UpsertBloodPressureInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -18,6 +19,29 @@ class BloodPressureInputViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(BloodPressureInputState())
+    val state = _state.asStateFlow()
+
+    fun changeEvent(event: BloodPressureInputEvent) {
+        when (event) {
+            BloodPressureInputEvent.ChangeShowDateTimePicker -> {
+                _state.update {
+                    it.copy(
+                        isShowDateTimePicker = !it.isShowDateTimePicker
+                    )
+                }
+            }
+
+            is BloodPressureInputEvent.ChangeDateTime -> {
+                _state.update {
+                    it.copy(
+                       measureDateTime = event.dateTime
+                    )
+                }
+            }
+
+            else -> Unit
+        }
+    }
 
     fun initMeasureInfo(
         bloodPressureInfo: BloodPressureInfo

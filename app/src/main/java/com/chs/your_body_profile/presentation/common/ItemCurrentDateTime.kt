@@ -16,16 +16,11 @@ import java.time.LocalDateTime
 
 @Composable
 fun ItemCurrentDateTime(
-    onClick: (LocalDateTime) -> Unit
+    currentDateTime: LocalDateTime,
+    onClick: () -> Unit
 ) {
-    val currentDateTime = remember { LocalDateTime.now() }
-
-    LaunchedEffect(Unit) {
-        onClick(currentDateTime)
-    }
-
     Button(
-        onClick = { }
+        onClick = { onClick() }
     ) {
         Text(
             text = currentDateTime.format(Constants.DATE_TIME_FORMATTER_DETAIL),
@@ -57,7 +52,9 @@ fun ItemTimePicker(
 @Preview(showBackground = true)
 @Composable
 fun PreViewInputBloodSugarScreen() {
-    ItemCurrentDateTime() {
+    ItemCurrentDateTime(
+        currentDateTime = LocalDateTime.now()
+    ) {
 
     }
 }

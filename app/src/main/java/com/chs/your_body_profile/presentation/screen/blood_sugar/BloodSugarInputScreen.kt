@@ -12,15 +12,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
@@ -29,7 +26,6 @@ import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalLi
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.NumberPicker
 import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
-import java.time.LocalDate
 
 @Composable
 fun BloodSugarInputScreenRoot(
@@ -38,6 +34,9 @@ fun BloodSugarInputScreenRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     BloodSugarInputScreen(state = state) { event ->
+        when (event) {
+            BloodSugarInputEvent.OnBack -> onBack()
+        }
     }
 }
 
@@ -62,7 +61,7 @@ fun BloodSugarInputScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ItemCurrentDateTime {
+            ItemCurrentDateTime(state.measureDateTime) {
 //                viewModel.updateBloodSugarMeasureTime(it)
             }
 
@@ -70,9 +69,9 @@ fun BloodSugarInputScreen(
 
             NumberPicker(
                 title = "혈당 (mg/dL)",
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it },
+                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it.toString() },
                 startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
-                onBack = {  },
+                onBack = { onEvent(BloodSugarInputEvent.OnBack) },
                 onSelectItemValue = { number ->
 //                viewModel.updateBloodSugarNumber(number)
                 }
@@ -106,6 +105,7 @@ fun BloodSugarInputScreen(
 //                viewModel.insertBloodSugarInfo()
             },
             onDismiss = {
+                onEvent(BloodSugarInputEvent.OnBack)
             }
         )
     }

@@ -6,6 +6,7 @@ import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.usecase.UpsertHemoglobinA1cInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -16,7 +17,8 @@ class HemoglobinA1cInputViewModel @Inject constructor(
     private val upsertHemoglobinA1cInfoUseCase: UpsertHemoglobinA1cInfoUseCase
 ) : ViewModel() {
 
-    private val state = MutableStateFlow(HemoglobinA1cInputState())
+    private val _state = MutableStateFlow(HemoglobinA1cInputState())
+    val state = _state.asStateFlow()
 
     fun insertHemoglobinA1c() {
         viewModelScope.launch {
@@ -32,7 +34,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
     }
 
     fun updateHemoglobinA1cNumber(number: Float) {
-        state.update {
+        _state.update {
             it.copy(
                 number = number
             )
@@ -40,7 +42,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
     }
 
     fun updateMeasurePlaceInfo(text: String) {
-        state.update {
+        _state.update {
             it.copy(
                 measureHospital = text
             )
@@ -48,7 +50,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
     }
 
     fun updateMemo(text: String) {
-        state.update {
+        _state.update {
             it.copy(
                 memo = text
             )

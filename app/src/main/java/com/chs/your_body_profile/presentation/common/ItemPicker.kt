@@ -21,13 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.chs.your_body_profile.common.Constants
+import java.time.LocalDateTime
 
 @Composable
 fun NumberPicker(
     title: String,
-    items: List<Int>,
+    items: List<String>,
     startIdx: Int,
-    onSelectItemValue: (Int) -> Unit,
+    onSelectItemValue: (String) -> Unit,
     onBack: () -> Unit
 ) {
     val state = rememberPickerState()
@@ -40,9 +42,7 @@ fun NumberPicker(
             items = items,
             startIdx = startIdx,
             state = state,
-            onBack = {
-                onBack()
-            },
+            onBack = { onBack() },
             onChangeEdit = { editEnabled = !editEnabled },
             editEnabled = editEnabled
         )
@@ -54,9 +54,9 @@ fun NumberPicker(
 @Composable
 fun ItemDualNumberPicker(
     title: String,
-    firstItems: List<Int>,
+    firstItems: List<String>,
     firstStartIdx: Int,
-    secondItems: List<Int>,
+    secondItems: List<String>,
     secondStartIdx: Int,
     onSelectItemValue: (Float) -> Unit,
     onBack: () -> Unit
@@ -79,9 +79,7 @@ fun ItemDualNumberPicker(
                 state = firstState,
                 modifier = Modifier.weight(0.5f),
                 textModifier = Modifier.padding(8.dp),
-                onBack = {
-                    onBack()
-                },
+                onBack = { onBack() },
                 onChangeEdit = { editEnabled = !editEnabled },
                 editEnabled = editEnabled
             )
@@ -101,9 +99,65 @@ fun ItemDualNumberPicker(
         }
         Spacer(modifier = Modifier.height(32.dp))
     }
-    onSelectItemValue(
-        (firstState.selectedItem.toFloat() + (secondState.selectedItem.toFloat() / 10f))
-    )
+//    onSelectItemValue(
+//        (firstState.selectedItem.toFloat() + (secondState.selectedItem.toFloat() / 10f))
+//    )
+}
+
+@Composable
+fun ItemDateTimePicker(
+    title: String,
+    currentTime: LocalDateTime,
+    onSelectTime: (LocalDateTime) -> Unit
+) {
+    val dateState = rememberPickerState()
+    val hourState = rememberPickerState()
+    val minState = rememberPickerState()
+
+    ItemTitleCard(title) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Picker(
+                items = Constants.RANGE_DATE_LIST.map { it.format(Constants.DATE_FORMATTER_DETAIL) },
+                startIdx = Constants.RANGE_DATE_LIST.indexOf(currentTime.toLocalDate()),
+                state = dateState,
+                modifier = Modifier.weight(0.5f),
+                textModifier = Modifier.padding(8.dp),
+                onBack = { },
+                onChangeEdit = {  },
+            )
+
+            Picker(
+                items = Constants.RANGE_TIME_HOUR_LIST.map { it.toString() },
+                startIdx = Constants.RANGE_TIME_HOUR_LIST.indexOf(currentTime.hour),
+                state = minState,
+                modifier = Modifier.weight(0.25f),
+                textModifier = Modifier
+                    .padding(8.dp),
+                onBack = { },
+                onChangeEdit = {  },
+            )
+
+            Text(modifier = Modifier.width(8.dp), text = ":", fontSize = 24.sp)
+
+            Picker(
+                items = Constants.RANGE_TIME_MIN_LIST.map { String.format("%02d", it) },
+                startIdx = Constants.RANGE_TIME_MIN_LIST.indexOf(currentTime.minute),
+                state = hourState,
+                modifier = Modifier.weight(0.25f),
+                textModifier = Modifier
+                    .padding(8.dp),
+                onBack = { },
+                onChangeEdit = {  },
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
 }
 
 @Composable
@@ -121,10 +175,19 @@ fun PreviewNumberPicker() {
     Column(modifier = Modifier.fillMaxSize()) {
         NumberPicker(
             title = "혈당 (mg/dL)",
-            items = (40..300).map { it },
+            items = (40..300).map { it.toString() },
             startIdx = 39,
             onSelectItemValue = {},
             onBack = {}
         )
+
+
+        ItemDateTimePicker(
+            title = "",
+            currentTime = LocalDateTime.now()
+        ) {
+
+        }
+
     }
 }
