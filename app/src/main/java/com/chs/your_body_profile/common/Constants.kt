@@ -47,7 +47,7 @@ object Constants {
         .reversed()
 
     val RANGE_TIME_MERIDIEM_LIST = listOf("오전", "오후")
-    val RANGE_TIME_HOUR_LIST = 1 .. 12
+    val RANGE_TIME_HOUR_LIST = 0 .. 23
     val RANGE_TIME_MIN_LIST = (0 .. 59)
     val RANGE_BLOOD_SUGAR_NUMBER = 18 .. 400
     val RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER = 81 .. 300

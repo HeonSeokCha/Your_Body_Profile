@@ -6,4 +6,5 @@ data class InsulinInputState(
     val injectDateTime: LocalDateTime = LocalDateTime.now(),
     val level: Int = 0,
     val memo: String? = null,
+    val isShowDateTimePicker: Boolean = false
 )

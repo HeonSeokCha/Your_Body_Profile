@@ -20,6 +20,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,20 +57,22 @@ fun ItemMeasureTypeHorizontalList(
                     modifier = Modifier
                         .background(
                             if (selectIdx == it) {
-                                Color.Cyan
+                                MaterialTheme.colorScheme.primary
                             } else Color.Transparent
                         )
-                        .clickable { selectIdx = it },
+                        .clickable {
+                            onClick(items[it].first)
+                            selectIdx = it
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    IconButton(onClick = { onClick(items[it].first) }) {
-                        Icon(
-                            imageVector = items[it].second,
-                            modifier = Modifier
-                                .size(48.dp),
-                            contentDescription = null
-                        )
-                    }
+                    Icon(
+                        imageVector = items[it].second,
+                        modifier = Modifier
+                            .size(48.dp),
+                        contentDescription = null
+                    )
+
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(

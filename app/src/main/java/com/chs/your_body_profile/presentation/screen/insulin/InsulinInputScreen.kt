@@ -16,16 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
-import com.chs.your_body_profile.presentation.common.NumberPicker
-import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputEvent
-import java.time.LocalDate
 
 @Composable
 fun InsulinInputScreenRoot(
@@ -35,9 +31,8 @@ fun InsulinInputScreenRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
     InsulinInputScreen(state) { event ->
         when (event) {
-            InsulinInputEvent.OnBack -> {
-                onBack()
-            }
+            InsulinInputEvent.OnBack -> onBack()
+            else -> viewModel.changeEvent(event)
         }
     }
 }
@@ -64,18 +59,20 @@ fun InsulinInputScreen(
             ItemCurrentDateTime(
                 currentDateTime = state.injectDateTime
             ) {
+                onEvent(InsulinInputEvent.ChangeShowDateTimePicker)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            NumberPicker(
+            ItemPicker(
                 title = "인슐린 주입 수치",
-                items = Constants.RANGE_INSULIN_NUMBER.map { it.toString() },
+                items = Constants.RANGE_INSULIN_NUMBER.map { it },
                 startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(15),
                 onBack = {
                     onEvent(InsulinInputEvent.OnBack)
                 },
                 onSelectItemValue = { number ->
+                    onEvent(InsulinInputEvent.OnChangeInsulinLevel(number!!))
                 }
             )
 

@@ -20,7 +20,11 @@ class HemoglobinA1cInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(HemoglobinA1cInputState())
     val state = _state.asStateFlow()
 
-    fun insertHemoglobinA1c() {
+    fun changeEvent(event: HemoglobinA1cInputEvent) {
+
+    }
+
+    private fun insertHemoglobinA1c() {
         viewModelScope.launch {
             upsertHemoglobinA1cInfoUseCase(
                 HemoglobinA1cInfo(
@@ -33,7 +37,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
         }
     }
 
-    fun updateHemoglobinA1cNumber(number: Float) {
+    private fun updateHemoglobinA1cNumber(number: Float) {
         _state.update {
             it.copy(
                 number = number
@@ -41,7 +45,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
         }
     }
 
-    fun updateMeasurePlaceInfo(text: String) {
+    private fun updateMeasurePlaceInfo(text: String) {
         _state.update {
             it.copy(
                 measureHospital = text
@@ -49,7 +53,7 @@ class HemoglobinA1cInputViewModel @Inject constructor(
         }
     }
 
-    fun updateMemo(text: String) {
+    private fun updateMemo(text: String) {
         _state.update {
             it.copy(
                 memo = text

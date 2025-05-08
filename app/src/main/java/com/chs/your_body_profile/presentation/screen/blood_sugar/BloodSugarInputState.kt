@@ -9,4 +9,5 @@ data class BloodSugarInputState(
     val level: Int = 0,
     val measureType: MeasureType? = null,
     val memo: String? = null,
+    val isShowDateTimePicker: Boolean = false
 )

@@ -32,7 +32,8 @@ fun HemoglobinA1cInputScreenRoot(
    val state by viewModel.state.collectAsStateWithLifecycle()
     HemoglobinA1cInputScreen(state) { event ->
         when (event) {
-            HemoglobinA1icInputEvent.OnBack -> onBack()
+            HemoglobinA1cInputEvent.OnBack -> onBack()
+            else -> viewModel.changeEvent(event)
         }
     }
 }
@@ -40,7 +41,7 @@ fun HemoglobinA1cInputScreenRoot(
 @Composable
 fun HemoglobinA1cInputScreen(
     state: HemoglobinA1cInputState,
-    onEvent: (HemoglobinA1icInputEvent) -> Unit
+    onEvent: (HemoglobinA1cInputEvent) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -72,7 +73,7 @@ fun HemoglobinA1cInputScreen(
                 secondStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.indexOf(5),
                 onSelectItemValue = {
                 }, onBack = {
-                    onEvent(HemoglobinA1icInputEvent.OnBack)
+                    onEvent(HemoglobinA1cInputEvent.OnBack)
                 }
             )
 
@@ -91,10 +92,10 @@ fun HemoglobinA1cInputScreen(
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
 //                viewModel.insertHemoglobinA1c()
-                onEvent(HemoglobinA1icInputEvent.OnBack)
+                onEvent(HemoglobinA1cInputEvent.OnBack)
             },
             onDismiss = {
-                onEvent(HemoglobinA1icInputEvent.OnBack)
+                onEvent(HemoglobinA1cInputEvent.OnBack)
             }
         )
     }

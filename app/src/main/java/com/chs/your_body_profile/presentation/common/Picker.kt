@@ -52,10 +52,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Composable
-fun Picker(
+fun <T>Picker(
     modifier: Modifier = Modifier,
-    items: List<String>,
-    state: PickerState = rememberPickerState(),
+    items: List<T>,
+    state: PickerState<T> = rememberPickerState(),
     startIdx: Int = 0,
     textModifier: Modifier = Modifier,
     editEnabled: Boolean = false,
@@ -87,6 +87,10 @@ fun Picker(
     val coroutineScope = rememberCoroutineScope()
     val requestFocus = remember { FocusRequester() }
 
+    LaunchedEffect(true) {
+        state.selectedItem = items[startIdx]
+    }
+
     LaunchedEffect(listState) {
         snapshotFlow {
             listState.firstVisibleItemIndex + visibleItemsMiddle
@@ -116,7 +120,7 @@ fun Picker(
                 modifier = modifier
                     .height((itemHeightDp + 16.dp) * 3)
                     .focusRequester(requestFocus),
-                defaultValue = state.selectedItem.toString()
+                defaultValue = state.selectedItem
             ) { value ->
                 if (items.contains(value)) {
                     coroutineScope.launch {
@@ -140,7 +144,7 @@ fun Picker(
             ) {
                 items(listScrollCount) { idx ->
                     Text(
-                        text = getItem(idx),
+                        text = getItem(idx).toString(),
                         fontSize = 24.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -163,16 +167,16 @@ private fun Modifier.fadingEdge(brush: Brush) = this
     }
 
 @Composable
-fun PickerTextField(
+fun <T>PickerTextField(
     modifier: Modifier,
-    defaultValue: String,
-    onDone: (String) -> Unit
+    defaultValue: T,
+    onDone: (T) -> Unit
 ) {
     var textState by remember {
         mutableStateOf(
             TextFieldValue(
-                text = defaultValue,
-                selection = TextRange(0, defaultValue.length)
+                text = defaultValue.toString(),
+                selection = TextRange(0, defaultValue.toString().length)
             )
         )
     }
@@ -192,7 +196,7 @@ fun PickerTextField(
                 keyboardType = KeyboardType.NumberPassword
             ),
             keyboardActions = KeyboardActions(
-                onDone = { onDone(textState.text) }
+                onDone = { onDone(defaultValue) }
             ),
             textStyle = LocalTextStyle.current.copy(
                 textAlign = TextAlign.Center,
@@ -204,11 +208,11 @@ fun PickerTextField(
 
 
 @Composable
-fun rememberPickerState() = remember { PickerState() }
+fun <T> rememberPickerState() = remember { PickerState<T>() }
 
 @Composable
 private fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp() }
 
-class PickerState {
-    var selectedItem by mutableStateOf("")
+class PickerState<T> {
+    var selectedItem: T? by mutableStateOf(null)
 }

@@ -23,6 +23,10 @@ class BloodSugarInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(BloodSugarInputState())
     val state = _state.asStateFlow()
 
+    fun changeEvent(event: BloodSugarInputEvent) {
+
+    }
+
     fun updateBloodSugarMeasureTime(localDateTime: LocalDateTime) {
         _state.update {
             it.copy(measureDateTime = localDateTime)

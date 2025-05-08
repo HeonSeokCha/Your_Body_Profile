@@ -20,6 +20,10 @@ class InsulinInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(InsulinInputState())
     val state = _state.asStateFlow()
 
+    fun changeEvent(event: InsulinInputEvent) {
+
+    }
+
     fun updateInsulinLevel(level: Int) {
         _state.update {
             it.copy(
