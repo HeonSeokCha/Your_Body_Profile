@@ -35,5 +35,7 @@ fun ItemTitleCard(
         Spacer(modifier = Modifier.height(16.dp))
 
         subComposable()
+
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }

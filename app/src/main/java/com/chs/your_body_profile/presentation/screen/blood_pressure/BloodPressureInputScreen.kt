@@ -23,9 +23,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
-import com.chs.your_body_profile.presentation.common.ItemDateTimePicker
+import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePicker
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
-import com.chs.your_body_profile.presentation.common.ItemPicker
+import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 
 @Composable
@@ -90,9 +90,6 @@ fun BloodPressureInputScreen(
                 title = stringResource(id = R.string.text_input_blood_pressure_systolic),
                 items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it.toString() },
                 startIdx = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.indexOf(90),
-                onBack = {
-                    onEvent(BloodPressureInputEvent.OnBack)
-                },
                 onSelectItemValue = { number ->
                 }
             )
@@ -103,9 +100,6 @@ fun BloodPressureInputScreen(
                 title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
                 items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it.toString() },
                 startIdx = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.indexOf(120),
-                onBack = {
-                    onEvent(BloodPressureInputEvent.OnBack)
-                },
                 onSelectItemValue = { number ->
                 }
             )

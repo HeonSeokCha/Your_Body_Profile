@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
-import com.chs.your_body_profile.presentation.common.ItemPicker
+import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 
 @Composable
@@ -68,9 +68,6 @@ fun InsulinInputScreen(
                 title = "인슐린 주입 수치",
                 items = Constants.RANGE_INSULIN_NUMBER.map { it },
                 startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(15),
-                onBack = {
-                    onEvent(InsulinInputEvent.OnBack)
-                },
                 onSelectItemValue = { number ->
                     onEvent(InsulinInputEvent.OnChangeInsulinLevel(number!!))
                 }

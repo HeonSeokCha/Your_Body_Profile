@@ -23,7 +23,7 @@ import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalList
-import com.chs.your_body_profile.presentation.common.ItemPicker
+import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
 
@@ -72,7 +72,6 @@ fun BloodSugarInputScreen(
                 title = "혈당 (mg/dL)",
                 items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it.toString() },
                 startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
-                onBack = { onEvent(BloodSugarInputEvent.OnBack) },
                 onSelectItemValue = { number ->
 //                viewModel.updateBloodSugarNumber(number)
                 }

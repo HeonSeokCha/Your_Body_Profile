@@ -19,10 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
-import com.chs.your_body_profile.presentation.common.ItemDualNumberPicker
+import com.chs.your_body_profile.presentation.common.picker.ItemDualNumberPicker
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
-import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputEvent
 
 @Composable
 fun HemoglobinA1cInputScreenRoot(
@@ -71,10 +70,7 @@ fun HemoglobinA1cInputScreen(
                 firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(6),
                 secondItems = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.map { it.toString() },
                 secondStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.indexOf(5),
-                onSelectItemValue = {
-                }, onBack = {
-                    onEvent(HemoglobinA1cInputEvent.OnBack)
-                }
+                onSelectItemValue = { }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
