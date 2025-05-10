@@ -1,30 +1,24 @@
 package com.chs.your_body_profile.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreen
-import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputScreenRoot
-import com.chs.your_body_profile.presentation.screen.blood_pressure.BloodPressureInputViewModel
-import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreen
-import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputScreenRoot
-import com.chs.your_body_profile.presentation.screen.blood_sugar.BloodSugarInputViewModel
-import com.chs.your_body_profile.presentation.screen.drink.DrinkListScreen
+import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputViewModel
+import com.chs.your_body_profile.presentation.screen.blood_sugar.input.BloodSugarInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.blood_sugar.input.BloodSugarInputViewModel
 import com.chs.your_body_profile.presentation.screen.drink.DrinkListScreenRoot
 import com.chs.your_body_profile.presentation.screen.drink.DrinkViewModel
 import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
 import com.chs.your_body_profile.presentation.screen.food.MealListScreen
-import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreen
-import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputScreenRoot
-import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.HemoglobinA1cInputViewModel
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.input.HemoglobinA1cInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.input.HemoglobinA1cInputViewModel
 import com.chs.your_body_profile.presentation.screen.home.HomeScreenRoot
 import com.chs.your_body_profile.presentation.screen.home.HomeViewModel
-import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputScreenRoot
-import com.chs.your_body_profile.presentation.screen.insulin.InsulinInputViewModel
+import com.chs.your_body_profile.presentation.screen.insulin.input.InsulinInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.insulin.input.InsulinInputViewModel
 
 @Composable
 fun MainNavHost(navController: NavHostController) {

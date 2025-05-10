@@ -14,28 +14,28 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ItemTitleCard(
-    title: String,
+    title: String? = null,
     subComposable: @Composable () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Text(
-            modifier = Modifier
-                .padding(
-                    top = 8.dp,
-                    start = 8.dp
-                ),
-            text = title,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
+        if (title != null) {
+            Text(
+                modifier = Modifier
+                    .padding(
+                        top = 8.dp,
+                        start = 8.dp
+                    ),
+                text = title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         subComposable()
-
-        Spacer(modifier = Modifier.height(32.dp))
     }
 }
