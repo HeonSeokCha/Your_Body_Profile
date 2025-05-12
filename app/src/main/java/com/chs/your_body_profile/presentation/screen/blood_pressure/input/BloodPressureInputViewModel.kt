@@ -1,13 +1,15 @@
 package com.chs.your_body_profile.presentation.screen.blood_pressure.input
 
-import androidx.compose.ui.util.fastCbrt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.usecase.UpsertBloodPressureInfoUseCase
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -21,32 +23,43 @@ class BloodPressureInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(BloodPressureInputState())
     val state = _state.asStateFlow()
 
-    fun changeEvent(event: BloodPressureInputEvent) {
-        when (event) {
+    private val _effect: Channel<BaseEffect> = Channel()
+    val effect = _effect.receiveAsFlow()
+
+    fun changeIntent(intent: BloodPressureInputEvent) {
+        when (intent) {
             BloodPressureInputEvent.ChangeShowDateTimePicker -> {
                 _state.update {
-                    it.copy(
-                        isShowDateTimePicker = !it.isShowDateTimePicker
+                    it.copy( isShowDateTimePicker = !it.isShowDateTimePicker
                     )
                 }
             }
 
+            is BloodPressureInputEvent.OnChangeMemo -> {
+                updateMemo(intent.memo)
+            }
+
+            is BloodPressureInputEvent.OnChangeSystolic -> {
+                updateSystolicNumber(intent.value)
+            }
+
+            is BloodPressureInputEvent.OnChangeDiastolic -> {
+                updateDiastolicNumber(intent.value)
+            }
+
             is BloodPressureInputEvent.ChangeDateTime -> {
-                _state.update {
-                    it.copy(
-                        measureDateTime = event.dateTime,
-                        isShowDateTimePicker = false
-                    )
-                }
+                updateMeasureTime(intent.dateTime)
+            }
+
+            BloodPressureInputEvent.OnClickSaveButton -> {
+                upsertBloodPressureInfo()
             }
 
             else -> Unit
         }
     }
 
-    fun initMeasureInfo(
-        bloodPressureInfo: BloodPressureInfo
-    ) {
+    private fun initMeasureInfo(bloodPressureInfo: BloodPressureInfo) {
         _state.update {
             it.copy(
                 measureDateTime = bloodPressureInfo.measureDateTime,
@@ -57,7 +70,7 @@ class BloodPressureInputViewModel @Inject constructor(
         }
     }
 
-    fun insertBloodPressureInfo() {
+    private fun upsertBloodPressureInfo() {
         viewModelScope.launch {
             upsertBloodPressureInfoUseCase(
                 BloodPressureInfo(
@@ -67,37 +80,27 @@ class BloodPressureInputViewModel @Inject constructor(
                     memo = _state.value.memo
                 )
             )
+            _effect.send(BaseEffect.OnBack)
         }
     }
 
-    fun updateSystolicNumber(number: Int) {
-        _state.update {
-            it.copy(
-                systolic = number
-            )
-        }
+    private fun updateSystolicNumber(number: Int) {
+        _state.update { it.copy(systolic = number) }
     }
 
-    fun updateDiastolicNumber(number: Int) {
-        _state.update {
-            it.copy(
-                diastolic = number
-            )
-        }
+    private fun updateDiastolicNumber(number: Int) {
+        _state.update { it.copy(diastolic = number) }
     }
 
-    fun updateMemo(text: String) {
-        _state.update {
-            it.copy(
-                memo = text
-            )
-        }
+    private fun updateMemo(text: String) {
+        _state.update { it.copy(memo = text) }
     }
 
-    fun updateMeasureTime(localDateTime: LocalDateTime) {
+    private fun updateMeasureTime(localDateTime: LocalDateTime) {
         _state.update {
             it.copy(
-                measureDateTime = localDateTime
+                measureDateTime = localDateTime,
+                isShowDateTimePicker = false
             )
         }
     }

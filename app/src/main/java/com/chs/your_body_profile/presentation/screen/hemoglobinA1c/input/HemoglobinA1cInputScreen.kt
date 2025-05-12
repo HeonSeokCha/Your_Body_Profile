@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.util.toRange
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
@@ -23,17 +24,29 @@ import com.chs.your_body_profile.presentation.common.picker.ItemDualNumberPicker
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 
 @Composable
 fun HemoglobinA1cInputScreenRoot(
     viewModel: HemoglobinA1cInputViewModel,
     onBack: () -> Unit
 ) {
-   val state by viewModel.state.collectAsStateWithLifecycle()
-    HemoglobinA1cInputScreen(state) { event ->
-        when (event) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle(BaseEffect.Idle)
+
+    when (effect) {
+        BaseEffect.Idle -> Unit
+        BaseEffect.OnBack -> {
+            onBack()
+        }
+
+        is BaseEffect.ShowToast -> Unit
+    }
+
+    HemoglobinA1cInputScreen(state) { intent ->
+        when (intent) {
             HemoglobinA1cInputEvent.OnBack -> onBack()
-            else -> viewModel.changeEvent(event)
+            else -> viewModel.changeIntent(intent)
         }
     }
 }
@@ -47,7 +60,7 @@ fun HemoglobinA1cInputScreen(
         ItemDateTimePickerDialog(
             currentTime = state.measureDateTime,
             onDismiss = { onEvent(HemoglobinA1cInputEvent.ChangeShowDateTimePicker) },
-            onSelectTime = { onEvent(HemoglobinA1cInputEvent.ChangeDateTime(it))}
+            onSelectTime = { onEvent(HemoglobinA1cInputEvent.ChangeDateTime(it)) }
         )
     }
 
@@ -76,18 +89,23 @@ fun HemoglobinA1cInputScreen(
 
             ItemDualNumberPicker(
                 title = "당화혈색소 (%)",
-                firstItems = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.map { it.toString() },
-                firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(6),
-                secondItems = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.map { it.toString() },
+                firstItems = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.map { it },
+                firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(5),
+                secondItems = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.map { it },
                 secondStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.indexOf(5),
-                onSelectItemValue = { }
+                onSelectItemValue = { first, second ->
+                    onEvent(HemoglobinA1cInputEvent.OnChangeHA1cInfo(first.toFloat() + (second * 0.1f)))
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            ItemSmallInputText(onChangedText = {
-//                viewModel.updateMemo(it)
-            })
+            ItemSmallInputText(
+                textState = state.memo,
+                onChangedText = {
+                    onEvent(HemoglobinA1cInputEvent.OnChangeMemo(it))
+                }
+            )
         }
 
         ItemInputBottomMenu(
@@ -97,8 +115,7 @@ fun HemoglobinA1cInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-//                viewModel.insertHemoglobinA1c()
-                onEvent(HemoglobinA1cInputEvent.OnBack)
+                onEvent(HemoglobinA1cInputEvent.OnClickSaveButton)
             },
             onDismiss = {
                 onEvent(HemoglobinA1cInputEvent.OnBack)

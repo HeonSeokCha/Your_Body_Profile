@@ -54,19 +54,20 @@ fun <T> ItemPicker(
 }
 
 @Composable
-fun ItemDualNumberPicker(
+fun <T> ItemDualNumberPicker(
     title: String,
-    firstItems: List<String>,
+    firstItems: List<T>,
     firstStartIdx: Int,
-    secondItems: List<String>,
+    secondItems: List<T>,
     secondStartIdx: Int,
-    onSelectItemValue: (String) -> Unit,
+    subText: String = ".",
+    onSelectItemValue: (T, T) -> Unit,
 ) {
     var firstItem by remember { mutableStateOf(firstItems[firstStartIdx]) }
     var secondItem by remember { mutableStateOf(secondItems[secondStartIdx]) }
 
     LaunchedEffect(firstItem, secondItem) {
-        onSelectItemValue("$firstItem.$secondItem")
+        onSelectItemValue(firstItem, secondItem)
     }
 
     ItemTitleCard(title = title) {
@@ -85,7 +86,7 @@ fun ItemDualNumberPicker(
             )
 
             Text(
-                text = ".",
+                text = subText,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold
             )

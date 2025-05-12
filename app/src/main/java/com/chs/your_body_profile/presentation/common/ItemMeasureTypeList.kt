@@ -42,10 +42,9 @@ import com.chs.your_body_profile.domain.model.MeasureType
 fun ItemMeasureTypeHorizontalList(
     title: String,
     items: List<Pair<String, ImageVector>>,
-    onClick: (String) -> Unit
+    selectedIdx: Int,
+    onClick: (Int) -> Unit
 ) {
-    var selectIdx by remember { mutableIntStateOf(0) }
-
     ItemTitleCard(title = title) {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
@@ -56,14 +55,11 @@ fun ItemMeasureTypeHorizontalList(
                 Column(
                     modifier = Modifier
                         .background(
-                            if (selectIdx == it) {
+                            if (selectedIdx == it) {
                                 MaterialTheme.colorScheme.primary
                             } else Color.Transparent
                         )
-                        .clickable {
-                            onClick(items[it].first)
-                            selectIdx = it
-                        },
+                        .clickable { onClick(it) },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(

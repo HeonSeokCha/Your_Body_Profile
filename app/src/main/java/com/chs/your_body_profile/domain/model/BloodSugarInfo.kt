@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class BloodSugarInfo(
     val measureDateTime: LocalDateTime,
-    val measureType: MeasureType,
+    val measureTypeIdx: Int,
     val number: Int,
     val memo: String?
 )

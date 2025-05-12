@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class BloodSugarInputState(
     val measureDateTime: LocalDateTime = LocalDateTime.now(),
     val level: Int = 0,
-    val measureType: MeasureType? = null,
+    val selectedMeasureIdx: Int = 0,
     val memo: String? = null,
     val isShowDateTimePicker: Boolean = false
 )

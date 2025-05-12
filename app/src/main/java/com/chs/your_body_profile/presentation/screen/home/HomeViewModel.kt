@@ -1,15 +1,14 @@
 package com.chs.your_body_profile.presentation.screen.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkWaterInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
+import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodPressureInfoUseCase
@@ -17,6 +16,7 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastBloodSugarInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkCoffeeInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkWaterInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastTakenFoodInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
@@ -44,6 +44,7 @@ class HomeViewModel @Inject constructor(
     private val getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
     private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
     private val getDayLastTakenFoodInfoUseCase: GetDayLastTakenFoodInfoUseCase,
+    private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
     private val upsertDrinkWaterInfoUseCase: UpsertDrinkWaterInfoUseCase,
     private val upsertDrinkCoffeeInfoUseCase: UpsertDrinkCoffeeInfoUseCase
 ) : ViewModel() {
@@ -69,7 +70,8 @@ class HomeViewModel @Inject constructor(
             getDayLastHemoglobinA1cInfoUseCase(currentDate),
             getDayLastMedicineInfoUseCase(currentDate),
             getDayLastTakenFoodInfoUseCase(currentDate),
-            getDayLastWeightInfoUseCase(currentDate)
+            getDayLastWeightInfoUseCase(currentDate),
+            getDayLastInsulinInfoUseCase(currentDate)
         ) { list ->
             _state.update {
                 it.copy(
@@ -80,7 +82,8 @@ class HomeViewModel @Inject constructor(
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
                     medicineInfo = (list[5] as MedicineInfo?),
                     takenFoodInfo = (list[6] as FoodDetailInfo?),
-                    weightInfo = (list[7] as WeightInfo?)
+                    weightInfo = (list[7] as WeightInfo?),
+                    insulinInfo = (list[8] as InsulinInfo?)
                 )
             }
         }.stateIn(

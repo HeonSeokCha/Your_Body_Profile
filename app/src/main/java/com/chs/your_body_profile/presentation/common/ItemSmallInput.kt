@@ -53,13 +53,13 @@ fun ItemSmallInput(
 
 @Composable
 fun ItemSmallInputText(
+    textState: String?,
     onChangedText: (String) -> Unit
 ) {
-    var textState by remember { mutableStateOf("") }
     ItemSmallInput(icon = Icons.Filled.Description) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = textState,
+            value = textState ?: "",
             placeholder = {
                 Text(
                     text = "메모",
@@ -72,7 +72,6 @@ fun ItemSmallInputText(
                 unfocusedIndicatorColor = Color.Transparent
             ),
             onValueChange = {
-                textState = it
                 onChangedText(it)
             }
         )

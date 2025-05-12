@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.usecase.UpsertInsulinInfoUseCase
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -20,17 +23,32 @@ class InsulinInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(InsulinInputState())
     val state = _state.asStateFlow()
 
-    fun changeEvent(event: InsulinInputEvent) {
-        when (event) {
+    private val _effect: Channel<BaseEffect> = Channel()
+    val effect = _effect.receiveAsFlow()
+
+    fun changeEvent(intent: InsulinInputEvent) {
+        when (intent) {
             is InsulinInputEvent.ChangeDateTime -> {
-                updateInjectTime(event.dateTime)
+                updateInjectTime(intent.dateTime)
             }
 
             InsulinInputEvent.ChangeShowDateTimePicker -> {
                 _state.update { it.copy(isShowDateTimePicker = !it.isShowDateTimePicker) }
             }
 
-            else -> Unit
+            is InsulinInputEvent.OnChangeInsulinLevel -> {
+                updateInsulinLevel(intent.level)
+            }
+
+            is InsulinInputEvent.OnChangeMemo -> {
+                updateMemo(intent.memo)
+            }
+
+            InsulinInputEvent.OnClickSaveButton -> {
+                upsertInsulinInfo()
+            }
+
+            InsulinInputEvent.OnBack -> Unit
         }
     }
 
@@ -44,22 +62,14 @@ class InsulinInputViewModel @Inject constructor(
     }
 
     private fun updateInsulinLevel(level: Int) {
-        _state.update {
-            it.copy(
-                level = level
-            )
-        }
+        _state.update { it.copy(level = level) }
     }
 
     private fun updateMemo(text: String) {
-        _state.update {
-            it.copy(
-                memo = text
-            )
-        }
+        _state.update { it.copy(memo = text) }
     }
 
-    private fun insertInsulinInfo() {
+    private fun upsertInsulinInfo() {
         viewModelScope.launch {
             upsertInsulinInfoUseCase(
                 InsulinInfo(
@@ -68,6 +78,7 @@ class InsulinInputViewModel @Inject constructor(
                     memo = _state.value.memo,
                 )
             )
+            _effect.send(BaseEffect.OnBack)
         }
     }
 }

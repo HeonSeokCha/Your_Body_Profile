@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.usecase.UpsertHemoglobinA1cInfoUseCase
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -20,17 +23,29 @@ class HemoglobinA1cInputViewModel @Inject constructor(
     private val _state = MutableStateFlow(HemoglobinA1cInputState())
     val state = _state.asStateFlow()
 
-    fun changeEvent(event: HemoglobinA1cInputEvent) {
-        when (event) {
+    private val _effect: Channel<BaseEffect> = Channel()
+    val effect = _effect.receiveAsFlow()
+
+    fun changeIntent(intent: HemoglobinA1cInputEvent) {
+        when (intent) {
             is HemoglobinA1cInputEvent.ChangeDateTime -> {
-                updateMeasureTime(event.dateTime)
+                updateMeasureTime(intent.dateTime)
             }
 
             HemoglobinA1cInputEvent.ChangeShowDateTimePicker -> {
                 _state.update { it.copy(isShowDateTimePicker = !it.isShowDateTimePicker) }
             }
 
-            else -> Unit
+            is HemoglobinA1cInputEvent.OnChangeHA1cInfo -> {
+                updateHemoglobinA1cNumber(intent.level)
+            }
+            is HemoglobinA1cInputEvent.OnChangeMemo -> {
+                updateMemo(intent.memo)
+            }
+            HemoglobinA1cInputEvent.OnClickSaveButton -> {
+                upsertHemoglobinA1c()
+            }
+            HemoglobinA1cInputEvent.OnBack -> Unit
         }
     }
 
@@ -43,40 +58,25 @@ class HemoglobinA1cInputViewModel @Inject constructor(
         }
     }
 
-    private fun insertHemoglobinA1c() {
+    private fun upsertHemoglobinA1c() {
         viewModelScope.launch {
             upsertHemoglobinA1cInfoUseCase(
                 HemoglobinA1cInfo(
                     number = state.value.number,
                     memo = state.value.memo,
                     measureHospital = state.value.measureHospital ?: "",
-                    measureDate = LocalDateTime.now()
+                    measureDate = state.value.measureDateTime
                 )
             )
+            _effect.send(BaseEffect.OnBack)
         }
     }
 
     private fun updateHemoglobinA1cNumber(number: Float) {
-        _state.update {
-            it.copy(
-                number = number
-            )
-        }
-    }
-
-    private fun updateMeasurePlaceInfo(text: String) {
-        _state.update {
-            it.copy(
-                measureHospital = text
-            )
-        }
+        _state.update { it.copy(number = number) }
     }
 
     private fun updateMemo(text: String) {
-        _state.update {
-            it.copy(
-                memo = text
-            )
-        }
+        _state.update { it.copy(memo = text) }
     }
 }

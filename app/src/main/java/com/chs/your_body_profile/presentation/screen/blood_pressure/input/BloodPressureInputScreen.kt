@@ -25,6 +25,7 @@ import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 
 @Composable
 fun BloodPressureInputScreenRoot(
@@ -32,10 +33,24 @@ fun BloodPressureInputScreenRoot(
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    BloodPressureInputScreen(state = state) { event ->
-        when (event) {
-            BloodPressureInputEvent.OnBack -> { onBack() }
-            else -> viewModel.changeEvent(event)
+    val effect by viewModel.effect.collectAsStateWithLifecycle(BaseEffect.Idle)
+
+    when (effect) {
+        BaseEffect.Idle -> Unit
+        BaseEffect.OnBack -> {
+            onBack()
+        }
+
+        is BaseEffect.ShowToast -> Unit
+    }
+
+    BloodPressureInputScreen(state = state) { intent ->
+        when (intent) {
+            BloodPressureInputEvent.OnBack -> {
+                onBack()
+            }
+
+            else -> viewModel.changeIntent(intent)
         }
     }
 }
@@ -83,9 +98,10 @@ fun BloodPressureInputScreen(
 
             ItemPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_systolic),
-                items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it.toString() },
+                items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it },
                 startIdx = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.indexOf(90),
                 onSelectItemValue = { number ->
+                    onEvent(BloodPressureInputEvent.OnChangeSystolic(number))
                 }
             )
 
@@ -93,15 +109,21 @@ fun BloodPressureInputScreen(
 
             ItemPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
-                items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it.toString() },
+                items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it },
                 startIdx = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.indexOf(120),
                 onSelectItemValue = { number ->
+                    onEvent(BloodPressureInputEvent.OnChangeDiastolic(number))
                 }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            ItemSmallInputText(onChangedText = {})
+            ItemSmallInputText(
+                textState = state.memo,
+                onChangedText = {
+                    onEvent(BloodPressureInputEvent.OnChangeMemo(it))
+                }
+            )
         }
 
         ItemInputBottomMenu(
@@ -111,7 +133,7 @@ fun BloodPressureInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-
+                onEvent(BloodPressureInputEvent.OnClickSaveButton)
             },
             onDismiss = {
                 onEvent(BloodPressureInputEvent.OnBack)

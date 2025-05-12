@@ -7,5 +7,6 @@ sealed class InsulinInputEvent {
     data class ChangeDateTime(val dateTime: LocalDateTime) : InsulinInputEvent()
     data class OnChangeInsulinLevel(val level: Int): InsulinInputEvent()
     data class OnChangeMemo(val memo: String): InsulinInputEvent()
+    data object OnClickSaveButton : InsulinInputEvent()
     data object OnBack : InsulinInputEvent()
 }

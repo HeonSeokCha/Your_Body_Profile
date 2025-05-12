@@ -27,6 +27,7 @@ import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalLi
 import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
 
 @Composable
@@ -35,10 +36,18 @@ fun BloodSugarInputScreenRoot(
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    BloodSugarInputScreen(state = state) { event ->
-        when (event) {
+    val effect by viewModel.effect.collectAsStateWithLifecycle(BaseEffect.Idle)
+
+    when (effect) {
+        BaseEffect.Idle -> Unit
+        BaseEffect.OnBack -> { onBack() }
+        is BaseEffect.ShowToast -> Unit
+    }
+
+    BloodSugarInputScreen(state = state) { intent ->
+        when (intent) {
             BloodSugarInputEvent.OnBack -> onBack()
-            else -> viewModel.changeEvent(event)
+            else -> viewModel.changeIntent(intent)
         }
     }
 }
@@ -80,10 +89,10 @@ fun BloodSugarInputScreen(
 
             ItemPicker(
                 title = "혈당 (mg/dL)",
-                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it.toString() },
+                items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it },
                 startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
                 onSelectItemValue = { number ->
-//                viewModel.updateBloodSugarNumber(number)
+                    onEvent(BloodSugarInputEvent.OnChangeBloodSugarLevel(number))
                 }
             )
 
@@ -91,17 +100,18 @@ fun BloodSugarInputScreen(
 
             ItemMeasureTypeHorizontalList(
                 title = "현재 상태 선택",
+                selectedIdx = state.selectedMeasureIdx,
                 items = Constants.bloodSugarMeasureList
             ) { value ->
-//                viewModel.updateBloodSugarMeasureType(
-                    MeasureType.entries.find { it.mean.second == value } ?: MeasureType.EMPTY
-//                )
+                onEvent(BloodSugarInputEvent.OnChangeMeasureType(value))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemSmallInputText(onChangedText = {
-//                viewModel.updateBloodSugarMemo(it)
+            ItemSmallInputText(
+                textState = state.memo,
+                onChangedText = {
+                    onEvent(BloodSugarInputEvent.OnChangeMemo(it))
             })
         }
 
@@ -112,7 +122,7 @@ fun BloodSugarInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-//                viewModel.insertBloodSugarInfo()
+                onEvent(BloodSugarInputEvent.OnClickSaveButton)
             },
             onDismiss = {
                 onEvent(BloodSugarInputEvent.OnBack)

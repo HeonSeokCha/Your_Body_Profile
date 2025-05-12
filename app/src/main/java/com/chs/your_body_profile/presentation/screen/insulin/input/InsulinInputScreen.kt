@@ -23,6 +23,7 @@ import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
+import com.chs.your_body_profile.presentation.screen.BaseEffect
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputEvent
 
 @Composable
@@ -31,6 +32,17 @@ fun InsulinInputScreenRoot(
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val effect by viewModel.effect.collectAsStateWithLifecycle(BaseEffect.Idle)
+
+    when (effect) {
+        BaseEffect.Idle -> Unit
+        BaseEffect.OnBack -> {
+            onBack()
+        }
+
+        is BaseEffect.ShowToast -> Unit
+    }
+
     InsulinInputScreen(state) { event ->
         when (event) {
             InsulinInputEvent.OnBack -> onBack()
@@ -83,15 +95,18 @@ fun InsulinInputScreen(
                 items = Constants.RANGE_INSULIN_NUMBER.map { it },
                 startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(15),
                 onSelectItemValue = { number ->
-                    onEvent(InsulinInputEvent.OnChangeInsulinLevel(number!!))
+                    onEvent(InsulinInputEvent.OnChangeInsulinLevel(number))
                 }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             ItemSmallInputText(
+                textState = state.memo,
                 onChangedText = {
-                })
+                    onEvent(InsulinInputEvent.OnChangeMemo(it))
+                }
+            )
         }
 
 
@@ -102,7 +117,7 @@ fun InsulinInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-                onEvent(InsulinInputEvent.OnBack)
+                onEvent(InsulinInputEvent.OnClickSaveButton)
             },
             onDismiss = {
                 onEvent(InsulinInputEvent.OnBack)

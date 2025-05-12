@@ -44,7 +44,7 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
 fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
     return BloodSugarInfo(
         measureDateTime = this.measureDateTime.toLocalDateTime(),
-        measureType = MeasureType.entries.find { it.mean.first == this.measureType } ?: MeasureType.EMPTY,
+        measureTypeIdx = this.measureType,
         number = this.number,
         memo = this.memo
     )
@@ -53,7 +53,7 @@ fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
 fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
     return BloodSugarInfoEntity(
         measureDateTime = this.measureDateTime.toMillis(),
-        measureType = this.measureType.mean.first,
+        measureType = this.measureTypeIdx,
         number = this.number,
         memo = this.memo
     )

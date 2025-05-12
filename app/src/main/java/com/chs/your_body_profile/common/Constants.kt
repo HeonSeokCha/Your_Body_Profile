@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.common
 
+import androidx.annotation.FloatRange
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.NoFood
