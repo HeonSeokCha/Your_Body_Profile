@@ -55,7 +55,8 @@ object Constants {
     val RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER = 0 .. 250
     val RANGE_INSULIN_NUMBER = 0 .. 100
     val RANGE_HEMOGLOBIN_A1C_FIRST_RANGE = 3 .. 15
-    val RANGE_HEMOGLOBIN_A1C_SECOND_RANGE = 0 .. 9
+    val RANGE_WEIGHT_FIRST_RANGE = 2 .. 500
+    val RANGE_INTEGER_SECOND_RANGE = 0 .. 9
     const val ITEM_SHIMMER_SHOW_COUNT: Int = 7
 
     val bloodSugarMeasureList: List<Pair<String, ImageVector>> = listOf(

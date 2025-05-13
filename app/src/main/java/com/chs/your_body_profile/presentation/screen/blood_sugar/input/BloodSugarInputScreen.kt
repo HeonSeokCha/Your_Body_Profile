@@ -15,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
@@ -88,7 +90,7 @@ fun BloodSugarInputScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             ItemPicker(
-                title = "혈당 (mg/dL)",
+                title = stringResource(R.string.text_input_blood_sugar),
                 items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it },
                 startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
                 onSelectItemValue = { number ->

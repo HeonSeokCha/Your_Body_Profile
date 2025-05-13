@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 data class WeightInfo(
     val measureDateTime: LocalDateTime,
     val weight: Float,
-    val memo: String
+    val memo: String?
 )

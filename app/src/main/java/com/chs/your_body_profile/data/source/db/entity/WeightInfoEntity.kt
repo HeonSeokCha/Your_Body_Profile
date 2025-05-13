@@ -8,5 +8,5 @@ data class WeightInfoEntity(
     @PrimaryKey
     val measureDateTime: Long,
     val weight: Float,
-    val memo: String
+    val memo: String?
 )

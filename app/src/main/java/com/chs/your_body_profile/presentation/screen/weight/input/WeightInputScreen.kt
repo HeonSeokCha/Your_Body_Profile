@@ -1,4 +1,4 @@
-package com.chs.your_body_profile.presentation.screen.insulin.input
+package com.chs.your_body_profile.presentation.screen.weight.input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,15 +22,14 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
-import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
+import com.chs.your_body_profile.presentation.common.picker.ItemDualNumberPicker
 import com.chs.your_body_profile.presentation.screen.BaseEffect
-import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputEvent
 
 @Composable
-fun InsulinInputScreenRoot(
-    viewModel: InsulinInputViewModel,
+fun WeightInputScreenRoot(
+    viewModel: WeightInputViewModel,
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -45,27 +44,27 @@ fun InsulinInputScreenRoot(
         is BaseEffect.ShowToast -> Unit
     }
 
-    InsulinInputScreen(state) { event ->
-        when (event) {
-            InsulinInputEvent.OnBack -> onBack()
-            else -> viewModel.changeEvent(event)
+    WeightInputScreen(state) { intent ->
+        when (intent) {
+            WeightInputEvent.OnBack -> onBack()
+            else -> viewModel.changeIntent(intent)
         }
     }
 }
 
 @Composable
-fun InsulinInputScreen(
-    state: InsulinInputState,
-    onEvent: (InsulinInputEvent) -> Unit
+fun WeightInputScreen(
+    state: WeightInputState,
+    onEvent: (WeightInputEvent) -> Unit
 ) {
     if (state.isShowDateTimePicker) {
         ItemDateTimePickerDialog(
-            currentTime = state.injectDateTime,
+            currentTime = state.measureDateTime,
             onDismiss = {
-                onEvent(InsulinInputEvent.ChangeShowDateTimePicker)
+                onEvent(WeightInputEvent.ChangeShowDateTimePicker)
             },
             onSelectTime = {
-                onEvent(InsulinInputEvent.ChangeDateTime(it))
+                onEvent(WeightInputEvent.ChangeDateTime(it))
             }
         )
     }
@@ -85,19 +84,21 @@ fun InsulinInputScreen(
         ) {
 
             ItemCurrentDateTime(
-                currentDateTime = state.injectDateTime
+                currentDateTime = state.measureDateTime
             ) {
-                onEvent(InsulinInputEvent.ChangeShowDateTimePicker)
+                onEvent(WeightInputEvent.ChangeShowDateTimePicker)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemPicker(
-                title = stringResource(R.string.text_input_insulin),
-                items = Constants.RANGE_INSULIN_NUMBER.map { it },
-                startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(15),
-                onSelectItemValue = { number ->
-                    onEvent(InsulinInputEvent.OnChangeInsulinLevel(number))
+            ItemDualNumberPicker(
+                title = stringResource(R.string.text_input_weight),
+                firstItems = Constants.RANGE_WEIGHT_FIRST_RANGE.map { it },
+                firstStartIdx = Constants.RANGE_WEIGHT_FIRST_RANGE.indexOf(60),
+                secondItems = Constants.RANGE_INTEGER_SECOND_RANGE.map { it },
+                secondStartIdx = Constants.RANGE_INTEGER_SECOND_RANGE.indexOf(5),
+                onSelectItemValue = { first, second ->
+                    onEvent(WeightInputEvent.OnChangeWeight(first.toFloat() + (second * 0.1f)))
                 }
             )
 
@@ -106,7 +107,7 @@ fun InsulinInputScreen(
             ItemSmallInputText(
                 textState = state.memo,
                 onChangedText = {
-                    onEvent(InsulinInputEvent.OnChangeMemo(it))
+                    onEvent(WeightInputEvent.OnChangeMemo(it))
                 }
             )
         }
@@ -119,11 +120,12 @@ fun InsulinInputScreen(
                 .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-                onEvent(InsulinInputEvent.OnClickSaveButton)
+                onEvent(WeightInputEvent.OnClickSaveButton)
             },
             onDismiss = {
-                onEvent(InsulinInputEvent.OnBack)
+                onEvent(WeightInputEvent.OnBack)
             }
         )
+
     }
 }

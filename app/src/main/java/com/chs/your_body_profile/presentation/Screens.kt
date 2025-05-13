@@ -26,7 +26,19 @@ sealed class Screens {
     data object HemoglobinA1cInput : Screens()
 
     @Serializable
+    data object HemoglobinA1cList : Screens()
+
+    @Serializable
     data object InsulinInput : Screens()
+
+    @Serializable
+    data object InsulinList : Screens()
+
+    @Serializable
+    data object WeightInput : Screens()
+
+    @Serializable
+    data object WeightList : Screens()
 
     @Serializable
     data object MedicineInput : Screens()

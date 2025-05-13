@@ -18,11 +18,15 @@
     <string name="text_take_medicine">약 복용</string>
     <string name="text_take_medicine_default">미 복용</string>
     <string name="text_take_medicine_unit">마지막 복용 시간</string>
-    <string name="text_weight">몸무게</string>
+    <string name="text_weight">체중</string>
     <string name="text_weight_unit">Kg</string>
     <string name="text_cancel">취소</string>
     <string name="text_confirm">저장</string>
     <string name="text_data_input">데이터 입력</string>
+    <string name="text_input_weight">체중 (kg)</string>
+    <string name="text_input_blood_sugar">혈당 (mg/dL)</string>
+    <string name="text_input_insulin">인슐린 (단위)</string>
+    <string name="text_input_hemoglobin_A1c">당화혈색소 (%)</string>
     <string name="text_input_blood_pressure_systolic">수축기 혈압 (mmHg)</string>
     <string name="text_input_blood_pressure_diastolic">이완기 혈압 (mmHg)</string>
 

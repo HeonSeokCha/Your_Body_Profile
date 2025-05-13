@@ -19,6 +19,8 @@ import com.chs.your_body_profile.presentation.screen.home.HomeScreenRoot
 import com.chs.your_body_profile.presentation.screen.home.HomeViewModel
 import com.chs.your_body_profile.presentation.screen.insulin.input.InsulinInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.insulin.input.InsulinInputViewModel
+import com.chs.your_body_profile.presentation.screen.weight.input.WeightInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.weight.input.WeightInputViewModel
 
 @Composable
 fun MainNavHost(navController: NavHostController) {
@@ -73,6 +75,16 @@ fun MainNavHost(navController: NavHostController) {
         composable<Screens.InsulinInput> {
             val viewModel: InsulinInputViewModel = hiltViewModel()
             InsulinInputScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable<Screens.WeightInput> {
+            val viewModel: WeightInputViewModel = hiltViewModel()
+            WeightInputScreenRoot(
                 viewModel = viewModel,
                 onBack = {
                     navController.popBackStack()

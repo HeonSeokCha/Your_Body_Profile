@@ -15,9 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.util.toRange
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.picker.ItemDualNumberPicker
@@ -88,11 +90,11 @@ fun HemoglobinA1cInputScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             ItemDualNumberPicker(
-                title = "당화혈색소 (%)",
+                title = stringResource(R.string.text_input_hemoglobin_A1c),
                 firstItems = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.map { it },
                 firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(5),
-                secondItems = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.map { it },
-                secondStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_SECOND_RANGE.indexOf(5),
+                secondItems = Constants.RANGE_INTEGER_SECOND_RANGE.map { it },
+                secondStartIdx = Constants.RANGE_INTEGER_SECOND_RANGE.indexOf(5),
                 onSelectItemValue = { first, second ->
                     onEvent(HemoglobinA1cInputEvent.OnChangeHA1cInfo(first.toFloat() + (second * 0.1f)))
                 }

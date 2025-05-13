@@ -117,6 +117,20 @@ fun HomeScreen(
 
         item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
+                title = stringResource(id = R.string.text_weight),
+                infoValue = "${state.weightInfo?.weight ?: stringResource(id = R.string.text_default_measure_zero)}",
+                infoUnit = stringResource(id = R.string.text_weight_unit),
+                onClick = {
+
+                },
+                btnClick = {
+                    onEvent(HomeEvent.Navigate(Screens.WeightInput))
+                }
+            )
+        }
+
+        item(span = StaggeredGridItemSpan.FullLine) {
+            DashBoardInputCard(
                 title = stringResource(id = R.string.text_blood_sugar),
                 infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
