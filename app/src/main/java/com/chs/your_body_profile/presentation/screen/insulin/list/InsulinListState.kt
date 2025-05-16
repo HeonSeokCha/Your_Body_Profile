@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 data class InsulinListState(
-    val pagingList: Flow<PagingData<Pair<LocalDate, Int>>>? = null,
+    val pagingList: Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>>? = null,
     val insulinInfo: InsulinInfo? = null
 )

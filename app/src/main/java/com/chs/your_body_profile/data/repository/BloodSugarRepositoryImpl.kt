@@ -19,17 +19,6 @@ import javax.inject.Inject
 class BloodSugarRepositoryImpl @Inject constructor(
     private val bloodSugarDao: BloodSugarDao
 ): BloodSugarRepository {
-    override fun getDayMinInfo(localDate: LocalDate): Flow<Int> {
-        return bloodSugarDao.getDayMinInfo(localDate.toMillis())
-    }
-
-    override fun getDayMaxInfo(localDate: LocalDate): Flow<Int> {
-        return bloodSugarDao.getDayMaxInfo(localDate.toMillis())
-    }
-
-    override fun getDayAvgInfo(localDate: LocalDate): Flow<Int> {
-        return bloodSugarDao.getDayAvgInfo(localDate.toMillis())
-    }
 
     override suspend fun upsertInfo(info: BloodSugarInfo) {
         bloodSugarDao.upsert(info.toBloodSugarInfoEntity())
@@ -43,15 +32,9 @@ class BloodSugarRepositoryImpl @Inject constructor(
         return bloodSugarDao.getDayLastInfo(time.toMillis()).map { it?.toBloodSugarInfo() }
     }
 
-    override suspend fun getDayInfoList(localDate: LocalDate): List<BloodSugarInfo> {
-        return bloodSugarDao.getDayInfoList(localDate.toMillis()).map {
-            it.toBloodSugarInfo()
-        }
-    }
-
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>> {
         return Pager(
-            PagingConfig(pageSize = 10)
+            PagingConfig(pageSize = 5)
         ) {
             DayBloodSugarPaging(bloodSugarDao)
         }.flow

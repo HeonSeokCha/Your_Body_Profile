@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetPagingInsulinUseCase @Inject constructor(
     private val repository: InsulinRepository
 ) {
-    operator fun invoke(): Flow<PagingData<Pair<LocalDate, Int>>> {
+    operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>> {
         return repository.getDayPagingInfo()
     }
 }

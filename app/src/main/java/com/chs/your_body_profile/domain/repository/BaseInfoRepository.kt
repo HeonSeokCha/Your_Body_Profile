@@ -8,5 +8,4 @@ interface BaseInfoRepository<T> : BaseRepository<T> {
 
     fun getDayLastInfo(time: LocalDateTime): Flow<T?>
 
-    suspend fun getDayInfoList(localDate: LocalDate): List<T>
 }

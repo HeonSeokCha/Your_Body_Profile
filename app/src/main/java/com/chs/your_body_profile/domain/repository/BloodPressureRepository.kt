@@ -6,13 +6,5 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface BloodPressureRepository : BaseInfoRepository<BloodPressureInfo> {
-
-    fun getDayMinInfo(localDate: LocalDate): Flow<Int>
-
-    fun getDayMaxInfo(localDate: LocalDate): Flow<Int>
-
-    fun getDayAvgInfo(localDate: LocalDate): Flow<Int>
-
-    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Pair<Int, Int>>>>
-
+    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>>
 }

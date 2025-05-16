@@ -24,12 +24,6 @@ class WeightRepositoryImpl @Inject constructor(
         return weightInfoDao.getDayLastInfo(time.toMillis()).map { it?.toWeightInfo() }
     }
 
-    override suspend fun getDayInfoList(localDate: LocalDate): List<WeightInfo> {
-        return weightInfoDao.getDayInfoList(localDate.toMillis()).map {
-           it.toWeightInfo()
-        }
-    }
-
     override suspend fun upsertInfo(info: WeightInfo) {
         weightInfoDao.upsert(info.toWeightInfoEntity())
     }
@@ -38,10 +32,8 @@ class WeightRepositoryImpl @Inject constructor(
         weightInfoDao.delete(info.toWeightInfoEntity())
     }
 
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {
-        return Pager(
-            PagingConfig(pageSize = 10)
-        ) {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>> {
+        return Pager(PagingConfig(pageSize = 5)) {
             DayWeightPaging(weightInfoDao)
         }.flow
     }

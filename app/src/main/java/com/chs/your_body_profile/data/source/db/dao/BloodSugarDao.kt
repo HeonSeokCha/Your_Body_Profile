@@ -18,19 +18,12 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
     abstract fun getDayLastInfo(time: Long): Flow<BloodSugarInfoEntity?>
 
     @Query("""
-        SELECT * 
+        SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 
           FROM blood_sugar_info
-         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime')
-         ORDER BY measureDateTime DESC 
+         GROUP BY date
+         ORDER BY date DESC
+         LIMIT 15
+         OFFSET :page
     """)
-    abstract suspend fun getDayInfoList(time: Long): List<BloodSugarInfoEntity>
-
-    @Query("SELECT IFNULL(MIN(number), 0) FROM blood_sugar_info WHERE measureDateTime = :time")
-    abstract fun getDayMinInfo(time: Long): Flow<Int>
-
-    @Query("SELECT IFNULL(MAX(number), 0) FROM blood_sugar_info WHERE measureDateTime = :time")
-    abstract fun getDayMaxInfo(time: Long): Flow<Int>
-
-    @Query("SELECT IFNULL(AVG(number), 0) FROM BLOOD_SUGAR_INFO WHERE measureDateTime = :time")
-    abstract fun getDayAvgInfo(time: Long): Flow<Int>
+    abstract fun getPagingDayInfoList(page: Int): Map<@MapColumn("date") Long, List<BloodSugarInfoEntity>>
 }

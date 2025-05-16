@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.data.source.db.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.MapColumn
 import androidx.room.Query
@@ -18,10 +19,14 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
     abstract fun getDayLastInfo(time: Long): Flow<WeightInfoEntity?>
 
     @Query("""
-        SELECT * 
+        SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 
           FROM weight_info
-         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') =  DATE(:time / 1000, 'unixepoch', 'localtime')
-         ORDER BY measureDateTime DESC
+         GROUP BY date
+         ORDER BY date DESC
+         LIMIT 15
+         OFFSET :page
     """)
-    abstract suspend fun getDayInfoList(time: Long): List<WeightInfoEntity>
+    abstract fun getPagingDayInfoList(
+        page: Int
+    ): Map<@MapColumn("date") Long, List<WeightInfoEntity>>
 }

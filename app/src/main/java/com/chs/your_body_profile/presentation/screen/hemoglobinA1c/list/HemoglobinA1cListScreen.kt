@@ -43,9 +43,6 @@ fun HemoglobinA1cListScreen(
                     .padding(bottom = 56.dp)
             ) {
                 item {
-                    ItemVerticalChart(pagingItems = pagingItems) {
-
-                    }
                 }
             }
         }

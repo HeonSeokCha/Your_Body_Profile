@@ -3,6 +3,7 @@ package com.chs.your_body_profile.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toBloodPressureInfo
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
@@ -14,35 +15,26 @@ import kotlin.math.roundToInt
 
 class DayBloodPressurePaging(
     private val bloodPressureDao: BloodPressureDao
-) : PagingSource<LocalDate, Pair<LocalDate, Pair<Int, Int>>>(){
+) : PagingSource<Int, Pair<LocalDate, List<BloodPressureInfo>>>() {
 
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Pair<Int, Int>>>): LocalDate? {
+    override fun getRefreshKey(state: PagingState<Int, Pair<LocalDate, List<BloodPressureInfo>>>): Int? {
         return state.anchorPosition?.let { position ->
             val page = state.closestPageToPosition(position)
-            page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
+            page?.prevKey?.minus(1) ?: page?.nextKey?.plus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Pair<Int, Int>>> {
-        val pageDate = params.key ?: LocalDate.now()
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Pair<LocalDate, List<BloodPressureInfo>>> {
+        val page = params.key ?: 0
 
-        val data = withContext(Dispatchers.IO) {
-            pageDate.minusDays(Constants.SEARCH_OFFSET.toLong())
-                .datesUntil(pageDate.plusDays(1L))
-                .toList()
-                .reversed()
-                .map {
-                    it to bloodPressureDao.getDayInfoList(it.toMillis()).run {
-                        this.map { it.systolic }.average().roundToInt() to
-                                this.map { it.diastolic }.average().roundToInt()
-                    }
-                }
+        val data = bloodPressureDao.getPagingDayInfoList(page).map {
+            it.key.toLocalDate() to it.value.map { it.toBloodPressureInfo() }
         }
 
         return LoadResult.Page(
             data = data,
             prevKey = null,
-            nextKey = pageDate.minusDays(Constants.SEARCH_OFFSET + 1L)
+            nextKey = if (data.isEmpty()) null else page + Constants.SEARCH_OFFSET
         )
     }
 }

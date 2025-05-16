@@ -20,18 +20,6 @@ class BloodPressureRepositoryImpl @Inject constructor(
     private val bloodPressureDao: BloodPressureDao
 ) : BloodPressureRepository {
 
-    override fun getDayMinInfo(localDate: LocalDate): Flow<Int> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDayMaxInfo(localDate: LocalDate): Flow<Int> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDayAvgInfo(localDate: LocalDate): Flow<Int> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun upsertInfo(info: BloodPressureInfo) {
         bloodPressureDao.upsert(info.toBloodPressureInfoEntity())
     }
@@ -40,9 +28,9 @@ class BloodPressureRepositoryImpl @Inject constructor(
         bloodPressureDao.delete(info.toBloodPressureInfoEntity())
     }
 
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Pair<Int, Int>>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>> {
         return Pager(
-            PagingConfig(pageSize = 10)
+            PagingConfig(pageSize = 5)
         ) {
             DayBloodPressurePaging(bloodPressureDao)
         }.flow
@@ -50,11 +38,5 @@ class BloodPressureRepositoryImpl @Inject constructor(
 
     override fun getDayLastInfo(time: LocalDateTime): Flow<BloodPressureInfo?> {
         return bloodPressureDao.getDayLastInfo(time.toMillis()).map { it?.toBloodPressureInfo() }
-    }
-
-    override suspend fun getDayInfoList(localDate: LocalDate): List<BloodPressureInfo> {
-        return bloodPressureDao.getDayInfoList(localDate.toMillis()).map {
-            it.toBloodPressureInfo()
-        }
     }
 }

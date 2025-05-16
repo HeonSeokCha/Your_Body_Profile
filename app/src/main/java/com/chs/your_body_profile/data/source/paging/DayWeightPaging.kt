@@ -3,6 +3,7 @@ package com.chs.your_body_profile.data.source.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toLocalDate
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toWeightInfo
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
@@ -14,34 +15,27 @@ import kotlin.math.roundToInt
 
 class DayWeightPaging(
     private val weightInfoDao: WeightInfoDao
-) : PagingSource<LocalDate, Pair<LocalDate, Int>>() {
+) : PagingSource<Int, Pair<LocalDate, List<WeightInfo>>>() {
 
-    override fun getRefreshKey(state: PagingState<LocalDate, Pair<LocalDate, Int>>): LocalDate? {
-        return state.anchorPosition?.let { position ->
-            val page = state.closestPageToPosition(position)
-            page?.prevKey?.minusDays(1) ?: page?.nextKey?.plusDays(1)
+    override fun getRefreshKey(state: PagingState<Int, Pair<LocalDate, List<WeightInfo>>>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<LocalDate>): LoadResult<LocalDate, Pair<LocalDate, Int>> {
-        val pageDate = params.key ?: LocalDate.now()
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Pair<LocalDate, List<WeightInfo>>> {
+        val page = params.key ?: 0
 
-        val data = withContext(Dispatchers.IO) {
-            pageDate.minusDays(Constants.SEARCH_OFFSET.toLong())
-                .datesUntil(pageDate.plusDays(1L))
-                .toList()
-                .reversed()
-                .map {
-                    it to weightInfoDao.getDayInfoList(it.toMillis()).map {
-                        it.weight
-                    }.average().roundToInt()
-                }
-        }
-
+        val data = weightInfoDao
+            .getPagingDayInfoList(page)
+            .map {
+                it.key.toLocalDate() to it.value.map { it.toWeightInfo() }
+            }
         return LoadResult.Page(
             data = data,
             prevKey = null,
-            nextKey = pageDate.minusDays(Constants.SEARCH_OFFSET + 1L)
+            nextKey = if (data.isEmpty()) null else page + Constants.SEARCH_OFFSET
         )
     }
 }

@@ -24,12 +24,6 @@ class MedicineRepositoryImpl @Inject constructor(
         return medicineDao.getDayLastInfo(time.toMillis()).map { it?.toMedicineInfo() }
     }
 
-    override suspend fun getDayInfoList(localDate: LocalDate): List<MedicineInfo> {
-        return medicineDao.getDayInfoList(localDate.toMillis()).map {
-            it.toMedicineInfo()
-        }
-    }
-
     override suspend fun upsertInfo(info: MedicineInfo) {
         medicineDao.upsert(info.toMedicineInfoEntity())
     }

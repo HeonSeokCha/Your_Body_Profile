@@ -27,9 +27,9 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {
+    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>> {
         return Pager(
-            PagingConfig(pageSize = 10)
+            PagingConfig(pageSize = 5)
         ) {
             DayHemoglobinA1cInfoPaging(hemoglobinA1cDao)
         }.flow

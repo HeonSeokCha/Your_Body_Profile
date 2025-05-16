@@ -19,10 +19,12 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     abstract fun getDayLastInfo(time: Long): Flow<BloodPressureInfoEntity?>
 
     @Query("""
-        SELECT * 
+        SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 
           FROM blood_pressure_info
-         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime')
-         ORDER BY measureDateTime DESC
+         GROUP BY date
+         ORDER BY date DESC
+         LIMIT 15
+         OFFSET :page
     """)
-    abstract suspend fun getDayInfoList(time: Long): List<BloodPressureInfoEntity>
+    abstract fun getPagingDayInfoList(page: Int): Map<@MapColumn("date") Long, List<BloodPressureInfoEntity>>
 }

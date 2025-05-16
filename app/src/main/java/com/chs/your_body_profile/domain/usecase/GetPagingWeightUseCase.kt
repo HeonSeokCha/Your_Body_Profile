@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetPagingWeightUseCase @Inject constructor(
     private val repository: WeightRepository
 ) {
-    operator fun invoke(): Flow<PagingData<Pair<LocalDate, Int>>> {
+    operator fun invoke(): Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>> {
         return repository.getDayPagingInfo()
     }
 }

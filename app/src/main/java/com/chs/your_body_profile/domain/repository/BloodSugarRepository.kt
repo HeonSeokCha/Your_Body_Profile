@@ -7,11 +7,5 @@ import java.time.LocalDate
 
 interface BloodSugarRepository : BaseInfoRepository<BloodSugarInfo> {
 
-    fun getDayMinInfo(localDate: LocalDate): Flow<Int>
-
-    fun getDayMaxInfo(localDate: LocalDate): Flow<Int>
-
-    fun getDayAvgInfo(localDate: LocalDate): Flow<Int>
-
-    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>>
+    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>>
 }

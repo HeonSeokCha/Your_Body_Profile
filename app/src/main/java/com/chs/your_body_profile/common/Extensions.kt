@@ -60,3 +60,9 @@ fun LocalDate.dateUntilToList(targetDate: LocalDate): List<LocalDate> {
     return this.datesUntil(targetDate.plusDays(1L))
         .collect(Collectors.toList())
 }
+
+fun calculateScale(viewHeightPx: Int, values: List<Int>): Double {
+    return values.maxOrNull()?.let { max ->
+        viewHeightPx.times(0.8).div(max)
+    } ?: 1.0
+}
