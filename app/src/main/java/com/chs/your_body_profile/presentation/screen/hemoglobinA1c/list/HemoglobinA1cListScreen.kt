@@ -6,25 +6,38 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
+import com.chs.your_body_profile.presentation.common.chart.ColumnChart
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.ItemHemoglobinA1cInfo
 
 @Composable
-fun HemoglobinA1cListScreen(
-    navController: NavHostController,
-    viewModel: HemoglobinA1cListViewModel = hiltViewModel()
+fun HemoglobinA1cListScreenRoot(
+    viewModel: HemoglobinA1cListViewModel,
+    onInput: () -> Unit,
+    onBack: () -> Unit,
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val pagingItems = state.pagingList?.collectAsLazyPagingItems()
+
+    HemoglobinA1cListScreen(state) { intent ->
+
+    }
+}
+
+@Composable
+fun HemoglobinA1cListScreen(
+    state: HemoglobinA1cListState,
+    onIntent: (HemoglobinA1cListEvent) -> Unit
+) {
+    val pagingList = state.pagingList?.collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier
@@ -36,13 +49,16 @@ fun HemoglobinA1cListScreen(
                 .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            ItemVerticalChart(pagingList) { }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 56.dp)
-            ) {
+
+            LazyColumn {
                 item {
+
+                }
+
+                items(state.selectedHemoglobinA1cInfo) { info ->
+                    ItemHemoglobinA1cInfo(info)
                 }
             }
         }

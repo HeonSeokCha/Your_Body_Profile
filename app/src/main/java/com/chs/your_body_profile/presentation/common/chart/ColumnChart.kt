@@ -41,15 +41,18 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.LazyPagingItems
 import com.chs.your_body_profile.common.calculateScale
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
-fun ColumnChart(
-
+fun <T : Any> ColumnChart(
+    item:  LazyPagingItems<T>
 ) {
+    LazyRow {
 
+    }
 }
 
 @Composable

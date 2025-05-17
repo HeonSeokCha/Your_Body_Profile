@@ -7,20 +7,30 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputViewModel
+import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListScreen
+import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListScreenRoot
+import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListViewModel
 import com.chs.your_body_profile.presentation.screen.blood_sugar.input.BloodSugarInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_sugar.input.BloodSugarInputViewModel
+import com.chs.your_body_profile.presentation.screen.blood_sugar.list.BloodSugarListScreenRoot
+import com.chs.your_body_profile.presentation.screen.blood_sugar.list.BloodSugarListViewModel
 import com.chs.your_body_profile.presentation.screen.drink.DrinkListScreenRoot
-import com.chs.your_body_profile.presentation.screen.drink.DrinkViewModel
-import com.chs.your_body_profile.presentation.screen.food.FoodDetailScreen
-import com.chs.your_body_profile.presentation.screen.food.MealListScreen
+import com.chs.your_body_profile.presentation.screen.drink.DrinkListViewModel
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.input.HemoglobinA1cInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.input.HemoglobinA1cInputViewModel
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.list.HemoglobinA1cListScreenRoot
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.list.HemoglobinA1cListViewModel
 import com.chs.your_body_profile.presentation.screen.home.HomeScreenRoot
 import com.chs.your_body_profile.presentation.screen.home.HomeViewModel
 import com.chs.your_body_profile.presentation.screen.insulin.input.InsulinInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.insulin.input.InsulinInputViewModel
+import com.chs.your_body_profile.presentation.screen.insulin.list.InsulinListScreenRoot
+import com.chs.your_body_profile.presentation.screen.insulin.list.InsulinListViewModel
 import com.chs.your_body_profile.presentation.screen.weight.input.WeightInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.weight.input.WeightInputViewModel
+import com.chs.your_body_profile.presentation.screen.weight.list.WeightListScreen
+import com.chs.your_body_profile.presentation.screen.weight.list.WeightListScreenRoot
+import com.chs.your_body_profile.presentation.screen.weight.list.WeightListViewModel
 
 @Composable
 fun MainNavHost(navController: NavHostController) {
@@ -36,7 +46,7 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.DrinkList> {
-            val viewModel: DrinkViewModel = hiltViewModel()
+            val viewModel: DrinkListViewModel = hiltViewModel()
             DrinkListScreenRoot(viewModel) {
 
             }
@@ -92,12 +102,78 @@ fun MainNavHost(navController: NavHostController) {
             )
         }
 
-        composable<Screens.MedicineInput> {
-            MealListScreen(navController)
+//        composable<Screens.MedicineInput> {
+//            MealListScreen(navController)
+//        }
+//
+//        composable<Screens.FoodDetail> {
+//            FoodDetailScreen(navController)
+//        }
+
+        composable<Screens.BloodPressureList> {
+            val viewModel: BloodPressureListViewModel = hiltViewModel()
+            BloodPressureListScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onInput = {
+                    navController.navigate(Screens.BloodSugarInput)
+                }
+            )
         }
 
-        composable<Screens.FoodDetail> {
-            FoodDetailScreen(navController)
+
+        composable<Screens.BloodSugarList> {
+            val viewModel: BloodSugarListViewModel = hiltViewModel()
+            BloodSugarListScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onInput = {
+                    navController.navigate(Screens.BloodSugarInput)
+                }
+            )
+        }
+
+        composable<Screens.HemoglobinA1cList> {
+            val viewModel: HemoglobinA1cListViewModel = hiltViewModel()
+            HemoglobinA1cListScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onInput = {
+                    navController.navigate(Screens.BloodSugarInput)
+                }
+            )
+        }
+
+        composable<Screens.InsulinList> {
+            val viewModel: InsulinListViewModel = hiltViewModel()
+            InsulinListScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onInput = {
+                    navController.navigate(Screens.BloodSugarInput)
+                }
+            )
+        }
+
+        composable<Screens.WeightList> {
+            val viewModel: WeightListViewModel = hiltViewModel()
+            WeightListScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onInput = {
+                    navController.navigate(Screens.BloodSugarInput)
+                }
+            )
         }
     }
 }

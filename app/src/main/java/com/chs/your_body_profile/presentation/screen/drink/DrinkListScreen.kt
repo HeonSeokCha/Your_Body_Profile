@@ -6,7 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun DrinkListScreenRoot(
-    viewModel: DrinkViewModel,
+    viewModel: DrinkListViewModel,
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -20,7 +20,7 @@ fun DrinkListScreenRoot(
 
 @Composable
 fun DrinkListScreen(
-    state: DrinkState,
+    state: DrinkListState,
     onEvent: (DrinkListEvent) -> Unit
 ) {
 

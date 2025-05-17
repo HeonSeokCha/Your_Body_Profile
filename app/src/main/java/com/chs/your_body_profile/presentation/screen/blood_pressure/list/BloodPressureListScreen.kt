@@ -19,12 +19,22 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 
 @Composable
-fun BloodPressureScreen(
-    navController: NavHostController,
-    viewModel: BloodPressureListViewModel = hiltViewModel()
+fun BloodPressureListScreenRoot(
+    viewModel: BloodPressureListViewModel,
+    onInput: () -> Unit,
+    onBack: () -> Unit
 ) {
-    val context: Context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    BloodPressureListScreen(state) {
+
+    }
+}
+
+@Composable
+fun BloodPressureListScreen(
+    state: BloodPressureListState,
+    onIntent: (BloodPressureListEvent) -> Unit
+) {
     val pagingItems = state.pagingList?.collectAsLazyPagingItems()
 
     Box(

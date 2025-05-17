@@ -35,22 +35,12 @@ import java.time.LocalDate
 import kotlin.math.roundToInt
 
 @Composable
-fun ItemVerticalChart(
-    pagingItems: LazyPagingItems<Pair<LocalDate, Int>>?,
+fun <T: Any> ItemVerticalChart(
+    pagingItems: LazyPagingItems<Pair<LocalDate, List<T>>>?,
     onSelected: (LocalDate) -> Unit
 ) {
-    val density = LocalDensity.current
-    val height = with(density) { 300.dp.toPx() }
     var selectIdx by rememberSaveable { mutableIntStateOf(0) }
     val scrollState = rememberLazyListState()
-    var scaleValue by remember { mutableDoubleStateOf(1.0) }
-
-    LaunchedEffect(pagingItems?.itemCount) {
-        scaleValue = calculateScale(
-            height.roundToInt(),
-            pagingItems?.itemSnapshotList?.map { it?.second ?: 0 } ?: emptyList()
-        )
-    }
 
     LazyRow(
         modifier = Modifier
@@ -95,7 +85,7 @@ fun ItemVerticalChart(
                         },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ItemVerticalCharBar(barHeight = value.times(scaleValue).toFloat())
+                    ItemVerticalCharBar()
 
                     ItemChartDate(
                         date = date,
@@ -143,7 +133,7 @@ fun ItemChartDate(
 }
 
 @Composable
-fun ItemVerticalCharBar(barHeight: Float) {
+fun ItemVerticalCharBar() {
     Canvas(
         modifier = Modifier
             .width(30.dp)
@@ -151,8 +141,8 @@ fun ItemVerticalCharBar(barHeight: Float) {
     ) {
         drawRect(
             color = SkyBlue400,
-            topLeft = Offset(3.dp.toPx(), 300.dp.toPx() - barHeight),
-            size = Size(24.dp.toPx(), barHeight),
+            topLeft = Offset(3.dp.toPx(), 300.dp.toPx() - 25.dp.toPx()),
+            size = Size(24.dp.toPx(), 25.dp.toPx()),
         )
     }
 }

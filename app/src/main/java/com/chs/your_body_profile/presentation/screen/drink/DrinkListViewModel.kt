@@ -17,21 +17,21 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 @HiltViewModel
-class DrinkViewModel @Inject constructor(
+class DrinkListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getPagingDrinkWaterUseCase: GetPagingDrinkWaterUseCase,
     private val getPagingDrinkCoffeeUseCase: GetPagingDrinkCoffeeUseCase,
 ) : ViewModel() {
 
     private val type: String = savedStateHandle.toRoute<Screens.DrinkList>().drinkType
-    private val _state: MutableStateFlow<DrinkState> = MutableStateFlow(DrinkState())
+    private val _state: MutableStateFlow<DrinkListState> = MutableStateFlow(DrinkListState())
     val state = _state
         .onStart {
             initInfo()
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
-            DrinkState()
+            DrinkListState()
         )
 
     private fun initInfo() {

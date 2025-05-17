@@ -19,12 +19,20 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
 
 @Composable
-fun BloodSugarListScreen(
-    navController: NavHostController,
-    viewModel: BloodSugarListViewModel
+fun BloodSugarListScreenRoot(
+    viewModel: BloodSugarListViewModel,
+    onInput: () -> Unit,
+    onBack: () -> Unit,
 ) {
-    val context: Context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    BloodSugarListScreen(state = state) { }
+}
+
+@Composable
+fun BloodSugarListScreen(
+    state: BloodSugarListState,
+    onIntent: (BloodSugarListEvent) -> Unit
+) {
     val pagingItems = state.pagingList?.collectAsLazyPagingItems()
 
     Box(

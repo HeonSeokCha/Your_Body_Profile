@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-data class DrinkState(
+data class DrinkListState(
     val pagingData: Flow<PagingData<Pair<LocalDate, Int>>>? = null,
     val targetDate: LocalDate = LocalDate.now(),
     val isLoading: Boolean = true

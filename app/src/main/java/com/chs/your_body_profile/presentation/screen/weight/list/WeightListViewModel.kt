@@ -12,7 +12,7 @@ class WeightListViewModel @Inject constructor(
     private val getPagingWeightUseCase: GetPagingWeightUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(WeightListState())
-    val sate = _state.asStateFlow()
+    val state = _state.asStateFlow()
 
 
 }
