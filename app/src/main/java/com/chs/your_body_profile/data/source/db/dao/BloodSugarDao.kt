@@ -11,11 +11,10 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
     @Query("""
         SELECT * 
           FROM blood_sugar_info
-         WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime')
          ORDER BY measureDateTime DESC 
          LIMIT 1
     """)
-    abstract fun getDayLastInfo(time: Long): Flow<BloodSugarInfoEntity?>
+    abstract fun getDayLastInfo(): Flow<BloodSugarInfoEntity?>
 
     @Query("""
         SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 

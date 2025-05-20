@@ -20,8 +20,8 @@ class InsulinInfoRepositoryImpl @Inject constructor(
     private val insulinDao: InsulinDao
 ) : InsulinRepository {
 
-    override fun getDayLastInfo(time: LocalDateTime): Flow<InsulinInfo?> {
-        return insulinDao.getDayLastInfo(time.toMillis()).map { it?.toInsulinInfo() }
+    override fun getDayLastInfo(): Flow<InsulinInfo?> {
+        return insulinDao.getDayLastInfo().map { it?.toInsulinInfo() }
     }
 
     override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>> {

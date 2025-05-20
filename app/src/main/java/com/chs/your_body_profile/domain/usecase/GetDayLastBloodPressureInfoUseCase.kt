@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetDayLastBloodPressureInfoUseCase @Inject constructor(
     private val bodyRepository: BloodPressureRepository
 ) {
-    operator fun invoke(time: LocalDateTime): Flow<BloodPressureInfo?> {
-        return bodyRepository.getDayLastInfo(time)
+    operator fun invoke(): Flow<BloodPressureInfo?> {
+        return bodyRepository.getDayLastInfo()
     }
 }

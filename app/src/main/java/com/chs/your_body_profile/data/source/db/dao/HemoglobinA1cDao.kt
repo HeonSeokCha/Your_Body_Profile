@@ -11,11 +11,10 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM hemoglobin_a1c_info " +
-         "WHERE DATE(measureDateTime / 1000, 'unixepoch', 'localtime') = DATE(:time / 1000, 'unixepoch', 'localtime') " +
          "ORDER BY measureDateTime DESC " +
          "LIMIT 1"
     )
-    abstract fun getDayLastInfo(time: Long): Flow<HemoglobinA1cInfoEntity?>
+    abstract fun getDayLastInfo(): Flow<HemoglobinA1cInfoEntity?>
 
     @Query("""
         SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 

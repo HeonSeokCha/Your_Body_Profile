@@ -22,7 +22,7 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
 ) : HemoglobinA1cRepository {
 
     override fun getDayInfo(time: LocalDateTime): Flow<HemoglobinA1cInfo?> {
-        return hemoglobinA1cDao.getDayLastInfo(time.toMillis()).map {
+        return hemoglobinA1cDao.getDayLastInfo().map {
             it?.toHemoglobinA1cInfo()
         }
     }

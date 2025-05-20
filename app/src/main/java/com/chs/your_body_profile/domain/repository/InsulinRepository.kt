@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 interface InsulinRepository : BaseRepository<InsulinInfo> {
 
-    fun getDayLastInfo(time: LocalDateTime): Flow<InsulinInfo?>
+    fun getDayLastInfo(): Flow<InsulinInfo?>
 
     fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>>
 }

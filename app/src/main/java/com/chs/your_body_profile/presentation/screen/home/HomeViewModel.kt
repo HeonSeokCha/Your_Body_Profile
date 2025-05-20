@@ -63,15 +63,15 @@ class HomeViewModel @Inject constructor(
 
     private fun initInfo() {
         combine(
-            getDayLastBloodPressureInfoUseCase(currentDate),
-            getDayLastBloodSugarInfoUseCase(currentDate),
+            getDayLastBloodPressureInfoUseCase(),
+            getDayLastBloodSugarInfoUseCase(),
             getDayLastDrinkCoffeeInfoUseCase(currentDate),
             getDayLastDrinkWaterInfoUseCase(currentDate),
             getDayLastHemoglobinA1cInfoUseCase(currentDate),
-            getDayLastMedicineInfoUseCase(currentDate),
+            getDayLastMedicineInfoUseCase(),
             getDayLastTakenFoodInfoUseCase(currentDate),
-            getDayLastWeightInfoUseCase(currentDate),
-            getDayLastInsulinInfoUseCase(currentDate)
+            getDayLastWeightInfoUseCase(),
+            getDayLastInsulinInfoUseCase()
         ) { list ->
             _state.update {
                 it.copy(

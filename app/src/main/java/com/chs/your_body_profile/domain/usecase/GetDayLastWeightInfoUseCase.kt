@@ -10,6 +10,6 @@ import javax.inject.Inject
 class GetDayLastWeightInfoUseCase @Inject constructor(
     private val repository: WeightRepository
 ) {
-    operator fun invoke(time: LocalDateTime): Flow<WeightInfo?> =
-        repository.getDayLastInfo(time)
+    operator fun invoke(): Flow<WeightInfo?> =
+        repository.getDayLastInfo()
 }

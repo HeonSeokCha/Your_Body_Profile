@@ -36,7 +36,7 @@ class BloodPressureRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override fun getDayLastInfo(time: LocalDateTime): Flow<BloodPressureInfo?> {
-        return bloodPressureDao.getDayLastInfo(time.toMillis()).map { it?.toBloodPressureInfo() }
+    override fun getDayLastInfo(): Flow<BloodPressureInfo?> {
+        return bloodPressureDao.getDayLastInfo().map { it?.toBloodPressureInfo() }
     }
 }

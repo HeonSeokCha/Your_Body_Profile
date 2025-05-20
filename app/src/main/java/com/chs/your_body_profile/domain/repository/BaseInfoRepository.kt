@@ -6,6 +6,6 @@ import java.time.LocalDateTime
 
 interface BaseInfoRepository<T> : BaseRepository<T> {
 
-    fun getDayLastInfo(time: LocalDateTime): Flow<T?>
+    fun getDayLastInfo(): Flow<T?>
 
 }

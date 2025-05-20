@@ -28,8 +28,8 @@ class BloodSugarRepositoryImpl @Inject constructor(
         bloodSugarDao.delete(info.toBloodSugarInfoEntity())
     }
 
-    override fun getDayLastInfo(time: LocalDateTime): Flow<BloodSugarInfo?> {
-        return bloodSugarDao.getDayLastInfo(time.toMillis()).map { it?.toBloodSugarInfo() }
+    override fun getDayLastInfo(): Flow<BloodSugarInfo?> {
+        return bloodSugarDao.getDayLastInfo().map { it?.toBloodSugarInfo() }
     }
 
     override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>> {
