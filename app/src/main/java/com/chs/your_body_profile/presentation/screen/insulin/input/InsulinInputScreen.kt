@@ -95,7 +95,7 @@ fun InsulinInputScreen(
             ItemPicker(
                 title = stringResource(R.string.text_input_insulin),
                 items = Constants.RANGE_INSULIN_NUMBER.map { it },
-                startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(15),
+                startIdx = Constants.RANGE_INSULIN_NUMBER.indexOf(state.level),
                 onSelectItemValue = { number ->
                     onEvent(InsulinInputEvent.OnChangeInsulinLevel(number))
                 }

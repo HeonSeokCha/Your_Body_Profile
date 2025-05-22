@@ -1,9 +1,12 @@
 package com.chs.your_body_profile.presentation.screen.insulin.input
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.usecase.UpsertInsulinInfoUseCase
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,10 +20,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InsulinInputViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val upsertInsulinInfoUseCase: UpsertInsulinInfoUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(InsulinInputState())
+    private val lastInputLevel: Int = savedStateHandle.toRoute<Screens.InsulinInput>().info ?: 15
+
+    private val _state = MutableStateFlow(InsulinInputState(level = lastInputLevel))
     val state = _state.asStateFlow()
 
     private val _effect: Channel<BaseEffect> = Channel()

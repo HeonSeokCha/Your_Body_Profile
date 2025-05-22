@@ -27,6 +27,7 @@ import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
 import com.chs.your_body_profile.presentation.screen.BaseEffect
+import kotlin.math.roundToInt
 
 @Composable
 fun HemoglobinA1cInputScreenRoot(
@@ -92,9 +93,9 @@ fun HemoglobinA1cInputScreen(
             ItemDualNumberPicker(
                 title = stringResource(R.string.text_input_hemoglobin_A1c),
                 firstItems = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.map { it },
-                firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(5),
+                firstStartIdx = Constants.RANGE_HEMOGLOBIN_A1C_FIRST_RANGE.indexOf(state.number.toInt()),
                 secondItems = Constants.RANGE_INTEGER_SECOND_RANGE.map { it },
-                secondStartIdx = Constants.RANGE_INTEGER_SECOND_RANGE.indexOf(5),
+                secondStartIdx = Constants.RANGE_INTEGER_SECOND_RANGE.indexOf(((state.number % 1) * 10).roundToInt()),
                 onSelectItemValue = { first, second ->
                     onEvent(HemoglobinA1cInputEvent.OnChangeHA1cInfo(first.toFloat() + (second * 0.1f)))
                 }

@@ -92,7 +92,7 @@ fun BloodSugarInputScreen(
             ItemPicker(
                 title = stringResource(R.string.text_input_blood_sugar),
                 items = Constants.RANGE_BLOOD_SUGAR_NUMBER.map { it },
-                startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(100),
+                startIdx = Constants.RANGE_BLOOD_SUGAR_NUMBER.indexOf(state.level),
                 onSelectItemValue = { number ->
                     onEvent(BloodSugarInputEvent.OnChangeBloodSugarLevel(number))
                 }

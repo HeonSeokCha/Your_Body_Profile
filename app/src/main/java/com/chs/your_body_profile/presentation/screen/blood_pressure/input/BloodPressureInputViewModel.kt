@@ -1,9 +1,12 @@
 package com.chs.your_body_profile.presentation.screen.blood_pressure.input
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.usecase.UpsertBloodPressureInfoUseCase
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,10 +20,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BloodPressureInputViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val upsertBloodPressureInfoUseCase: UpsertBloodPressureInfoUseCase
 ) : ViewModel() {
+    private val lastInputDiastolic: Int =
+        savedStateHandle.toRoute<Screens.BloodPressureInput>().diastolic ?: 80
+    private val lastInputSystolic: Int =
+        savedStateHandle.toRoute<Screens.BloodPressureInput>().systolic ?: 120
 
-    private val _state = MutableStateFlow(BloodPressureInputState())
+    private val _state = MutableStateFlow(
+        BloodPressureInputState(
+            systolic = lastInputSystolic,
+            diastolic = lastInputDiastolic
+        )
+    )
+
     val state = _state.asStateFlow()
 
     private val _effect: Channel<BaseEffect> = Channel()
@@ -30,8 +44,7 @@ class BloodPressureInputViewModel @Inject constructor(
         when (intent) {
             BloodPressureInputEvent.ChangeShowDateTimePicker -> {
                 _state.update {
-                    it.copy( isShowDateTimePicker = !it.isShowDateTimePicker
-                    )
+                    it.copy(isShowDateTimePicker = !it.isShowDateTimePicker)
                 }
             }
 

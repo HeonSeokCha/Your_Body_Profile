@@ -20,8 +20,8 @@ class MedicineRepositoryImpl @Inject constructor(
     private val medicineDao: MedicineDao
 ) : MedicineRepository {
 
-    override fun getDayLastInfo(time: LocalDateTime): Flow<MedicineInfo?> {
-        return medicineDao.getDayLastInfo(time.toMillis()).map { it?.toMedicineInfo() }
+    override fun getDayLastInfo(): Flow<MedicineInfo?> {
+        return medicineDao.getDayLastInfo().map { it?.toMedicineInfo() }
     }
 
     override suspend fun upsertInfo(info: MedicineInfo) {

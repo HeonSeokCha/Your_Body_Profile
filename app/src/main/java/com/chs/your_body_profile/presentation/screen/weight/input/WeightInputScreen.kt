@@ -26,6 +26,7 @@ import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
 import com.chs.your_body_profile.presentation.common.picker.ItemDualNumberPicker
 import com.chs.your_body_profile.presentation.screen.BaseEffect
+import kotlin.math.roundToInt
 
 @Composable
 fun WeightInputScreenRoot(
@@ -94,9 +95,9 @@ fun WeightInputScreen(
             ItemDualNumberPicker(
                 title = stringResource(R.string.text_input_weight),
                 firstItems = Constants.RANGE_WEIGHT_FIRST_RANGE.map { it },
-                firstStartIdx = Constants.RANGE_WEIGHT_FIRST_RANGE.indexOf(60),
+                firstStartIdx = Constants.RANGE_WEIGHT_FIRST_RANGE.indexOf(state.weight.toInt()),
                 secondItems = Constants.RANGE_INTEGER_SECOND_RANGE.map { it },
-                secondStartIdx = Constants.RANGE_INTEGER_SECOND_RANGE.indexOf(5),
+                secondStartIdx = Constants.RANGE_INTEGER_SECOND_RANGE.indexOf(((state.weight % 1) * 10).roundToInt()),
                 onSelectItemValue = { first, second ->
                     onEvent(WeightInputEvent.OnChangeWeight(first.toFloat() + (second * 0.1f)))
                 }

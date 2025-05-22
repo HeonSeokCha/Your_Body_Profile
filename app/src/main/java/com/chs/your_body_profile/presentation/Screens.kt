@@ -8,37 +8,22 @@ sealed class Screens {
     data object Home : Screens()
 
     @Serializable
-    data class DrinkList(val drinkType: String) : Screens()
+    data class BloodSugarInput(val info: Int? = null) : Screens()
 
     @Serializable
-    data object BloodSugarInput : Screens()
+    data class BloodPressureInput(
+        val diastolic: Int? = null,
+        val systolic: Int? = null
+    ) : Screens()
 
     @Serializable
-    data object BloodSugarList : Screens()
+    data class HemoglobinA1cInput(val info: Float? = null) : Screens()
 
     @Serializable
-    data object BloodPressureInput : Screens()
+    data class InsulinInput(val info: Int? = null) : Screens()
 
     @Serializable
-    data object BloodPressureList : Screens()
-
-    @Serializable
-    data object HemoglobinA1cInput : Screens()
-
-    @Serializable
-    data object HemoglobinA1cList : Screens()
-
-    @Serializable
-    data object InsulinInput : Screens()
-
-    @Serializable
-    data object InsulinList : Screens()
-
-    @Serializable
-    data object WeightInput : Screens()
-
-    @Serializable
-    data object WeightList : Screens()
+    data class WeightInput(val info: Float? = null) : Screens()
 
     @Serializable
     data object MedicineInput : Screens()
@@ -52,6 +37,19 @@ sealed class Screens {
     @Serializable
     data object MealHistoryInput : Screens()
 
+    @Serializable
+    data class DrinkList(val drinkType: String) : Screens()
+
+    @Serializable
+    data object BloodSugarList : Screens()
+    @Serializable
+    data object BloodPressureList : Screens()
+    @Serializable
+    data object HemoglobinA1cList : Screens()
+    @Serializable
+    data object InsulinList : Screens()
+    @Serializable
+    data object WeightList : Screens()
     @Serializable
     data object MealList : Screens()
 }

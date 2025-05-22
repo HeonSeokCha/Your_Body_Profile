@@ -1,10 +1,13 @@
 package com.chs.your_body_profile.presentation.screen.blood_sugar.input
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.usecase.UpsertBloodSugarInfoUseCase
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -18,10 +21,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BloodSugarInputViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val upsertBloodSugarInfoUseCase: UpsertBloodSugarInfoUseCase
 ) : ViewModel() {
+    private val lastInputSugar: Int = savedStateHandle.toRoute<Screens.BloodSugarInput>().info ?: 100
 
-    private val _state = MutableStateFlow(BloodSugarInputState())
+    private val _state = MutableStateFlow(BloodSugarInputState(level = lastInputSugar))
     val state = _state.asStateFlow()
 
     private val _effect: Channel<BaseEffect> = Channel()

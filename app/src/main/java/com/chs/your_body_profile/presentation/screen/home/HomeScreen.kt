@@ -87,6 +87,7 @@ fun HomeScreen(
                 drinkEventClick = { totalCups ->
                     onEvent(HomeEvent.Update.Water(totalCups))
                 }, cardClick = {
+
                 }
             )
         }
@@ -99,6 +100,7 @@ fun HomeScreen(
                     onEvent(HomeEvent.Update.Coffee(totalCups))
                 },
                 cardClick = {
+
                 }
             )
         }
@@ -124,7 +126,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-                    onEvent(HomeEvent.Navigate(Screens.WeightInput))
+                    onEvent(HomeEvent.Navigate(Screens.WeightInput(state.weightInfo?.weight)))
                 }
             )
         }
@@ -138,7 +140,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-                    onEvent(HomeEvent.Navigate(Screens.BloodSugarInput))
+                    onEvent(HomeEvent.Navigate(Screens.BloodSugarInput(state.bloodSugarInfo?.number)))
                 }
             )
         }
@@ -157,7 +159,14 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-                    onEvent(HomeEvent.Navigate(Screens.BloodPressureInput))
+                    onEvent(
+                        HomeEvent.Navigate(
+                            Screens.BloodPressureInput(
+                                diastolic = todayBloodPressureInfo?.diastolic,
+                                systolic = todayBloodPressureInfo?.systolic
+                            )
+                        )
+                    )
                 }
             )
         }
@@ -170,7 +179,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-                    onEvent(HomeEvent.Navigate(Screens.HemoglobinA1cInput))
+                    onEvent(HomeEvent.Navigate(Screens.HemoglobinA1cInput(state.hemoglobinA1cInfo?.number)))
                 }
             )
         }
@@ -184,7 +193,7 @@ fun HomeScreen(
 
                 },
                 btnClick = {
-                    onEvent(HomeEvent.Navigate(Screens.InsulinInput))
+                    onEvent(HomeEvent.Navigate(Screens.InsulinInput(state.insulinInfo?.level)))
                 }
             )
         }

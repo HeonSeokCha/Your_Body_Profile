@@ -11,6 +11,7 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
     @Query(
         "SELECT * " +
           "FROM insulin_info " +
+         "ORDER BY injectDateTime DESC " +
          "LIMIT 1"
     )
     abstract fun getDayLastInfo(): Flow<InsulinInfoEntity?>

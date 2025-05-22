@@ -1,9 +1,12 @@
 package com.chs.your_body_profile.presentation.screen.hemoglobinA1c.input
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.usecase.UpsertHemoglobinA1cInfoUseCase
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,10 +20,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HemoglobinA1cInputViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val upsertHemoglobinA1cInfoUseCase: UpsertHemoglobinA1cInfoUseCase
 ) : ViewModel() {
+    private val lastInputNumber: Float =
+        savedStateHandle.toRoute<Screens.HemoglobinA1cInput>().info ?: 5.5f
 
-    private val _state = MutableStateFlow(HemoglobinA1cInputState())
+    private val _state = MutableStateFlow(HemoglobinA1cInputState(number = lastInputNumber))
     val state = _state.asStateFlow()
 
     private val _effect: Channel<BaseEffect> = Channel()
@@ -39,12 +45,15 @@ class HemoglobinA1cInputViewModel @Inject constructor(
             is HemoglobinA1cInputEvent.OnChangeHA1cInfo -> {
                 updateHemoglobinA1cNumber(intent.level)
             }
+
             is HemoglobinA1cInputEvent.OnChangeMemo -> {
                 updateMemo(intent.memo)
             }
+
             HemoglobinA1cInputEvent.OnClickSaveButton -> {
                 upsertHemoglobinA1c()
             }
+
             HemoglobinA1cInputEvent.OnBack -> Unit
         }
     }

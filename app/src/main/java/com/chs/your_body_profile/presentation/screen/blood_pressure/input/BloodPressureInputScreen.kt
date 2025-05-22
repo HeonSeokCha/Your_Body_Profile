@@ -99,7 +99,7 @@ fun BloodPressureInputScreen(
             ItemPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_systolic),
                 items = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.map { it },
-                startIdx = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.indexOf(120),
+                startIdx = Constants.RANGE_BLOOD_PRESSURE_SYSTOLIC_NUMBER.indexOf(state.systolic),
                 onSelectItemValue = { number ->
                     onEvent(BloodPressureInputEvent.OnChangeSystolic(number))
                 }
@@ -110,7 +110,7 @@ fun BloodPressureInputScreen(
             ItemPicker(
                 title = stringResource(id = R.string.text_input_blood_pressure_diastolic),
                 items = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.map { it },
-                startIdx = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.indexOf(80),
+                startIdx = Constants.RANGE_BLOOD_PRESSURE_DIASTOLIC_NUMBER.indexOf(state.diastolic),
                 onSelectItemValue = { number ->
                     onEvent(BloodPressureInputEvent.OnChangeDiastolic(number))
                 }

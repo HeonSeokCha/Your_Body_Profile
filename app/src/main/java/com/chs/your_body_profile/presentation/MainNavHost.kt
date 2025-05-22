@@ -1,10 +1,12 @@
 package com.chs.your_body_profile.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputViewModel
 import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListScreen
@@ -53,7 +55,10 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.BloodSugarInput> {
-            val viewModel: BloodSugarInputViewModel = hiltViewModel()
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(it.toRoute<Screens.BloodSugarInput>())
+            }
+            val viewModel: BloodSugarInputViewModel = hiltViewModel(parentEntry)
             BloodSugarInputScreenRoot(
                 viewModel = viewModel,
                 onBack = {
@@ -63,7 +68,10 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.BloodPressureInput> {
-            val viewModel: BloodPressureInputViewModel = hiltViewModel()
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(it.toRoute<Screens.BloodPressureInput>())
+            }
+            val viewModel: BloodPressureInputViewModel = hiltViewModel(parentEntry)
             BloodPressureInputScreenRoot(
                 viewModel = viewModel,
                 onBack = {
@@ -73,7 +81,10 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.HemoglobinA1cInput> {
-            val viewModel: HemoglobinA1cInputViewModel = hiltViewModel()
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(it.toRoute<Screens.HemoglobinA1cInput>())
+            }
+            val viewModel: HemoglobinA1cInputViewModel = hiltViewModel(parentEntry)
             HemoglobinA1cInputScreenRoot(
                 viewModel = viewModel,
                 onBack = {
@@ -83,7 +94,10 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.InsulinInput> {
-            val viewModel: InsulinInputViewModel = hiltViewModel()
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(it.toRoute<Screens.InsulinInput>())
+            }
+            val viewModel: InsulinInputViewModel = hiltViewModel(parentEntry)
             InsulinInputScreenRoot(
                 viewModel = viewModel,
                 onBack = {
@@ -93,7 +107,10 @@ fun MainNavHost(navController: NavHostController) {
         }
 
         composable<Screens.WeightInput> {
-            val viewModel: WeightInputViewModel = hiltViewModel()
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(it.toRoute<Screens.WeightInput>())
+            }
+            val viewModel: WeightInputViewModel = hiltViewModel(parentEntry)
             WeightInputScreenRoot(
                 viewModel = viewModel,
                 onBack = {
@@ -118,7 +135,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.BloodSugarInput)
+                    navController.navigate(Screens.BloodPressureList)
                 }
             )
         }
@@ -145,7 +162,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.BloodSugarInput)
+                    navController.navigate(Screens.HemoglobinA1cInput)
                 }
             )
         }
@@ -158,7 +175,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.BloodSugarInput)
+                    navController.navigate(Screens.InsulinInput)
                 }
             )
         }
@@ -171,7 +188,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.BloodSugarInput)
+                    navController.navigate(Screens.WeightInput)
                 }
             )
         }

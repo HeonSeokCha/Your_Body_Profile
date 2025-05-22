@@ -1,9 +1,12 @@
 package com.chs.your_body_profile.presentation.screen.weight.input
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.UpsertWeightInfoUseCase
+import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,9 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeightInputViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val upsertWeightInfoUseCase: UpsertWeightInfoUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(WeightInputState())
+    private val lastInputWeight: Float = savedStateHandle.toRoute<Screens.WeightInput>().info ?: 60.5f
+    private val _state = MutableStateFlow(WeightInputState(weight = lastInputWeight))
     val state = _state.asStateFlow()
 
     private val _effect: Channel<BaseEffect> = Channel()
