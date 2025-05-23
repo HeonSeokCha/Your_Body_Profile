@@ -135,7 +135,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.BloodPressureList)
+                    navController.navigate(Screens.BloodPressureInput())
                 }
             )
         }
@@ -149,7 +149,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.BloodSugarInput)
+                    navController.navigate(Screens.BloodSugarInput())
                 }
             )
         }
@@ -162,7 +162,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.HemoglobinA1cInput)
+                    navController.navigate(Screens.HemoglobinA1cInput())
                 }
             )
         }
@@ -175,7 +175,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.InsulinInput)
+                    navController.navigate(Screens.InsulinInput())
                 }
             )
         }
@@ -188,7 +188,7 @@ fun MainNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onInput = {
-                    navController.navigate(Screens.WeightInput)
+                    navController.navigate(Screens.WeightInput())
                 }
             )
         }

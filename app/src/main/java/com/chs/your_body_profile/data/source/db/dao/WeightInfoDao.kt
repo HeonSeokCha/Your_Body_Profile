@@ -18,14 +18,14 @@ abstract class WeightInfoDao : BaseDao<WeightInfoEntity> {
     abstract fun getDayLastInfo(): Flow<WeightInfoEntity?>
 
     @Query("""
-        SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 
+        SELECT unixepoch(DATE(measureDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM weight_info
          GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page
     """)
-    abstract fun getPagingDayInfoList(
+    abstract suspend fun getPagingDayInfoList(
         page: Int
     ): Map<@MapColumn("date") Long, List<WeightInfoEntity>>
 }

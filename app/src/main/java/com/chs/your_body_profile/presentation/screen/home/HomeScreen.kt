@@ -122,9 +122,7 @@ fun HomeScreen(
                 title = stringResource(id = R.string.text_weight),
                 infoValue = "${state.weightInfo?.weight ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_weight_unit),
-                onClick = {
-
-                },
+                onClick = { onEvent(HomeEvent.Navigate(Screens.WeightList)) },
                 btnClick = {
                     onEvent(HomeEvent.Navigate(Screens.WeightInput(state.weightInfo?.weight)))
                 }
@@ -137,7 +135,7 @@ fun HomeScreen(
                 infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
                 onClick = {
-
+                    onEvent(HomeEvent.Navigate(Screens.BloodSugarList))
                 },
                 btnClick = {
                     onEvent(HomeEvent.Navigate(Screens.BloodSugarInput(state.bloodSugarInfo?.number)))
@@ -155,9 +153,7 @@ fun HomeScreen(
                     stringResource(id = R.string.text_default_measure_unknown)
                 },
                 infoUnit = stringResource(id = R.string.text_blood_pressure_unit),
-                onClick = {
-
-                },
+                onClick = { onEvent(HomeEvent.Navigate(Screens.BloodPressureList)) },
                 btnClick = {
                     onEvent(
                         HomeEvent.Navigate(
@@ -175,9 +171,7 @@ fun HomeScreen(
                 title = stringResource(id = R.string.text_hemoglobin_A1c),
                 infoValue = "${state.hemoglobinA1cInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_hemoglobin_A1c_unit),
-                onClick = {
-
-                },
+                onClick = { onEvent(HomeEvent.Navigate(Screens.HemoglobinA1cList)) },
                 btnClick = {
                     onEvent(HomeEvent.Navigate(Screens.HemoglobinA1cInput(state.hemoglobinA1cInfo?.number)))
                 }
@@ -189,9 +183,7 @@ fun HomeScreen(
                 title = stringResource(id = R.string.text_insulin),
                 infoValue = "${state.insulinInfo?.level ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_insulin_unit),
-                onClick = {
-
-                },
+                onClick = { onEvent(HomeEvent.Navigate(Screens.InsulinList)) },
                 btnClick = {
                     onEvent(HomeEvent.Navigate(Screens.InsulinInput(state.insulinInfo?.level)))
                 }

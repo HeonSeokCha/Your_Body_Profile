@@ -17,12 +17,12 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
     abstract fun getDayLastInfo(): Flow<InsulinInfoEntity?>
 
     @Query("""
-        SELECT DATE(injectDateTime / 1000, 'unixepoch', 'localtime') as date, * 
+        SELECT unixepoch(DATE(injectDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM insulin_info
          GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page
     """)
-    abstract fun getPagingDayInfoList(page: Int): Map<@MapColumn("date") Long, List<InsulinInfoEntity>>
+    abstract suspend fun getPagingDayInfoList(page: Int): Map<@MapColumn("date") Long, List<InsulinInfoEntity>>
 }

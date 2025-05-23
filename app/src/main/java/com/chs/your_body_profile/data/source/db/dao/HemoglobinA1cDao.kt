@@ -17,12 +17,12 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
     abstract fun getDayLastInfo(): Flow<HemoglobinA1cInfoEntity?>
 
     @Query("""
-        SELECT DATE(measureDateTime / 1000, 'unixepoch', 'localtime') as date, * 
+        SELECT unixepoch(DATE(measureDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM hemoglobin_a1c_info 
          GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page
     """)
-    abstract fun getPagingDayInfoList(page: Int): Map<@MapColumn("date") Long, List<HemoglobinA1cInfoEntity>>
+    abstract suspend fun getPagingDayInfoList(page: Int): Map<@MapColumn("date") Long, List<HemoglobinA1cInfoEntity>>
 }
