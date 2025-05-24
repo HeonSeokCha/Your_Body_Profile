@@ -54,7 +54,6 @@ fun HemoglobinA1cListScreen(
         ) {
             ItemVerticalChart(pagingList) { }
 
-
             LazyColumn {
                 item {
 

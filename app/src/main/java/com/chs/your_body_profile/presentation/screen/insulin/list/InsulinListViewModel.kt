@@ -23,7 +23,7 @@ class InsulinListViewModel @Inject constructor(
         getPagingInfo()
     }
 
-    fun getPagingInfo() {
+    private fun getPagingInfo() {
         _state.update {
             it.copy(pagingList = getPagingInsulinUseCase().cachedIn(viewModelScope))
         }

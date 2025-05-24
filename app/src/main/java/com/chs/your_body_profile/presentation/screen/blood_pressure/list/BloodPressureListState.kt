@@ -7,5 +7,6 @@ import java.time.LocalDate
 
 data class BloodPressureListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<BloodPressureInfo>>>>? = null,
-    val selectInfo: BloodPressureInfo? = null
+    val selectIdx: Int = 0,
+    val selectInfo: List<BloodPressureInfo> = emptyList()
 )

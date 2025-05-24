@@ -22,7 +22,7 @@ class BloodSugarListViewModel @Inject constructor(
         getPagingBloodSugar()
     }
 
-    fun getPagingBloodSugar() {
+    private fun getPagingBloodSugar() {
         _state.update {
             it.copy(
                 pagingList = getPagingBloodSugarUseCase().cachedIn(viewModelScope)

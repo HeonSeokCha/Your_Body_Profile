@@ -25,6 +25,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
+import kotlin.math.roundToInt
 
 @Composable
 fun BloodSugarListScreenRoot(
@@ -68,7 +69,11 @@ fun BloodSugarListScreen(
                     ) {
                         val item = pagingItems[it]
                         if (item != null) {
-                            Text(text = item.first.toString())
+                            Column {
+                                Text(text = item.second.map { it.number }.average().roundToInt().toString())
+
+                                Text(text = item.first.toString())
+                            }
                         }
                     }
                 }

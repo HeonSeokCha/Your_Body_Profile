@@ -30,11 +30,21 @@ class BloodPressureListViewModel @Inject constructor(
         }
     }
 
-    fun selectInfo(bloodPressureInfo: BloodPressureInfo) {
-        _state.update {
-            it.copy(
-                selectInfo = bloodPressureInfo
-            )
+    fun changeIntent(intent: BloodPressureListEvent) {
+        when (intent) {
+            is BloodPressureListEvent.OnChangeSelectIdx -> {
+                _state.update {
+                    it.copy(selectIdx = intent.idx)
+                }
+            }
+            is BloodPressureListEvent.OnSelectInfo -> {
+                selectInfo(intent.infoList)
+            }
+            else -> Unit
         }
+    }
+
+    private fun selectInfo(infoList: List<BloodPressureInfo>) {
+        _state.update { it.copy(selectInfo = infoList) }
     }
 }
