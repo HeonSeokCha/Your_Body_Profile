@@ -22,6 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.presentation.common.ItemInputButton
@@ -56,11 +58,18 @@ fun BloodPressureListScreen(
 ) {
     val pagingItems = state.pagingList?.collectAsLazyPagingItems()
 
+    LaunchedEffect(pagingItems?.loadState?.refresh) {
+        if (pagingItems?.loadState?.refresh is LoadState.Loading) return@LaunchedEffect
+        if (pagingItems?.loadState?.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems?.itemCount == 0) return@LaunchedEffect
+        onIntent(BloodPressureListEvent.OnChangeSelectIdx(0))
+    }
+
     LaunchedEffect(state.selectIdx) {
         if (pagingItems == null) return@LaunchedEffect
-        if (pagingItems.itemCount == 0 || pagingItems[state.selectIdx] == null) return@LaunchedEffect
-
-
+        if (pagingItems.itemCount == 0) return@LaunchedEffect
+        if (pagingItems[state.selectIdx]?.second == null) return@LaunchedEffect
+        onIntent(BloodPressureListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
     }
 
     Box(
@@ -68,7 +77,7 @@ fun BloodPressureListScreen(
             .fillMaxSize()
     ) {
         LazyColumn(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -90,8 +99,7 @@ fun BloodPressureListScreen(
                                 Column(
                                     modifier = Modifier
                                         .clickable {
-                                            onIntent(BloodPressureListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
-//                                            onIntent(BloodPressureListEvent.OnChangeSelectIdx(it))
+                                            onIntent(BloodPressureListEvent.OnChangeSelectIdx(it))
                                         },
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {

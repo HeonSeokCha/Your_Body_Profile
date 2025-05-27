@@ -7,5 +7,6 @@ import java.time.LocalDate
 
 data class WeightListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>>? = null,
-    val selectInsulinInfoList: List<WeightInfo> = emptyList()
+    val selectInfo: List<WeightInfo> = emptyList(),
+    val selectIdx: Int = -1
 )
