@@ -1,5 +1,12 @@
 package com.chs.your_body_profile.presentation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,7 +45,11 @@ import com.chs.your_body_profile.presentation.screen.weight.list.WeightListViewM
 fun MainNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screens.Home
+        startDestination = Screens.Home,
+        enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(500)) },
+        exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(500)) },
+        popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(500)) },
+        popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(500)) }
     ) {
         composable<Screens.Home> {
             val viewModel: HomeViewModel = hiltViewModel()

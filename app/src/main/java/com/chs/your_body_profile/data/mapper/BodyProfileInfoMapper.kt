@@ -13,9 +13,8 @@ import com.chs.your_body_profile.data.source.db.entity.MedicineInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.WeightInfoEntity
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
 import com.chs.your_body_profile.domain.model.DrinkInfo
-import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MeasureType
@@ -59,25 +58,17 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
     )
 }
 
-fun DrinkInfoEntity.toDrinkWaterInfo(): DrinkWaterInfo {
-    return DrinkWaterInfo(
-        takenDateTime = takenDate.toLocalDate(),
-        totalCups = this.totalCups
+fun DrinkInfoEntity.toDrinkInfo(): DrinkInfo {
+    return DrinkInfo(
+        takenDateTime = this.takenDateTime.toLocalDateTime(),
+        drinkType = DrinkType.entries.find { it.name == this.drinkType }!!
     )
 }
 
-fun DrinkInfoEntity.toDrinkCoffeeInfo(): DrinkCoffeeInfo {
-    return DrinkCoffeeInfo(
-        takenDateTime = takenDate.toLocalDate(),
-        totalCups = this.totalCups
-    )
-}
-
-fun DrinkInfo.toDrinkInfoEntity(type: String): DrinkInfoEntity {
+fun DrinkInfo.toDrinkInfoEntity(): DrinkInfoEntity {
     return DrinkInfoEntity(
-        takenDate = this.takenDateTime.toMillis(),
-        drinkType = type,
-        totalCups = this.totalCups
+        takenDateTime = this.takenDateTime.toMillis(),
+        drinkType = this.drinkType.name
     )
 }
 

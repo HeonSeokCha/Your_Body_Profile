@@ -95,7 +95,7 @@ fun HomeScreen(
         item {
             DrinkInfoDashBoard(
                 title = stringResource(id = R.string.text_title_drink_coffee),
-                value = state.drinkCoffeeInfo?.totalCups ?: 0,
+                value = state.drinkCoffeeInfo? ?: 0,
                 drinkEventClick = { totalCups ->
                     onEvent(HomeEvent.Update.Coffee(totalCups))
                 },

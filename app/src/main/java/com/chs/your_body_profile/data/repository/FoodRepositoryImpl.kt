@@ -13,7 +13,6 @@ import com.chs.your_body_profile.data.source.db.dao.FoodDao
 import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
 import com.chs.your_body_profile.data.source.db.entity.MealHistoryEntity
-import com.chs.your_body_profile.data.source.paging.DayFoodTotalCaloriePaging
 import com.chs.your_body_profile.data.source.paging.SearchFoodPaging
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MealType
@@ -112,15 +111,6 @@ class FoodRepositoryImpl @Inject constructor(
             )
         }.first()
     }
-
-    override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>> {
-        return Pager(
-            PagingConfig(pageSize = 10)
-        ) {
-            DayFoodTotalCaloriePaging(mealHistoryDao)
-        }.flow
-    }
-
 
     override suspend fun getRecentFoodSearchHistory(): List<String> {
         return foodSearchHistoryDao.getRecentSearchHistory()

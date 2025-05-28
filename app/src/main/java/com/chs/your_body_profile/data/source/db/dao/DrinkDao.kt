@@ -1,6 +1,7 @@
 package com.chs.your_body_profile.data.source.db.dao
 
 import androidx.room.Dao
+import androidx.room.MapColumn
 import androidx.room.Query
 import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
 import kotlinx.coroutines.flow.Flow
@@ -9,27 +10,29 @@ import kotlinx.coroutines.flow.Flow
 abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
 
     @Query(
-        "SELECT * " +
+        "SELECT COUNT(*) " +
           "FROM drink_info " +
-         "WHERE DATE(takenDate / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
-           "AND drinkType = :drinkType LIMIT 1"
+         "WHERE DATE(takenDateTime / 1000, 'unixepoch', 'localtime') = :" +
+                "drinkType = :drinkType " +
+         "ORDER BY takenDateTime DESC "
     )
-    abstract fun getDayLastDrinkInfo(
-        drinkType: String,
-        targetDate: Long
-    ): Flow<DrinkInfoEntity?>
+    abstract fun getDayLastTotalCupInfo(
+        targetDate: Long,
+        drinkType: String
+    ): Flow<Int>
 
 
-    @Query(
-        "SELECT * " +
-          "FROM drink_info " +
-         "WHERE takenDate BETWEEN :beginDate AND :endDate " +
-           "AND drinkType = :drinkType " +
-         "ORDER BY takenDate DESC "
-    )
-    abstract suspend fun getDayDrinkInfoList(
-        beginDate: Long,
-        endDate: Long,
+    @Query("""
+        SELECT unixepoch(DATE(takenDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
+          FROM drink_info
+         WHERE drinkType = :drinkType
+         GROUP BY date
+         ORDER BY date DESC
+         LIMIT 15
+         OFFSET :page
+    """)
+    abstract suspend fun getPagingDayInfoList(
         drinkType: String,
-    ): List<DrinkInfoEntity>
+        page: Int
+    ): Map<@MapColumn("date") Long, List<DrinkInfoEntity>>
 }

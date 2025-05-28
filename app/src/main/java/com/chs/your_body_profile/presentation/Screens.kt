@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation
 
+import com.chs.your_body_profile.domain.model.DrinkType
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -38,7 +39,7 @@ sealed class Screens {
     data object MealHistoryInput : Screens()
 
     @Serializable
-    data class DrinkList(val drinkType: String) : Screens()
+    data class DrinkList(val drinkType: DrinkType) : Screens()
 
     @Serializable
     data object BloodSugarList : Screens()

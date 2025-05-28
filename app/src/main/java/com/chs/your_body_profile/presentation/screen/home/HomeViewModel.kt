@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.DrinkCoffeeInfo
-import com.chs.your_body_profile.domain.model.DrinkWaterInfo
+import com.chs.your_body_profile.domain.model.DrinkInfo
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
@@ -20,8 +19,7 @@ import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastTakenFoodInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
-import com.chs.your_body_profile.domain.usecase.UpsertDrinkCoffeeInfoUseCase
-import com.chs.your_body_profile.domain.usecase.UpsertDrinkWaterInfoUseCase
+import com.chs.your_body_profile.domain.usecase.UpsertDrinkInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -45,8 +43,7 @@ class HomeViewModel @Inject constructor(
     private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
     private val getDayLastTakenFoodInfoUseCase: GetDayLastTakenFoodInfoUseCase,
     private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
-    private val upsertDrinkWaterInfoUseCase: UpsertDrinkWaterInfoUseCase,
-    private val upsertDrinkCoffeeInfoUseCase: UpsertDrinkCoffeeInfoUseCase
+    private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase
 ) : ViewModel() {
 
     private val currentDate: LocalDateTime = LocalDateTime.now()
@@ -65,9 +62,9 @@ class HomeViewModel @Inject constructor(
         combine(
             getDayLastBloodPressureInfoUseCase(),
             getDayLastBloodSugarInfoUseCase(),
-            getDayLastDrinkCoffeeInfoUseCase(currentDate),
-            getDayLastDrinkWaterInfoUseCase(currentDate),
-            getDayLastHemoglobinA1cInfoUseCase(currentDate),
+            getDayLastDrinkCoffeeInfoUseCase(),
+            getDayLastDrinkWaterInfoUseCase(),
+            getDayLastHemoglobinA1cInfoUseCase(),
             getDayLastMedicineInfoUseCase(),
             getDayLastTakenFoodInfoUseCase(currentDate),
             getDayLastWeightInfoUseCase(),
@@ -77,8 +74,8 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     bloodPressureInfo = (list[0] as BloodPressureInfo?),
                     bloodSugarInfo = (list[1] as BloodSugarInfo?),
-                    drinkCoffeeInfo = (list[2] as DrinkCoffeeInfo?),
-                    drinkWaterInfo = (list[3] as DrinkWaterInfo?),
+                    drinkCoffeeInfo = (list[2] as DrinkInfo?),
+                    drinkWaterInfo = (list[3] as DrinkInfo?),
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
                     medicineInfo = (list[5] as MedicineInfo?),
                     takenFoodInfo = (list[6] as FoodDetailInfo?),
@@ -96,36 +93,12 @@ class HomeViewModel @Inject constructor(
     fun changeEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.Update.Coffee -> {
-                updateDrinkCoffeeInfo(event.cups)
             }
 
             is HomeEvent.Update.Water -> {
-                updateDrinkWaterInfo(event.cups)
             }
 
             else -> Unit
-        }
-    }
-
-    private fun updateDrinkCoffeeInfo(totalCups: Int) {
-        viewModelScope.launch {
-            upsertDrinkCoffeeInfoUseCase(
-                DrinkCoffeeInfo(
-                    takenDateTime = currentDate.toLocalDate(),
-                    totalCups = totalCups
-                )
-            )
-        }
-    }
-
-    private fun updateDrinkWaterInfo(totalCups: Int) {
-        viewModelScope.launch {
-            upsertDrinkWaterInfoUseCase(
-                DrinkWaterInfo(
-                    takenDateTime = currentDate.toLocalDate(),
-                    totalCups = totalCups
-                )
-            )
         }
     }
 }

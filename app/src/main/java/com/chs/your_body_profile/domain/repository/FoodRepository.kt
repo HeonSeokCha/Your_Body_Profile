@@ -31,5 +31,4 @@ interface FoodRepository {
         mealType: MealType
     ): MealHistoryInfo
 
-    fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, Int>>>
 }
