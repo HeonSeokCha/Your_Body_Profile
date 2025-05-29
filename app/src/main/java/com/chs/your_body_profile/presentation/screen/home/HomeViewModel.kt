@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -46,7 +47,7 @@ class HomeViewModel @Inject constructor(
     private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase
 ) : ViewModel() {
 
-    private val currentDate: LocalDateTime = LocalDateTime.now()
+    private val currentDate: LocalDate = LocalDate.now()
 
     private val _state = MutableStateFlow(HomeState())
 
@@ -62,8 +63,8 @@ class HomeViewModel @Inject constructor(
         combine(
             getDayLastBloodPressureInfoUseCase(),
             getDayLastBloodSugarInfoUseCase(),
-            getDayLastDrinkCoffeeInfoUseCase(),
-            getDayLastDrinkWaterInfoUseCase(),
+            getDayLastDrinkCoffeeInfoUseCase(currentDate),
+            getDayLastDrinkWaterInfoUseCase(currentDate),
             getDayLastHemoglobinA1cInfoUseCase(),
             getDayLastMedicineInfoUseCase(),
             getDayLastTakenFoodInfoUseCase(currentDate),
@@ -74,8 +75,8 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     bloodPressureInfo = (list[0] as BloodPressureInfo?),
                     bloodSugarInfo = (list[1] as BloodSugarInfo?),
-                    drinkCoffeeInfo = (list[2] as DrinkInfo?),
-                    drinkWaterInfo = (list[3] as DrinkInfo?),
+                    drinkCoffeeTotalCupInfo = (list[2] as Int),
+                    drinkWaterTotalCupInfo = (list[3] as Int),
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
                     medicineInfo = (list[5] as MedicineInfo?),
                     takenFoodInfo = (list[6] as FoodDetailInfo?),

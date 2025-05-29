@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
 
     @Query(
-        "SELECT COUNT(*) " +
+        "SELECT IFNULL(COUNT(*), 0) " +
           "FROM drink_info " +
-         "WHERE DATE(takenDateTime / 1000, 'unixepoch', 'localtime') = :" +
-                "drinkType = :drinkType " +
+         "WHERE DATE(takenDateTime / 1000, 'unixepoch', 'localtime') = DATE(:targetDate / 1000, 'unixepoch', 'localtime') " +
+           "AND drinkType = :drinkType " +
          "ORDER BY takenDateTime DESC "
     )
-    abstract fun getDayLastTotalCupInfo(
+    abstract fun getDayTotalCupInfo(
         targetDate: Long,
         drinkType: String
     ): Flow<Int>

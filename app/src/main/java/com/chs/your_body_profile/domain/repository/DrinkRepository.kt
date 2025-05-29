@@ -9,7 +9,10 @@ import java.time.LocalDateTime
 
 interface DrinkRepository : BaseRepository<DrinkInfo> {
 
-    fun getDayDrinkInfo(drinkType: DrinkType): Flow<DrinkInfo?>
+    fun getDayDrinkInfo(
+        targetDate: LocalDate,
+        drinkType: DrinkType
+    ): Flow<Int>
 
     fun getDayPagingInfoList(drinkType: DrinkType): Flow<PagingData<Pair<LocalDate, List<DrinkInfo>>>>
 }

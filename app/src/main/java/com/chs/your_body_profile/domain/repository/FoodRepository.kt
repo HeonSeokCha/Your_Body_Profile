@@ -24,7 +24,7 @@ interface FoodRepository {
 
     fun getDayTakenList(takenDate: LocalDate): Flow<List<MealHistoryInfo>>
 
-    fun getDayLastTakenFood(takenDate: LocalDateTime): Flow<FoodDetailInfo?>
+    fun getDayLastTakenFood(takenDate: LocalDate): Flow<FoodDetailInfo?>
 
     suspend fun getDayMealTypeList(
         takenDate: LocalDate,

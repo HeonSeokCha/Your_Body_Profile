@@ -3,6 +3,7 @@ package com.chs.your_body_profile.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.data.mapper.toDrinkInfo
 import com.chs.your_body_profile.data.mapper.toDrinkInfoEntity
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
@@ -40,9 +41,13 @@ class DrinkRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override fun getDayDrinkInfo(drinkType: DrinkType): Flow<DrinkInfo?> {
-        return drinkDao.getDayLastDrinkInfo(drinkType = drinkType.name).map {
-            it?.toDrinkInfo()
-        }
+    override fun getDayDrinkInfo(
+        targetDate: LocalDate,
+        drinkType: DrinkType
+    ): Flow<Int> {
+        return drinkDao.getDayTotalCupInfo(
+            targetDate = targetDate.toMillis(),
+            drinkType = drinkType.name
+        )
     }
 }
