@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkInfo
+import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
+import com.chs.your_body_profile.domain.usecase.DeleteDrinkInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodPressureInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastBloodSugarInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkCoffeeInfoUseCase
@@ -44,7 +46,8 @@ class HomeViewModel @Inject constructor(
     private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
     private val getDayLastTakenFoodInfoUseCase: GetDayLastTakenFoodInfoUseCase,
     private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
-    private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase
+    private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase,
+    private val deleteDrinkInfoUseCase: DeleteDrinkInfoUseCase
 ) : ViewModel() {
 
     private val currentDate: LocalDate = LocalDate.now()
@@ -75,8 +78,8 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     bloodPressureInfo = (list[0] as BloodPressureInfo?),
                     bloodSugarInfo = (list[1] as BloodSugarInfo?),
-                    drinkCoffeeTotalCupInfo = (list[2] as Int),
-                    drinkWaterTotalCupInfo = (list[3] as Int),
+                    drinkCoffeeTotalCupInfo = (list[2] as List<DrinkInfo>),
+                    drinkWaterTotalCupInfo = (list[3] as List<DrinkInfo>),
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
                     medicineInfo = (list[5] as MedicineInfo?),
                     takenFoodInfo = (list[6] as FoodDetailInfo?),
@@ -93,13 +96,42 @@ class HomeViewModel @Inject constructor(
 
     fun changeEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.Update.Coffee -> {
-            }
-
-            is HomeEvent.Update.Water -> {
-            }
+            HomeEvent.Update.Up.Coffee -> insertDrinkCoffeeInfo()
+            HomeEvent.Update.Down.Coffee -> deleteLastDrinkCoffeeInfo()
+            HomeEvent.Update.Up.Water -> insertDrinkWaterInfo()
+            HomeEvent.Update.Down.Water -> deleteLastDrinkWaterInfo()
 
             else -> Unit
+        }
+    }
+
+    private fun deleteLastDrinkWaterInfo() {
+        if (_state.value.drinkWaterTotalCupInfo.isEmpty()) return
+        viewModelScope.launch {
+            deleteDrinkInfoUseCase(_state.value.drinkWaterTotalCupInfo.last())
+        }
+    }
+
+    private fun deleteLastDrinkCoffeeInfo() {
+        if (_state.value.drinkCoffeeTotalCupInfo.isEmpty()) return
+        viewModelScope.launch {
+            deleteDrinkInfoUseCase(_state.value.drinkCoffeeTotalCupInfo.last())
+        }
+    }
+
+    private fun insertDrinkCoffeeInfo() {
+        viewModelScope.launch {
+            upsertDrinkInfoUseCase(
+                DrinkInfo(takenDateTime = LocalDateTime.now(), DrinkType.COFFEE)
+            )
+        }
+    }
+
+    private fun insertDrinkWaterInfo() {
+        viewModelScope.launch {
+            upsertDrinkInfoUseCase(
+                DrinkInfo(takenDateTime = LocalDateTime.now(), DrinkType.WATER)
+            )
         }
     }
 }

@@ -21,7 +21,6 @@ class DrinkRepositoryImpl @Inject constructor(
 ) : DrinkRepository {
     override suspend fun upsertInfo(info: DrinkInfo) {
         drinkDao.upsert(info.toDrinkInfoEntity())
-
     }
 
     override suspend fun deleteInfo(info: DrinkInfo) {
@@ -44,10 +43,10 @@ class DrinkRepositoryImpl @Inject constructor(
     override fun getDayDrinkInfo(
         targetDate: LocalDate,
         drinkType: DrinkType
-    ): Flow<Int> {
-        return drinkDao.getDayTotalCupInfo(
+    ): Flow<List<DrinkInfo>> {
+        return drinkDao.getDayInfoList(
             targetDate = targetDate.toMillis(),
             drinkType = drinkType.name
-        )
+        ).map { it.map { it.toDrinkInfo() } }
     }
 }

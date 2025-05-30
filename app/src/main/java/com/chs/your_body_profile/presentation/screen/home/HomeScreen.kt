@@ -21,6 +21,7 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
+import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
@@ -83,11 +84,15 @@ fun HomeScreen(
         item {
             DrinkInfoDashBoard(
                 title = stringResource(id = R.string.text_title_drink_water),
-                value = state.drinkWaterTotalCupInfo,
-                drinkEventClick = { totalCups ->
-                    onEvent(HomeEvent.Update.Water(totalCups))
-                }, cardClick = {
-
+                value = state.drinkWaterTotalCupInfo.count(),
+                onDownClick = {
+                    onEvent(HomeEvent.Update.Down.Water)
+                },
+                onUpClick = {
+                    onEvent(HomeEvent.Update.Up.Water)
+                },
+                cardClick = {
+                    onEvent(HomeEvent.Navigate(Screens.DrinkList(DrinkType.WATER)))
                 }
             )
         }
@@ -95,12 +100,15 @@ fun HomeScreen(
         item {
             DrinkInfoDashBoard(
                 title = stringResource(id = R.string.text_title_drink_coffee),
-                value = state.drinkCoffeeTotalCupInfo,
-                drinkEventClick = { totalCups ->
-                    onEvent(HomeEvent.Update.Coffee(totalCups))
+                value = state.drinkCoffeeTotalCupInfo.count(),
+                onDownClick = {
+                    onEvent(HomeEvent.Update.Down.Coffee)
+                },
+                onUpClick = {
+                    onEvent(HomeEvent.Update.Up.Coffee)
                 },
                 cardClick = {
-
+                    onEvent(HomeEvent.Navigate(Screens.DrinkList(DrinkType.COFFEE)))
                 }
             )
         }

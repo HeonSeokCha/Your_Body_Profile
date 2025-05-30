@@ -54,7 +54,8 @@ object Module {
             app,
             BodyProfileDataBase::class.java,
             "body_profile_db"
-        ).build()
+        )
+            .build()
     }
 
     @Provides

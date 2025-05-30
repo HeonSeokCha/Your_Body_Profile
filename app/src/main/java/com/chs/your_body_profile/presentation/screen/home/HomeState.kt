@@ -12,8 +12,8 @@ import com.chs.your_body_profile.domain.model.WeightInfo
 data class HomeState(
     val bloodPressureInfo: BloodPressureInfo? = null,
     val bloodSugarInfo: BloodSugarInfo? = null,
-    val drinkWaterTotalCupInfo: Int = 0,
-    val drinkCoffeeTotalCupInfo: Int = 0,
+    val drinkWaterTotalCupInfo: List<DrinkInfo> = emptyList(),
+    val drinkCoffeeTotalCupInfo: List<DrinkInfo> = emptyList(),
     val insulinInfo: InsulinInfo? = null,
     val hemoglobinA1cInfo: HemoglobinA1cInfo? = null,
     val takenFoodInfo: FoodDetailInfo? = null,

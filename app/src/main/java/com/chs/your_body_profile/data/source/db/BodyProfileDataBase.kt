@@ -19,7 +19,7 @@ import com.chs.your_body_profile.data.source.db.entity.*
         FoodSearchHistoryEntity::class
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val bloodPressureDao: BloodPressureDao

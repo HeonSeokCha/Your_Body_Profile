@@ -101,7 +101,8 @@ fun DashBoardSmallCard(
 fun DrinkInfoDashBoard(
     title: String,
     value: Int,
-    drinkEventClick: (Int) -> Unit,
+    onUpClick: () -> Unit,
+    onDownClick: () -> Unit,
     cardClick: () -> Unit,
 ) {
     DashBoardSmallCard(
@@ -123,7 +124,7 @@ fun DrinkInfoDashBoard(
                         shape = CircleShape
                     ),
                 enabled = value != 0,
-                onClick = { drinkEventClick(value.minus(1)) }
+                onClick = { onDownClick() }
             ) {
                 Icon(
                     Icons.Default.Remove,
@@ -138,7 +139,7 @@ fun DrinkInfoDashBoard(
                         color = Color.Black,
                         shape = CircleShape
                     ),
-                onClick = { drinkEventClick(value.plus(1)) }
+                onClick = { onUpClick() }
             ) {
                 Icon(
                     Icons.Default.Add,
@@ -305,7 +306,8 @@ fun PreviewHomeBasicInfoCard() {
                 DrinkInfoDashBoard(
                     title = stringResource(id = R.string.text_title_drink_water),
                     value = 1,
-                    drinkEventClick = {},
+                    onUpClick = {},
+                    onDownClick = {},
                     cardClick = {
 
                     }
@@ -317,8 +319,9 @@ fun PreviewHomeBasicInfoCard() {
                 DrinkInfoDashBoard(
                     title = stringResource(id = R.string.text_title_drink_coffee),
                     value = 0,
-                    drinkEventClick = { }
-                    , cardClick = {
+                    onUpClick = {},
+                    onDownClick = {},
+                    cardClick = {
 
                     }
                 )

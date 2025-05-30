@@ -12,7 +12,7 @@ interface DrinkRepository : BaseRepository<DrinkInfo> {
     fun getDayDrinkInfo(
         targetDate: LocalDate,
         drinkType: DrinkType
-    ): Flow<Int>
+    ): Flow<List<DrinkInfo>>
 
     fun getDayPagingInfoList(drinkType: DrinkType): Flow<PagingData<Pair<LocalDate, List<DrinkInfo>>>>
 }
