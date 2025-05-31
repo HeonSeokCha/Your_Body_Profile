@@ -102,5 +102,11 @@ fun DrinkListScreen(
                 }
             }
         }
+
+        if (state.selectInfo.isNotEmpty()) {
+            items(state.selectInfo) {
+                ItemDrinkInfo(it)
+            }
+        }
     }
 }

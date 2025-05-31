@@ -20,7 +20,6 @@ abstract class BloodPressureDao : BaseDao<BloodPressureInfoEntity> {
     @Query("""
         SELECT unixepoch(DATE(measureDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM blood_pressure_info
-         GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page

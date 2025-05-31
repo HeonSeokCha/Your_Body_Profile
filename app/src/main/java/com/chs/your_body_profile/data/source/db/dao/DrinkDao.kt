@@ -26,7 +26,6 @@ abstract class DrinkDao : BaseDao<DrinkInfoEntity> {
         SELECT unixepoch(DATE(takenDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM drink_info
          WHERE drinkType = :drinkType
-         GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page

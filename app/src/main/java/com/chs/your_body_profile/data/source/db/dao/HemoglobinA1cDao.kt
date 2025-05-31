@@ -19,7 +19,6 @@ abstract class HemoglobinA1cDao : BaseDao<HemoglobinA1cInfoEntity> {
     @Query("""
         SELECT unixepoch(DATE(measureDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM hemoglobin_a1c_info 
-         GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page

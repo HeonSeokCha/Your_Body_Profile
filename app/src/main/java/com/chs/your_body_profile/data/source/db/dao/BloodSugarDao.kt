@@ -19,7 +19,6 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
     @Query("""
         SELECT unixepoch(DATE(measureDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM blood_sugar_info
-         GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page

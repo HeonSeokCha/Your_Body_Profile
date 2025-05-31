@@ -32,5 +32,4 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val foodDao: FoodDao
     abstract val mealHistoryDao: MealHistoryDao
     abstract val foodSearchHistoryDao: FoodSearchHistoryDao
-
 }

@@ -19,7 +19,6 @@ abstract class InsulinDao : BaseDao<InsulinInfoEntity> {
     @Query("""
         SELECT unixepoch(DATE(injectDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM insulin_info
-         GROUP BY date
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page
