@@ -2,16 +2,12 @@ package com.chs.your_body_profile.di
 
 import android.content.Context
 import androidx.room.Room
-import com.chs.your_body_profile.data.source.api.FoodService
 import com.chs.your_body_profile.data.source.db.BodyProfileDataBase
 import com.chs.your_body_profile.data.source.db.dao.BloodPressureDao
 import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
-import com.chs.your_body_profile.data.source.db.dao.FoodDao
-import com.chs.your_body_profile.data.source.db.dao.FoodSearchHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
-import com.chs.your_body_profile.data.source.db.dao.MealHistoryDao
 import com.chs.your_body_profile.data.source.db.dao.MedicineDao
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
 import dagger.Module
@@ -34,17 +30,15 @@ object Module {
 
     @Singleton
     @Provides
-    fun provideKtorClient(): FoodService {
-        return FoodService(
-            HttpClient(Android) {
-                install(Logging) {
-                    level = LogLevel.ALL
-                }
-                install(ContentNegotiation) {
-                    json(Json { ignoreUnknownKeys = true })
-                }
+    fun provideKtorClient(): HttpClient {
+        return HttpClient(Android) {
+            install(Logging) {
+                level = LogLevel.ALL
             }
-        )
+            install(ContentNegotiation) {
+                json(Json { ignoreUnknownKeys = true })
+            }
+        }
     }
 
     @Singleton
@@ -91,20 +85,5 @@ object Module {
     @Provides
     fun provideWeightDao(bodyProfileDataBase: BodyProfileDataBase): WeightInfoDao {
         return bodyProfileDataBase.weightInfoDao
-    }
-
-    @Provides
-    fun provideFoodDao(bodyProfileDataBase: BodyProfileDataBase): FoodDao {
-        return bodyProfileDataBase.foodDao
-    }
-
-    @Provides
-    fun provideFoodSearchHistoryDao(bodyProfileDataBase: BodyProfileDataBase): FoodSearchHistoryDao {
-        return bodyProfileDataBase.foodSearchHistoryDao
-    }
-
-    @Provides
-    fun provideMealHistoryDao(bodyProfileDataBase: BodyProfileDataBase): MealHistoryDao {
-        return bodyProfileDataBase.mealHistoryDao
     }
 }

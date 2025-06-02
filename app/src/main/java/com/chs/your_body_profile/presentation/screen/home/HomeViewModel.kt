@@ -44,7 +44,6 @@ class HomeViewModel @Inject constructor(
     private val getDayLastMedicineInfoUseCase: GetDayLastMedicineInfoUseCase,
     private val getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
     private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
-    private val getDayLastTakenFoodInfoUseCase: GetDayLastTakenFoodInfoUseCase,
     private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
     private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase,
     private val deleteDrinkInfoUseCase: DeleteDrinkInfoUseCase
@@ -70,7 +69,6 @@ class HomeViewModel @Inject constructor(
             getDayLastDrinkWaterInfoUseCase(currentDate),
             getDayLastHemoglobinA1cInfoUseCase(),
             getDayLastMedicineInfoUseCase(),
-            getDayLastTakenFoodInfoUseCase(currentDate),
             getDayLastWeightInfoUseCase(),
             getDayLastInsulinInfoUseCase()
         ) { list ->
@@ -82,9 +80,8 @@ class HomeViewModel @Inject constructor(
                     drinkWaterTotalCupInfo = (list[3] as List<DrinkInfo>),
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
                     medicineInfo = (list[5] as MedicineInfo?),
-                    takenFoodInfo = (list[6] as FoodDetailInfo?),
-                    weightInfo = (list[7] as WeightInfo?),
-                    insulinInfo = (list[8] as InsulinInfo?)
+                    weightInfo = (list[6] as WeightInfo?),
+                    insulinInfo = (list[7] as InsulinInfo?)
                 )
             }
         }.stateIn(

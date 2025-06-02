@@ -20,14 +20,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemBloodPressureInfo
+import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemBloodPressureSummaryInfo
 
 @Composable
 fun BloodPressureListScreenRoot(
@@ -114,8 +117,16 @@ fun BloodPressureListScreen(
             }
 
             if (state.selectInfo.isNotEmpty()) {
+                item {
+                    ItemBloodPressureSummaryInfo(state.selectInfo)
+                }
+
                 items(state.selectInfo) { info ->
                     ItemBloodPressureInfo(info)
+                }
+            } else {
+                item {
+                    Text(text = stringResource(R.string.text_no_items))
                 }
             }
         }

@@ -1,12 +1,5 @@
 package com.chs.your_body_profile.common
 
-import com.chs.your_body_profile.data.mapper.toFoodDetailInfo
-import com.chs.your_body_profile.data.mapper.toResponseFoodDetailInfo
-import com.chs.your_body_profile.data.source.api.dto.ResponseFoodDetailInfo
-import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MeasureType
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -40,20 +33,6 @@ fun Long.toLocalDate(): LocalDate {
 
 fun Long.toLocalDateToMillis(): Long {
     return this.toLocalDate().toMillis()
-}
-
-fun List<FoodDetailInfo>.toJsonStringEncode(): String {
-    return Json.encodeToString(
-        this.map { foodInfo ->
-            foodInfo.toResponseFoodDetailInfo()
-        }
-    )
-}
-
-fun String.toDecodeFoodList(): List<FoodDetailInfo> {
-    return Json.decodeFromString<List<ResponseFoodDetailInfo>>(this).map {
-        it.toFoodDetailInfo()
-    }
 }
 
 fun LocalDate.dateUntilToList(targetDate: LocalDate): List<LocalDate> {

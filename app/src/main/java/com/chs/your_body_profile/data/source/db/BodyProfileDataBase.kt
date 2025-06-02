@@ -10,13 +10,10 @@ import com.chs.your_body_profile.data.source.db.entity.*
         BloodPressureInfoEntity::class,
         BloodSugarInfoEntity::class,
         DrinkInfoEntity::class,
-        FoodInfoEntity::class,
-        MealHistoryEntity::class,
         InsulinInfoEntity::class,
         HemoglobinA1cInfoEntity::class,
         MedicineInfoEntity::class,
         WeightInfoEntity::class,
-        FoodSearchHistoryEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -29,7 +26,4 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val hemoglobinA1cDao: HemoglobinA1cDao
     abstract val medicineDao: MedicineDao
     abstract val weightInfoDao: WeightInfoDao
-    abstract val foodDao: FoodDao
-    abstract val mealHistoryDao: MealHistoryDao
-    abstract val foodSearchHistoryDao: FoodSearchHistoryDao
 }

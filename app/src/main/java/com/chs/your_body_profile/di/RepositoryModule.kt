@@ -3,7 +3,6 @@ package com.chs.your_body_profile.di
 import com.chs.your_body_profile.data.repository.BloodPressureRepositoryImpl
 import com.chs.your_body_profile.data.repository.BloodSugarRepositoryImpl
 import com.chs.your_body_profile.data.repository.DrinkRepositoryImpl
-import com.chs.your_body_profile.data.repository.FoodRepositoryImpl
 import com.chs.your_body_profile.data.repository.HemoglobinA1cRepositoryImpl
 import com.chs.your_body_profile.data.repository.InsulinInfoRepositoryImpl
 import com.chs.your_body_profile.data.repository.MedicineRepositoryImpl
@@ -45,7 +44,4 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindWeightRepository(weightRepositoryImpl: WeightRepositoryImpl): WeightRepository
-
-    @Binds
-    abstract fun bindFoodRepository(foodRepositoryImpl: FoodRepositoryImpl): FoodRepository
 }
