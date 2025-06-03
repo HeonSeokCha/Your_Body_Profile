@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetDayLastDrinkCoffeeInfoUseCase @Inject constructor(
+class GetLastDrinkWaterInfoUseCase @Inject constructor(
     private val repository: DrinkRepository
 ) {
     operator fun invoke(targetDate: LocalDate): Flow<List<DrinkInfo>> {
         return repository.getDayDrinkInfo(
             targetDate = targetDate,
-            drinkType = DrinkType.COFFEE
+            drinkType = DrinkType.WATER
         )
     }
 }

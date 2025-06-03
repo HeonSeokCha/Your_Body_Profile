@@ -6,21 +6,19 @@ import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.model.DrinkInfo
 import com.chs.your_body_profile.domain.model.DrinkType
-import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.DeleteDrinkInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastBloodPressureInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastBloodSugarInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkCoffeeInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastDrinkWaterInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastHemoglobinA1cInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastInsulinInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastMedicineInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastTakenFoodInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetDayLastWeightInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastBloodPressureInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastBloodSugarInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastDrinkCoffeeInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastDrinkWaterInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastHemoglobinA1cInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastInsulinInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastMedicineInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLastWeightInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertDrinkInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,14 +35,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getDayLastBloodPressureInfoUseCase: GetDayLastBloodPressureInfoUseCase,
-    private val getDayLastBloodSugarInfoUseCase: GetDayLastBloodSugarInfoUseCase,
-    private val getDayLastDrinkCoffeeInfoUseCase: GetDayLastDrinkCoffeeInfoUseCase,
-    private val getDayLastDrinkWaterInfoUseCase: GetDayLastDrinkWaterInfoUseCase,
-    private val getDayLastMedicineInfoUseCase: GetDayLastMedicineInfoUseCase,
-    private val getDayLastHemoglobinA1cInfoUseCase: GetDayLastHemoglobinA1cInfoUseCase,
-    private val getDayLastWeightInfoUseCase: GetDayLastWeightInfoUseCase,
-    private val getDayLastInsulinInfoUseCase: GetDayLastInsulinInfoUseCase,
+    private val getLastBloodPressureInfoUseCase: GetLastBloodPressureInfoUseCase,
+    private val getLastBloodSugarInfoUseCase: GetLastBloodSugarInfoUseCase,
+    private val getLastDrinkCoffeeInfoUseCase: GetLastDrinkCoffeeInfoUseCase,
+    private val getLastDrinkWaterInfoUseCase: GetLastDrinkWaterInfoUseCase,
+    private val getLastMedicineInfoUseCase: GetLastMedicineInfoUseCase,
+    private val getLastHemoglobinA1CInfoUseCase: GetLastHemoglobinA1cInfoUseCase,
+    private val getLastWeightInfoUseCase: GetLastWeightInfoUseCase,
+    private val getLastInsulinInfoUseCase: GetLastInsulinInfoUseCase,
     private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase,
     private val deleteDrinkInfoUseCase: DeleteDrinkInfoUseCase
 ) : ViewModel() {
@@ -63,14 +61,14 @@ class HomeViewModel @Inject constructor(
 
     private fun initInfo() {
         combine(
-            getDayLastBloodPressureInfoUseCase(),
-            getDayLastBloodSugarInfoUseCase(),
-            getDayLastDrinkCoffeeInfoUseCase(currentDate),
-            getDayLastDrinkWaterInfoUseCase(currentDate),
-            getDayLastHemoglobinA1cInfoUseCase(),
-            getDayLastMedicineInfoUseCase(),
-            getDayLastWeightInfoUseCase(),
-            getDayLastInsulinInfoUseCase()
+            getLastBloodPressureInfoUseCase(),
+            getLastBloodSugarInfoUseCase(),
+            getLastDrinkCoffeeInfoUseCase(currentDate),
+            getLastDrinkWaterInfoUseCase(currentDate),
+            getLastHemoglobinA1CInfoUseCase(),
+            getLastMedicineInfoUseCase(),
+            getLastWeightInfoUseCase(),
+            getLastInsulinInfoUseCase()
         ) { list ->
             _state.update {
                 it.copy(

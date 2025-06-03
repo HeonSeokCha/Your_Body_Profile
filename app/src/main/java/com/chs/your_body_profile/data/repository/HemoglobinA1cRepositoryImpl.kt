@@ -21,7 +21,7 @@ class HemoglobinA1cRepositoryImpl @Inject constructor(
     private val hemoglobinA1cDao: HemoglobinA1cDao
 ) : HemoglobinA1cRepository {
 
-    override fun getDayInfo(): Flow<HemoglobinA1cInfo?> {
+    override fun getDayLastInfo(): Flow<HemoglobinA1cInfo?> {
         return hemoglobinA1cDao.getDayLastInfo().map {
             it?.toHemoglobinA1cInfo()
         }

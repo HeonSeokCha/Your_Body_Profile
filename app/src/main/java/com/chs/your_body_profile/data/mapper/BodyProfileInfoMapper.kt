@@ -10,6 +10,7 @@ import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.HemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.InsulinInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.MedicineInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.PayInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.WeightInfoEntity
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
@@ -20,6 +21,7 @@ import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
+import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 
 fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
@@ -137,5 +139,25 @@ fun WeightInfo.toWeightInfoEntity(): WeightInfoEntity {
         measureDateTime = this.measureDateTime.toMillis(),
         weight = this.weight,
         memo = this.memo,
+    )
+}
+
+fun PaymentInfo.toPayInfoEntity(): PayInfoEntity {
+    return PayInfoEntity(
+        paymentTime = this.paymentTime.toMillis(),
+        title = this.title,
+        subTitle = this.subTitle,
+        amount = this.amount,
+        memo = memo
+    )
+}
+
+fun PayInfoEntity.toPaymentInfo(): PaymentInfo {
+    return PaymentInfo(
+        paymentTime = this.paymentTime.toLocalDateTime(),
+        title = this.title,
+        subTitle = this.subTitle,
+        amount = this.amount,
+        memo = memo
     )
 }

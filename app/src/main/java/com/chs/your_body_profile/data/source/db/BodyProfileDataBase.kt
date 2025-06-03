@@ -14,6 +14,7 @@ import com.chs.your_body_profile.data.source.db.entity.*
         HemoglobinA1cInfoEntity::class,
         MedicineInfoEntity::class,
         WeightInfoEntity::class,
+        PayInfoEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -26,4 +27,5 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val hemoglobinA1cDao: HemoglobinA1cDao
     abstract val medicineDao: MedicineDao
     abstract val weightInfoDao: WeightInfoDao
+    abstract val payInfoDao: PayInfoDao
 }

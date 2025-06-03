@@ -6,9 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-interface HemoglobinA1cRepository : BaseRepository<HemoglobinA1cInfo> {
-
-    fun getDayInfo(): Flow<HemoglobinA1cInfo?>
+interface HemoglobinA1cRepository : BaseInfoRepository<HemoglobinA1cInfo> {
 
     fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>>
 }

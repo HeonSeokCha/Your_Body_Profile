@@ -112,7 +112,7 @@ fun ItemBloodPressureSummaryInfo(
 
 @Preview
 @Composable
-private fun PrevicewSummary() {
+private fun PreviewSummary() {
     YourBodyProfileTheme {
         ItemBloodPressureSummaryInfo(
             listOf(

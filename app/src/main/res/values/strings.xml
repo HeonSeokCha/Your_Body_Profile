@@ -37,4 +37,7 @@
     <string name="text_no_items">데이터를 입력 해 주세요.</string>
     <string name="text_diastolic">이완기</string>
     <string name="text_systolic">수축기</string>
+    <string name="text_min">최소</string>
+    <string name="text_max">최대</string>
+    <string name="text_average">평균</string>
 </resources>

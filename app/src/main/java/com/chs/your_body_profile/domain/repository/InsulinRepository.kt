@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-interface InsulinRepository : BaseRepository<InsulinInfo> {
-
-    fun getDayLastInfo(): Flow<InsulinInfo?>
+interface InsulinRepository : BaseInfoRepository<InsulinInfo> {
 
     fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<InsulinInfo>>>>
 }
