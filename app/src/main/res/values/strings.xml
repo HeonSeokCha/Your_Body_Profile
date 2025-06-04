@@ -29,11 +29,13 @@
     <string name="text_input_hemoglobin_A1c">당화혈색소 (%)</string>
     <string name="text_input_blood_pressure_systolic">수축기 혈압 (mmHg)</string>
     <string name="text_input_blood_pressure_diastolic">이완기 혈압 (mmHg)</string>
+    <string name="text_payment_unit">원</string>
 
-    <string name="text_title_drink_water">오늘의 물 섭취량</string>
-    <string name="text_title_drink_coffee">오늘의 커피 섭취량</string>
+    <string name="text_title_drink_water">물 섭취량</string>
+    <string name="text_title_drink_coffee">커피 섭취량</string>
     <string name="text_title_take_medicine">마지막 복용한 약</string>
     <string name="text_title_food">오늘 섭취한 칼로리</string>
+    <string name="text_title_payment">마지막 지출한 의료비</string>
     <string name="text_no_items">데이터를 입력 해 주세요.</string>
     <string name="text_diastolic">이완기</string>
     <string name="text_systolic">수축기</string>

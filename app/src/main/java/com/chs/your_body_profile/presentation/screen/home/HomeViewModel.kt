@@ -9,8 +9,10 @@ import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
+import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.DeleteDrinkInfoUseCase
+import com.chs.your_body_profile.domain.usecase.GetLasPayInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastBloodPressureInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastBloodSugarInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastDrinkCoffeeInfoUseCase
@@ -43,6 +45,7 @@ class HomeViewModel @Inject constructor(
     private val getLastHemoglobinA1CInfoUseCase: GetLastHemoglobinA1cInfoUseCase,
     private val getLastWeightInfoUseCase: GetLastWeightInfoUseCase,
     private val getLastInsulinInfoUseCase: GetLastInsulinInfoUseCase,
+    private val getLastPayInfoUseCase: GetLasPayInfoUseCase,
     private val upsertDrinkInfoUseCase: UpsertDrinkInfoUseCase,
     private val deleteDrinkInfoUseCase: DeleteDrinkInfoUseCase
 ) : ViewModel() {
@@ -68,7 +71,8 @@ class HomeViewModel @Inject constructor(
             getLastHemoglobinA1CInfoUseCase(),
             getLastMedicineInfoUseCase(),
             getLastWeightInfoUseCase(),
-            getLastInsulinInfoUseCase()
+            getLastInsulinInfoUseCase(),
+            getLastPayInfoUseCase()
         ) { list ->
             _state.update {
                 it.copy(
@@ -79,7 +83,8 @@ class HomeViewModel @Inject constructor(
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
                     medicineInfo = (list[5] as MedicineInfo?),
                     weightInfo = (list[6] as WeightInfo?),
-                    insulinInfo = (list[7] as InsulinInfo?)
+                    insulinInfo = (list[7] as InsulinInfo?),
+                    payInfo = (list[8] as PaymentInfo?),
                 )
             }
         }.stateIn(

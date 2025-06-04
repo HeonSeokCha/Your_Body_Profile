@@ -14,6 +14,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.chs.your_body_profile.presentation.screen.bills.input.PayInputScreenRoot
+import com.chs.your_body_profile.presentation.screen.bills.input.PayInputViewModel
+import com.chs.your_body_profile.presentation.screen.bills.list.PayInfoListScreen
+import com.chs.your_body_profile.presentation.screen.bills.list.PayInfoListScreenRoot
+import com.chs.your_body_profile.presentation.screen.bills.list.PayListViewModel
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputViewModel
 import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListScreen
@@ -130,13 +135,18 @@ fun MainNavHost(navController: NavHostController) {
             )
         }
 
-//        composable<Screens.MedicineInput> {
-//            MealListScreen(navController)
-//        }
-//
-//        composable<Screens.FoodDetail> {
-//            FoodDetailScreen(navController)
-//        }
+        composable<Screens.PayInput> {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(it.toRoute<Screens.PayInput>())
+            }
+            val viewModel: PayInputViewModel = hiltViewModel(parentEntry)
+            PayInputScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
 
         composable<Screens.BloodPressureList> {
             val viewModel: BloodPressureListViewModel = hiltViewModel()
@@ -200,6 +210,19 @@ fun MainNavHost(navController: NavHostController) {
                 },
                 onInput = {
                     navController.navigate(Screens.WeightInput())
+                }
+            )
+        }
+
+        composable<Screens.PayList> {
+            val viewModel: PayListViewModel = hiltViewModel()
+            PayInfoListScreenRoot(
+                viewModel = viewModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onInput = {
+                    navController.navigate(Screens.PayInput())
                 }
             )
         }

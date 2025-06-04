@@ -30,16 +30,10 @@ sealed class Screens {
     data object MedicineInput : Screens()
 
     @Serializable
-    data object FoodSearch : Screens()
-
-    @Serializable
-    data object FoodDetail : Screens()
-
-    @Serializable
-    data object MealHistoryInput : Screens()
-
-    @Serializable
     data class DrinkList(val drinkType: DrinkType) : Screens()
+
+    @Serializable
+    data class PayInput(val info: Long? = null) : Screens()
 
     @Serializable
     data object BloodSugarList : Screens()
@@ -52,5 +46,5 @@ sealed class Screens {
     @Serializable
     data object WeightList : Screens()
     @Serializable
-    data object MealList : Screens()
+    data object PayList : Screens()
 }

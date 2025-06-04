@@ -7,6 +7,7 @@ import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
+import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 
 data class HomeState(
@@ -19,6 +20,7 @@ data class HomeState(
     val takenFoodInfo: FoodDetailInfo? = null,
     val medicineInfo: MedicineInfo? = null,
     val weightInfo: WeightInfo? = null,
+    val payInfo: PaymentInfo? = null,
     val isLoading: Boolean = false,
     val error: String? = null
 )

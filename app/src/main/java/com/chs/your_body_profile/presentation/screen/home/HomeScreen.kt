@@ -61,9 +61,7 @@ fun HomeScreen(
     }
 
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp),
-        modifier = Modifier.fillMaxSize(),
+        columns = StaggeredGridCells.Fixed(2), contentPadding = PaddingValues(8.dp), modifier = Modifier.fillMaxSize(),
         verticalItemSpacing = 4.dp,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -114,16 +112,28 @@ fun HomeScreen(
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {
-            val todayTotalCalorie: FoodDetailInfo? = state.takenFoodInfo
             DashBoardInputCard(
-                title = stringResource(id = R.string.text_title_food),
-                infoValue = (todayTotalCalorie ?: 0).toString(),
-                infoUnit = stringResource(id = R.string.text_food_unit),
-                onClick = {
-                },
-                btnClick = { isShowMealTypeDialog = true }
+                title = stringResource(id = R.string.text_title_payment),
+                infoValue = String.format("%,d", state.payInfo?.amount ?: 0),
+                infoUnit = stringResource(id = R.string.text_payment_unit),
+                onClick = { onEvent(HomeEvent.Navigate(Screens.PayList)) },
+                btnClick = {
+                    onEvent(HomeEvent.Navigate(Screens.PayInput(state.payInfo?.amount)))
+                }
             )
         }
+
+//        item(span = StaggeredGridItemSpan.FullLine) {
+//            val todayTotalCalorie: FoodDetailInfo? = state.takenFoodInfo
+//            DashBoardInputCard(
+//                title = stringResource(id = R.string.text_title_food),
+//                infoValue = (todayTotalCalorie ?: 0).toString(),
+//                infoUnit = stringResource(id = R.string.text_food_unit),
+//                onClick = {
+//                },
+//                btnClick = { isShowMealTypeDialog = true }
+//            )
+//        }
 
         item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
