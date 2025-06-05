@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.chs.your_body_profile.presentation.common.ItemCardIInputDecimal
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
@@ -86,6 +87,22 @@ fun PayInputScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            ItemSmallInputText(
+                textState = state.title,
+                onChangedText = {
+                    onEvent(PayInputEvent.OnChangePayTitle(it))
+                }
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ItemCardIInputDecimal(
+                textState = state.amount,
+                onChangedText = {
+                    onEvent(PayInputEvent.OnChangePayAmount(it))
+                }
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 

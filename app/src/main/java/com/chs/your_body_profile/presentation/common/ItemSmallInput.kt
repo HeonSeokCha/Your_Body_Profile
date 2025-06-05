@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.Card
@@ -23,10 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.chs.your_body_profile.common.DecimalMarkedNumberVisualTransformation
+import java.text.DecimalFormat
 
 @Composable
-fun ItemSmallInput(
+fun ItemSmallInputWithIcon(
     icon: ImageVector,
     subComposable: @Composable () -> Unit
 ) {
@@ -43,11 +50,72 @@ fun ItemSmallInput(
                 imageVector = icon,
                 contentDescription = null
             )
-            
+
             Spacer(modifier = Modifier.width(16.dp))
-            
+
             subComposable()
         }
+    }
+}
+
+@Composable
+fun ItemSmallInputWithText(
+    text: String,
+    subComposable: @Composable () -> Unit
+) {
+    Card {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(start = 16.dp),
+                text = text,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            subComposable()
+        }
+    }
+}
+
+
+@Composable
+fun ItemCardIInputDecimal(
+    textState: Long,
+    onChangedText: (Long) -> Unit
+) {
+    ItemSmallInputWithText(text = "₩") {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = textState.toString(),
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = "금액",
+                    color = Color.Gray
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                cursorColor = Color.Black,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            onValueChange = {
+                it.filter { "^[0-9]".toRegex().matches(it.toString()) }
+                    .ifEmpty { "0" }
+                    .toLong()
+                    .run {
+                        onChangedText(this)
+                    }
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            visualTransformation = DecimalMarkedNumberVisualTransformation()
+        )
     }
 }
 
@@ -56,7 +124,7 @@ fun ItemSmallInputText(
     textState: String?,
     onChangedText: (String) -> Unit
 ) {
-    ItemSmallInput(icon = Icons.Filled.Description) {
+    ItemSmallInputWithIcon(icon = Icons.Filled.Description) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = textState ?: "",

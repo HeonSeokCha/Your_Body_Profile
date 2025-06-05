@@ -115,7 +115,10 @@ fun ItemDateTimePickerDialog(
 
     Dialog(
         onDismissRequest = { onDismiss() },
-        properties = DialogProperties(decorFitsSystemWindows = false)
+        properties = DialogProperties(
+            decorFitsSystemWindows = false,
+            dismissOnClickOutside = false
+        )
     ) {
         ItemTitleCard {
             Row(

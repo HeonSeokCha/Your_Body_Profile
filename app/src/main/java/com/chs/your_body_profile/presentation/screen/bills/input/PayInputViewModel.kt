@@ -24,7 +24,7 @@ class PayInputViewModel @Inject constructor(
     private val upsertPayInfoUseCase: UpsertPayInfoUseCase
 ) : ViewModel() {
 
-    private val lastInputAmount: Long = savedStateHandle.toRoute<Screens.PayInput>().info ?: 0
+    private val lastInputAmount: Long = savedStateHandle.toRoute<Screens.PayInput>().info ?: 1000000
 
     private val _state = MutableStateFlow(PayInputState(amount = lastInputAmount))
     val state = _state.asStateFlow()
