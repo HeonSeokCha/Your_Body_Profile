@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocalHospital
+import androidx.compose.material.icons.filled.Payment
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +23,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.presentation.common.ItemCardIInputDecimal
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
+import com.chs.your_body_profile.presentation.common.ItemInputTextWithIcon
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
+import com.chs.your_body_profile.presentation.common.ItemSmallInputWithIcon
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 
@@ -80,19 +85,19 @@ fun PayInputScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            ItemCurrentDateTime(
-                currentDateTime = state.paymentTime
-            ) {
+            ItemCurrentDateTime(currentDateTime = state.paymentTime) {
                 onEvent(PayInputEvent.ChangeShowDateTimePicker)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemSmallInputText(
-                textState = state.title,
+            ItemInputTextWithIcon(
+                text = state.title,
                 onChangedText = {
                     onEvent(PayInputEvent.OnChangePayTitle(it))
-                }
+                },
+                hint = "방문한 병원",
+                icon = Icons.Default.LocalHospital
             )
 
             Spacer(modifier = Modifier.height(16.dp))

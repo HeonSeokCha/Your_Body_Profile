@@ -20,13 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PayInputViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val upsertPayInfoUseCase: UpsertPayInfoUseCase
 ) : ViewModel() {
 
-    private val lastInputAmount: Long = savedStateHandle.toRoute<Screens.PayInput>().info ?: 1000000
-
-    private val _state = MutableStateFlow(PayInputState(amount = lastInputAmount))
+    private val _state = MutableStateFlow(PayInputState())
     val state = _state.asStateFlow()
 
     private val _effect: Channel<BaseEffect> = Channel()

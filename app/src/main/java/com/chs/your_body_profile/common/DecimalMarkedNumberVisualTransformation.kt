@@ -13,9 +13,7 @@ class DecimalMarkedNumberVisualTransformation() : VisualTransformation {
         val formattedText = text.text
             .filter { "^[0-9]".toRegex().matches(it.toString()) }
             .toLong()
-            .run {
-                String.format("%,d", this.toLong())
-            }
+            .toCommaFormat()
 
         val offsetMapping = object : OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {

@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.common.toCommaFormat
 import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.DrinkType
@@ -114,7 +115,7 @@ fun HomeScreen(
         item(span = StaggeredGridItemSpan.FullLine) {
             DashBoardInputCard(
                 title = stringResource(id = R.string.text_title_payment),
-                infoValue = String.format("%,d", state.payInfo?.amount ?: 0),
+                infoValue = (state.payInfo?.amount ?: 0).toCommaFormat(),
                 infoUnit = stringResource(id = R.string.text_payment_unit),
                 onClick = { onEvent(HomeEvent.Navigate(Screens.PayList)) },
                 btnClick = {

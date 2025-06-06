@@ -28,6 +28,7 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.bills.ItemPaymentInfo
 import androidx.compose.runtime.getValue
+import com.chs.your_body_profile.common.toCommaFormat
 
 @Composable
 fun PayInfoListScreenRoot(
@@ -103,7 +104,7 @@ fun PayInfoListScreen(
                                         },
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Text(text = String.format("%,d,", item.second.sumOf { it.amount }))
+                                    Text(text = item.second.sumOf { it.amount }.toCommaFormat())
 
                                     Text(text = item.first.toString())
                                 }

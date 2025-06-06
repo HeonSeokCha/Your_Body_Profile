@@ -6,7 +6,7 @@ data class PayInputState(
     val paymentTime: LocalDateTime = LocalDateTime.now(),
     val title: String = "",
     val subTitle: String? = null,
-    val amount: Long = 1000000L,
+    val amount: Long = 10000,
     val memo: String? = null,
     val isShowDateTimePicker: Boolean = false
 )

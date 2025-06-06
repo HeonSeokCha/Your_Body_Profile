@@ -145,3 +145,32 @@ fun ItemSmallInputText(
         )
     }
 }
+
+@Composable
+fun ItemInputTextWithIcon(
+    text: String,
+    onChangedText: (String) -> Unit,
+    hint: String,
+    icon: ImageVector,
+) {
+    ItemSmallInputWithIcon(icon = icon) {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = text,
+            placeholder = {
+                Text(
+                    text = hint,
+                    color = Color.Gray
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                cursorColor = Color.Black,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            onValueChange = {
+                onChangedText(it)
+            }
+        )
+    }
+}

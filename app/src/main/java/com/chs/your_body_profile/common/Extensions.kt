@@ -45,3 +45,5 @@ fun calculateScale(viewHeightPx: Int, values: List<Int>): Double {
         viewHeightPx.times(0.8).div(max)
     } ?: 1.0
 }
+
+fun Long.toCommaFormat(): String = String.format("%,d", this)
