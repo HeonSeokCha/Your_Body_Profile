@@ -116,17 +116,17 @@ fun BloodPressureListScreen(
                 }
             }
 
-            if (state.selectInfo.isNotEmpty()) {
+            if (state.selectInfo.isEmpty()) {
+                item {
+                    Text(text = stringResource(R.string.text_no_items))
+                }
+            } else {
                 item {
                     ItemBloodPressureSummaryInfo(state.selectInfo)
                 }
 
                 items(state.selectInfo) { info ->
                     ItemBloodPressureInfo(info)
-                }
-            } else {
-                item {
-                    Text(text = stringResource(R.string.text_no_items))
                 }
             }
         }

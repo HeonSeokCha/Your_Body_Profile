@@ -114,13 +114,13 @@ fun PayInfoListScreen(
                 }
             }
 
-            if (state.selectInfo.isNotEmpty()) {
-                items(state.selectInfo) { info ->
-                    ItemPaymentInfo(info)
-                }
-            } else {
+            if (state.selectInfo.isEmpty()) {
                 item {
                     Text(text = stringResource(R.string.text_no_items))
+                }
+            } else {
+                items(state.selectInfo) { info ->
+                    ItemPaymentInfo(info)
                 }
             }
         }

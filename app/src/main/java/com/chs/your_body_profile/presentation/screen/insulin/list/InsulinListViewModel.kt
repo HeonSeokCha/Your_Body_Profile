@@ -3,7 +3,9 @@ package com.chs.your_body_profile.presentation.screen.insulin.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.usecase.GetPagingInsulinUseCase
+import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +23,24 @@ class InsulinListViewModel @Inject constructor(
 
     init {
         getPagingInfo()
+    }
+
+    fun changeIntent(intent: InsulinListEvent) {
+        when (intent) {
+            is InsulinListEvent.OnChangeSelectIdx -> {
+                _state.update {
+                    it.copy(selectIdx = intent.idx)
+                }
+            }
+            is InsulinListEvent.OnSelectInfo -> {
+                selectInfo(intent.infoList)
+            }
+            else -> Unit
+        }
+    }
+
+    private fun selectInfo(info: List<InsulinInfo>) {
+        _state.update { it.copy(selectInfo = info) }
     }
 
     private fun getPagingInfo() {

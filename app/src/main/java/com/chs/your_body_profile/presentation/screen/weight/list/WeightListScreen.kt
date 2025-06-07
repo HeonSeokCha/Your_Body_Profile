@@ -19,11 +19,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.weight.ItemWeightInfo
 
@@ -105,7 +107,11 @@ fun WeightListScreen(
                 }
             }
 
-            if (state.selectInfo.isNotEmpty()) {
+            if (state.selectInfo.isEmpty()) {
+                item {
+                    Text(text = stringResource(R.string.text_no_items))
+                }
+            } else {
                 items(state.selectInfo) { info ->
                     ItemWeightInfo(info)
                 }
