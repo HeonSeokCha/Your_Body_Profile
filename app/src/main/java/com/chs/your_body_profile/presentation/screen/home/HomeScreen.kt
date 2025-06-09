@@ -26,6 +26,7 @@ import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.FoodDetailInfo
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
+import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
 import java.time.LocalDateTime
@@ -67,21 +68,19 @@ fun HomeScreen(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         item {
-            val todayMedicineInfo: MedicineInfo? = state.medicineInfo
-            MedicineInfoDashBoard(
-                title = stringResource(id = R.string.text_title_take_medicine),
-                value = todayMedicineInfo?.medicineType?.time?.second
-                    ?: MedicineType.UNKNOWN.time.second,
-                subValue = todayMedicineInfo?.title
-                    ?: stringResource(id = R.string.text_take_medicine_default),
-                subValue2 = todayMedicineInfo?.takenDateTime?.format(Constants.DATE_TIME_FORMATTER)
+            val lastPaymentInfo: PaymentInfo? = state.payInfo
+            LongInputCard(
+                title = stringResource(id = R.string.text_title_payment),
+                value = lastPaymentInfo?.title ?: stringResource(R.string.text_no_items),
+                subValue = "${(lastPaymentInfo?.amount ?: 0).toCommaFormat()}${stringResource(R.string.text_payment_unit)}",
+                subValue2 = lastPaymentInfo?.paymentTime?.format(Constants.DATE_FORMATTER_DETAIL)
             ) {
-
+                onEvent(HomeEvent.Navigate(Screens.PayList))
             }
         }
 
         item {
-            DrinkInfoDashBoard(
+            UpDownInputSmallCard(
                 title = stringResource(id = R.string.text_title_drink_water),
                 value = state.drinkWaterTotalCupInfo.count(),
                 onDownClick = {
@@ -97,7 +96,7 @@ fun HomeScreen(
         }
 
         item {
-            DrinkInfoDashBoard(
+            UpDownInputSmallCard(
                 title = stringResource(id = R.string.text_title_drink_coffee),
                 value = state.drinkCoffeeTotalCupInfo.count(),
                 onDownClick = {
@@ -112,21 +111,9 @@ fun HomeScreen(
             )
         }
 
-        item(span = StaggeredGridItemSpan.FullLine) {
-            DashBoardInputCard(
-                title = stringResource(id = R.string.text_title_payment),
-                infoValue = (state.payInfo?.amount ?: 0).toCommaFormat(),
-                infoUnit = stringResource(id = R.string.text_payment_unit),
-                onClick = { onEvent(HomeEvent.Navigate(Screens.PayList)) },
-                btnClick = {
-                    onEvent(HomeEvent.Navigate(Screens.PayInput(state.payInfo?.amount)))
-                }
-            )
-        }
-
 //        item(span = StaggeredGridItemSpan.FullLine) {
 //            val todayTotalCalorie: FoodDetailInfo? = state.takenFoodInfo
-//            DashBoardInputCard(
+//            DashBoardSingleLine(
 //                title = stringResource(id = R.string.text_title_food),
 //                infoValue = (todayTotalCalorie ?: 0).toString(),
 //                infoUnit = stringResource(id = R.string.text_food_unit),
@@ -137,7 +124,7 @@ fun HomeScreen(
 //        }
 
         item(span = StaggeredGridItemSpan.FullLine) {
-            DashBoardInputCard(
+            DashBoardSingleLineCard(
                 title = stringResource(id = R.string.text_weight),
                 infoValue = "${state.weightInfo?.weight ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_weight_unit),
@@ -149,7 +136,7 @@ fun HomeScreen(
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {
-            DashBoardInputCard(
+            DashBoardSingleLineCard(
                 title = stringResource(id = R.string.text_blood_sugar),
                 infoValue = "${state.bloodSugarInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_blood_sugar_unit),
@@ -164,7 +151,7 @@ fun HomeScreen(
 
         item(span = StaggeredGridItemSpan.FullLine) {
             val todayBloodPressureInfo: BloodPressureInfo? = state.bloodPressureInfo
-            DashBoardInputCard(
+            DashBoardSingleLineCard(
                 title = stringResource(id = R.string.text_blood_pressure),
                 infoValue = if (todayBloodPressureInfo != null) {
                     "${todayBloodPressureInfo.systolic}/${todayBloodPressureInfo.diastolic}"
@@ -186,7 +173,7 @@ fun HomeScreen(
             )
         }
         item(span = StaggeredGridItemSpan.FullLine) {
-            DashBoardInputCard(
+            DashBoardSingleLineCard(
                 title = stringResource(id = R.string.text_hemoglobin_A1c),
                 infoValue = "${state.hemoglobinA1cInfo?.number ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_hemoglobin_A1c_unit),
@@ -198,7 +185,7 @@ fun HomeScreen(
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {
-            DashBoardInputCard(
+            DashBoardSingleLineCard(
                 title = stringResource(id = R.string.text_insulin),
                 infoValue = "${state.insulinInfo?.level ?: stringResource(id = R.string.text_default_measure_zero)}",
                 infoUnit = stringResource(id = R.string.text_insulin_unit),

@@ -66,7 +66,7 @@ fun MainNavHost(navController: NavHostController) {
         composable<Screens.DrinkList> {
             val viewModel: DrinkListViewModel = hiltViewModel()
             DrinkListScreenRoot(viewModel) {
-
+                navController.popBackStack()
             }
         }
 

@@ -98,7 +98,7 @@ fun DashBoardSmallCard(
 }
 
 @Composable
-fun DrinkInfoDashBoard(
+fun UpDownInputSmallCard(
     title: String,
     value: Int,
     onUpClick: () -> Unit,
@@ -151,7 +151,7 @@ fun DrinkInfoDashBoard(
 }
 
 @Composable
-fun MedicineInfoDashBoard(
+fun LongInputCard(
     title: String,
     value: String,
     subValue: String,
@@ -171,42 +171,42 @@ fun MedicineInfoDashBoard(
     }
 }
 
-@Composable
-fun FoodInfoDashBoard(
-    title: String,
-    value: String,
-    subValue: String,
-    subValue2: String,
-    onClick: () -> Unit
-) {
-    DashBoardSmallCard(
-        title = title,
-        value = value,
-        subValue = subValue,
-        onClick = { onClick() }
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = subValue2,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            Text(text = stringResource(id = R.string.text_food_unit))
-        }
-    }
-}
+//@Composable
+//fun FoodInfoDashBoard(
+//    title: String,
+//    value: String,
+//    subValue: String,
+//    subValue2: String,
+//    onClick: () -> Unit
+//) {
+//    DashBoardSmallCard(
+//        title = title,
+//        value = value,
+//        subValue = subValue,
+//        onClick = { onClick() }
+//    ) {
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(
+//                text = subValue2,
+//                fontSize = 24.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//
+//            Spacer(modifier = Modifier.width(4.dp))
+//
+//            Text(text = stringResource(id = R.string.text_food_unit))
+//        }
+//    }
+//}
 
 @Composable
 fun DashBoardSingleLineCard(
     title: String,
     infoValue: String,
     infoUnit: String,
-    subComposable: @Composable () -> Unit,
+    btnClick: () -> Unit,
     onClick: () -> Unit
 ) {
     Card(
@@ -251,30 +251,11 @@ fun DashBoardSingleLineCard(
                     )
                 }
             }
-            subComposable()
-        }
-    }
-}
-
-@Composable
-fun DashBoardInputCard(
-    title: String,
-    infoValue: String,
-    infoUnit: String,
-    btnClick: () -> Unit,
-    onClick: () -> Unit
-) {
-    DashBoardSingleLineCard(
-        title = title,
-        infoValue = infoValue,
-        infoUnit = infoUnit,
-        subComposable = {
             Button(onClick = btnClick) {
                 Text("입력")
             }
-        },
-        onClick = onClick
-    )
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -293,7 +274,7 @@ fun PreviewHomeBasicInfoCard() {
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             item {
-                MedicineInfoDashBoard(
+                LongInputCard(
                     title = stringResource(id = R.string.text_title_take_medicine),
                     value = "아침",
                     subValue = "당뇨약",
@@ -303,7 +284,7 @@ fun PreviewHomeBasicInfoCard() {
                 }
             }
             item {
-                DrinkInfoDashBoard(
+                UpDownInputSmallCard(
                     title = stringResource(id = R.string.text_title_drink_water),
                     value = 1,
                     onUpClick = {},
@@ -314,9 +295,8 @@ fun PreviewHomeBasicInfoCard() {
                 )
             }
 
-
             item {
-                DrinkInfoDashBoard(
+                UpDownInputSmallCard(
                     title = stringResource(id = R.string.text_title_drink_coffee),
                     value = 0,
                     onUpClick = {},
@@ -327,50 +307,13 @@ fun PreviewHomeBasicInfoCard() {
                 )
             }
             item(span = StaggeredGridItemSpan.FullLine) {
-                DashBoardInputCard(
+                DashBoardSingleLineCard(
                     title = "오늘 섭취한 칼로리",
                     infoValue = "375",
                     infoUnit = "kcal",
                     onClick = {},
                     btnClick = {}
                 )
-            }
-            item(span = StaggeredGridItemSpan.FullLine) {
-                DashBoardInputCard(
-                    title = "혈당",
-                    infoValue = "--",
-                    infoUnit = "mg/dL",
-                    onClick = {},
-                    btnClick = {}
-                )
-            }
-            item(span = StaggeredGridItemSpan.FullLine) {
-                DashBoardInputCard(
-                    title = stringResource(id = R.string.text_insulin),
-                    infoValue = "0",
-                    infoUnit = stringResource(id = R.string.text_insulin_unit),
-                    onClick = {
-
-                    },
-                    btnClick = {
-
-                    }
-                )
-            }
-
-            item(span = StaggeredGridItemSpan.FullLine) {
-                DashBoardInputCard(
-                    title = stringResource(id = R.string.text_blood_pressure),
-                    infoValue = "0/0",
-                    infoUnit = stringResource(id = R.string.text_blood_pressure_unit),
-                    onClick = {
-
-                    },
-                    btnClick = {
-
-                    }
-                )
-
             }
         }
     }
