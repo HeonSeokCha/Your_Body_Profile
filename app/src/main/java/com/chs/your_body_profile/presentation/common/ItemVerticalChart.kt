@@ -35,11 +35,11 @@ import java.time.LocalDate
 import kotlin.math.roundToInt
 
 @Composable
-fun <T: Any> ItemVerticalChart(
-    pagingItems: LazyPagingItems<Pair<LocalDate, List<T>>>?,
-    onSelected: (LocalDate) -> Unit
+fun <T> ItemVerticalChart(
+    pagingItems: LazyPagingItems<Pair<LocalDate, List<T>>>,
+    selectIdx: Int,
+    onSelected: (Int) -> Unit
 ) {
-    var selectIdx by rememberSaveable { mutableIntStateOf(0) }
     val scrollState = rememberLazyListState()
 
     LazyRow(
@@ -58,40 +58,36 @@ fun <T: Any> ItemVerticalChart(
         reverseLayout = true,
         state = scrollState
     ) {
-        if (pagingItems != null) {
-            items(pagingItems.itemCount) { idx ->
-                val date = pagingItems[idx]!!.first
-                val value = pagingItems[idx]!!.second
+        items(pagingItems.itemCount) { idx ->
+            val date = pagingItems[idx]!!.first
 
-                Column(
-                    modifier = Modifier
-                        .drawBehind {
-                            if (selectIdx == idx) {
-                                drawRoundRect(
-                                    brush = Brush.verticalGradient(
-                                        listOf(
-                                            SkyBlue400.copy(alpha = 0.3f),
-                                            Color.Transparent
-                                        )
-                                    ),
-                                    topLeft = Offset(0f, 0f),
-                                    size = Size(size.width, size.height)
-                                )
-                            }
+            Column(
+                modifier = Modifier
+                    .drawBehind {
+                        if (selectIdx == idx) {
+                            drawRoundRect(
+                                brush = Brush.verticalGradient(
+                                    listOf(
+                                        SkyBlue400.copy(alpha = 0.3f),
+                                        Color.Transparent
+                                    )
+                                ),
+                                topLeft = Offset(0f, 0f),
+                                size = Size(size.width, size.height)
+                            )
                         }
-                        .clickable {
-                            selectIdx = idx
-                            onSelected(date)
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ItemVerticalCharBar()
+                    }
+                    .clickable {
+                        onSelected(idx)
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ItemVerticalCharBar()
 
-                    ItemChartDate(
-                        date = date,
-                        isFocused = selectIdx == idx
-                    )
-                }
+                ItemChartDate(
+                    date = date,
+                    isFocused = selectIdx == idx
+                )
             }
         }
     }
@@ -137,11 +133,11 @@ fun ItemVerticalCharBar() {
     Canvas(
         modifier = Modifier
             .width(30.dp)
-            .height(300.dp)
+            .height(150.dp)
     ) {
         drawRect(
             color = SkyBlue400,
-            topLeft = Offset(3.dp.toPx(), 300.dp.toPx() - 25.dp.toPx()),
+            topLeft = Offset(3.dp.toPx(), 150.dp.toPx() - 25.dp.toPx()),
             size = Size(24.dp.toPx(), 25.dp.toPx()),
         )
     }

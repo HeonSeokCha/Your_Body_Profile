@@ -26,6 +26,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
+import com.chs.your_body_profile.presentation.common.ItemChartDate
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarInfo
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarSummaryInfo
@@ -61,10 +62,12 @@ fun BloodSugarListScreen(
     val pagingItems = state.pagingList?.collectAsLazyPagingItems()
 
     LaunchedEffect(pagingItems?.loadState?.refresh) {
-        if (pagingItems?.loadState?.refresh is LoadState.Loading) return@LaunchedEffect
-        if (pagingItems?.loadState?.refresh is LoadState.Error)  return@LaunchedEffect
-        if (pagingItems?.itemCount == 0) return@LaunchedEffect
+        if (pagingItems == null) return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems.itemCount == 0) return@LaunchedEffect
         onIntent(BloodSugarListEvent.OnChangeSelectIdx(0))
+        onIntent(BloodSugarListEvent.OnSelectInfo(pagingItems[0]!!.second))
     }
 
     LaunchedEffect(state.selectIdx) {
@@ -107,7 +110,10 @@ fun BloodSugarListScreen(
                                 ) {
                                     Text(text = item.second.map { it.number }.average().roundToInt().toString())
 
-                                    Text(text = item.first.toString())
+                                    ItemChartDate(
+                                        date = item.first,
+                                        isFocused = state.selectIdx == it
+                                    )
                                 }
                             }
                         }

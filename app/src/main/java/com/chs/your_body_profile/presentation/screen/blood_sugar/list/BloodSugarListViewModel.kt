@@ -8,8 +8,12 @@ import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.usecase.GetPagingBloodSugarUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,12 +22,17 @@ class BloodSugarListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(BloodSugarListState())
-    val state = _state.asStateFlow()
-
-    init {
-        getPagingBloodSugar()
-    }
-
+    val state = _state
+        .onStart {
+            viewModelScope.launch {
+                getPagingBloodSugar()
+            }
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            BloodSugarListState()
+        )
 
     fun changeIntent(intent: BloodSugarListEvent) {
         when (intent) {
@@ -32,9 +41,11 @@ class BloodSugarListViewModel @Inject constructor(
                     it.copy(selectIdx = intent.idx)
                 }
             }
+
             is BloodSugarListEvent.OnSelectInfo -> {
                 selectInfo(intent.infoList)
             }
+
             else -> Unit
         }
     }

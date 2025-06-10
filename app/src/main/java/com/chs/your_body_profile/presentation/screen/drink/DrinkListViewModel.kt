@@ -31,7 +31,7 @@ class DrinkListViewModel @Inject constructor(
             initInfo()
         }.stateIn(
             viewModelScope,
-            SharingStarted.Eagerly,
+            SharingStarted.WhileSubscribed(5000L),
             DrinkListState(type)
         )
 
