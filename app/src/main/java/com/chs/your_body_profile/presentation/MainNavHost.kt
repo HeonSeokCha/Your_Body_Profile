@@ -1,14 +1,12 @@
 package com.chs.your_body_profile.presentation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,12 +14,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.chs.your_body_profile.presentation.screen.bills.input.PayInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.bills.input.PayInputViewModel
-import com.chs.your_body_profile.presentation.screen.bills.list.PayInfoListScreen
 import com.chs.your_body_profile.presentation.screen.bills.list.PayInfoListScreenRoot
 import com.chs.your_body_profile.presentation.screen.bills.list.PayListViewModel
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_pressure.input.BloodPressureInputViewModel
-import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListScreen
 import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListScreenRoot
 import com.chs.your_body_profile.presentation.screen.blood_pressure.list.BloodPressureListViewModel
 import com.chs.your_body_profile.presentation.screen.blood_sugar.input.BloodSugarInputScreenRoot
@@ -42,13 +38,17 @@ import com.chs.your_body_profile.presentation.screen.insulin.list.InsulinListScr
 import com.chs.your_body_profile.presentation.screen.insulin.list.InsulinListViewModel
 import com.chs.your_body_profile.presentation.screen.weight.input.WeightInputScreenRoot
 import com.chs.your_body_profile.presentation.screen.weight.input.WeightInputViewModel
-import com.chs.your_body_profile.presentation.screen.weight.list.WeightListScreen
 import com.chs.your_body_profile.presentation.screen.weight.list.WeightListScreenRoot
 import com.chs.your_body_profile.presentation.screen.weight.list.WeightListViewModel
 
 @Composable
-fun MainNavHost(navController: NavHostController) {
+fun MainNavHost(
+    navController: NavHostController,
+    paddingValue: PaddingValues,
+) {
     NavHost(
+        modifier = Modifier
+            .padding(paddingValue),
         navController = navController,
         startDestination = Screens.Home,
         enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(500)) },
