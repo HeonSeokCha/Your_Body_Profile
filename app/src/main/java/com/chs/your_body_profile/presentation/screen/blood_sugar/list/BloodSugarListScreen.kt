@@ -66,7 +66,6 @@ fun BloodSugarListScreen(
         if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
         if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
         if (pagingItems.itemCount == 0) return@LaunchedEffect
-        onIntent(BloodSugarListEvent.OnChangeSelectIdx(0))
         onIntent(BloodSugarListEvent.OnSelectInfo(pagingItems[0]!!.second))
     }
 

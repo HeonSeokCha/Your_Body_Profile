@@ -29,6 +29,8 @@ import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.bills.ItemPaymentInfo
 import androidx.compose.runtime.getValue
 import com.chs.your_body_profile.common.toCommaFormat
+import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
+import java.time.LocalDate
 
 @Composable
 fun PayInfoListScreenRoot(
@@ -60,10 +62,11 @@ fun PayInfoListScreen(
     val pagingItems = state.pagingList?.collectAsLazyPagingItems()
 
     LaunchedEffect(pagingItems?.loadState?.refresh) {
-        if (pagingItems?.loadState?.refresh is LoadState.Loading) return@LaunchedEffect
-        if (pagingItems?.loadState?.refresh is LoadState.Error)  return@LaunchedEffect
-        if (pagingItems?.itemCount == 0) return@LaunchedEffect
-        onIntent(PayListEvent.OnChangeSelectIdx(0))
+        if (pagingItems == null) return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems.itemCount == 0) return@LaunchedEffect
+        onIntent(PayListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
     }
 
     LaunchedEffect(state.selectIdx) {
@@ -97,17 +100,23 @@ fun PayInfoListScreen(
                         ) {
                             val item = pagingItems[it]
                             if (item != null) {
-                                Column(
-                                    modifier = Modifier
-                                        .clickable {
-                                            onIntent(PayListEvent.OnChangeSelectIdx(it))
-                                        },
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ItemSmallDateTime(
+                                    date = item.first,
+                                    currentDate = pagingItems[state.selectIdx]?.first ?: LocalDate.now()
                                 ) {
-                                    Text(text = item.second.sumOf { it.amount }.toCommaFormat())
-
-                                    Text(text = item.first.toString())
+                                    onIntent(PayListEvent.OnChangeSelectIdx(it))
                                 }
+//                                Column(
+//                                    modifier = Modifier
+//                                        .clickable {
+//                                            onIntent(PayListEvent.OnChangeSelectIdx(it))
+//                                        },
+//                                    horizontalAlignment = Alignment.CenterHorizontally
+//                                ) {
+//                                    Text(text = item.second.sumOf { it.amount }.toCommaFormat())
+//
+//                                    Text(text = item.first.toString())
+//                                }
                             }
                         }
                     }

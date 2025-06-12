@@ -7,6 +7,6 @@ import java.time.LocalDate
 
 data class HemoglobinA1cListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<HemoglobinA1cInfo>>>>? = null,
-    val selectIdx: Int = -1,
+    val selectIdx: Int = 0,
     val selectInfo: List<HemoglobinA1cInfo> = emptyList()
 )

@@ -53,10 +53,11 @@ fun WeightListScreen(
 ) {
     val pagingItems = state.pagingList?.collectAsLazyPagingItems()
     LaunchedEffect(pagingItems?.loadState?.refresh) {
-        if (pagingItems?.loadState?.refresh is LoadState.Loading) return@LaunchedEffect
-        if (pagingItems?.loadState?.refresh is LoadState.Error)  return@LaunchedEffect
-        if (pagingItems?.itemCount == 0) return@LaunchedEffect
-        onIntent(WeightListEvent.OnChangeSelectIdx(0))
+        if (pagingItems == null) return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems.itemCount == 0) return@LaunchedEffect
+        onIntent(WeightListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
     }
 
     LaunchedEffect(state.selectIdx) {

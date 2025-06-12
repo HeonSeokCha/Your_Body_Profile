@@ -35,7 +35,7 @@ fun ItemSmallDateTime(
                 horizontal = 12.dp,
                 vertical = 8.dp
             ),
-        text = if (date.dayOfMonth == 1) {
+        text = if (currentDate == date) {
             "${date.monthValue} / ${date.dayOfMonth}"
         } else {
             date.dayOfMonth.toString()

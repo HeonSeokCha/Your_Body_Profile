@@ -10,6 +10,6 @@ data class DrinkListState(
     val drinkType: DrinkType,
     val pagingData: Flow<PagingData<Pair<LocalDate, List<DrinkInfo>>>>? = null,
     val selectInfo: List<DrinkInfo> = emptyList(),
-    val selectIdx: Int = -1,
+    val selectIdx: Int = 0,
     val isLoading: Boolean = true
 )
