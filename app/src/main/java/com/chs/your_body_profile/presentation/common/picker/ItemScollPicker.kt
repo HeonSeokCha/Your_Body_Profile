@@ -74,7 +74,10 @@ fun <T> ItemScrollPicker(
                                 state.scrollToItem(items.indexOf(it as T))
                             }
                         },
-                        predicate = { it as T in items },
+                        predicate = {
+                            val a = it as T
+                            a in items
+                        },
                         onBack = {
                             isEditAble = false
                         },

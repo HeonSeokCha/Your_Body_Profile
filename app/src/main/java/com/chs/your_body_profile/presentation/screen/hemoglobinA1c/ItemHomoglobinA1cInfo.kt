@@ -9,10 +9,15 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 
 @Composable
 fun ItemHemoglobinA1cInfo(
-    hemoglobinA1cInfo: HemoglobinA1cInfo
+    hemoglobinA1cInfo: HemoglobinA1cInfo,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
-    ItemDetailInfo(title = hemoglobinA1cInfo.number.toString(),
+    ItemDetailInfo(
+        title = hemoglobinA1cInfo.number.toString(),
         measureUnit = stringResource(id = R.string.text_hemoglobin_A1c_unit),
-        subTitle = hemoglobinA1cInfo.measureDate.format(Constants.DATE_TIME_FORMATTER_DETAIL)
+        subTitle = hemoglobinA1cInfo.measureDate.format(Constants.DATE_TIME_FORMATTER_DETAIL),
+        onClick = onClick,
+        onLongClick = onLongClick
     ) { }
 }

@@ -9,11 +9,15 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 
 @Composable
 fun ItemBloodPressureInfo(
-    bloodPressureInfo: BloodPressureInfo
+    bloodPressureInfo: BloodPressureInfo,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
     ItemDetailInfo(
         title = "${bloodPressureInfo.systolic}/${bloodPressureInfo.diastolic}",
         measureUnit = stringResource(id = R.string.text_blood_sugar_unit),
-        subTitle = bloodPressureInfo.measureDateTime.format(Constants.DATE_TIME_FORMATTER)
+        subTitle = bloodPressureInfo.measureDateTime.format(Constants.DATE_TIME_FORMATTER),
+        onClick = onClick,
+        onLongClick = onLongClick
     ) { }
 }

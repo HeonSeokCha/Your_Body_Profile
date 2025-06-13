@@ -11,11 +11,17 @@ import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 
 @Composable
-fun ItemDrinkInfo(info: DrinkInfo) {
+fun ItemDrinkInfo(
+    info: DrinkInfo,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
+) {
     ItemDetailInfo(
         title = "",
         measureUnit = "",
-        subTitle = info.takenDateTime.format(Constants.DATE_TIME_FORMATTER_DETAIL)
+        subTitle = info.takenDateTime.format(Constants.DATE_TIME_FORMATTER_DETAIL),
+        onClick = onClick,
+        onLongClick = onLongClick
     ) {
         if (info.drinkType == DrinkType.WATER) {
             Icon(imageVector = Icons.Filled.LocalDrink, contentDescription = null)

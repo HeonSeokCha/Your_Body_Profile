@@ -1,10 +1,8 @@
 package com.chs.your_body_profile.presentation.screen.bills.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,7 +26,7 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.bills.ItemPaymentInfo
 import androidx.compose.runtime.getValue
-import com.chs.your_body_profile.common.toCommaFormat
+import com.chs.your_body_profile.presentation.common.ItemDialog
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import java.time.LocalDate
 
@@ -84,7 +82,8 @@ fun PayInfoListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 LazyRow(
@@ -106,17 +105,6 @@ fun PayInfoListScreen(
                                 ) {
                                     onIntent(PayListEvent.OnChangeSelectIdx(it))
                                 }
-//                                Column(
-//                                    modifier = Modifier
-//                                        .clickable {
-//                                            onIntent(PayListEvent.OnChangeSelectIdx(it))
-//                                        },
-//                                    horizontalAlignment = Alignment.CenterHorizontally
-//                                ) {
-//                                    Text(text = item.second.sumOf { it.amount }.toCommaFormat())
-//
-//                                    Text(text = item.first.toString())
-//                                }
                             }
                         }
                     }
@@ -129,7 +117,15 @@ fun PayInfoListScreen(
                 }
             } else {
                 items(state.selectInfo) { info ->
-                    ItemPaymentInfo(info)
+                    ItemPaymentInfo(
+                        info = info,
+                        onClick = {
+                            onIntent(PayListEvent.OnChangeShowDialog)
+                        },
+                        onLongClick = {
+                            onIntent(PayListEvent.OnChangeShowDialog)
+                        }
+                    )
                 }
             }
         }
@@ -143,5 +139,17 @@ fun PayInfoListScreen(
         ) {
             onIntent(PayListEvent.OnClickInputButton)
         }
+    }
+
+    if (state.showDialog) {
+        ItemDialog(
+            title = stringResource(R.string.text_sure_delete_item),
+            onClick = {
+
+            },
+            onDismiss = {
+                onIntent(PayListEvent.OnChangeShowDialog)
+            }
+        )
     }
 }

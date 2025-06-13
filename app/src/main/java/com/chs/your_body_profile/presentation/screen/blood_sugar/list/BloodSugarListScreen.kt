@@ -28,8 +28,10 @@ import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemChartDate
 import com.chs.your_body_profile.presentation.common.ItemInputButton
+import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarInfo
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarSummaryInfo
+import java.time.LocalDate
 import kotlin.math.roundToInt
 
 @Composable
@@ -84,7 +86,8 @@ fun BloodSugarListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 LazyRow(
@@ -100,19 +103,11 @@ fun BloodSugarListScreen(
                         ) {
                             val item = pagingItems[it]
                             if (item != null) {
-                                Column(
-                                    modifier = Modifier
-                                        .clickable {
-                                            onIntent(BloodSugarListEvent.OnChangeSelectIdx(it))
-                                        },
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ItemSmallDateTime(
+                                    date = item.first,
+                                    currentDate = pagingItems[state.selectIdx]?.first ?: LocalDate.now()
                                 ) {
-                                    Text(text = item.second.map { it.number }.average().roundToInt().toString())
-
-                                    ItemChartDate(
-                                        date = item.first,
-                                        isFocused = state.selectIdx == it
-                                    )
+                                    onIntent(BloodSugarListEvent.OnChangeSelectIdx(it))
                                 }
                             }
                         }
@@ -126,7 +121,15 @@ fun BloodSugarListScreen(
                 }
 
                 items(state.selectInfo) { info ->
-                    ItemBloodSugarInfo(info)
+                    ItemBloodSugarInfo(
+                        bloodSugarInfo = info,
+                        onClick = {
+
+                        },
+                        onLongClick = {
+
+                        }
+                    )
                 }
             } else {
                 item {

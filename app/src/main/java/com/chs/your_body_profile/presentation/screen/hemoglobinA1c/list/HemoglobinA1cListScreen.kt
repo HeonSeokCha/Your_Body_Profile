@@ -27,7 +27,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
+import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.ItemHemoglobinA1cInfo
+import java.time.LocalDate
 
 @Composable
 fun HemoglobinA1cListScreenRoot(
@@ -61,7 +63,7 @@ fun HemoglobinA1cListScreen(
     LaunchedEffect(pagingItems?.loadState?.refresh) {
         if (pagingItems == null) return@LaunchedEffect
         if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
-        if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Error) return@LaunchedEffect
         if (pagingItems.itemCount == 0) return@LaunchedEffect
         onIntent(HemoglobinA1cListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
     }
@@ -81,7 +83,8 @@ fun HemoglobinA1cListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 LazyRow(
@@ -97,16 +100,12 @@ fun HemoglobinA1cListScreen(
                         ) {
                             val item = pagingItems[it]
                             if (item != null) {
-                                Column(
-                                    modifier = Modifier
-                                        .clickable {
-                                            onIntent(HemoglobinA1cListEvent.OnChangeSelectIdx(it))
-                                        },
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ItemSmallDateTime(
+                                    date = item.first,
+                                    currentDate = pagingItems[state.selectIdx]?.first
+                                        ?: LocalDate.now()
                                 ) {
-                                    Text(text = String.format("%.1f", item.second.map { it.number }.average()))
-
-                                    Text(text = item.first.toString())
+                                    onIntent(HemoglobinA1cListEvent.OnChangeSelectIdx(it))
                                 }
                             }
                         }
@@ -120,7 +119,15 @@ fun HemoglobinA1cListScreen(
                 }
             } else {
                 items(state.selectInfo) { info ->
-                    ItemHemoglobinA1cInfo(info)
+                    ItemHemoglobinA1cInfo(
+                        hemoglobinA1cInfo = info,
+                        onClick = {
+
+                        },
+                        onLongClick = {
+
+                        }
+                    )
                 }
             }
         }

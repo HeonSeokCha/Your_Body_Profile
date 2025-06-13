@@ -42,4 +42,7 @@
     <string name="text_min">최소</string>
     <string name="text_max">최대</string>
     <string name="text_average">평균</string>
+    <string name="text_sure_delete_item">해당 데이터를 삭제하시겠습니까?</string>
+    <string name="text_positive">확인</string>
+    <string name="text_negative">취소</string>
 </resources>

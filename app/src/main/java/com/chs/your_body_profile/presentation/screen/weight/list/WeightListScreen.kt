@@ -27,7 +27,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
+import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.weight.ItemWeightInfo
+import java.time.LocalDate
 
 @Composable
 fun WeightListScreenRoot(
@@ -55,7 +57,7 @@ fun WeightListScreen(
     LaunchedEffect(pagingItems?.loadState?.refresh) {
         if (pagingItems == null) return@LaunchedEffect
         if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
-        if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Error) return@LaunchedEffect
         if (pagingItems.itemCount == 0) return@LaunchedEffect
         onIntent(WeightListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
     }
@@ -75,7 +77,8 @@ fun WeightListScreen(
             Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item {
                 LazyRow(
@@ -91,16 +94,12 @@ fun WeightListScreen(
                         ) {
                             val item = pagingItems[it]
                             if (item != null) {
-                                Column(
-                                    modifier = Modifier
-                                        .clickable {
-                                            onIntent(WeightListEvent.OnChangeSelectIdx(it))
-                                        },
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ItemSmallDateTime(
+                                    date = item.first,
+                                    currentDate = pagingItems[state.selectIdx]?.first
+                                        ?: LocalDate.now()
                                 ) {
-                                    Text(text = String.format("%.1f", item.second.map { it.weight }.average()))
-
-                                    Text(text = item.first.toString())
+                                    onIntent(WeightListEvent.OnChangeSelectIdx(it))
                                 }
                             }
                         }
@@ -114,7 +113,15 @@ fun WeightListScreen(
                 }
             } else {
                 items(state.selectInfo) { info ->
-                    ItemWeightInfo(info)
+                    ItemWeightInfo(
+                        info = info,
+                        onClick = {
+
+                        },
+                        onLongClick = {
+
+                        }
+                    )
                 }
             }
         }

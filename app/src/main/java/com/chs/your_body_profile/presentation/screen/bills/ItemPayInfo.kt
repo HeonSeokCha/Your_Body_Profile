@@ -14,11 +14,18 @@ import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 
 @Composable
-fun ItemPaymentInfo(info: PaymentInfo) {
+
+fun ItemPaymentInfo(
+    info: PaymentInfo,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
+) {
     ItemDetailInfo(
         title = info.amount.toCommaFormat(),
         measureUnit = stringResource(id = R.string.text_payment_unit),
-        subTitle = info.paymentTime.format(Constants.DATE_TIME_FORMATTER)
+        subTitle = info.paymentTime.format(Constants.DATE_TIME_FORMATTER),
+        onClick = onClick,
+        onLongClick = onLongClick
     ) {
         Text(
             text = info.title,

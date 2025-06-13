@@ -1,7 +1,8 @@
 package com.chs.your_body_profile.presentation.screen.insulin.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +26,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
+import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.insulin.ItemInsulinInfo
+import java.time.LocalDate
 
 @Composable
 fun InsulinListScreenRoot(
@@ -59,7 +62,7 @@ fun InsulinListScreen(
     LaunchedEffect(pagingItems?.loadState?.refresh) {
         if (pagingItems == null) return@LaunchedEffect
         if (pagingItems.loadState.refresh is LoadState.Loading) return@LaunchedEffect
-        if (pagingItems.loadState.refresh is LoadState.Error)  return@LaunchedEffect
+        if (pagingItems.loadState.refresh is LoadState.Error) return@LaunchedEffect
         if (pagingItems.itemCount == 0) return@LaunchedEffect
         onIntent(InsulinListEvent.OnSelectInfo(pagingItems[state.selectIdx]!!.second))
     }
@@ -78,7 +81,8 @@ fun InsulinListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 LazyRow(
@@ -94,7 +98,13 @@ fun InsulinListScreen(
                         ) {
                             val item = pagingItems[it]
                             if (item != null) {
-                                Text(text = item.first.toString())
+                                ItemSmallDateTime(
+                                    date = item.first,
+                                    currentDate = pagingItems[state.selectIdx]?.first
+                                        ?: LocalDate.now()
+                                ) {
+                                    onIntent(InsulinListEvent.OnChangeSelectIdx(it))
+                                }
                             }
                         }
                     }
@@ -107,7 +117,15 @@ fun InsulinListScreen(
                 }
             } else {
                 items(state.selectInfo) { info ->
-                    ItemInsulinInfo(info)
+                    ItemInsulinInfo(
+                        insulinInfo = info,
+                        onClick = {
+
+                        },
+                        onLongClick = {
+
+                        }
+                    )
                 }
             }
         }

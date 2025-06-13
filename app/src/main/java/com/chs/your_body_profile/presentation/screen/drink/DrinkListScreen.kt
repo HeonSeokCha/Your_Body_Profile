@@ -1,8 +1,11 @@
 package com.chs.your_body_profile.presentation.screen.drink
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,7 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
+import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.common.ItemVerticalChart
+import java.time.LocalDate
 import kotlin.collections.isNotEmpty
 
 @Composable
@@ -58,22 +64,47 @@ fun DrinkListScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            if (pagingItems != null) {
-                ItemVerticalChart(
-                    pagingItems = pagingItems,
-                    selectIdx = state.selectIdx
-                ) {
-                    onIntent(DrinkListEvent.OnChangeSelectIdx(it))
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                reverseLayout = true
+            ) {
+                if (pagingItems != null) {
+
+                    items(
+                        count = pagingItems.itemCount,
+                        key = pagingItems.itemKey { it.first }
+                    ) {
+                        val item = pagingItems[it]
+                        if (item != null) {
+                            ItemSmallDateTime(
+                                date = item.first,
+                                currentDate = pagingItems[state.selectIdx]?.first ?: LocalDate.now()
+                            ) {
+                                onIntent(DrinkListEvent.OnChangeSelectIdx(it))
+                            }
+                        }
+                    }
                 }
             }
         }
 
         if (state.selectInfo.isNotEmpty()) {
             items(state.selectInfo) {
-                ItemDrinkInfo(it)
+                ItemDrinkInfo(
+                    info = it,
+                    onClick = {
+
+                    },
+                    onLongClick = {
+
+                    }
+                )
             }
         }
     }

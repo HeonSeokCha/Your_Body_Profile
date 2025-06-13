@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.common
 
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,8 @@ fun ItemDetailInfo(
     title: String,
     measureUnit: String,
     subTitle: String,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
     subComposable: @Composable () -> Unit
 ) {
     Row(
@@ -32,6 +35,10 @@ fun ItemDetailInfo(
             .padding(
                 vertical = 8.dp,
                 horizontal = 8.dp
+            )
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -58,13 +65,5 @@ fun ItemDetailInfo(
         }
 
         subComposable()
-    }
-}
-
-@Preview(backgroundColor = 0xFFFFFFFF, showSystemUi = false, showBackground = true)
-@Composable
-fun PreviewItemDetailInfo() {
-    ItemDetailInfo(title = "88", measureUnit = "mg/dL", subTitle = "23:33") {
-        Icon(imageVector = Icons.Filled.WbSunny, contentDescription = null)
     }
 }

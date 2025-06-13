@@ -84,7 +84,8 @@ fun BloodPressureListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 LazyRow(
@@ -127,7 +128,15 @@ fun BloodPressureListScreen(
                 }
 
                 items(state.selectInfo) { info ->
-                    ItemBloodPressureInfo(info)
+                    ItemBloodPressureInfo(
+                        bloodPressureInfo = info,
+                        onClick = {
+
+                        },
+                        onLongClick = {
+
+                        }
+                    )
                 }
             }
         }

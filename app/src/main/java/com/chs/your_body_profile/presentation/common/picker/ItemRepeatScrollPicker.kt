@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlin.jvm.java
 
 @Composable
 fun <T> ItemRepeatScrollPicker(
@@ -90,7 +91,10 @@ fun <T> ItemRepeatScrollPicker(
                             state.scrollToItem(items.indexOf(it as T))
                         }
                     },
-                    predicate = { it as T in items },
+                    predicate = {
+                        val a = it as T
+                        a in items
+                    },
                     onBack = { isEditAble = false },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number,

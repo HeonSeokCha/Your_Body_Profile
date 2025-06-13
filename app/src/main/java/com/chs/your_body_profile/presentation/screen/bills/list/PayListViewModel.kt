@@ -34,6 +34,11 @@ class PayListViewModel @Inject constructor(
             is PayListEvent.OnSelectInfo -> {
                 selectInfo(intent.infoList)
             }
+
+            PayListEvent.OnChangeShowDialog -> {
+                _state.update { it.copy(showDialog = !it.showDialog) }
+            }
+
             else -> Unit
         }
     }
