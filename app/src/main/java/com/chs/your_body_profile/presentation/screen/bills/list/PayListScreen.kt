@@ -123,7 +123,7 @@ fun PayInfoListScreen(
                             onIntent(PayListEvent.OnChangeShowDialog)
                         },
                         onLongClick = {
-                            onIntent(PayListEvent.OnChangeShowDialog)
+                            onIntent(PayListEvent.OnLongClickItem(it))
                         }
                     )
                 }
@@ -145,7 +145,7 @@ fun PayInfoListScreen(
         ItemDialog(
             title = stringResource(R.string.text_sure_delete_item),
             onClick = {
-
+                onIntent(PayListEvent.OnRemoveInfo)
             },
             onDismiss = {
                 onIntent(PayListEvent.OnChangeShowDialog)

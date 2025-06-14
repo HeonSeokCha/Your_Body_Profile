@@ -18,14 +18,14 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 fun ItemPaymentInfo(
     info: PaymentInfo,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: (PaymentInfo) -> Unit
 ) {
     ItemDetailInfo(
         title = info.amount.toCommaFormat(),
         measureUnit = stringResource(id = R.string.text_payment_unit),
         subTitle = info.paymentTime.format(Constants.DATE_TIME_FORMATTER),
         onClick = onClick,
-        onLongClick = onLongClick
+        onLongClick = { onLongClick(info) }
     ) {
         Text(
             text = info.title,

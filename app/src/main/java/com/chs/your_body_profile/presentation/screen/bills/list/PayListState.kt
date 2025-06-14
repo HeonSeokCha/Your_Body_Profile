@@ -9,5 +9,6 @@ data class PayListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<PaymentInfo>>>>? = null,
     val selectIdx: Int = 0,
     val selectInfo: List<PaymentInfo> = emptyList(),
+    val selectRemoveInfo: PaymentInfo? = null,
     val showDialog: Boolean = false
 )
