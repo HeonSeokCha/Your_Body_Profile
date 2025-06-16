@@ -6,6 +6,8 @@ sealed class InsulinListEvent {
     data class OnChangeSelectIdx(val idx: Int) : InsulinListEvent()
     data class OnSelectInfo(val infoList: List<InsulinInfo>) : InsulinListEvent()
     data object OnClickInputButton : InsulinListEvent()
-    data object OnLongClickItem : InsulinListEvent()
+    data class OnLongClickItem(val info: InsulinInfo): InsulinListEvent()
+    data object OnChangeShowDialog : InsulinListEvent()
+    data object OnRemoveInfo : InsulinListEvent()
     data object OnBack : InsulinListEvent()
 }

@@ -6,6 +6,8 @@ sealed class BloodPressureListEvent {
     data class OnChangeSelectIdx(val idx: Int) : BloodPressureListEvent()
     data class OnSelectInfo(val infoList: List<BloodPressureInfo>) : BloodPressureListEvent()
     data object OnClickInputButton : BloodPressureListEvent()
-    data object OnLongClickItem : BloodPressureListEvent()
+    data class OnLongClickItem(val info: BloodPressureInfo): BloodPressureListEvent()
+    data object OnChangeShowDialog : BloodPressureListEvent()
+    data object OnRemoveInfo : BloodPressureListEvent()
     data object OnBack : BloodPressureListEvent()
 }

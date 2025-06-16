@@ -12,14 +12,14 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 fun ItemInsulinInfo(
     insulinInfo: InsulinInfo,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: (InsulinInfo) -> Unit
 ) {
     ItemDetailInfo(
         title = insulinInfo.level.toString(),
         measureUnit = stringResource(id = R.string.text_insulin_unit),
         subTitle = insulinInfo.injectDateTime.format(Constants.DATE_TIME_FORMATTER),
         onClick = onClick,
-        onLongClick = onLongClick
+        onLongClick = { onLongClick(insulinInfo) }
     ) {
     }
 }

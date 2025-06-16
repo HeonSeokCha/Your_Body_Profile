@@ -26,8 +26,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
+import com.chs.your_body_profile.presentation.common.ItemDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
+import com.chs.your_body_profile.presentation.screen.bills.list.PayListEvent
 import com.chs.your_body_profile.presentation.screen.weight.ItemWeightInfo
 import java.time.LocalDate
 
@@ -115,11 +117,9 @@ fun WeightListScreen(
                 items(state.selectInfo) { info ->
                     ItemWeightInfo(
                         info = info,
-                        onClick = {
-
-                        },
+                        onClick = { },
                         onLongClick = {
-
+                            onIntent(WeightListEvent.OnLongClickItem(it))
                         }
                     )
                 }
@@ -134,6 +134,18 @@ fun WeightListScreen(
                 .background(MaterialTheme.colorScheme.primary),
         ) {
             onIntent(WeightListEvent.OnClickInputButton)
+        }
+
+        if (state.showDialog) {
+            ItemDialog(
+                title = stringResource(R.string.text_sure_delete_item),
+                onClick = {
+                    onIntent(WeightListEvent.OnRemoveInfo)
+                },
+                onDismiss = {
+                    onIntent(WeightListEvent.OnChangeShowDialog)
+                }
+            )
         }
     }
 }

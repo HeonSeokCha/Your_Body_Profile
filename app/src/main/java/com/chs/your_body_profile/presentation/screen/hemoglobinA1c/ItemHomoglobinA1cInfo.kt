@@ -11,13 +11,13 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 fun ItemHemoglobinA1cInfo(
     hemoglobinA1cInfo: HemoglobinA1cInfo,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: (HemoglobinA1cInfo) -> Unit
 ) {
     ItemDetailInfo(
         title = hemoglobinA1cInfo.number.toString(),
         measureUnit = stringResource(id = R.string.text_hemoglobin_A1c_unit),
         subTitle = hemoglobinA1cInfo.measureDate.format(Constants.DATE_TIME_FORMATTER_DETAIL),
         onClick = onClick,
-        onLongClick = onLongClick
+        onLongClick = { onLongClick(hemoglobinA1cInfo) }
     ) { }
 }

@@ -29,6 +29,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
+import com.chs.your_body_profile.presentation.screen.bills.list.PayListEvent
 import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemBloodPressureInfo
 import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemBloodPressureSummaryInfo
 
@@ -130,11 +131,9 @@ fun BloodPressureListScreen(
                 items(state.selectInfo) { info ->
                     ItemBloodPressureInfo(
                         bloodPressureInfo = info,
-                        onClick = {
-
-                        },
+                        onClick = { },
                         onLongClick = {
-
+                            onIntent(BloodPressureListEvent.OnLongClickItem(it))
                         }
                     )
                 }
@@ -149,6 +148,17 @@ fun BloodPressureListScreen(
                 .background(MaterialTheme.colorScheme.primary),
         ) {
             onIntent(BloodPressureListEvent.OnClickInputButton)
+        }
+
+        if (state.showDialog) {
+            ItemInputButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .background(MaterialTheme.colorScheme.primary),
+            ) {
+                onIntent(BloodPressureListEvent.OnClickInputButton)
+            }
         }
     }
 }

@@ -32,7 +32,6 @@ fun DrinkListScreenRoot(
     DrinkListScreen(state = state) { event ->
         when (event) {
             DrinkListEvent.OnBack -> onBack()
-            DrinkListEvent.OnLongClickItem -> {}
             else -> viewModel.changeEvent(event)
         }
     }

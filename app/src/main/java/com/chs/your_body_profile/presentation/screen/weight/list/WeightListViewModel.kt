@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.chs.your_body_profile.domain.model.WeightInfo
+import com.chs.your_body_profile.domain.usecase.DeleteWeightInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetPagingWeightUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,11 +12,13 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class WeightListViewModel @Inject constructor(
-    private val getPagingWeightUseCase: GetPagingWeightUseCase
+    private val getPagingWeightUseCase: GetPagingWeightUseCase,
+    private val deleteWeightInfoUseCase: DeleteWeightInfoUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(WeightListState())
     val state = _state
@@ -24,7 +27,7 @@ class WeightListViewModel @Inject constructor(
         }
         .stateIn(
             viewModelScope,
-            SharingStarted.Eagerly,
+            SharingStarted.WhileSubscribed(),
             WeightListState()
         )
 
@@ -32,6 +35,23 @@ class WeightListViewModel @Inject constructor(
         when (intent) {
             is WeightListEvent.OnChangeSelectIdx -> changeIdx(intent.idx)
             is WeightListEvent.OnSelectInfo -> changeInfoList(intent.info)
+
+            WeightListEvent.OnChangeShowDialog -> {
+                _state.update { it.copy(showDialog = !it.showDialog) }
+            }
+
+            is WeightListEvent.OnLongClickItem -> {
+                _state.update {
+                    it.copy(
+                        selectRemoveInfo = intent.info,
+                        showDialog = true
+                    )
+                }
+            }
+
+            WeightListEvent.OnRemoveInfo -> {
+                deleteInfo()
+            }
             else -> Unit
         }
     }
@@ -50,5 +70,22 @@ class WeightListViewModel @Inject constructor(
 
     private fun changeIdx(idx: Int) {
         _state.update { it.copy(selectIdx = idx) }
+    }
+
+
+    private fun deleteInfo() {
+        if (_state.value.selectRemoveInfo == null) return
+        viewModelScope.launch {
+            deleteWeightInfoUseCase(_state.value.selectRemoveInfo!!)
+            _state.update {
+                it.copy(
+                    showDialog = false,
+                    selectRemoveInfo = null,
+                    selectInfo = emptyList()
+                )
+            }
+
+            getPagingList()
+        }
     }
 }

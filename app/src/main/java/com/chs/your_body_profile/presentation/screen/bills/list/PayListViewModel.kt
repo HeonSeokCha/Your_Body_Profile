@@ -29,7 +29,7 @@ class PayListViewModel @Inject constructor(
         }
         .stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000L),
+            SharingStarted.WhileSubscribed(),
             PayListState()
         )
 
@@ -71,8 +71,7 @@ class PayListViewModel @Inject constructor(
                 pagingList = getPagingPayInfoUseCase()
                     .cachedIn(viewModelScope)
             )
-        }
-    }
+        } }
 
     private fun selectInfo(infoList: List<PaymentInfo>) {
         _state.update { it.copy(selectInfo = infoList) }
@@ -85,9 +84,12 @@ class PayListViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     showDialog = false,
-                    selectRemoveInfo = null
+                    selectRemoveInfo = null,
+                    selectInfo = emptyList()
                 )
             }
+
+            getPagingPayInfo()
         }
     }
 }

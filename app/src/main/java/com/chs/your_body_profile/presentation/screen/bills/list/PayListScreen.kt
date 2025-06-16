@@ -119,9 +119,7 @@ fun PayInfoListScreen(
                 items(state.selectInfo) { info ->
                     ItemPaymentInfo(
                         info = info,
-                        onClick = {
-                            onIntent(PayListEvent.OnChangeShowDialog)
-                        },
+                        onClick = { },
                         onLongClick = {
                             onIntent(PayListEvent.OnLongClickItem(it))
                         }

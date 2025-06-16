@@ -27,6 +27,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemChartDate
+import com.chs.your_body_profile.presentation.common.ItemDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarInfo
@@ -123,11 +124,9 @@ fun BloodSugarListScreen(
                 items(state.selectInfo) { info ->
                     ItemBloodSugarInfo(
                         bloodSugarInfo = info,
-                        onClick = {
-
-                        },
+                        onClick = { },
                         onLongClick = {
-
+                            onIntent(BloodSugarListEvent.OnLongClickItem(it))
                         }
                     )
                 }
@@ -146,6 +145,18 @@ fun BloodSugarListScreen(
                 .background(MaterialTheme.colorScheme.primary),
         ) {
             onIntent(BloodSugarListEvent.OnClickInputButton)
+        }
+
+        if (state.showDialog) {
+            ItemDialog(
+                title = stringResource(R.string.text_sure_delete_item),
+                onClick = {
+                    onIntent(BloodSugarListEvent.OnRemoveInfo)
+                },
+                onDismiss = {
+                    onIntent(BloodSugarListEvent.OnChangeShowDialog)
+                }
+            )
         }
     }
 }

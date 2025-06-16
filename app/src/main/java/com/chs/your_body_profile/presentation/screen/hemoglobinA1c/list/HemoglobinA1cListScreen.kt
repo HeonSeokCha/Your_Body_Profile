@@ -1,10 +1,8 @@
 package com.chs.your_body_profile.presentation.screen.hemoglobinA1c.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +24,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
+import com.chs.your_body_profile.presentation.common.ItemDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.ItemHemoglobinA1cInfo
@@ -121,11 +120,9 @@ fun HemoglobinA1cListScreen(
                 items(state.selectInfo) { info ->
                     ItemHemoglobinA1cInfo(
                         hemoglobinA1cInfo = info,
-                        onClick = {
-
-                        },
+                        onClick = { },
                         onLongClick = {
-
+                            onIntent(HemoglobinA1cListEvent.OnLongClickItem(it))
                         }
                     )
                 }
@@ -142,5 +139,17 @@ fun HemoglobinA1cListScreen(
         ) {
             onIntent(HemoglobinA1cListEvent.OnClickInputButton)
         }
+    }
+
+    if (state.showDialog) {
+        ItemDialog(
+            title = stringResource(R.string.text_sure_delete_item),
+            onClick = {
+                onIntent(HemoglobinA1cListEvent.OnRemoveInfo)
+            },
+            onDismiss = {
+                onIntent(HemoglobinA1cListEvent.OnChangeShowDialog)
+            }
+        )
     }
 }

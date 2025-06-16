@@ -8,5 +8,7 @@ import java.time.LocalDate
 data class BloodSugarListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>>? = null,
     val selectIdx: Int = 0,
-    val selectInfo: List<BloodSugarInfo> = emptyList()
+    val selectInfo: List<BloodSugarInfo> = emptyList(),
+    val selectRemoveInfo: BloodSugarInfo? = null,
+    val showDialog: Boolean = false
 )

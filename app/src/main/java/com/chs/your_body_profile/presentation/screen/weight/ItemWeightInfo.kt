@@ -11,14 +11,14 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 fun ItemWeightInfo(
     info: WeightInfo,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: (WeightInfo) -> Unit
 ) {
     ItemDetailInfo(
         title = info.weight.toString(),
         measureUnit = stringResource(id = R.string.text_weight_unit),
         subTitle = info.measureDateTime.format(Constants.DATE_TIME_FORMATTER),
         onClick = onClick,
-        onLongClick = onLongClick
+        onLongClick = { onLongClick(info) }
     ) {
     }
 }

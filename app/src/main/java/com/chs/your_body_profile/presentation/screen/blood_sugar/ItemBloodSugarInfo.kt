@@ -16,14 +16,14 @@ import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 fun ItemBloodSugarInfo(
     bloodSugarInfo: BloodSugarInfo,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: (BloodSugarInfo) -> Unit
 ) {
     ItemDetailInfo(
         title = bloodSugarInfo.number.toString(),
         measureUnit = stringResource(id = R.string.text_blood_sugar_unit),
         subTitle = bloodSugarInfo.measureDateTime.format(Constants.DATE_TIME_FORMATTER),
         onClick = onClick,
-        onLongClick = onLongClick
+        onLongClick = { onLongClick(bloodSugarInfo) }
     ) {
         val measureInfo = Constants.bloodSugarMeasureList[bloodSugarInfo.measureTypeIdx]
         Row {

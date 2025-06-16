@@ -25,8 +25,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
+import com.chs.your_body_profile.presentation.common.ItemDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
+import com.chs.your_body_profile.presentation.screen.bills.list.PayListEvent
 import com.chs.your_body_profile.presentation.screen.insulin.ItemInsulinInfo
 import java.time.LocalDate
 
@@ -119,11 +121,9 @@ fun InsulinListScreen(
                 items(state.selectInfo) { info ->
                     ItemInsulinInfo(
                         insulinInfo = info,
-                        onClick = {
-
-                        },
+                        onClick = { },
                         onLongClick = {
-
+                            onIntent(InsulinListEvent.OnLongClickItem(it))
                         }
                     )
                 }
@@ -138,6 +138,18 @@ fun InsulinListScreen(
                 .background(MaterialTheme.colorScheme.primary),
         ) {
             onIntent(InsulinListEvent.OnClickInputButton)
+        }
+
+        if (state.showDialog) {
+            ItemDialog(
+                title = stringResource(R.string.text_sure_delete_item),
+                onClick = {
+                    onIntent(InsulinListEvent.OnRemoveInfo)
+                },
+                onDismiss = {
+                    onIntent(InsulinListEvent.OnChangeShowDialog)
+                }
+            )
         }
     }
 }
