@@ -5,7 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
-import com.chs.your_body_profile.presentation.common.ItemDetailInfo
+import com.chs.your_body_profile.presentation.common.ItemSimpleInfo
 
 @Composable
 fun ItemHemoglobinA1cInfo(
@@ -13,7 +13,7 @@ fun ItemHemoglobinA1cInfo(
     onClick: () -> Unit,
     onLongClick: (HemoglobinA1cInfo) -> Unit
 ) {
-    ItemDetailInfo(
+    ItemSimpleInfo(
         title = hemoglobinA1cInfo.number.toString(),
         measureUnit = stringResource(id = R.string.text_hemoglobin_A1c_unit),
         subTitle = hemoglobinA1cInfo.measureDate.format(Constants.DATE_TIME_FORMATTER_DETAIL),

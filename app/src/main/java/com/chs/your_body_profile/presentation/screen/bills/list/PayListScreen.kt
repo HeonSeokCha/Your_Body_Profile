@@ -26,7 +26,7 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.screen.bills.ItemPaymentInfo
 import androidx.compose.runtime.getValue
-import com.chs.your_body_profile.presentation.common.ItemDialog
+import com.chs.your_body_profile.presentation.common.ItemConfirmDialog
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import java.time.LocalDate
 
@@ -140,7 +140,7 @@ fun PayInfoListScreen(
     }
 
     if (state.showDialog) {
-        ItemDialog(
+        ItemConfirmDialog(
             title = stringResource(R.string.text_sure_delete_item),
             onClick = {
                 onIntent(PayListEvent.OnRemoveInfo)

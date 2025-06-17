@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ItemDetailInfo(
+fun ItemSimpleInfo(
     title: String,
     measureUnit: String,
     subTitle: String,

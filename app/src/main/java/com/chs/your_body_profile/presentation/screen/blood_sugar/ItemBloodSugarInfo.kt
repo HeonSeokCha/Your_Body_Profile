@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.presentation.common.ItemDetailInfo
+import com.chs.your_body_profile.presentation.common.ItemSimpleInfo
 
 @Composable
 fun ItemBloodSugarInfo(
@@ -18,7 +18,7 @@ fun ItemBloodSugarInfo(
     onClick: () -> Unit,
     onLongClick: (BloodSugarInfo) -> Unit
 ) {
-    ItemDetailInfo(
+    ItemSimpleInfo(
         title = bloodSugarInfo.number.toString(),
         measureUnit = stringResource(id = R.string.text_blood_sugar_unit),
         subTitle = bloodSugarInfo.measureDateTime.format(Constants.DATE_TIME_FORMATTER),

@@ -1,10 +1,8 @@
 package com.chs.your_body_profile.presentation.screen.blood_sugar.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,14 +24,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
-import com.chs.your_body_profile.presentation.common.ItemChartDate
-import com.chs.your_body_profile.presentation.common.ItemDialog
+import com.chs.your_body_profile.presentation.common.ItemConfirmDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarInfo
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarSummaryInfo
 import java.time.LocalDate
-import kotlin.math.roundToInt
 
 @Composable
 fun BloodSugarListScreenRoot(
@@ -148,7 +144,7 @@ fun BloodSugarListScreen(
         }
 
         if (state.showDialog) {
-            ItemDialog(
+            ItemConfirmDialog(
                 title = stringResource(R.string.text_sure_delete_item),
                 onClick = {
                     onIntent(BloodSugarListEvent.OnRemoveInfo)
