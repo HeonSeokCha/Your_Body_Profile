@@ -24,10 +24,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
-import com.chs.your_body_profile.presentation.screen.bills.ItemPaymentInfo
 import androidx.compose.runtime.getValue
 import com.chs.your_body_profile.presentation.common.ItemConfirmDialog
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
+import com.chs.your_body_profile.presentation.screen.bills.ItemDetailPaymentInfo
+import com.chs.your_body_profile.presentation.screen.bills.ItemSimplePaymentInfo
 import java.time.LocalDate
 
 @Composable
@@ -111,17 +112,21 @@ fun PayInfoListScreen(
                 }
             }
 
-            if (state.selectInfo.isEmpty()) {
+            if (state.selectListInfo.isEmpty()) {
                 item {
                     Text(text = stringResource(R.string.text_no_items))
                 }
             } else {
-                items(state.selectInfo) { info ->
-                    ItemPaymentInfo(
+                items(state.selectListInfo) { info ->
+                    ItemSimplePaymentInfo(
                         info = info,
-                        onClick = { },
+                        onClick = {
+                            onIntent(PayListEvent.OnClickItem(it))
+                            onIntent(PayListEvent.OnChangeShowDetailDialog)
+                        },
                         onLongClick = {
-                            onIntent(PayListEvent.OnLongClickItem(it))
+                            onIntent(PayListEvent.OnClickItem(it))
+                            onIntent(PayListEvent.OnChangeShowRemoveDialog)
                         }
                     )
                 }
@@ -139,14 +144,23 @@ fun PayInfoListScreen(
         }
     }
 
-    if (state.showDialog) {
+    if (state.showDetailDialog) {
+        ItemDetailPaymentInfo(
+            info = state.selectInfo,
+            onDismiss = {
+                onIntent(PayListEvent.OnChangeShowDetailDialog)
+            }
+        )
+    }
+
+    if (state.showRemoveDialog) {
         ItemConfirmDialog(
             title = stringResource(R.string.text_sure_delete_item),
             onClick = {
                 onIntent(PayListEvent.OnRemoveInfo)
             },
             onDismiss = {
-                onIntent(PayListEvent.OnChangeShowDialog)
+                onIntent(PayListEvent.OnChangeShowRemoveDialog)
             }
         )
     }

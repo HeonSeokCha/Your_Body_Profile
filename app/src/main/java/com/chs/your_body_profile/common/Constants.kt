@@ -33,6 +33,9 @@ object Constants {
     val DATE_FORMATTER_DETAIL: DateTimeFormatter = DateTimeFormatter.ofPattern("M월 dd일 (E)")
         .withLocale(Locale.forLanguageTag("ko"))
 
+    val YEAR_DATE_FORMATTER_DETAIL: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 (E) a hh:mm:ss")
+        .withLocale(Locale.forLanguageTag("ko"))
+
     val DATE_MONTH_DAY_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("M/d")
 
     val DATE_DAY_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("d")

@@ -8,7 +8,8 @@ import java.time.LocalDate
 data class PayListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<PaymentInfo>>>>? = null,
     val selectIdx: Int = 0,
-    val selectInfo: List<PaymentInfo> = emptyList(),
-    val selectRemoveInfo: PaymentInfo? = null,
-    val showDialog: Boolean = false
+    val selectListInfo: List<PaymentInfo> = emptyList(),
+    val selectInfo: PaymentInfo? = null,
+    val showRemoveDialog: Boolean = false,
+    val showDetailDialog: Boolean = false,
 )

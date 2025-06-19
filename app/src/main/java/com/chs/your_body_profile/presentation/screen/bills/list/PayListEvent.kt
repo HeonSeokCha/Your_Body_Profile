@@ -6,8 +6,9 @@ sealed class PayListEvent {
     data class OnChangeSelectIdx(val idx: Int) : PayListEvent()
     data class OnSelectInfo(val infoList: List<PaymentInfo>) : PayListEvent()
     data object OnClickInputButton : PayListEvent()
-    data class OnLongClickItem(val info: PaymentInfo): PayListEvent()
-    data object OnChangeShowDialog : PayListEvent()
+    data class OnClickItem(val info: PaymentInfo): PayListEvent()
+    data object OnChangeShowRemoveDialog : PayListEvent()
+    data object OnChangeShowDetailDialog : PayListEvent()
     data object OnRemoveInfo : PayListEvent()
     data object OnBack : PayListEvent()
 }

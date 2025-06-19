@@ -71,7 +71,7 @@ dependencies {
     implementation(libs.kotlin.serialization)
 
     implementation(libs.bundles.android)
-    implementation(libs.bundles.ktor)
+//    implementation(libs.bundles.ktor)
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.room)
 

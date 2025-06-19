@@ -41,20 +41,20 @@ class PayListViewModel @Inject constructor(
                 }
             }
             is PayListEvent.OnSelectInfo -> {
-                selectInfo(intent.infoList)
+                selectListInfo(intent.infoList)
             }
 
-            PayListEvent.OnChangeShowDialog -> {
-                _state.update { it.copy(showDialog = !it.showDialog) }
+            PayListEvent.OnChangeShowRemoveDialog -> {
+                _state.update { it.copy(showRemoveDialog = !it.showRemoveDialog) }
             }
 
-            is PayListEvent.OnLongClickItem -> {
-                _state.update {
-                    it.copy(
-                        selectRemoveInfo = intent.info,
-                        showDialog = true
-                    )
-                }
+
+            PayListEvent.OnChangeShowDetailDialog -> {
+                _state.update { it.copy(showDetailDialog = !it.showDetailDialog) }
+            }
+
+            is PayListEvent.OnClickItem -> {
+                _state.update { it.copy(selectInfo = intent.info) }
             }
 
             PayListEvent.OnRemoveInfo -> {
@@ -73,19 +73,19 @@ class PayListViewModel @Inject constructor(
             )
         } }
 
-    private fun selectInfo(infoList: List<PaymentInfo>) {
-        _state.update { it.copy(selectInfo = infoList) }
+    private fun selectListInfo(infoList: List<PaymentInfo>) {
+        _state.update { it.copy(selectListInfo = infoList) }
     }
 
     private fun deleteInfo() {
-        if (_state.value.selectRemoveInfo == null) return
+        if (_state.value.selectInfo == null) return
         viewModelScope.launch {
-            deletePayInfoUseCase(_state.value.selectRemoveInfo!!)
+            deletePayInfoUseCase(_state.value.selectInfo!!)
             _state.update {
                 it.copy(
-                    showDialog = false,
-                    selectRemoveInfo = null,
-                    selectInfo = emptyList()
+                    showRemoveDialog = false,
+                    selectInfo = null,
+                    selectListInfo = emptyList()
                 )
             }
 
