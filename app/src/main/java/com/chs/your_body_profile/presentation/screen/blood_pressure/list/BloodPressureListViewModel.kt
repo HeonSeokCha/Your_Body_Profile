@@ -56,15 +56,28 @@ class BloodPressureListViewModel @Inject constructor(
                 selectInfo(intent.infoList)
             }
 
-            BloodPressureListEvent.OnChangeShowDialog -> {
-                _state.update { it.copy(showDialog = !it.showDialog) }
+            BloodPressureListEvent.OnChangeShowDetailDialog -> {
+                _state.update { it.copy(showDetailDialog = !it.showDetailDialog) }
+            }
+
+            BloodPressureListEvent.OnChangeShowRemoveDialog -> {
+                _state.update { it.copy(showRemoveDialog = !it.showRemoveDialog) }
             }
 
             is BloodPressureListEvent.OnLongClickItem -> {
                 _state.update {
                     it.copy(
-                        selectRemoveInfo = intent.info,
-                        showDialog = true
+                        selectInfo = intent.info,
+                        showRemoveDialog = true
+                    )
+                }
+            }
+
+            is BloodPressureListEvent.OnClickItem -> {
+                _state.update {
+                    it.copy(
+                        selectInfo = intent.info,
+                        showDetailDialog = true
                     )
                 }
             }
@@ -78,19 +91,19 @@ class BloodPressureListViewModel @Inject constructor(
     }
 
     private fun selectInfo(infoList: List<BloodPressureInfo>) {
-        _state.update { it.copy(selectInfo = infoList) }
+        _state.update { it.copy(selectListInfo = infoList) }
     }
 
     private fun deleteInfo() {
-        if (state.value.selectRemoveInfo == null) return
+        if (state.value.selectInfo == null) return
         viewModelScope.launch {
-            deleteBloodPressureInfoUseCase(_state.value.selectRemoveInfo!!)
+            deleteBloodPressureInfoUseCase(_state.value.selectInfo!!)
 
             _state.update {
                 it.copy(
-                    showDialog = false,
-                    selectRemoveInfo = null,
-                    selectInfo = emptyList()
+                    showRemoveDialog = false,
+                    selectInfo = null,
+                    selectListInfo = emptyList()
                 )
             }
 

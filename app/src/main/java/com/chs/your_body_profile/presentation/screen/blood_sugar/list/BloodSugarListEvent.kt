@@ -6,8 +6,10 @@ sealed class BloodSugarListEvent {
     data class OnChangeSelectIdx(val idx: Int) : BloodSugarListEvent()
     data class OnSelectInfo(val infoList: List<BloodSugarInfo>) : BloodSugarListEvent()
     data object OnClickInputButton : BloodSugarListEvent()
-    data class OnLongClickItem(val info: BloodSugarInfo): BloodSugarListEvent()
-    data object OnChangeShowDialog : BloodSugarListEvent()
+    data class OnLongClickItem(val info: BloodSugarInfo) : BloodSugarListEvent()
+    data class OnClickItem(val info: BloodSugarInfo) : BloodSugarListEvent()
+    data object OnChangeShowRemoveDialog : BloodSugarListEvent()
+    data object OnChangeShowDetailDialog : BloodSugarListEvent()
     data object OnRemoveInfo : BloodSugarListEvent()
     data object OnBack : BloodSugarListEvent()
 }

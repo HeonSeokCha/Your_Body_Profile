@@ -47,15 +47,28 @@ class BloodSugarListViewModel @Inject constructor(
             }
 
 
-            BloodSugarListEvent.OnChangeShowDialog -> {
-                _state.update { it.copy(showDialog = !it.showDialog) }
+            BloodSugarListEvent.OnChangeShowDetailDialog -> {
+                _state.update { it.copy(showDetailDialog = !it.showDetailDialog) }
+            }
+
+            BloodSugarListEvent.OnChangeShowRemoveDialog -> {
+                _state.update { it.copy(showRemoveDialog = !it.showRemoveDialog) }
+            }
+
+            is BloodSugarListEvent.OnClickItem -> {
+                _state.update {
+                    it.copy(
+                        selectInfo = intent.info,
+                        showDetailDialog = true
+                    )
+                }
             }
 
             is BloodSugarListEvent.OnLongClickItem -> {
                 _state.update {
                     it.copy(
-                        selectRemoveInfo = intent.info,
-                        showDialog = true
+                        selectInfo = intent.info,
+                        showRemoveDialog = true
                     )
                 }
             }
@@ -78,18 +91,18 @@ class BloodSugarListViewModel @Inject constructor(
     }
 
     private fun selectInfo(infoList: List<BloodSugarInfo>) {
-        _state.update { it.copy(selectInfo = infoList) }
+        _state.update { it.copy(selectListInfo = infoList) }
     }
 
     private fun deleteInfo() {
-        if (_state.value.selectRemoveInfo == null) return
+        if (_state.value.selectInfo == null) return
         viewModelScope.launch {
-            deleteBloodSugarInfoUseCase(_state.value.selectRemoveInfo!!)
+            deleteBloodSugarInfoUseCase(_state.value.selectInfo!!)
             _state.update {
                 it.copy(
-                    showDialog = false,
-                    selectRemoveInfo = null,
-                    selectInfo = emptyList()
+                    showRemoveDialog = false,
+                    selectInfo = null,
+                    selectListInfo = emptyList()
                 )
             }
 

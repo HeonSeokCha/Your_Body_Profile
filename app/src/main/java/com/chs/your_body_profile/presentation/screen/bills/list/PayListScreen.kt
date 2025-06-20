@@ -146,7 +146,7 @@ fun PayInfoListScreen(
 
     if (state.showDetailDialog) {
         ItemDetailPaymentInfo(
-            info = state.selectInfo,
+            info = state.selectInfo!!,
             onDismiss = {
                 onIntent(PayListEvent.OnChangeShowDetailDialog)
             }

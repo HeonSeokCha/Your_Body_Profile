@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,14 +23,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
-import androidx.paging.LoadStates
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemInputButton
-import com.chs.your_body_profile.presentation.screen.bills.list.PayListEvent
-import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemBloodPressureInfo
 import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemBloodPressureSummaryInfo
+import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemDetailBloodPressureInfo
+import com.chs.your_body_profile.presentation.screen.blood_pressure.ItemSimpleBloodPressureInfo
 
 @Composable
 fun BloodPressureListScreenRoot(
@@ -119,19 +117,21 @@ fun BloodPressureListScreen(
                 }
             }
 
-            if (state.selectInfo.isEmpty()) {
+            if (state.selectListInfo.isEmpty()) {
                 item {
                     Text(text = stringResource(R.string.text_no_items))
                 }
             } else {
                 item {
-                    ItemBloodPressureSummaryInfo(state.selectInfo)
+                    ItemBloodPressureSummaryInfo(state.selectListInfo)
                 }
 
-                items(state.selectInfo) { info ->
-                    ItemBloodPressureInfo(
+                items(state.selectListInfo) { info ->
+                    ItemSimpleBloodPressureInfo(
                         bloodPressureInfo = info,
-                        onClick = { },
+                        onClick = {
+                            onIntent(BloodPressureListEvent.OnClickItem(it))
+                        },
                         onLongClick = {
                             onIntent(BloodPressureListEvent.OnLongClickItem(it))
                         }
@@ -150,7 +150,7 @@ fun BloodPressureListScreen(
             onIntent(BloodPressureListEvent.OnClickInputButton)
         }
 
-        if (state.showDialog) {
+        if (state.showRemoveDialog) {
             ItemInputButton(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -159,6 +159,15 @@ fun BloodPressureListScreen(
             ) {
                 onIntent(BloodPressureListEvent.OnClickInputButton)
             }
+        }
+
+        if (state.showDetailDialog) {
+            ItemDetailBloodPressureInfo(
+                bloodPressureInfo = state.selectInfo!!,
+                onDismiss = {
+                    onIntent(BloodPressureListEvent.OnChangeShowDetailDialog)
+                }
+            )
         }
     }
 }

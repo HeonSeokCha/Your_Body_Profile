@@ -11,5 +11,5 @@ data class PayListState(
     val selectListInfo: List<PaymentInfo> = emptyList(),
     val selectInfo: PaymentInfo? = null,
     val showRemoveDialog: Boolean = false,
-    val showDetailDialog: Boolean = false,
+    val showDetailDialog: Boolean = false
 )

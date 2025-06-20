@@ -27,8 +27,9 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemConfirmDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
-import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarInfo
 import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemBloodSugarSummaryInfo
+import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemDetailBloodSugarInfo
+import com.chs.your_body_profile.presentation.screen.blood_sugar.ItemSimpleBloodSugarInfo
 import java.time.LocalDate
 
 @Composable
@@ -112,15 +113,17 @@ fun BloodSugarListScreen(
                 }
             }
 
-            if (state.selectInfo.isNotEmpty()) {
+            if (state.selectListInfo.isNotEmpty()) {
                 item {
-                    ItemBloodSugarSummaryInfo(state.selectInfo)
+                    ItemBloodSugarSummaryInfo(state.selectListInfo)
                 }
 
-                items(state.selectInfo) { info ->
-                    ItemBloodSugarInfo(
+                items(state.selectListInfo) { info ->
+                    ItemSimpleBloodSugarInfo(
                         bloodSugarInfo = info,
-                        onClick = { },
+                        onClick = {
+                            onIntent(BloodSugarListEvent.OnClickItem(it))
+                        },
                         onLongClick = {
                             onIntent(BloodSugarListEvent.OnLongClickItem(it))
                         }
@@ -143,15 +146,22 @@ fun BloodSugarListScreen(
             onIntent(BloodSugarListEvent.OnClickInputButton)
         }
 
-        if (state.showDialog) {
+        if (state.showRemoveDialog) {
             ItemConfirmDialog(
                 title = stringResource(R.string.text_sure_delete_item),
                 onClick = {
                     onIntent(BloodSugarListEvent.OnRemoveInfo)
                 },
                 onDismiss = {
-                    onIntent(BloodSugarListEvent.OnChangeShowDialog)
+                    onIntent(BloodSugarListEvent.OnChangeShowRemoveDialog)
                 }
+            )
+        }
+
+        if (state.showDetailDialog) {
+            ItemDetailBloodSugarInfo(
+                bloodSugarInfo = state.selectInfo!!,
+                onDismiss = { onIntent(BloodSugarListEvent.OnChangeShowDetailDialog)}
             )
         }
     }

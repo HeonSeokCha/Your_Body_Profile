@@ -41,11 +41,11 @@ fun ItemSimplePaymentInfo(
 
 @Composable
 fun ItemDetailPaymentInfo(
-    info: PaymentInfo?,
+    info: PaymentInfo,
     onDismiss: () -> Unit
 ) {
     ItemDetailInfo(
-        dateTime = info?.paymentTime ?: LocalDateTime.now(),
+        dateTime = info.paymentTime,
         subComposable = {
             Column(
                 modifier = Modifier
@@ -54,11 +54,11 @@ fun ItemDetailPaymentInfo(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = info?.title ?: "")
+                Text(text = info.title)
 
-                Text(text = "₩ ${(info?.amount ?: 0).toCommaFormat()}")
+                Text(text = "₩ ${(info.amount).toCommaFormat()}")
 
-                if (info?.memo != null) {
+                if (info.memo != null) {
                     Text(text = info.memo)
                 }
             }
