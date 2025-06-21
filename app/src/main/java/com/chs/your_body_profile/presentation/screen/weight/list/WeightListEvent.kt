@@ -8,7 +8,9 @@ sealed class WeightListEvent {
     data class OnSelectInfo(val info: List<WeightInfo>) : WeightListEvent()
     data object OnClickInputButton : WeightListEvent()
     data class OnLongClickItem(val info: WeightInfo): WeightListEvent()
-    data object OnChangeShowDialog : WeightListEvent()
+    data class OnClickItem(val info: WeightInfo) : WeightListEvent()
+    data object OnChangeShowRemoveDialog : WeightListEvent()
+    data object OnChangeShowDetailDialog : WeightListEvent()
     data object OnRemoveInfo : WeightListEvent()
     data object OnBack : WeightListEvent()
 }

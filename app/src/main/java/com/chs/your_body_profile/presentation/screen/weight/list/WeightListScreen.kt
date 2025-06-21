@@ -27,7 +27,8 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemConfirmDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
-import com.chs.your_body_profile.presentation.screen.weight.ItemWeightInfo
+import com.chs.your_body_profile.presentation.screen.weight.ItemDetailWeightInfo
+import com.chs.your_body_profile.presentation.screen.weight.ItemSimpleWeightInfo
 import java.time.LocalDate
 
 @Composable
@@ -106,15 +107,17 @@ fun WeightListScreen(
                 }
             }
 
-            if (state.selectInfo.isEmpty()) {
+            if (state.selectListInfo.isEmpty()) {
                 item {
                     Text(text = stringResource(R.string.text_no_items))
                 }
             } else {
-                items(state.selectInfo) { info ->
-                    ItemWeightInfo(
+                items(state.selectListInfo) { info ->
+                    ItemSimpleWeightInfo(
                         info = info,
-                        onClick = { },
+                        onClick = {
+                            onIntent(WeightListEvent.OnClickItem(it))
+                        },
                         onLongClick = {
                             onIntent(WeightListEvent.OnLongClickItem(it))
                         }
@@ -133,14 +136,23 @@ fun WeightListScreen(
             onIntent(WeightListEvent.OnClickInputButton)
         }
 
-        if (state.showDialog) {
+        if (state.showRemoveDialog) {
             ItemConfirmDialog(
                 title = stringResource(R.string.text_sure_delete_item),
                 onClick = {
                     onIntent(WeightListEvent.OnRemoveInfo)
                 },
                 onDismiss = {
-                    onIntent(WeightListEvent.OnChangeShowDialog)
+                    onIntent(WeightListEvent.OnChangeShowRemoveDialog)
+                }
+            )
+        }
+
+        if (state.showDetailDialog) {
+            ItemDetailWeightInfo(
+                info = state.selectInfo!!,
+                onDismiss = {
+                    onIntent(WeightListEvent.OnChangeShowDetailDialog)
                 }
             )
         }

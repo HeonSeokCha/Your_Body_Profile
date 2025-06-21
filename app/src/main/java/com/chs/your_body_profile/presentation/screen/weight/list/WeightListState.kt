@@ -7,8 +7,9 @@ import java.time.LocalDate
 
 data class WeightListState(
     val pagingList: Flow<PagingData<Pair<LocalDate, List<WeightInfo>>>>? = null,
-    val selectInfo: List<WeightInfo> = emptyList(),
+    val selectListInfo: List<WeightInfo> = emptyList(),
     val selectIdx: Int = 0,
-    val selectRemoveInfo: WeightInfo? = null,
-    val showDialog: Boolean = false
+    val selectInfo: WeightInfo? = null,
+    val showRemoveDialog: Boolean = false,
+    val showDetailDialog: Boolean = false
 )

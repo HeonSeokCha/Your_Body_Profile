@@ -36,15 +36,28 @@ class WeightListViewModel @Inject constructor(
             is WeightListEvent.OnChangeSelectIdx -> changeIdx(intent.idx)
             is WeightListEvent.OnSelectInfo -> changeInfoList(intent.info)
 
-            WeightListEvent.OnChangeShowDialog -> {
-                _state.update { it.copy(showDialog = !it.showDialog) }
+            WeightListEvent.OnChangeShowRemoveDialog-> {
+                _state.update { it.copy(showRemoveDialog = !it.showRemoveDialog) }
+            }
+
+            WeightListEvent.OnChangeShowDetailDialog-> {
+                _state.update { it.copy(showDetailDialog = !it.showDetailDialog) }
             }
 
             is WeightListEvent.OnLongClickItem -> {
                 _state.update {
                     it.copy(
-                        selectRemoveInfo = intent.info,
-                        showDialog = true
+                        selectInfo = intent.info,
+                        showRemoveDialog = true
+                    )
+                }
+            }
+
+            is WeightListEvent.OnClickItem -> {
+                _state.update {
+                    it.copy(
+                        selectInfo = intent.info,
+                        showDetailDialog = true
                     )
                 }
             }
@@ -65,23 +78,22 @@ class WeightListViewModel @Inject constructor(
     }
 
     private fun changeInfoList(info: List<WeightInfo>) {
-        _state.update { it.copy(selectInfo = info) }
+        _state.update { it.copy(selectListInfo = info) }
     }
 
     private fun changeIdx(idx: Int) {
         _state.update { it.copy(selectIdx = idx) }
     }
 
-
     private fun deleteInfo() {
-        if (_state.value.selectRemoveInfo == null) return
+        if (_state.value.selectInfo == null) return
         viewModelScope.launch {
-            deleteWeightInfoUseCase(_state.value.selectRemoveInfo!!)
+            deleteWeightInfoUseCase(_state.value.selectInfo!!)
             _state.update {
                 it.copy(
-                    showDialog = false,
-                    selectRemoveInfo = null,
-                    selectInfo = emptyList()
+                    showRemoveDialog = false,
+                    selectInfo = null,
+                    selectListInfo = emptyList()
                 )
             }
 

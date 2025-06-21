@@ -27,7 +27,8 @@ import com.chs.your_body_profile.R
 import com.chs.your_body_profile.presentation.common.ItemConfirmDialog
 import com.chs.your_body_profile.presentation.common.ItemInputButton
 import com.chs.your_body_profile.presentation.common.ItemSmallDateTime
-import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.ItemHemoglobinA1cInfo
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.ItemDetailHemoglobinA1cInfo
+import com.chs.your_body_profile.presentation.screen.hemoglobinA1c.ItemSimpleHemoglobinA1cInfo
 import java.time.LocalDate
 
 @Composable
@@ -112,15 +113,17 @@ fun HemoglobinA1cListScreen(
                 }
             }
 
-            if (state.selectInfo.isEmpty()) {
+            if (state.selectListInfo.isEmpty()) {
                 item {
                     Text(text = stringResource(R.string.text_no_items))
                 }
             } else {
-                items(state.selectInfo) { info ->
-                    ItemHemoglobinA1cInfo(
+                items(state.selectListInfo) { info ->
+                    ItemSimpleHemoglobinA1cInfo(
                         hemoglobinA1cInfo = info,
-                        onClick = { },
+                        onClick = {
+                            onIntent(HemoglobinA1cListEvent.OnClickItem(it))
+                        },
                         onLongClick = {
                             onIntent(HemoglobinA1cListEvent.OnLongClickItem(it))
                         }
@@ -128,7 +131,6 @@ fun HemoglobinA1cListScreen(
                 }
             }
         }
-
 
         ItemInputButton(
             modifier = Modifier
@@ -141,14 +143,23 @@ fun HemoglobinA1cListScreen(
         }
     }
 
-    if (state.showDialog) {
+    if (state.showRemoveDialog) {
         ItemConfirmDialog(
             title = stringResource(R.string.text_sure_delete_item),
             onClick = {
                 onIntent(HemoglobinA1cListEvent.OnRemoveInfo)
             },
             onDismiss = {
-                onIntent(HemoglobinA1cListEvent.OnChangeShowDialog)
+                onIntent(HemoglobinA1cListEvent.OnChangeShowRemoveDialog)
+            }
+        )
+    }
+
+    if (state.showDetailDialog) {
+        ItemDetailHemoglobinA1cInfo(
+            info = state.selectInfo!!,
+            onDismiss = {
+                onIntent(HemoglobinA1cListEvent.OnChangeShowDetailDialog)
             }
         )
     }

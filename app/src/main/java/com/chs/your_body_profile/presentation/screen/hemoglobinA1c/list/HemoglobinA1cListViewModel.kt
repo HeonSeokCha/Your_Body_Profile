@@ -45,15 +45,28 @@ class HemoglobinA1cListViewModel @Inject constructor(
             is HemoglobinA1cListEvent.OnChangeSelectIdx -> changeIdx(intent.idx)
             is HemoglobinA1cListEvent.OnSelectInfo -> selectInfo(intent.infoList)
 
-            HemoglobinA1cListEvent.OnChangeShowDialog -> {
-                _state.update { it.copy(showDialog = !it.showDialog) }
+            HemoglobinA1cListEvent.OnChangeShowRemoveDialog -> {
+                _state.update { it.copy(showRemoveDialog = !it.showRemoveDialog) }
+            }
+
+            HemoglobinA1cListEvent.OnChangeShowDetailDialog-> {
+                _state.update { it.copy(showDetailDialog = !it.showDetailDialog) }
             }
 
             is HemoglobinA1cListEvent.OnLongClickItem -> {
                 _state.update {
                     it.copy(
-                        selectRemoveInfo = intent.info,
-                        showDialog = true
+                        selectInfo = intent.info,
+                        showRemoveDialog = true
+                    )
+                }
+            }
+
+            is HemoglobinA1cListEvent.OnClickItem -> {
+                _state.update {
+                    it.copy(
+                        selectInfo = intent.info,
+                        showDetailDialog = true
                     )
                 }
             }
@@ -74,7 +87,7 @@ class HemoglobinA1cListViewModel @Inject constructor(
 
     private fun selectInfo(info: List<HemoglobinA1cInfo>) {
         _state.update {
-            it.copy(selectInfo = info)
+            it.copy(selectListInfo = info)
         }
     }
 
@@ -85,14 +98,14 @@ class HemoglobinA1cListViewModel @Inject constructor(
     }
 
     private fun deleteInfo() {
-        if (_state.value.selectRemoveInfo == null) return
+        if (_state.value.selectInfo == null) return
         viewModelScope.launch {
-            deleteHemoglobinA1cInfoUseCase(_state.value.selectRemoveInfo!!)
+            deleteHemoglobinA1cInfoUseCase(_state.value.selectInfo!!)
             _state.update {
                 it.copy(
-                    showDialog = false,
-                    selectRemoveInfo = null,
-                    selectInfo = emptyList()
+                    showRemoveDialog = false,
+                    selectInfo = null,
+                    selectListInfo = emptyList()
                 )
             }
 
