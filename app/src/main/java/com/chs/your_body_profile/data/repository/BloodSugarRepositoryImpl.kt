@@ -11,6 +11,7 @@ import com.chs.your_body_profile.data.source.paging.DayBloodSugarPaging
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
 import com.chs.your_body_profile.domain.repository.BloodSugarRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -29,7 +30,11 @@ class BloodSugarRepositoryImpl @Inject constructor(
     }
 
     override fun getDayLastInfo(): Flow<BloodSugarInfo?> {
-        return bloodSugarDao.getDayLastInfo().map { it?.toBloodSugarInfo() }
+        return bloodSugarDao.getDayLastInfo().map {
+            it.firstNotNullOf {
+                it.key.toBloodSugarInfo(it.value)
+            }
+        }
     }
 
     override fun getDayPagingInfo(): Flow<PagingData<Pair<LocalDate, List<BloodSugarInfo>>>> {

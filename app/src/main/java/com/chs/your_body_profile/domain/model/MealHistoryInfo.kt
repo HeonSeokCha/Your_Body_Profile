@@ -4,6 +4,6 @@ import java.time.LocalDateTime
 
 data class MealHistoryInfo(
     val takenDateTime: LocalDateTime,
-    val foodList: List<FoodDetailInfo>,
+    val mealName: String,
     val mealType: MealType
 )

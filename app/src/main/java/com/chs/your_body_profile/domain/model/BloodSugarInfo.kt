@@ -6,5 +6,6 @@ data class BloodSugarInfo(
     val measureDateTime: LocalDateTime,
     val measureTypeIdx: Int,
     val number: Int,
-    val memo: String?
+    val memo: String?,
+    val mealInfo: List<MealHistoryInfo>
 )

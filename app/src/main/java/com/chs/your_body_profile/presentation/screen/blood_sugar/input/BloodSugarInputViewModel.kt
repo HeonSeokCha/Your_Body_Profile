@@ -54,6 +54,22 @@ class BloodSugarInputViewModel @Inject constructor(
                 updateBloodSugarMemo(intent.memo)
             }
 
+            is BloodSugarInputEvent.AddMealInfo -> {
+                _state.update {
+                    it.copy(
+                        mealList = it.mealList.apply { this.toMutableList().add(intent.info) }
+                    )
+                }
+            }
+
+            is BloodSugarInputEvent.RemoveMealInfo -> {
+                _state.update {
+                    it.copy(
+                        mealList = it.mealList.apply { this.toMutableList().remove(intent.info) }
+                    )
+                }
+            }
+
             BloodSugarInputEvent.OnClickSaveButton -> {
                 upsertBloodSugarInfo()
             }
@@ -90,7 +106,8 @@ class BloodSugarInputViewModel @Inject constructor(
                     measureDateTime = state.value.measureDateTime,
                     measureTypeIdx = state.value.selectedMeasureIdx,
                     number = state.value.level,
-                    memo = state.value.memo
+                    memo = state.value.memo,
+                    mealInfo = emptyList()
                 )
             )
             _effect.send(BaseEffect.OnBack)

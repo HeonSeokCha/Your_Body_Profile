@@ -9,6 +9,7 @@ import com.chs.your_body_profile.data.source.db.entity.BloodSugarInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.HemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.InsulinInfoEntity
+import com.chs.your_body_profile.data.source.db.entity.MealInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.MedicineInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.PayInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.WeightInfoEntity
@@ -18,11 +19,14 @@ import com.chs.your_body_profile.domain.model.DrinkInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
+import java.time.LocalDateTime
 
 fun BloodPressureInfoEntity.toBloodPressureInfo(): BloodPressureInfo {
     return BloodPressureInfo(
@@ -42,12 +46,13 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
     )
 }
 
-fun BloodSugarInfoEntity.toBloodSugarInfo(): BloodSugarInfo {
+fun BloodSugarInfoEntity.toBloodSugarInfo(mealList: List<MealInfoEntity>): BloodSugarInfo {
     return BloodSugarInfo(
         measureDateTime = this.measureDateTime.toLocalDateTime(),
         measureTypeIdx = this.measureType,
         number = this.number,
-        memo = this.memo
+        memo = this.memo,
+        mealInfo = mealList.map { it.toMealHistoryInfo() }
     )
 }
 
@@ -57,6 +62,23 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
         measureType = this.measureTypeIdx,
         number = this.number,
         memo = this.memo
+    )
+}
+
+fun MealInfoEntity.toMealHistoryInfo(): MealHistoryInfo {
+    return MealHistoryInfo(
+        takenDateTime = this.takenDateTime.toLocalDateTime(),
+        mealName = this.mealName,
+        mealType = MealType.entries[this.mealType]
+    )
+}
+
+fun MealHistoryInfo.toMealInfoEntity(measureTime: LocalDateTime): MealInfoEntity {
+    return MealInfoEntity(
+        takenDateTime = this.takenDateTime.toMillis(),
+        bloodSugarMeasureTime = measureTime.toMillis(),
+        mealName = this.mealName,
+        mealType = this.mealType.mean.first
     )
 }
 

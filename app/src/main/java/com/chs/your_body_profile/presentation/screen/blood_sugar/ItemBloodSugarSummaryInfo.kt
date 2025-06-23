@@ -118,6 +118,11 @@ fun ItemBloodSugarSummaryInfo(info: List<BloodSugarInfo>) {
     }
 }
 
+@Composable
+fun ItemBloodSugarTable() {
+    
+}
+
 @Preview
 @Composable
 private fun PreviewItemBloodSugarSummaryInfo() {
@@ -130,7 +135,8 @@ private fun PreviewItemBloodSugarSummaryInfo() {
                         measureDateTime = LocalDateTime.now(),
                         measureTypeIdx = 0,
                         number = 80,
-                        memo = null
+                        memo = null,
+                        mealInfo = listOf()
                     )
                 )
             )
@@ -141,13 +147,15 @@ private fun PreviewItemBloodSugarSummaryInfo() {
                         measureDateTime = LocalDateTime.now(),
                         measureTypeIdx = 0,
                         number = 80,
-                        memo = null
+                        memo = null,
+                        mealInfo = listOf()
                     ),
                     BloodSugarInfo(
                         measureDateTime = LocalDateTime.now(),
                         measureTypeIdx = 0,
                         number = 100,
-                        memo = null
+                        memo = null,
+                        mealInfo = listOf()
                     )
                 )
             )

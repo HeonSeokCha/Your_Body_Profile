@@ -29,7 +29,7 @@ class DayBloodSugarPaging(
         val data = bloodSugarDao
             .getPagingDayInfoList(page)
             .map {
-                it.key.toLocalDate() to it.value.map { it.toBloodSugarInfo() }
+                it.key.toLocalDate() to it.value.map { it.key.toBloodSugarInfo(it.value) }
             }
 
         return LoadResult.Page(
