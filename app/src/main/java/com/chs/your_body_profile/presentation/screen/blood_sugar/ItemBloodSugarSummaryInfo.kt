@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
+import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
 import java.time.LocalDateTime
 
@@ -61,17 +62,17 @@ fun ItemBloodSugarSummaryInfo(info: List<BloodSugarInfo>) {
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                Image(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Constants.bloodSugarMeasureList[info.first().measureTypeIdx].second,
-                    colorFilter = ColorFilter.tint(Color.Gray),
-                    contentDescription = null
-                )
+//                Image(
+//                    modifier = Modifier.size(32.dp),
+//                    imageVector = Constants.bloodSugarMeasureList[info.first().measureTypeIdx].second,
+//                    colorFilter = ColorFilter.tint(Color.Gray),
+//                    contentDescription = null
+//                )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = Constants.bloodSugarMeasureList[info.first().measureTypeIdx].first,
+                    text = MeasureType.entries.find { it.mean.first == info.first().measureTypeIdx }!!.mean.second,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 24.sp,
                     color = Color.Gray

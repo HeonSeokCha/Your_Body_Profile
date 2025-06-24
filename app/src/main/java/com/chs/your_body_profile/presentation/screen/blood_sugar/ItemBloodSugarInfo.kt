@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
+import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 import com.chs.your_body_profile.presentation.common.ItemSimpleInfo
 
@@ -42,10 +43,10 @@ fun ItemSimpleBloodSugarInfo(
         onClick = { onClick(bloodSugarInfo) },
         onLongClick = { onLongClick(bloodSugarInfo) }
     ) {
-        val measureInfo = Constants.bloodSugarMeasureList[bloodSugarInfo.measureTypeIdx]
+        val measureInfo = MeasureType.entries.find { it.mean.first == bloodSugarInfo.measureTypeIdx }!!
         Row {
-            Text(text = measureInfo.first)
-            Icon(imageVector = measureInfo.second, contentDescription = null)
+            Text(text = measureInfo.name)
+//            Icon(imageVector = measureInfo.second, contentDescription = null)
         }
     }
 }
@@ -89,17 +90,17 @@ fun ItemDetailBloodSugarInfo(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                Image(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Constants.bloodSugarMeasureList[bloodSugarInfo.measureTypeIdx].second,
-                    colorFilter = ColorFilter.tint(Color.Gray),
-                    contentDescription = null
-                )
+//                Image(
+//                    modifier = Modifier.size(32.dp),
+//                    imageVector = Constants.bloodSugarMeasureList[bloodSugarInfo.measureTypeIdx].second,
+//                    colorFilter = ColorFilter.tint(Color.Gray),
+//                    contentDescription = null
+//                )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = Constants.bloodSugarMeasureList[bloodSugarInfo.measureTypeIdx].first,
+                    text = MeasureType.entries.find { it.mean.first == bloodSugarInfo.measureTypeIdx }!!.mean.second,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 24.sp,
                     color = Color.Gray

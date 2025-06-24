@@ -8,28 +8,17 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.common.toCommaFormat
-import com.chs.your_body_profile.common.toMillis
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
 import com.chs.your_body_profile.domain.model.DrinkType
-import com.chs.your_body_profile.domain.model.FoodDetailInfo
-import com.chs.your_body_profile.domain.model.MedicineInfo
-import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.presentation.Screens
-import com.chs.your_body_profile.presentation.common.ItemMealTypeAlertDialog
-import java.time.LocalDateTime
 
 @Composable
 fun HomeScreenRoot(
@@ -52,16 +41,6 @@ fun HomeScreen(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    var isShowMealTypeDialog by remember { mutableStateOf(false) }
-
-    if (isShowMealTypeDialog) {
-        ItemMealTypeAlertDialog(
-            onDisMiss = { isShowMealTypeDialog = it }
-        ) {
-            isShowMealTypeDialog = false
-        }
-    }
-
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2), contentPadding = PaddingValues(8.dp), modifier = Modifier.fillMaxSize(),
         verticalItemSpacing = 4.dp,

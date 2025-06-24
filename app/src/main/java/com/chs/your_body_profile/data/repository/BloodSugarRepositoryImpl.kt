@@ -31,7 +31,7 @@ class BloodSugarRepositoryImpl @Inject constructor(
 
     override fun getDayLastInfo(): Flow<BloodSugarInfo?> {
         return bloodSugarDao.getDayLastInfo().map {
-            it.firstNotNullOf {
+            it.firstNotNullOfOrNull {
                 it.key.toBloodSugarInfo(it.value)
             }
         }

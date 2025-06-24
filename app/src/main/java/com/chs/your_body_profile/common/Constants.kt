@@ -3,6 +3,7 @@ package com.chs.your_body_profile.common
 import androidx.annotation.FloatRange
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
+import androidx.compose.material.icons.filled.Bed
 import androidx.compose.material.icons.filled.NoFood
 import androidx.compose.material.icons.filled.NoMeals
 import androidx.compose.material.icons.filled.Person
@@ -55,11 +56,4 @@ object Constants {
     val RANGE_WEIGHT_FIRST_RANGE = 2 .. 500
     val RANGE_INTEGER_SECOND_RANGE = 0 .. 9
     const val ITEM_SHIMMER_SHOW_COUNT: Int = 7
-
-    val bloodSugarMeasureList: List<Pair<String, ImageVector>> = listOf(
-        MeasureType.EMPTY.mean.second to Icons.Default.NoMeals,
-        MeasureType.BEFORE_EAT.mean.second to Icons.Default.SoupKitchen,
-        MeasureType.AFTER_EAT.mean.second to Icons.Default.TakeoutDining,
-        MeasureType.NORMAL.mean.second to Icons.Default.Person,
-    )
 }

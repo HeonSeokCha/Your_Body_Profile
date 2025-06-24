@@ -18,14 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
-import com.chs.your_body_profile.domain.model.MeasureType
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
+import com.chs.your_body_profile.presentation.common.ItemExpandSingleBox
 import com.chs.your_body_profile.presentation.common.ItemInputBottomMenu
-import com.chs.your_body_profile.presentation.common.ItemMeasureTypeHorizontalList
 import com.chs.your_body_profile.presentation.common.picker.ItemPicker
 import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
@@ -100,13 +99,14 @@ fun BloodSugarInputScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            ItemMeasureTypeHorizontalList(
+            ItemExpandSingleBox(
                 title = "현재 상태 선택",
-                selectedIdx = state.selectedMeasureIdx,
-                items = Constants.bloodSugarMeasureList
-            ) { value ->
-                onEvent(BloodSugarInputEvent.OnChangeMeasureType(value))
-            }
+                list = MealType.entries.map { it.mean },
+                initValue = state.selectedMeasureIdx,
+                selectValue = {
+                    onEvent(BloodSugarInputEvent.OnChangeMeasureType(it))
+                }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
