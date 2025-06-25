@@ -72,13 +72,13 @@ fun BloodPressureInputScreen(
         )
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(
                     start = 8.dp,
@@ -130,7 +130,6 @@ fun BloodPressureInputScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
                 onEvent(BloodPressureInputEvent.OnClickSaveButton)

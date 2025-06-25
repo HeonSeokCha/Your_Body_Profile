@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.presentation.common.ItemCurrentDateTime
 import com.chs.your_body_profile.presentation.common.ItemExpandSingleBox
@@ -30,6 +34,7 @@ import com.chs.your_body_profile.presentation.common.ItemSmallInputText
 import com.chs.your_body_profile.presentation.common.picker.ItemDateTimePickerDialog
 import com.chs.your_body_profile.presentation.screen.BaseEffect
 import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
+import java.time.LocalDateTime
 
 @Composable
 fun BloodSugarInputScreenRoot(
@@ -66,13 +71,14 @@ fun BloodSugarInputScreen(
         )
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .imePadding()
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(
                     start = 8.dp,
@@ -110,6 +116,20 @@ fun BloodSugarInputScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            state.mealList.forEach {
+                ItemMealInfo(it) { onEvent(BloodSugarInputEvent.RemoveMealInfo(it)) }
+
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ItemInputMealInfo {
+                onEvent(BloodSugarInputEvent.AddMealInfo(it))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             ItemSmallInputText(
                 textState = state.memo,
                 onChangedText = {
@@ -121,7 +141,6 @@ fun BloodSugarInputScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .align(Alignment.BottomCenter)
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
                 onEvent(BloodSugarInputEvent.OnClickSaveButton)
@@ -137,7 +156,9 @@ fun BloodSugarInputScreen(
 @Composable
 fun PreviewBloodSugarInputScreen() {
     YourBodyProfileTheme {
-        BloodSugarInputScreen(BloodSugarInputState()) {
+        BloodSugarInputScreen(BloodSugarInputState(
+            mealList = listOf(MealHistoryInfo(takenDateTime = LocalDateTime.now(), mealName = "Test", mealType = MealType.AFTERNOON_SNACK))
+        )) {
 
         }
     }
