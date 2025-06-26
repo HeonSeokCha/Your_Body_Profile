@@ -124,9 +124,15 @@ fun BloodSugarInputScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemInputMealInfo {
-                onEvent(BloodSugarInputEvent.AddMealInfo(it))
-            }
+            ItemInputMealInfo(
+                text = state.mealText,
+                onValueChange = {
+                    onEvent(BloodSugarInputEvent.OnChangeMealName(it))
+                },
+                onAdd = {
+                    onEvent(BloodSugarInputEvent.AddMealInfo)
+                }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -157,7 +163,7 @@ fun BloodSugarInputScreen(
 fun PreviewBloodSugarInputScreen() {
     YourBodyProfileTheme {
         BloodSugarInputScreen(BloodSugarInputState(
-            mealList = listOf(MealHistoryInfo(takenDateTime = LocalDateTime.now(), mealName = "Test", mealType = MealType.AFTERNOON_SNACK))
+            mealList = listOf("test", "고등어", "딸기")
         )) {
 
         }

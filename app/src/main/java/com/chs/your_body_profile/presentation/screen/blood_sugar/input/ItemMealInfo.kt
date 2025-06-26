@@ -3,6 +3,7 @@ package com.chs.your_body_profile.presentation.screen.blood_sugar.input
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
@@ -17,24 +18,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 
 @Composable
 fun ItemInputMealInfo(
-
-    onAdd: (MealHistoryInfo) -> Unit
+    text: String,
+    onValueChange: (String) -> Unit,
+    onAdd: () -> Unit
 ) {
-    val mealInfo by remember { mutableStateOf(MealHistoryInfo()) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         TextField(
             modifier = Modifier.weight(1f),
-            value = mealInfo.mealName,
+            value = text,
             placeholder = {
                 Text(
-                    text = "음식",
+                    text = "섭취한 음식 입력",
                     color = Color.Gray
                 )
             },
@@ -43,31 +45,32 @@ fun ItemInputMealInfo(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
-            onValueChange = {
-            },
+            onValueChange = { onValueChange(it) },
             trailingIcon = {
-                IconButton(onClick = { onAdd(mealInfo) }) {
+                IconButton(onClick = { onAdd() }) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null
                     )
                 }
-            }
+            },
+            maxLines = 1
         )
     }
 }
 
 @Composable
 fun ItemMealInfo(
-    info: MealHistoryInfo,
-    onRemove: (MealHistoryInfo) -> Unit
+    info: String,
+    onRemove: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(start = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = info.mealName)
+        Text(text = info)
 
         IconButton(onClick = { onRemove(info) }) {
             Icon(

@@ -12,7 +12,6 @@ import com.chs.your_body_profile.data.source.db.entity.*
         DrinkInfoEntity::class,
         InsulinInfoEntity::class,
         HemoglobinA1cInfoEntity::class,
-        MedicineInfoEntity::class,
         WeightInfoEntity::class,
         PayInfoEntity::class ,
         MealInfoEntity::class
@@ -26,7 +25,6 @@ abstract class BodyProfileDataBase : RoomDatabase() {
     abstract val drinkDao: DrinkDao
     abstract val insulinDao: InsulinDao
     abstract val hemoglobinA1cDao: HemoglobinA1cDao
-    abstract val medicineDao: MedicineDao
     abstract val weightInfoDao: WeightInfoDao
     abstract val payInfoDao: PayInfoDao
     abstract val mealInfoDao: MealInfoDao

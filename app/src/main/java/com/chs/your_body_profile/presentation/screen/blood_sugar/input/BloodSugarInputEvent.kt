@@ -8,9 +8,10 @@ sealed class BloodSugarInputEvent {
     data class ChangeDateTime(val dateTime: LocalDateTime) : BloodSugarInputEvent()
     data class OnChangeMemo(val memo: String) : BloodSugarInputEvent()
     data class OnChangeMeasureType(val idx: Int) : BloodSugarInputEvent()
-    data class OnChangeBloodSugarLevel(val level: Int): BloodSugarInputEvent()
-    data class AddMealInfo(val info: MealHistoryInfo) : BloodSugarInputEvent()
-    data class RemoveMealInfo(val info: MealHistoryInfo) : BloodSugarInputEvent()
+    data class OnChangeBloodSugarLevel(val level: Int) : BloodSugarInputEvent()
+    data class OnChangeMealName(val name: String) : BloodSugarInputEvent()
+    data object AddMealInfo : BloodSugarInputEvent()
+    data class RemoveMealInfo(val info: String) : BloodSugarInputEvent()
     data object OnClickSaveButton : BloodSugarInputEvent()
     data object OnBack : BloodSugarInputEvent()
 }

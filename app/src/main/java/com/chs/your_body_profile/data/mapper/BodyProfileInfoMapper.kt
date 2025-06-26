@@ -10,7 +10,6 @@ import com.chs.your_body_profile.data.source.db.entity.DrinkInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.HemoglobinA1cInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.InsulinInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.MealInfoEntity
-import com.chs.your_body_profile.data.source.db.entity.MedicineInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.PayInfoEntity
 import com.chs.your_body_profile.data.source.db.entity.WeightInfoEntity
 import com.chs.your_body_profile.domain.model.BloodPressureInfo
@@ -21,9 +20,6 @@ import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
-import com.chs.your_body_profile.domain.model.MeasureType
-import com.chs.your_body_profile.domain.model.MedicineInfo
-import com.chs.your_body_profile.domain.model.MedicineType
 import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import java.time.LocalDateTime
@@ -126,24 +122,6 @@ fun InsulinInfo.toInsulinInfoEntity(): InsulinInfoEntity {
     return InsulinInfoEntity(
         injectDateTime = this.injectDateTime.toMillis(),
         level = this.level,
-        memo = this.memo
-    )
-}
-
-fun MedicineInfoEntity.toMedicineInfo(): MedicineInfo {
-    return MedicineInfo(
-        takenDateTime = this.takenDateTime.toLocalDateTime(),
-        medicineType = MedicineType.entries.find { it.time.first == this.takeMedicineType } ?: MedicineType.UNKNOWN,
-        title = this.title,
-        memo = this.memo
-    )
-}
-
-fun MedicineInfo.toMedicineInfoEntity(): MedicineInfoEntity {
-    return MedicineInfoEntity(
-        takenDateTime = this.takenDateTime.toMillis(),
-        takeMedicineType = this.medicineType.time.first,
-        title = this.title,
         memo = this.memo
     )
 }

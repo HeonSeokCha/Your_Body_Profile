@@ -27,9 +27,6 @@ sealed class Screens {
     data class WeightInput(val info: Float? = null) : Screens()
 
     @Serializable
-    data object MedicineInput : Screens()
-
-    @Serializable
     data class DrinkList(val drinkType: DrinkType) : Screens()
 
     @Serializable

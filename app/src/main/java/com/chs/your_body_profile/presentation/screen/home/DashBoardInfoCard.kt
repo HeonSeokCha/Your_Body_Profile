@@ -274,16 +274,6 @@ fun PreviewHomeBasicInfoCard() {
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             item {
-                LongInputCard(
-                    title = stringResource(id = R.string.text_title_take_medicine),
-                    value = "아침",
-                    subValue = "당뇨약",
-                    subValue2 = "오전 07시 41분"
-                ) {
-
-                }
-            }
-            item {
                 UpDownInputSmallCard(
                     title = stringResource(id = R.string.text_title_drink_water),
                     value = 1,

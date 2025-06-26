@@ -8,7 +8,6 @@ import com.chs.your_body_profile.domain.model.DrinkInfo
 import com.chs.your_body_profile.domain.model.DrinkType
 import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
-import com.chs.your_body_profile.domain.model.MedicineInfo
 import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import com.chs.your_body_profile.domain.usecase.DeleteDrinkInfoUseCase
@@ -19,7 +18,6 @@ import com.chs.your_body_profile.domain.usecase.GetLastDrinkCoffeeInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastDrinkWaterInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastHemoglobinA1cInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastInsulinInfoUseCase
-import com.chs.your_body_profile.domain.usecase.GetLastMedicineInfoUseCase
 import com.chs.your_body_profile.domain.usecase.GetLastWeightInfoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertDrinkInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +39,6 @@ class HomeViewModel @Inject constructor(
     private val getLastBloodSugarInfoUseCase: GetLastBloodSugarInfoUseCase,
     private val getLastDrinkCoffeeInfoUseCase: GetLastDrinkCoffeeInfoUseCase,
     private val getLastDrinkWaterInfoUseCase: GetLastDrinkWaterInfoUseCase,
-    private val getLastMedicineInfoUseCase: GetLastMedicineInfoUseCase,
     private val getLastHemoglobinA1CInfoUseCase: GetLastHemoglobinA1cInfoUseCase,
     private val getLastWeightInfoUseCase: GetLastWeightInfoUseCase,
     private val getLastInsulinInfoUseCase: GetLastInsulinInfoUseCase,
@@ -69,7 +66,6 @@ class HomeViewModel @Inject constructor(
             getLastDrinkCoffeeInfoUseCase(currentDate),
             getLastDrinkWaterInfoUseCase(currentDate),
             getLastHemoglobinA1CInfoUseCase(),
-            getLastMedicineInfoUseCase(),
             getLastWeightInfoUseCase(),
             getLastInsulinInfoUseCase(),
             getLastPayInfoUseCase()
@@ -81,10 +77,9 @@ class HomeViewModel @Inject constructor(
                     drinkCoffeeTotalCupInfo = (list[2] as List<DrinkInfo>),
                     drinkWaterTotalCupInfo = (list[3] as List<DrinkInfo>),
                     hemoglobinA1cInfo = (list[4] as HemoglobinA1cInfo?),
-                    medicineInfo = (list[5] as MedicineInfo?),
-                    weightInfo = (list[6] as WeightInfo?),
-                    insulinInfo = (list[7] as InsulinInfo?),
-                    payInfo = (list[8] as PaymentInfo?),
+                    weightInfo = (list[5] as WeightInfo?),
+                    insulinInfo = (list[6] as InsulinInfo?),
+                    payInfo = (list[7] as PaymentInfo?),
                 )
             }
         }.stateIn(

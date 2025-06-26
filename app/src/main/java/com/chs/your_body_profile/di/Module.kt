@@ -8,7 +8,7 @@ import com.chs.your_body_profile.data.source.db.dao.BloodSugarDao
 import com.chs.your_body_profile.data.source.db.dao.DrinkDao
 import com.chs.your_body_profile.data.source.db.dao.HemoglobinA1cDao
 import com.chs.your_body_profile.data.source.db.dao.InsulinDao
-import com.chs.your_body_profile.data.source.db.dao.MedicineDao
+import com.chs.your_body_profile.data.source.db.dao.MealInfoDao
 import com.chs.your_body_profile.data.source.db.dao.PayInfoDao
 import com.chs.your_body_profile.data.source.db.dao.WeightInfoDao
 import dagger.Module
@@ -69,9 +69,6 @@ object Module {
     @Provides
     fun provideInsulinDao(bodyProfileDataBase: BodyProfileDataBase): InsulinDao {
         return bodyProfileDataBase.insulinDao
-    } @Provides
-    fun provideMedicineDao(bodyProfileDataBase: BodyProfileDataBase): MedicineDao {
-        return bodyProfileDataBase.medicineDao
     }
 
     @Provides
@@ -82,5 +79,10 @@ object Module {
     @Provides
     fun providePayInfoDao(bodyProfileDataBase: BodyProfileDataBase): PayInfoDao {
         return bodyProfileDataBase.payInfoDao
+    }
+
+    @Provides
+    fun provideMealInfoDao(bodyProfileDataBase: BodyProfileDataBase): MealInfoDao {
+        return bodyProfileDataBase.mealInfoDao
     }
 }

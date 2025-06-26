@@ -15,9 +15,6 @@
     <string name="text_blood_pressure_unit">mmHg</string>
     <string name="text_insulin">인슐린</string>
     <string name="text_insulin_unit">단위</string>
-    <string name="text_take_medicine">약 복용</string>
-    <string name="text_take_medicine_default">미 복용</string>
-    <string name="text_take_medicine_unit">마지막 복용 시간</string>
     <string name="text_weight">체중</string>
     <string name="text_weight_unit">Kg</string>
     <string name="text_cancel">취소</string>
@@ -33,7 +30,6 @@
 
     <string name="text_title_drink_water">물 섭취량</string>
     <string name="text_title_drink_coffee">커피 섭취량</string>
-    <string name="text_title_take_medicine">마지막 복용한 약</string>
     <string name="text_title_food">오늘 섭취한 칼로리</string>
     <string name="text_title_payment">마지막 지출한 의료비</string>
     <string name="text_no_items">데이터를 입력 해 주세요.</string>

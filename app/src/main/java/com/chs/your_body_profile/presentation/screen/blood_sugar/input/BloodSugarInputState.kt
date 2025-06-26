@@ -9,6 +9,6 @@ data class BloodSugarInputState(
     val selectedMeasureIdx: Int = 0,
     val memo: String? = null,
     val mealText: String = "",
-    val mealList: List<MealHistoryInfo> = emptyList(),
+    val mealList: List<String> = emptyList(),
     val isShowDateTimePicker: Boolean = false
 )

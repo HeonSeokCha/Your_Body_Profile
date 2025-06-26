@@ -54,10 +54,17 @@ class BloodSugarInputViewModel @Inject constructor(
                 updateBloodSugarMemo(intent.memo)
             }
 
+            is BloodSugarInputEvent.OnChangeMealName -> {
+                _state.update {
+                    it.copy(mealText = intent.name)
+                }
+            }
+
             is BloodSugarInputEvent.AddMealInfo -> {
                 _state.update {
                     it.copy(
-                        mealList = it.mealList.apply { this.toMutableList().add(intent.info) }
+                        mealList = it.mealList.apply { this.toMutableList().add(it.mealText) },
+                        mealText = ""
                     )
                 }
             }

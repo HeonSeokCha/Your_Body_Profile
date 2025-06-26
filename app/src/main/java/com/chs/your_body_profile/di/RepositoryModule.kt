@@ -5,7 +5,6 @@ import com.chs.your_body_profile.data.repository.BloodSugarRepositoryImpl
 import com.chs.your_body_profile.data.repository.DrinkRepositoryImpl
 import com.chs.your_body_profile.data.repository.HemoglobinA1cRepositoryImpl
 import com.chs.your_body_profile.data.repository.InsulinInfoRepositoryImpl
-import com.chs.your_body_profile.data.repository.MedicineRepositoryImpl
 import com.chs.your_body_profile.data.repository.PayInfoRepositoryImpl
 import com.chs.your_body_profile.data.repository.WeightRepositoryImpl
 import com.chs.your_body_profile.domain.repository.BloodPressureRepository
@@ -14,7 +13,6 @@ import com.chs.your_body_profile.domain.repository.DrinkRepository
 import com.chs.your_body_profile.domain.repository.FoodRepository
 import com.chs.your_body_profile.domain.repository.HemoglobinA1cRepository
 import com.chs.your_body_profile.domain.repository.InsulinRepository
-import com.chs.your_body_profile.domain.repository.MedicineRepository
 import com.chs.your_body_profile.domain.repository.PayInfoRepository
 import com.chs.your_body_profile.domain.repository.WeightRepository
 import dagger.Binds
@@ -40,9 +38,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindInsulinRepository(insulinInfoRepositoryImpl: InsulinInfoRepositoryImpl): InsulinRepository
-
-    @Binds
-    abstract fun bindMedicineRepository(medicineRepositoryImpl: MedicineRepositoryImpl): MedicineRepository
 
     @Binds
     abstract fun bindWeightRepository(weightRepositoryImpl: WeightRepositoryImpl): WeightRepository
