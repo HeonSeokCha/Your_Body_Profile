@@ -20,14 +20,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlin.enums.EnumEntries
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemExpandSingleBox(
+fun <T : Enum<T>> ItemExpandSingleBox(
     title: String,
-    list: List<Pair<Int, String>>,
-    initValue: Int,
-    selectValue: (Int) -> Unit,
+    list: EnumEntries<T>,
+    initValue: Pair<Int, String>,
+    selectValue: (T) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -40,7 +41,7 @@ fun ItemExpandSingleBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
-            value = list[initValue].second,
+            value = initValue.second,
             onValueChange = {},
             readOnly = true,
             singleLine = true,
@@ -61,12 +62,12 @@ fun ItemExpandSingleBox(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = option.second,
+                            text = option.name,
                             style = MaterialTheme.typography.bodyLarge
                         )
                     },
                     onClick = {
-                        selectValue(option.first)
+                        selectValue(option)
                         expanded = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

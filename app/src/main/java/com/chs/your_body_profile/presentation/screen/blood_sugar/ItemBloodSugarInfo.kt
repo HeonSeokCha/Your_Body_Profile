@@ -43,7 +43,7 @@ fun ItemSimpleBloodSugarInfo(
         onClick = { onClick(bloodSugarInfo) },
         onLongClick = { onLongClick(bloodSugarInfo) }
     ) {
-        val measureInfo = MeasureType.entries.find { it.mean.first == bloodSugarInfo.measureTypeIdx }!!
+        val measureInfo = MeasureType.valueOf(bloodSugarInfo.measureTypeIdx.name)
         Row {
             Text(text = measureInfo.name)
 //            Icon(imageVector = measureInfo.second, contentDescription = null)
@@ -100,7 +100,7 @@ fun ItemDetailBloodSugarInfo(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = MeasureType.entries.find { it.mean.first == bloodSugarInfo.measureTypeIdx }!!.mean.second,
+                    text = MeasureType.valueOf(bloodSugarInfo.measureTypeIdx.name).mean.second,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 24.sp,
                     color = Color.Gray

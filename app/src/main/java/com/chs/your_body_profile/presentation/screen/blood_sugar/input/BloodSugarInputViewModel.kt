@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
+import com.chs.your_body_profile.domain.model.MealHistoryInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MeasureType
+import com.chs.your_body_profile.domain.usecase.InsertMealHistoryInoUseCase
 import com.chs.your_body_profile.domain.usecase.UpsertBloodSugarInfoUseCase
 import com.chs.your_body_profile.presentation.Screens
 import com.chs.your_body_profile.presentation.screen.BaseEffect
@@ -24,7 +27,8 @@ class BloodSugarInputViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val upsertBloodSugarInfoUseCase: UpsertBloodSugarInfoUseCase
 ) : ViewModel() {
-    private val lastInputSugar: Int = savedStateHandle.toRoute<Screens.BloodSugarInput>().info ?: 100
+    private val lastInputSugar: Int =
+        savedStateHandle.toRoute<Screens.BloodSugarInput>().info ?: 100
 
     private val _state = MutableStateFlow(BloodSugarInputState(level = lastInputSugar))
     val state = _state.asStateFlow()
@@ -50,6 +54,10 @@ class BloodSugarInputViewModel @Inject constructor(
                 updateBloodSugarMeasureType(intent.idx)
             }
 
+            is BloodSugarInputEvent.OnChangeMealType -> {
+                updateBloodSugarMealType(intent.idx)
+            }
+
             is BloodSugarInputEvent.OnChangeMemo -> {
                 updateBloodSugarMemo(intent.memo)
             }
@@ -63,7 +71,7 @@ class BloodSugarInputViewModel @Inject constructor(
             is BloodSugarInputEvent.AddMealInfo -> {
                 _state.update {
                     it.copy(
-                        mealList = it.mealList.apply { this.toMutableList().add(it.mealText) },
+                        mealList = it.mealList.toMutableList().apply { this.add(it.mealText) },
                         mealText = ""
                     )
                 }
@@ -72,7 +80,9 @@ class BloodSugarInputViewModel @Inject constructor(
             is BloodSugarInputEvent.RemoveMealInfo -> {
                 _state.update {
                     it.copy(
-                        mealList = it.mealList.apply { this.toMutableList().remove(intent.info) }
+                        mealList = it.mealList.toMutableList().apply {
+                            this.remove(intent.info)
+                        }
                     )
                 }
             }
@@ -98,8 +108,12 @@ class BloodSugarInputViewModel @Inject constructor(
         _state.update { it.copy(level = number) }
     }
 
-    private fun updateBloodSugarMeasureType(idx: Int) {
-        _state.update { it.copy(selectedMeasureIdx = idx) }
+    private fun updateBloodSugarMeasureType(measureType: MeasureType) {
+        _state.update { it.copy(selectedMeasureIdx = measureType) }
+    }
+
+    private fun updateBloodSugarMealType(mealType: MealType) {
+        _state.update { it.copy(selectMealTypeIdx = mealType) }
     }
 
     private fun updateBloodSugarMemo(text: String) {
@@ -108,13 +122,21 @@ class BloodSugarInputViewModel @Inject constructor(
 
     private fun upsertBloodSugarInfo() {
         viewModelScope.launch {
+            val time: LocalDateTime = LocalDateTime.now()
             upsertBloodSugarInfoUseCase(
                 BloodSugarInfo(
                     measureDateTime = state.value.measureDateTime,
                     measureTypeIdx = state.value.selectedMeasureIdx,
                     number = state.value.level,
                     memo = state.value.memo,
-                    mealInfo = emptyList()
+                    mealInfo = state.value.mealList.map {
+                        MealHistoryInfo(
+                            takenDateTime = time,
+                            measureTime = _state.value.measureDateTime,
+                            mealName = it,
+                            mealType = _state.value.selectMealTypeIdx
+                        )
+                    }
                 )
             )
             _effect.send(BaseEffect.OnBack)

@@ -20,6 +20,7 @@ import com.chs.your_body_profile.domain.model.HemoglobinA1cInfo
 import com.chs.your_body_profile.domain.model.InsulinInfo
 import com.chs.your_body_profile.domain.model.MealHistoryInfo
 import com.chs.your_body_profile.domain.model.MealType
+import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.domain.model.PaymentInfo
 import com.chs.your_body_profile.domain.model.WeightInfo
 import java.time.LocalDateTime
@@ -45,7 +46,7 @@ fun BloodPressureInfo.toBloodPressureInfoEntity(): BloodPressureInfoEntity {
 fun BloodSugarInfoEntity.toBloodSugarInfo(mealList: List<MealInfoEntity>): BloodSugarInfo {
     return BloodSugarInfo(
         measureDateTime = this.measureDateTime.toLocalDateTime(),
-        measureTypeIdx = this.measureType,
+        measureTypeIdx = MeasureType.entries[this.measureType],
         number = this.number,
         memo = this.memo,
         mealInfo = mealList.map { it.toMealHistoryInfo() }
@@ -55,7 +56,7 @@ fun BloodSugarInfoEntity.toBloodSugarInfo(mealList: List<MealInfoEntity>): Blood
 fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
     return BloodSugarInfoEntity(
         measureDateTime = this.measureDateTime.toMillis(),
-        measureType = this.measureTypeIdx,
+        measureType = this.measureTypeIdx.mean.first,
         number = this.number,
         memo = this.memo
     )
@@ -65,11 +66,12 @@ fun MealInfoEntity.toMealHistoryInfo(): MealHistoryInfo {
     return MealHistoryInfo(
         takenDateTime = this.takenDateTime.toLocalDateTime(),
         mealName = this.mealName,
-        mealType = MealType.entries[this.mealType]
+        mealType = MealType.entries[this.mealType],
+        measureTime = this.bloodSugarMeasureTime.toLocalDateTime()
     )
 }
 
-fun MealHistoryInfo.toMealInfoEntity(measureTime: LocalDateTime): MealInfoEntity {
+fun MealHistoryInfo.toMealInfoEntity(): MealInfoEntity {
     return MealInfoEntity(
         takenDateTime = this.takenDateTime.toMillis(),
         bloodSugarMeasureTime = measureTime.toMillis(),

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
+import com.chs.your_body_profile.domain.model.MealType
 import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.ui.theme.YourBodyProfileTheme
 import java.time.LocalDateTime
@@ -72,7 +73,7 @@ fun ItemBloodSugarSummaryInfo(info: List<BloodSugarInfo>) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = MeasureType.entries.find { it.mean.first == info.first().measureTypeIdx }!!.mean.second,
+                    text = info.first().measureTypeIdx.mean.second,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 24.sp,
                     color = Color.Gray
@@ -134,7 +135,7 @@ private fun PreviewItemBloodSugarSummaryInfo() {
                 listOf(
                     BloodSugarInfo(
                         measureDateTime = LocalDateTime.now(),
-                        measureTypeIdx = 0,
+                        measureTypeIdx = MeasureType.BEFORE_EAT,
                         number = 80,
                         memo = null,
                         mealInfo = listOf()
@@ -146,14 +147,14 @@ private fun PreviewItemBloodSugarSummaryInfo() {
                 listOf(
                     BloodSugarInfo(
                         measureDateTime = LocalDateTime.now(),
-                        measureTypeIdx = 0,
+                        measureTypeIdx = MeasureType.BEFORE_EAT,
                         number = 80,
                         memo = null,
                         mealInfo = listOf()
                     ),
                     BloodSugarInfo(
                         measureDateTime = LocalDateTime.now(),
-                        measureTypeIdx = 0,
+                        measureTypeIdx = MeasureType.BEFORE_EAT,
                         number = 100,
                         memo = null,
                         mealInfo = listOf()
