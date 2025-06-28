@@ -64,16 +64,14 @@ fun BloodSugarInfo.toBloodSugarInfoEntity(): BloodSugarInfoEntity {
 
 fun MealInfoEntity.toMealHistoryInfo(): MealHistoryInfo {
     return MealHistoryInfo(
-        takenDateTime = this.takenDateTime.toLocalDateTime(),
+        measureTime = this.bloodSugarMeasureTime.toLocalDateTime(),
         mealName = this.mealName,
-        mealType = MealType.entries[this.mealType],
-        measureTime = this.bloodSugarMeasureTime.toLocalDateTime()
+        mealType = MealType.entries[this.mealType]
     )
 }
 
 fun MealHistoryInfo.toMealInfoEntity(): MealInfoEntity {
     return MealInfoEntity(
-        takenDateTime = this.takenDateTime.toMillis(),
         bloodSugarMeasureTime = measureTime.toMillis(),
         mealName = this.mealName,
         mealType = this.mealType.mean.first

@@ -34,7 +34,7 @@ class BloodSugarRepositoryImpl @Inject constructor(
     override suspend fun deleteInfo(info: BloodSugarInfo) {
         bloodSugarDao.delete(info.toBloodSugarInfoEntity())
 
-        mealInfoDao.delete(*info.mealInfo.map { it.toMealInfoEntity() }.toTypedArray())
+        mealInfoDao.deleteFromBloodSugar(info.measureDateTime.toMillis())
     }
 
     override fun getDayLastInfo(): Flow<BloodSugarInfo?> {

@@ -47,7 +47,12 @@ fun ItemInputMealInfo(
             ),
             onValueChange = { onValueChange(it) },
             trailingIcon = {
-                IconButton(onClick = { onAdd() }) {
+                IconButton(
+                    onClick = {
+                        if (text.isEmpty()) return@IconButton
+                        onAdd()
+                    }
+                ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null

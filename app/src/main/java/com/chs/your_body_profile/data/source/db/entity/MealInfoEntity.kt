@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
     tableName = "meal_info"
 )
 data class MealInfoEntity(
-    @PrimaryKey
-    val takenDateTime: Long,
+    @PrimaryKey(autoGenerate = true)
+    val takenIdx: Long = 0L,
     val bloodSugarMeasureTime: Long,
     val mealType: Int,
     val mealName: String

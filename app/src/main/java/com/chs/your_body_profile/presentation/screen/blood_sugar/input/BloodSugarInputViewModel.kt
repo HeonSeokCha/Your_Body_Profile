@@ -122,21 +122,21 @@ class BloodSugarInputViewModel @Inject constructor(
 
     private fun upsertBloodSugarInfo() {
         viewModelScope.launch {
-            val time: LocalDateTime = LocalDateTime.now()
             upsertBloodSugarInfoUseCase(
                 BloodSugarInfo(
                     measureDateTime = state.value.measureDateTime,
                     measureTypeIdx = state.value.selectedMeasureIdx,
                     number = state.value.level,
                     memo = state.value.memo,
-                    mealInfo = state.value.mealList.map {
-                        MealHistoryInfo(
-                            takenDateTime = time,
-                            measureTime = _state.value.measureDateTime,
-                            mealName = it,
-                            mealType = _state.value.selectMealTypeIdx
-                        )
-                    }
+                    mealInfo = if (state.value.selectedMeasureIdx == MeasureType.AFTER_EAT) {
+                        state.value.mealList.map {
+                            MealHistoryInfo(
+                                measureTime = _state.value.measureDateTime,
+                                mealName = it,
+                                mealType = _state.value.selectMealTypeIdx
+                            )
+                        }
+                    } else emptyList()
                 )
             )
             _effect.send(BaseEffect.OnBack)

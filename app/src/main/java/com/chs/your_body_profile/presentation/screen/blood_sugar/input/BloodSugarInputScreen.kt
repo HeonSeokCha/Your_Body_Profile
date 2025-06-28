@@ -148,36 +148,39 @@ fun BloodSugarInputScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            ItemExpandSingleBox(
-                title = "식사 시간",
-                list = MealType.entries,
-                initValue = state.selectMealTypeIdx.mean,
-                selectValue = {
-                    onEvent(BloodSugarInputEvent.OnChangeMealType(it))
+            if (state.selectedMeasureIdx == MeasureType.AFTER_EAT) {
+
+                ItemExpandSingleBox(
+                    title = "식사 시간",
+                    list = MealType.entries,
+                    initValue = state.selectMealTypeIdx.mean,
+                    selectValue = {
+                        onEvent(BloodSugarInputEvent.OnChangeMealType(it))
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                state.mealList.forEach {
+                    ItemMealInfo(it) { onEvent(BloodSugarInputEvent.RemoveMealInfo(it)) }
+
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
-            )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            state.mealList.forEach {
-                ItemMealInfo(it) { onEvent(BloodSugarInputEvent.RemoveMealInfo(it)) }
+                ItemInputMealInfo(
+                    text = state.mealText,
+                    onValueChange = {
+                        onEvent(BloodSugarInputEvent.OnChangeMealName(it))
+                    },
+                    onAdd = {
+                        onEvent(BloodSugarInputEvent.AddMealInfo)
+                    }
+                )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(16.dp))
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            ItemInputMealInfo(
-                text = state.mealText,
-                onValueChange = {
-                    onEvent(BloodSugarInputEvent.OnChangeMealName(it))
-                },
-                onAdd = {
-                    onEvent(BloodSugarInputEvent.AddMealInfo)
-                }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             ItemSmallInputText(
                 textState = state.memo,
