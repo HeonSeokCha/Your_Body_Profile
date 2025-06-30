@@ -12,16 +12,15 @@ abstract class BloodSugarDao : BaseDao<BloodSugarInfoEntity> {
     @Query("""
         SELECT * 
           FROM blood_sugar_info AS bloodSugar
-          JOIN meal_info AS meal ON bloodSugar.measureDateTime = meal.bloodSugarMeasureTime
          ORDER BY measureDateTime DESC 
          LIMIT 1
     """)
-    abstract fun getDayLastInfo(): Flow<Map<BloodSugarInfoEntity, List<MealInfoEntity>>>
+    abstract fun getDayLastInfo(): Flow<BloodSugarInfoEntity?>
 
     @Query("""
         SELECT unixepoch(DATE(measureDateTime / 1000, 'unixepoch', 'localtime')) * 1000 as date, *
           FROM blood_sugar_info AS bloodSugar
-          JOIN meal_info AS meal ON bloodSugar.measureDateTime = meal.bloodSugarMeasureTime
+          LEFT JOIN meal_info AS meal ON bloodSugar.measureDateTime = meal.bloodSugarMeasureTime
          ORDER BY date DESC
          LIMIT 15
          OFFSET :page

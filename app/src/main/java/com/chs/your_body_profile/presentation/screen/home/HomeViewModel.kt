@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
         .onStart { initInfo() }
         .stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000L),
+            SharingStarted.WhileSubscribed(),
             HomeState()
         )
 

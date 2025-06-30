@@ -152,10 +152,10 @@ fun BloodSugarInputScreen(
 
                 ItemExpandSingleBox(
                     title = "식사 시간",
-                    list = MealType.entries,
+                    list = MealType.entries.map { it.mean },
                     initValue = state.selectMealTypeIdx.mean,
-                    selectValue = {
-                        onEvent(BloodSugarInputEvent.OnChangeMealType(it))
+                    selectIdx = {
+                        onEvent(BloodSugarInputEvent.OnChangeMealType(MealType.entries[it]))
                     }
                 )
 

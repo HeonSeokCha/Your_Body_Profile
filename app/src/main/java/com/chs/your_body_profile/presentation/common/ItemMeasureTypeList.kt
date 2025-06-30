@@ -24,11 +24,11 @@ import kotlin.enums.EnumEntries
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T : Enum<T>> ItemExpandSingleBox(
+fun ItemExpandSingleBox(
     title: String,
-    list: EnumEntries<T>,
+    list: List<Pair<Int, String>>,
     initValue: Pair<Int, String>,
-    selectValue: (T) -> Unit,
+    selectIdx: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -62,12 +62,12 @@ fun <T : Enum<T>> ItemExpandSingleBox(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = option.name,
+                            text = option.second,
                             style = MaterialTheme.typography.bodyLarge
                         )
                     },
                     onClick = {
-                        selectValue(option)
+                        selectIdx(option.first)
                         expanded = false
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

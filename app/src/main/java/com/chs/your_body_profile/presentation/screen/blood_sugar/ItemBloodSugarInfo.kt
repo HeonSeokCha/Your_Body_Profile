@@ -1,6 +1,5 @@
 package com.chs.your_body_profile.presentation.screen.blood_sugar
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,17 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.WbSunny
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import com.chs.your_body_profile.R
 import com.chs.your_body_profile.common.Constants
 import com.chs.your_body_profile.domain.model.BloodSugarInfo
-import com.chs.your_body_profile.domain.model.MeasureType
 import com.chs.your_body_profile.presentation.common.ItemDetailInfo
 import com.chs.your_body_profile.presentation.common.ItemSimpleInfo
 
@@ -43,9 +36,8 @@ fun ItemSimpleBloodSugarInfo(
         onClick = { onClick(bloodSugarInfo) },
         onLongClick = { onLongClick(bloodSugarInfo) }
     ) {
-        val measureInfo = MeasureType.valueOf(bloodSugarInfo.measureTypeIdx.name)
         Row {
-            Text(text = measureInfo.name)
+            Text(text = bloodSugarInfo.measureTypeIdx.mean.second)
 //            Icon(imageVector = measureInfo.second, contentDescription = null)
         }
     }
@@ -100,7 +92,7 @@ fun ItemDetailBloodSugarInfo(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = MeasureType.valueOf(bloodSugarInfo.measureTypeIdx.name).mean.second,
+                    text = bloodSugarInfo.measureTypeIdx.mean.second,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 24.sp,
                     color = Color.Gray
