@@ -1,5 +1,6 @@
 package com.chs.your_body_profile.presentation.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -113,15 +115,19 @@ fun ItemDetailInfo(
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
+                        .background(
+                            shape = CircleShape,
+                            color = CardDefaults.cardColors().containerColor
+                        )
                         .border(
-                            width = 1.dp,
+                            width = 2.dp,
                             color = Color.Black,
                             shape = CircleShape
                         ),
                     onClick = { onDismiss() }
                 ) {
                     Icon(
-                        Icons.Default.Close,
+                        imageVector = Icons.Default.Close,
                         contentDescription = null,
                     )
                 }
